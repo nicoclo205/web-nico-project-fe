@@ -1,6 +1,7 @@
 import { useState } from "react";
 import './index.css'
 import App from './App.tsx'
+import axios from 'axios';
 
 interface LoginProps {
     onLogin?: (username: string, password: string) => void;
@@ -20,13 +21,33 @@ function Login({onLogin}: LoginProps){
     };
 
 
-    const handleSubmit = (e: React.ChangeEvent<HTMLInputElement>) => {
-
-        if (username && password){
-            console.log('Intentando iniciar sesión con:', username);
+    const handleSubmit = async (e: React.FormEvent<HTMLButtonElement>) => {
+        e.preventDefault();
+        
+        if (username && password) {
+          try {
+            const API_URL = process.env.REACT_APP_API_URL || 'http://localhost:8000/api';
+            
+            const response = await axios.post(`${API_URL}/auth/login/`, {
+              username: username.toString(),
+              password: password.toString()
+            });
+            
+            if (response.data.token) {
+              localStorage.setItem('token', response.data.token);
+            }
+            
+            if (onLogin) {
+              onLogin(username.toString(), password.toString());
+            }
+            
+          } catch (error) {
+            console.error('Error al iniciar sesión:', error);
+          }
+        } else {
+          console.log('Por favor ingresa usuario y contraseña');
         }
-
-    };
+      };
 
     return(
         
@@ -51,7 +72,7 @@ function Login({onLogin}: LoginProps){
 
                     <section className="w-96 flex flex-col items-center mt-2">
 
-                        <button className="bg-myBlue w-44 h-10 rounded-full mb-4 font-semibold hover:bg-blue-200">Iniciar sesión</button>
+                        <button className="bg-myBlue w-44 h-10 rounded-full mb-4 font-semibold hover:bg-blue-200" onClick={handleSubmit}>Iniciar sesión</button>
 
                             <p className="text-gray-500 text-sm">¿Aún no tienes cuenta? 
                                 <a href="" className="text-blue-500 hover:text-blue-200">Regístrate</a>
