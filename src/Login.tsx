@@ -1,7 +1,7 @@
 import { useState } from "react";
 import './index.css'
 import axios from 'axios';
-import { BrowserRouter, Routes, Route, Navigate, useNavigate } from 'react-router-dom';
+import {useNavigate } from 'react-router-dom';
 
 interface LoginProps {
     onLogin?: (username: string, password: string) => void;
