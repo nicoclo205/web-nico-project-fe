@@ -1,4 +1,4 @@
-import { useState } from "react";
+import { useEffect, useState } from "react";
 import './index.css'
 import axios from 'axios';
 import {useNavigate } from 'react-router-dom';
@@ -11,6 +11,13 @@ function Login({onLogin}: LoginProps){
     
     const [username, setUsername] = useState<string>("")
     const [password, setPassword] = useState<string>("")
+
+    //prueba animacion
+    const [isVisible, setIsVisible] = useState<boolean>(false);
+
+    useEffect(() => {
+      setTimeout(() => setIsVisible(true), 200)
+    }, []);
 
     const handleUsernameChange = (e: React.ChangeEvent<HTMLInputElement>) => {
         setUsername(e.target.value)
@@ -57,11 +64,12 @@ function Login({onLogin}: LoginProps){
 
     return(
         
-        <div className="w-full min-h-screen bg-myBlack flex justify-center items-center font-sans ">
+        <div className="w-full min-h-screen bg-myBlack flex justify-center items-center font-sans">
 
-            <div className="w-[85vw] h-[85vh] rounded-3xl bg-myGray flex justify-between items-center p-2">
+          <div className={`w-[85vw] h-[85vh] rounded-3xl bg-myGray flex justify-between items-center p-2 will-change-transform will-change-opacity 
+                transition-all duration-500 ease-out
+                ${isVisible ? 'opacity-100 translate-x-0' : 'opacity-0 translate-x-full'}`}>
             
-                
                 <section className="w-1/2 h-full flex flex-col justify-center items-center">
 
                     <div className=" text-white text-2xl mb-16 font-bold">

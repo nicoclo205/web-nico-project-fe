@@ -1,4 +1,4 @@
-import React, { useState } from 'react';
+import React, { useEffect, useState } from 'react';
 import './index.css';
 import axios from 'axios';
 import { useNavigate } from 'react-router-dom';
@@ -16,6 +16,13 @@ function Register({onRegister}: RegisterProps) {
     const [phoneNum, setPhoneNum] = useState<string>("")
     const [email, setEmail] = useState<string>("")
     const [password, setPassword] = useState<string>("")
+
+    //Animacion
+    const [isVisible, setIsVisible] = useState<boolean>(false)
+
+    useEffect(() => {
+          setTimeout(() => setIsVisible(true), 200)
+        }, []);
 
     const handleNameChange = (e: React.ChangeEvent<HTMLInputElement>) => {
         setName(e.target.value)
@@ -79,7 +86,10 @@ function Register({onRegister}: RegisterProps) {
 
     return (
         <div className="w-full min-h-screen bg-myBlack flex justify-center items-center font-sans">
-            <div className="w-[85vw] h-[85vh] rounded-3xl bg-myGray flex justify-between items-center p-2">
+            
+            <div className={`w-[85vw] h-[85vh] rounded-3xl bg-myGray flex justify-between items-center p-2 will-change-transform will-change-opacity 
+                transition-all duration-500 ease-out
+                ${isVisible ? 'opacity-100 translate-x-0' : 'opacity-0 -translate-x-full'}`}>
 
             <img src="imagen_prueba.jpeg" alt="Imagen del registro" className="w-1/2 h-full rounded-3xl" />
                 
