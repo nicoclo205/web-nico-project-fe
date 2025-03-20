@@ -27,6 +27,20 @@ function Auth({ onLogin, onRegister }: AuthProps) {
   const [email, setEmail] = useState<string>("");
   const [password, setPassword] = useState<string>("");
 
+  //Para la carga de la llamada 
+  const [loading, setLoading] = useState(false);
+
+  //manejar la carga
+  const handleLoading = async() => {
+    setLoading(true);
+    setTimeout(() => {
+      setLoading(false);
+    }, 2000);
+    setTimeout(() => {
+      setLoading(true);
+    }, 2000);
+  }
+
   // Toggle between login and register views
   const toggleView = (e: React.MouseEvent) => {
     e.preventDefault();
@@ -46,6 +60,9 @@ function Auth({ onLogin, onRegister }: AuthProps) {
     e.preventDefault();
     
     if (loginUsername && loginPassword) {
+
+      setLoading(true);
+
       try {
         const API_URL = import.meta.env.REACT_APP_API_URL || 'http://localhost:8000';
         
@@ -66,7 +83,13 @@ function Auth({ onLogin, onRegister }: AuthProps) {
         
       } catch (error) {
         console.error('Error al iniciar sesión:', error);
+      } 
+
+      finally {
+        setLoading(false);
       }
+
+
     } else {
       console.log('Por favor ingresa usuario y contraseña');
     }
@@ -103,6 +126,9 @@ function Auth({ onLogin, onRegister }: AuthProps) {
     const API_URL = import.meta.env.VITE_API_URL || 'http://localhost:8000';
     
     try {
+
+      setLoading(true);
+
       const userData = {
         // Campos para el modelo User de Django
         username: username,
@@ -129,6 +155,9 @@ function Auth({ onLogin, onRegister }: AuthProps) {
       }
     } catch (error) {
       console.error('Error al registrar usuario:', error);
+    }
+    finally {
+      setLoading(false);
     }
   };
 
@@ -158,6 +187,7 @@ function Auth({ onLogin, onRegister }: AuthProps) {
         
         {/* Forms Container */}
         <div className="w-full lg:w-full h-full flex flex-col lg:flex-row justify-between">
+          
           {/* Login Form */}
           <div className={`w-full lg:w-1/2 h-full flex flex-col justify-center items-center py-8 px-4 transition-opacity duration-700 lg:duration-300 ease-in-out ${isLoginView ? 'opacity-100 z-10' : 'opacity-0 lg:opacity-0 absolute lg:relative pointer-events-none'}`}>
             <div className="text-white text-xl sm:text-2xl mb-8 lg:mb-16 font-bold text-center">
@@ -178,8 +208,11 @@ function Auth({ onLogin, onRegister }: AuthProps) {
 
             <section className="w-full max-w-md flex flex-col items-center mt-6">
               <button className="bg-myBlue w-full max-w-xs sm:max-w-sm md:w-44 h-12 rounded-full mb-4 font-semibold hover:bg-blue-200" 
-                      onClick={handleLoginSubmit}>
-                Iniciar sesión
+                      onClick={handleLoginSubmit}
+                      disabled={loading}>
+
+                        {loading ? 'Cargando...' : 'Iniciar sesión'}
+
               </button>
 
               <p className="text-gray-500 text-sm text-center">¿Aún no tienes cuenta? 
@@ -229,8 +262,9 @@ function Auth({ onLogin, onRegister }: AuthProps) {
             
             <section className="w-full max-w-md flex flex-col items-center mt-2">
               <button className="bg-myBlue w-full max-w-xs sm:max-w-sm md:w-44 h-12 rounded-full mb-4 font-semibold hover:bg-blue-200" 
-                      onClick={handleRegisterSubmit}>
-                Registrarse
+                      onClick={handleRegisterSubmit}
+                      disabled={loading}>
+                        {loading ? 'Cargando...' : 'Registrarse'}
               </button>
               
               <p className="text-gray-500 text-sm text-center">¿Tienes una cuenta? 
