@@ -2,6 +2,8 @@ import React, { useState } from "react";
 import './index.css';
 import axios from 'axios';
 import { useNavigate } from 'react-router-dom';
+import MensajeError from "./components/mensajeError";
+import { errorToString } from "./utils/error-utils";
 
 interface AuthProps {
   onLogin?: (username: string, password: string) => void;
@@ -12,14 +14,14 @@ interface AuthProps {
 function Auth({ onLogin, onRegister }: AuthProps) {
   const navigate = useNavigate();
   
-  // State for form view - login or register
+  //cambiar entre el login y el registro
   const [isLoginView, setIsLoginView] = useState<boolean>(true);
   
-  // Login form states
+  // Inicio de sesión estados
   const [loginUsername, setLoginUsername] = useState<string>("");
   const [loginPassword, setLoginPassword] = useState<string>("");
   
-  // Register form states
+  // Registro estados
   const [name, setName] = useState<string>("");
   const [lastName, setLastName] = useState<string>("");
   const [username, setUsername] = useState<string>("");
@@ -30,24 +32,17 @@ function Auth({ onLogin, onRegister }: AuthProps) {
   //Para la carga de la llamada 
   const [loading, setLoading] = useState(false);
 
-  //manejar la carga
-  const handleLoading = async() => {
-    setLoading(true);
-    setTimeout(() => {
-      setLoading(false);
-    }, 2000);
-    setTimeout(() => {
-      setLoading(true);
-    }, 2000);
-  }
+  //para mensajes de error 
+  const [error, setError] = useState<boolean>(false);
+  const [mensajeErr, setMensajeErr] = useState<string>("");
 
-  // Toggle between login and register views
+  //cambiar entre el login y el registro
   const toggleView = (e: React.MouseEvent) => {
     e.preventDefault();
     setIsLoginView(!isLoginView);
   };
 
-  // Login form handlers
+  // Inicio de sesión
   const handleLoginUsernameChange = (e: React.ChangeEvent<HTMLInputElement>) => {
     setLoginUsername(e.target.value);
   };
@@ -58,6 +53,13 @@ function Auth({ onLogin, onRegister }: AuthProps) {
 
   const handleLoginSubmit = async (e: React.FormEvent<HTMLButtonElement>) => {
     e.preventDefault();
+
+    //validar que se ingresen todos los campos
+    if (!loginUsername || !loginPassword) {
+      setError(true);
+      setMensajeErr("Por favor ingresa usuario y contraseña");
+      return;
+    }
     
     if (loginUsername && loginPassword) {
 
@@ -82,7 +84,11 @@ function Auth({ onLogin, onRegister }: AuthProps) {
         navigate("/home");
         
       } catch (error) {
+        
         console.error('Error al iniciar sesión:', error);
+        setError(true);
+        setMensajeErr(errorToString(error));
+        
       } 
 
       finally {
@@ -95,7 +101,7 @@ function Auth({ onLogin, onRegister }: AuthProps) {
     }
   };
 
-  // Register form handlers
+  // Registro de usuario
   const handleNameChange = (e: React.ChangeEvent<HTMLInputElement>) => {
     setName(e.target.value);
   };
@@ -123,19 +129,26 @@ function Auth({ onLogin, onRegister }: AuthProps) {
   const handleRegisterSubmit = async (e: React.FormEvent<HTMLButtonElement>) => {
     e.preventDefault();
 
-    const API_URL = import.meta.env.VITE_API_URL || 'http://localhost:8000';
+    const API_URL = import.meta.env.REACT_APP_API_URL || 'http://localhost:8000';
+
+    //validar que se ingresen todos los campos
+    if (!name || !lastName || !username || !phoneNum || !email || !password) {
+      setError(true);
+      setMensajeErr("Por favor ingresa todos los campos");
+      return;
+    }
     
     try {
 
       setLoading(true);
 
       const userData = {
-        // Campos para el modelo User de Django
+        // Registro con campos por defecto
         username: username,
         password: password,
         email: email,
         
-        // Campos para tu modelo Usuario personalizado
+        // Registro personalizado
         nombre_usuario: username,
         correo: email,
         contrasena: password,
@@ -150,16 +163,29 @@ function Auth({ onLogin, onRegister }: AuthProps) {
         if (onRegister) {
           onRegister(name, lastName, username, phoneNum, email, password);
         }
-        // After successful registration, switch to login view
+        // Después de registrarse, cambia a la vista de inicio de sesión
         setIsLoginView(true);
       }
     } catch (error) {
+      
       console.error('Error al registrar usuario:', error);
+      setError(true);
+      setMensajeErr(errorToString(error));
+
     }
     finally {
       setLoading(false);
     }
   };
+
+  //Control de errores
+  let componenteError;
+
+  if (error){
+    componenteError = <MensajeError mensaje={mensajeErr} />;
+  } else {
+    componenteError = null;
+  }
 
   return (
     <div className="w-full min-h-screen bg-myBlack flex justify-center items-center font-sans p-4">
@@ -194,6 +220,10 @@ function Auth({ onLogin, onRegister }: AuthProps) {
               <h1>¡Bienvenido a FriendlyBet!</h1>
             </div>
 
+            <section className="w-full max-w-md flex flex-col items-center">
+              {componenteError}
+            </section>
+
             <section className="text-white font-sans w-full max-w-md flex flex-col justify-around py-5 items-center">
               <input type="text" placeholder="Nombre de usuario" 
                 className="border-spacing-2 rounded-xl h-8 w-full max-w-xs sm:max-w-sm p-2 text-black mb-3"
@@ -216,7 +246,7 @@ function Auth({ onLogin, onRegister }: AuthProps) {
               </button>
 
               <p className="text-gray-500 text-sm text-center">¿Aún no tienes cuenta? 
-                <a href="#" onClick={toggleView} className="text-blue-500 hover:text-blue-200"> Regístrate</a>
+                <a href="#" onClick={(e) => { e.preventDefault(); toggleView(e); setError(false); setMensajeErr("")}} className="text-blue-500 hover:text-blue-200"> Regístrate</a>
               </p>
             </section>
           </div>
@@ -227,6 +257,10 @@ function Auth({ onLogin, onRegister }: AuthProps) {
             <div className="text-white text-xl sm:text-2xl mb-8 lg:mb-16 font-bold text-center">
               <h1>¡Regístrate en FriendlyBet!</h1>
             </div>
+
+            <section className="w-full max-w-md flex flex-col items-center">
+              {componenteError}
+            </section>
             
             <section className="text-white font-sans w-full max-w-md flex flex-col justify-around py-5 items-center">
               <input type="text" placeholder="Nombre" 
@@ -268,7 +302,8 @@ function Auth({ onLogin, onRegister }: AuthProps) {
               </button>
               
               <p className="text-gray-500 text-sm text-center">¿Tienes una cuenta? 
-                <a href="#" onClick={toggleView} className="text-blue-500 hover:text-blue-200"> Inicia sesión</a>
+                <a href="#" onClick={(e)=> {e.preventDefault();toggleView(e); setError(false); setMensajeErr("")}} 
+                  className="text-blue-500 hover:text-blue-200"> Inicia sesión</a>
               </p>
             </section>
           </div>
