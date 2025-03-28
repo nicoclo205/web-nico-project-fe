@@ -4,6 +4,7 @@ import axios from 'axios';
 import { useNavigate } from 'react-router-dom';
 import MensajeError from "./components/mensajeError";
 import { errorToString } from "./utils/error-utils";
+import BackButton from "./components/BackButton";
 
 interface AuthProps {
   onLogin?: (username: string, password: string) => void;
@@ -189,6 +190,11 @@ function Auth({ onLogin, onRegister }: AuthProps) {
 
   return (
     <div className="w-full min-h-screen bg-myBlack flex justify-center items-center font-sans p-4">
+
+      <div className="absolute w-full h-full flex justify-start items-start p-10 text-white">
+        <BackButton onClick={() => navigate("/Start")} />
+      </div>
+
       <div className="w-full lg:w-[85vw] lg:h-[85vh] rounded-3xl bg-myGray flex flex-col lg:flex-row p-2 sm:p-4 overflow-hidden relative">
         
         {/* Image Container - Fixed position, but image moves inside it */}
