@@ -79,7 +79,7 @@ function About() {
 
       {/* Contenido principal*/}
 
-    <main className="flex flex-col justify-center px-32 flex-grow">
+    <main className="flex flex-col justify-center px-10 lg:px-32 flex-grow">
 
       <h1 className="text-3xl py-5">¿Quiénes somos?</h1>
       <p>Somos desarrolladores empezando en el mundo del desarrollo web. 
@@ -101,7 +101,7 @@ function About() {
     </main>
 
       {/* Pie de página */}
-      <footer className="w-full p-4 bg-gray-900 text-center">
+      <footer className="w-full p-4 bg-gray-900 text-center mt-5">
         <p>© 2025 FriendlyBet. Todos los derechos reservados.</p>
       </footer>
 
