@@ -2,6 +2,25 @@
 @tailwind components;
 @tailwind utilities;
 
+/* Estilos para la transición del formulario de login/registro */
+@layer utilities {
+  /* Estilos para transiciones móviles */
+  .form-transitioning {
+    overflow: hidden;
+  }
+  
+  /* Ajustes adicionales para que la transición sea más suave */
+  @media (max-width: 1023px) { /* lg breakpoint en Tailwind */
+    .translate-x-full {
+      transform: translateX(100%);
+    }
+    
+    .-translate-x-full {
+      transform: translateX(-100%);
+    }
+  }
+}
+
 @layer base {
   :root {
     --background: 0 0% 100%;

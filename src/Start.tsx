@@ -86,7 +86,7 @@ function Start() {
                     <h2 className="text-xl md:text-2xl text-gray-300">¡Apuesta con tus amigos!</h2>
                 </section>
 
-                <div className="space-y-4 lg:space-x-4 justify-start lg:justify-between">
+                <div className="space-y-4 md:space-x-4 justify-start lg:justify-between">
                     <Button 
                         variant="login" 
                         radius="full" 

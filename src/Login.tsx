@@ -47,7 +47,18 @@ function Auth({ onLogin, onRegister }: AuthProps) {
   //cambiar entre el login y el registro
   const toggleView = (e: React.MouseEvent) => {
     e.preventDefault();
-    setIsLoginView(!isLoginView);
+    // Añadir clase al body para la transición
+    document.body.classList.add('form-transitioning');
+    
+    // Hacer la transición después de un pequeño delay
+    setTimeout(() => {
+      setIsLoginView(!isLoginView);
+      
+      // Quitar la clase después de completar la transición
+      setTimeout(() => {
+        document.body.classList.remove('form-transitioning');
+      }, 500);
+    }, 50);
   };
 
   // Inicio de sesión
@@ -225,10 +236,11 @@ function Auth({ onLogin, onRegister }: AuthProps) {
         </div>
         
         {/* Forms Container */}
-        <div className="w-full lg:w-full h-full flex flex-col lg:flex-row justify-between">
+        <div className="w-full lg:w-full h-full flex flex-col lg:flex-row justify-between overflow-hidden">
           
           {/* Login Form */}
-          <div className={`w-full lg:w-1/2 h-full flex flex-col justify-center items-center py-8 px-4 transition-opacity duration-700 lg:duration-300 ease-in-out ${isLoginView ? 'opacity-100 z-10' : 'opacity-0 lg:opacity-0 absolute lg:relative pointer-events-none'}`}>
+          <div className={`w-full lg:w-1/2 h-full flex flex-col justify-center items-center py-8 px-4 transition-all duration-500 lg:duration-300 ease-in-out 
+            ${isLoginView ? 'opacity-100 z-10 translate-x-0' : 'opacity-0 lg:opacity-0 translate-x-full sm:translate-x-full md:translate-x-full lg:translate-x-0 absolute lg:relative pointer-events-none'}`}>
             <div className="text-white text-xl sm:text-2xl mb-8 lg:mb-16 font-bold text-center">
               <h1>¡Bienvenido a FriendlyBet!</h1>
             </div>
@@ -269,8 +281,8 @@ function Auth({ onLogin, onRegister }: AuthProps) {
           </div>
 
           {/* Register Form */}
-          <div className={`w-full lg:w-1/2 h-full flex flex-col justify-center items-center py-8 px-4 transition-opacity duration-700 lg:duration-300 ease-in-out 
-            ${!isLoginView ? 'opacity-100 z-10' : 'opacity-0 lg:opacity-0 absolute lg:relative pointer-events-none'}`}>
+          <div className={`w-full lg:w-1/2 h-full flex flex-col justify-center items-center py-8 px-4 transition-all duration-500 lg:duration-300 ease-in-out 
+            ${!isLoginView ? 'opacity-100 z-10 translate-x-0' : 'opacity-0 lg:opacity-0 -translate-x-full sm:-translate-x-full md:-translate-x-full lg:translate-x-0 absolute lg:relative pointer-events-none'}`}>
             <div className="text-white text-xl sm:text-2xl mb-8 lg:mb-16 font-bold text-center">
               <h1>¡Regístrate en FriendlyBet!</h1>
             </div>
