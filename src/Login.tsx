@@ -5,6 +5,7 @@ import { useNavigate } from 'react-router-dom';
 import MensajeError from "./components/mensajeError";
 import { errorToString } from "./utils/error-utils";
 import BackButton from "./components/BackButton";
+import { Button } from "@/components/ui/button";
 
 interface AuthProps {
   onLogin?: (username: string, password: string) => void;
@@ -243,15 +244,19 @@ function Auth({ onLogin, onRegister }: AuthProps) {
             </section>
 
             <section className="w-full max-w-md flex flex-col items-center mt-6">
-              <button className="bg-myBlue w-full max-w-xs sm:max-w-sm md:w-44 h-12 rounded-full mb-4 font-semibold hover:bg-blue-200" 
-                      onClick={handleLoginSubmit}
-                      disabled={loading}>
+              {/* Reemplazo del botón anterior por el componente Button */}
+              <Button 
+                variant="login" 
+                size="lg" 
+                radius="full"
+                className="max-w-xs sm:max-w-sm md:w-44 h-12"
+                onClick={handleLoginSubmit}
+                disabled={loading}
+              >
+                {loading ? 'Cargando...' : 'Iniciar sesión'}
+              </Button>
 
-                        {loading ? 'Cargando...' : 'Iniciar sesión'}
-
-              </button>
-
-              <p className="text-gray-500 text-sm text-center">¿Aún no tienes cuenta? 
+              <p className="text-gray-500 text-sm text-center mt-4">¿Aún no tienes cuenta? 
                 <a href="#" onClick={(e) => { e.preventDefault(); toggleView(e); setError(false); setMensajeErr("")}} className="text-blue-500 hover:text-blue-200"> Regístrate</a>
               </p>
             </section>
@@ -301,13 +306,19 @@ function Auth({ onLogin, onRegister }: AuthProps) {
             </section>
             
             <section className="w-full max-w-md flex flex-col items-center mt-2">
-              <button className="bg-myBlue w-full max-w-xs sm:max-w-sm md:w-44 h-12 rounded-full mb-4 font-semibold hover:bg-blue-200" 
-                      onClick={handleRegisterSubmit}
-                      disabled={loading}>
-                        {loading ? 'Cargando...' : 'Registrarse'}
-              </button>
+              {/* Reemplazo del botón anterior por el componente Button */}
+              <Button 
+                variant="login" 
+                size="lg" 
+                radius="full"
+                className="max-w-xs sm:max-w-sm md:w-44 h-12"
+                onClick={handleRegisterSubmit}
+                disabled={loading}
+              >
+                {loading ? 'Cargando...' : 'Registrarse'}
+              </Button>
               
-              <p className="text-gray-500 text-sm text-center">¿Tienes una cuenta? 
+              <p className="text-gray-500 text-sm text-center mt-4">¿Tienes una cuenta? 
                 <a href="#" onClick={(e)=> {e.preventDefault();toggleView(e); setError(false); setMensajeErr("")}} 
                   className="text-blue-500 hover:text-blue-200"> Inicia sesión</a>
               </p>
