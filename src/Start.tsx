@@ -23,35 +23,60 @@ function Start() {
         navigate("/login", {state: {isLoginView: false}});
     }
 
+    const handleStart = () => {
+        navigate("/start");
+    }
+
     return (
         <div className="w-full min-h-screen flex flex-col bg-myBlack text-white">
+
             {/* Barra de navegación */}
-            <header className="w-full p-4">
+            <header className="w-full p-4 flex flex-col">
+
                 <div className="container mx-auto flex justify-between items-center">
+
                     <h1 className="text-2xl font-bold text-myBlue">FriendlyBet</h1>
-                    
+                                
                     <NavigationMenu>
+                                    
                         <NavigationMenuList>
-                            <NavigationMenuItem>
-                                <NavigationMenuLink 
-                                    className={navigationMenuTriggerStyle({ variant: "transparent" })}
-                                    onClick={handleLogin}
-                                >
-                                    Iniciar sesión
-                                </NavigationMenuLink>
-                            </NavigationMenuItem>
+
+                        <NavigationMenuItem>
                             
-                            <NavigationMenuItem>
-                                <NavigationMenuLink 
-                                    className={navigationMenuTriggerStyle({ variant: "transparent" })}
-                                    onClick={handleAbout}
-                                >
-                                    Acerca de
-                                </NavigationMenuLink>
-                            </NavigationMenuItem>
+                            <NavigationMenuLink 
+                            className={navigationMenuTriggerStyle({ variant: "transparent" })}
+                                        onClick={handleStart}>
+                                                Inicio
+                            </NavigationMenuLink>
+                                        
+                        </NavigationMenuItem>
+
+                        <NavigationMenuItem>
+                            
+                            <NavigationMenuLink 
+                            className={navigationMenuTriggerStyle({ variant: "transparent" })}
+                                        onClick={handleLogin}>
+                                                Iniciar sesión
+                            </NavigationMenuLink>
+                                        
+                        </NavigationMenuItem>
+                                        
+                        <NavigationMenuItem>
+
+                            <NavigationMenuLink 
+                            className={navigationMenuTriggerStyle({ variant: "transparent" })}
+                                        onClick={handleAbout}>
+                                                Acerca de
+                            </NavigationMenuLink>
+
+                        </NavigationMenuItem>
+
                         </NavigationMenuList>
+
                     </NavigationMenu>
+                
                 </div>
+
             </header>
 
             {/* Contenido principal*/}
