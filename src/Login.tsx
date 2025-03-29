@@ -1,7 +1,7 @@
 import React, { useState } from "react";
 import './index.css';
 import axios from 'axios';
-import { useNavigate } from 'react-router-dom';
+import { useNavigate, useLocation } from 'react-router-dom';
 import MensajeError from "./components/mensajeError";
 import { errorToString } from "./utils/error-utils";
 import BackButton from "./components/BackButton";
@@ -15,9 +15,15 @@ interface AuthProps {
 
 function Auth({ onLogin, onRegister }: AuthProps) {
   const navigate = useNavigate();
-  
+
+  // Obtenemos el estado de la ubicación actual
+  const location = useLocation();
+  const initialLoginView = location.state?.isLoginView !== undefined 
+    ? location.state.isLoginView 
+    : true;
+    
   //cambiar entre el login y el registro
-  const [isLoginView, setIsLoginView] = useState<boolean>(true);
+  const [isLoginView, setIsLoginView] = useState<boolean>(initialLoginView);
   
   // Inicio de sesión estados
   const [loginUsername, setLoginUsername] = useState<string>("");

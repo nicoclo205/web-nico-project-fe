@@ -19,6 +19,10 @@ function Start() {
         navigate("/about");
     }
 
+    const handleRegister = () => {
+        navigate("/login", {state: {isLoginView: false}});
+    }
+
     return (
         <div className="w-full min-h-screen flex flex-col bg-myBlack text-white">
             {/* Barra de navegación */}
@@ -73,7 +77,7 @@ function Start() {
                         radius="full" 
                         size="lg" 
                         className="w-full md:w-auto min-w-[200px]" 
-                        onClick={handleLogin}
+                        onClick={handleRegister}
                     >
                         Registrarse
                     </Button>
