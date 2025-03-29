@@ -258,7 +258,7 @@ function Auth({ onLogin, onRegister }: AuthProps) {
           </div>
 
           {/* Register Form */}
-          <div className={`w-full lg:w-1/2 h-full flex flex-col justify-center items-center py-8 px-4 transition-opacity duration-1000 lg:duration-300 ease-in-out 
+          <div className={`w-full lg:w-1/2 h-full flex flex-col justify-center items-center py-8 px-4 transition-opacity duration-700 lg:duration-300 ease-in-out 
             ${!isLoginView ? 'opacity-100 z-10' : 'opacity-0 lg:opacity-0 absolute lg:relative pointer-events-none'}`}>
             <div className="text-white text-xl sm:text-2xl mb-8 lg:mb-16 font-bold text-center">
               <h1>¡Regístrate en FriendlyBet!</h1>
