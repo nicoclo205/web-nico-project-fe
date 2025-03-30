@@ -133,7 +133,7 @@ This project is licensed under the [MIT License](LICENSE).
 - nicoclo205 - Initial work and maintenance
 
 -----------------
-Additional info:
+# __Additional info:__
 
 # React + TypeScript + Vite
 
