@@ -1,9 +1,11 @@
 import React, { useState } from "react";
 import './index.css';
 import axios from 'axios';
-import { useNavigate } from 'react-router-dom';
+import { useNavigate, useLocation } from 'react-router-dom';
 import MensajeError from "./components/mensajeError";
 import { errorToString } from "./utils/error-utils";
+import BackButton from "./components/BackButton";
+import { Button } from "@/components/ui/button";
 
 interface AuthProps {
   onLogin?: (username: string, password: string) => void;
@@ -13,9 +15,15 @@ interface AuthProps {
 
 function Auth({ onLogin, onRegister }: AuthProps) {
   const navigate = useNavigate();
-  
+
+  // Obtenemos el estado de la ubicación actual
+  const location = useLocation();
+  const initialLoginView = location.state?.isLoginView !== undefined 
+    ? location.state.isLoginView 
+    : true;
+    
   //cambiar entre el login y el registro
-  const [isLoginView, setIsLoginView] = useState<boolean>(true);
+  const [isLoginView, setIsLoginView] = useState<boolean>(initialLoginView);
   
   // Inicio de sesión estados
   const [loginUsername, setLoginUsername] = useState<string>("");
@@ -39,7 +47,18 @@ function Auth({ onLogin, onRegister }: AuthProps) {
   //cambiar entre el login y el registro
   const toggleView = (e: React.MouseEvent) => {
     e.preventDefault();
-    setIsLoginView(!isLoginView);
+    // Añadir clase al body para la transición
+    document.body.classList.add('form-transitioning');
+    
+    // Hacer la transición después de un pequeño delay
+    setTimeout(() => {
+      setIsLoginView(!isLoginView);
+      
+      // Quitar la clase después de completar la transición
+      setTimeout(() => {
+        document.body.classList.remove('form-transitioning');
+      }, 500);
+    }, 50);
   };
 
   // Inicio de sesión
@@ -189,6 +208,11 @@ function Auth({ onLogin, onRegister }: AuthProps) {
 
   return (
     <div className="w-full min-h-screen bg-myBlack flex justify-center items-center font-sans p-4">
+
+      <div className="absolute w-full h-full flex justify-start items-start p-10 text-white">
+        <BackButton onClick={() => navigate("/Start")} />
+      </div>
+
       <div className="w-full lg:w-[85vw] lg:h-[85vh] rounded-3xl bg-myGray flex flex-col lg:flex-row p-2 sm:p-4 overflow-hidden relative">
         
         {/* Image Container - Fixed position, but image moves inside it */}
@@ -212,10 +236,11 @@ function Auth({ onLogin, onRegister }: AuthProps) {
         </div>
         
         {/* Forms Container */}
-        <div className="w-full lg:w-full h-full flex flex-col lg:flex-row justify-between">
+        <div className="w-full lg:w-full h-full flex flex-col lg:flex-row justify-between overflow-hidden">
           
           {/* Login Form */}
-          <div className={`w-full lg:w-1/2 h-full flex flex-col justify-center items-center py-8 px-4 transition-opacity duration-700 lg:duration-300 ease-in-out ${isLoginView ? 'opacity-100 z-10' : 'opacity-0 lg:opacity-0 absolute lg:relative pointer-events-none'}`}>
+          <div className={`w-full lg:w-1/2 h-full flex flex-col justify-center items-center py-8 px-4 transition-all duration-500 lg:duration-300 ease-in-out 
+            ${isLoginView ? 'opacity-100 z-10 translate-x-0' : 'opacity-0 lg:opacity-0 translate-x-full sm:translate-x-full md:translate-x-full lg:translate-x-0 absolute lg:relative pointer-events-none'}`}>
             <div className="text-white text-xl sm:text-2xl mb-8 lg:mb-16 font-bold text-center">
               <h1>¡Bienvenido a FriendlyBet!</h1>
             </div>
@@ -237,23 +262,27 @@ function Auth({ onLogin, onRegister }: AuthProps) {
             </section>
 
             <section className="w-full max-w-md flex flex-col items-center mt-6">
-              <button className="bg-myBlue w-full max-w-xs sm:max-w-sm md:w-44 h-12 rounded-full mb-4 font-semibold hover:bg-blue-200" 
-                      onClick={handleLoginSubmit}
-                      disabled={loading}>
+              {/* Reemplazo del botón anterior por el componente Button */}
+              <Button 
+                variant="login" 
+                size="lg" 
+                radius="full"
+                className="max-w-xs sm:max-w-sm md:w-44 h-12"
+                onClick={handleLoginSubmit}
+                disabled={loading}
+              >
+                {loading ? 'Cargando...' : 'Iniciar sesión'}
+              </Button>
 
-                        {loading ? 'Cargando...' : 'Iniciar sesión'}
-
-              </button>
-
-              <p className="text-gray-500 text-sm text-center">¿Aún no tienes cuenta? 
+              <p className="text-gray-500 text-sm text-center mt-4">¿Aún no tienes cuenta? 
                 <a href="#" onClick={(e) => { e.preventDefault(); toggleView(e); setError(false); setMensajeErr("")}} className="text-blue-500 hover:text-blue-200"> Regístrate</a>
               </p>
             </section>
           </div>
 
           {/* Register Form */}
-          <div className={`w-full lg:w-1/2 h-full flex flex-col justify-center items-center py-8 px-4 transition-opacity duration-1000 lg:duration-300 ease-in-out 
-            ${!isLoginView ? 'opacity-100 z-10' : 'opacity-0 lg:opacity-0 absolute lg:relative pointer-events-none'}`}>
+          <div className={`w-full lg:w-1/2 h-full flex flex-col justify-center items-center py-8 px-4 transition-all duration-500 lg:duration-300 ease-in-out 
+            ${!isLoginView ? 'opacity-100 z-10 translate-x-0' : 'opacity-0 lg:opacity-0 -translate-x-full sm:-translate-x-full md:-translate-x-full lg:translate-x-0 absolute lg:relative pointer-events-none'}`}>
             <div className="text-white text-xl sm:text-2xl mb-8 lg:mb-16 font-bold text-center">
               <h1>¡Regístrate en FriendlyBet!</h1>
             </div>
@@ -295,13 +324,19 @@ function Auth({ onLogin, onRegister }: AuthProps) {
             </section>
             
             <section className="w-full max-w-md flex flex-col items-center mt-2">
-              <button className="bg-myBlue w-full max-w-xs sm:max-w-sm md:w-44 h-12 rounded-full mb-4 font-semibold hover:bg-blue-200" 
-                      onClick={handleRegisterSubmit}
-                      disabled={loading}>
-                        {loading ? 'Cargando...' : 'Registrarse'}
-              </button>
+              {/* Reemplazo del botón anterior por el componente Button */}
+              <Button 
+                variant="login" 
+                size="lg" 
+                radius="full"
+                className="max-w-xs sm:max-w-sm md:w-44 h-12"
+                onClick={handleRegisterSubmit}
+                disabled={loading}
+              >
+                {loading ? 'Cargando...' : 'Registrarse'}
+              </Button>
               
-              <p className="text-gray-500 text-sm text-center">¿Tienes una cuenta? 
+              <p className="text-gray-500 text-sm text-center mt-4">¿Tienes una cuenta? 
                 <a href="#" onClick={(e)=> {e.preventDefault();toggleView(e); setError(false); setMensajeErr("")}} 
                   className="text-blue-500 hover:text-blue-200"> Inicia sesión</a>
               </p>
