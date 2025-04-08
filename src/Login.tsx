@@ -209,7 +209,8 @@ function Auth({ onLogin, onRegister }: AuthProps) {
   return (
     <div className="w-full min-h-screen bg-myBlack flex justify-center items-center font-sans p-4">
 
-      <div className="absolute w-full h-full flex justify-start items-start p-10 text-white">
+      {/* Boton hacia atrás */}
+      <div className="absolute w-full h-full flex justify-start items-start p-5 text-white">
         <BackButton onClick={() => navigate("/Start")} />
       </div>
 
