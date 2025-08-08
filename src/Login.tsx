@@ -1,20 +1,22 @@
 import React, { useState } from "react";
 import './index.css';
-import axios from 'axios';
 import { useNavigate, useLocation } from 'react-router-dom';
 import MensajeError from "./components/mensajeError";
-import { errorToString } from "./utils/error-utils";
 import BackButton from "./components/BackButton";
 import { Button } from "@/components/ui/button";
+import { useAuth } from "./hooks/useAuth";
 
-interface AuthProps {
-  onLogin?: (username: string, password: string) => void;
-  onRegister?: (name: string, lastName: string, username: string, phoneNum: string,
-              email: string, password: string) => void;
-}
-
-function Auth({ onLogin, onRegister }: AuthProps) {
+function Auth() {
   const navigate = useNavigate();
+  const { 
+    login, 
+    register, 
+    loading, 
+    error, 
+    mensajeErr, 
+    setError, 
+    setMensajeErr 
+  } = useAuth();
 
   // Obtenemos el estado de la ubicación actual
   const location = useLocation();
@@ -36,13 +38,6 @@ function Auth({ onLogin, onRegister }: AuthProps) {
   const [phoneNum, setPhoneNum] = useState<string>("");
   const [email, setEmail] = useState<string>("");
   const [password, setPassword] = useState<string>("");
-
-  //Para la carga de la llamada 
-  const [loading, setLoading] = useState(false);
-
-  //para mensajes de error 
-  const [error, setError] = useState<boolean>(false);
-  const [mensajeErr, setMensajeErr] = useState<string>("");
 
   //cambiar entre el login y el registro
   const toggleView = (e: React.MouseEvent) => {
@@ -72,51 +67,11 @@ function Auth({ onLogin, onRegister }: AuthProps) {
 
   const handleLoginSubmit = async (e: React.FormEvent<HTMLButtonElement>) => {
     e.preventDefault();
-
-    //validar que se ingresen todos los campos
-    if (!loginUsername || !loginPassword) {
-      setError(true);
-      setMensajeErr("Por favor ingresa usuario y contraseña");
-      return;
-    }
     
-    if (loginUsername && loginPassword) {
-
-      setLoading(true);
-
-      try {
-        const API_URL = import.meta.env.REACT_APP_API_URL || 'http://localhost:8000';
-        
-        const response = await axios.post(`${API_URL}/login/`, {
-          username: loginUsername,
-          password: loginPassword
-        });
-        
-        if (response.data.token) {
-          localStorage.setItem('token', response.data.token);
-        }
-        
-        if (onLogin) {
-          onLogin(loginUsername.toString(), loginPassword.toString());
-        }
-
-        navigate("/home");
-        
-      } catch (error) {
-        
-        console.error('Error al iniciar sesión:', error);
-        setError(true);
-        setMensajeErr(errorToString(error));
-        
-      } 
-
-      finally {
-        setLoading(false);
-      }
-
-
-    } else {
-      console.log('Por favor ingresa usuario y contraseña');
+    const result = await login(loginUsername, loginPassword);
+    
+    if (result?.success) {
+      navigate("/home");
     }
   };
 
@@ -147,53 +102,21 @@ function Auth({ onLogin, onRegister }: AuthProps) {
 
   const handleRegisterSubmit = async (e: React.FormEvent<HTMLButtonElement>) => {
     e.preventDefault();
-
-    const API_URL = import.meta.env.REACT_APP_API_URL || 'http://localhost:8000';
-
-    //validar que se ingresen todos los campos
-    if (!name || !lastName || !username || !phoneNum || !email || !password) {
-      setError(true);
-      setMensajeErr("Por favor ingresa todos los campos");
-      return;
-    }
     
-    try {
-
-      setLoading(true);
-
-      const userData = {
-        // Registro con campos por defecto
-        username: username,
-        password: password,
-        email: email,
-        
-        // Registro personalizado
-        nombre_usuario: username,
-        correo: email,
-        contrasena: password,
-        nombre: name,
-        apellido: lastName,
-        celular: phoneNum
-      };
-      
-      const response = await axios.post(`${API_URL}/api/usuarios/`, userData);
-      
-      if (response.status === 201) {
-        if (onRegister) {
-          onRegister(name, lastName, username, phoneNum, email, password);
-        }
-        // Después de registrarse, cambia a la vista de inicio de sesión
-        setIsLoginView(true);
-      }
-    } catch (error) {
-      
-      console.error('Error al registrar usuario:', error);
-      setError(true);
-      setMensajeErr(errorToString(error));
-
-    }
-    finally {
-      setLoading(false);
+    const userData = {
+      name,
+      lastName,
+      username,
+      phoneNum,
+      email,
+      password
+    };
+    
+    const result = await register(userData);
+    
+    if (result?.success) {
+      // Después de registrarse, cambia a la vista de inicio de sesión
+      setIsLoginView(true);
     }
   };
 
