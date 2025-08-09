@@ -2,6 +2,7 @@ import './App.css'
 import { BrowserRouter, Routes, Route, Navigate } from 'react-router-dom'
 import Login from './Login'
 import Home from './Home'
+import HomePage from './HomePage'
 import Start from './Start'
 import About from './About'
 
@@ -12,6 +13,7 @@ function App() {
         <Route path="/start" element={<Start />} />
         <Route path="/login" element={<Login />} />
         <Route path="/Home" element={<Home />} />
+        <Route path="/homepage" element={<HomePage />} />
         <Route path="/" element={<Navigate to="/start" />} />
         <Route path="/about" element={<About />} />
       </Routes>

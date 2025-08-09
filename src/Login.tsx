@@ -71,7 +71,7 @@ function Auth() {
     const result = await login(loginUsername, loginPassword);
     
     if (result?.success) {
-      navigate("/home");
+      navigate("/homepage");
     }
   };
 
