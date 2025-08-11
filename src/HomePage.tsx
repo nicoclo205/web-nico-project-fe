@@ -1,5 +1,6 @@
 import React, { useState, useEffect } from 'react';
 import { useNavigate } from 'react-router-dom';
+import { useTranslation } from 'react-i18next';
 import Layout from './components/Layout';
 import SportCard from './components/SportCard';
 import RoomCard from './components/RoomCard';
@@ -33,6 +34,7 @@ interface UserStats {
 
 const HomePage: React.FC = () => {
 	const navigate = useNavigate();
+	const { t } = useTranslation(['home', 'common', 'sports']);
 	const [userRooms, setUserRooms] = useState<Room[]>([]);
 	const [popularRooms, setPopularRooms] = useState<Room[]>([]);
 	const [userStats, setUserStats] = useState<UserStats | null>(null);
@@ -42,7 +44,7 @@ const HomePage: React.FC = () => {
 	const sports: Sport[] = [
 		{
 			id: 'football',
-			name: 'Fútbol',
+			name: t('sports:football'),
 			icon: '⚽',
 			color: 'text-green-500',
 			bgGradient: 'from-green-400 to-green-600',
@@ -50,7 +52,7 @@ const HomePage: React.FC = () => {
 		},
 		{
 			id: 'basketball',
-			name: 'Baloncesto',
+			name: t('sports:basketball'),
 			icon: '🏀',
 			color: 'text-orange-500',
 			bgGradient: 'from-orange-400 to-orange-600',
@@ -58,7 +60,7 @@ const HomePage: React.FC = () => {
 		},
 		{
 			id: 'baseball',
-			name: 'Béisbol',
+			name: t('sports:baseball'),
 			icon: '⚾',
 			color: 'text-red-500',
 			bgGradient: 'from-red-400 to-red-600',
@@ -66,7 +68,7 @@ const HomePage: React.FC = () => {
 		},
 		{
 			id: 'tennis',
-			name: 'Tenis',
+			name: t('sports:tennis'),
 			icon: '🎾',
 			color: 'text-yellow-500',
 			bgGradient: 'from-yellow-400 to-yellow-600',
@@ -74,7 +76,7 @@ const HomePage: React.FC = () => {
 		},
 		{
 			id: 'volleyball',
-			name: 'Voleibol',
+			name: t('sports:volleyball'),
 			icon: '🏐',
 			color: 'text-blue-500',
 			bgGradient: 'from-blue-400 to-blue-600',
@@ -198,10 +200,10 @@ const HomePage: React.FC = () => {
 				<div className="relative z-10 px-6 py-12 mx-auto max-w-7xl">
 					<div className="text-center text-white">
 						<h1 className="text-5xl font-bold mb-4 animate-pulse">
-							¡Bienvenido, <span className="text-yellow-400">{userName}</span>!
+							{t('home:welcomeMessage', { name: userName })}
 						</h1>
 						<p className="text-xl mb-8 text-gray-300">
-							Es hora de hacer tus predicciones y ganar grandes premios
+							{t('home:subtitle')}
 						</p>
 					</div>
 
@@ -209,22 +211,22 @@ const HomePage: React.FC = () => {
 					{userStats && (
 						<div className="grid grid-cols-1 md:grid-cols-4 gap-4 mb-8">
 							<StatsCard
-								title="Puntos Totales"
+								title={t('home:stats.totalPoints')}
 								value={userStats.totalPoints}
 								icon="🏆"
 							/>
 							<StatsCard
-								title="Ranking Global"
+								title={t('home:stats.globalRank')}
 								value={`#${userStats.globalRank}`}
 								icon="👑"
 							/>
 							<StatsCard
-								title="Apuestas Activas"
+								title={t('home:stats.activeBets')}
 								value={userStats.activeBets}
 								icon="🎲"
 							/>
 							<StatsCard
-								title="Tasa de Éxito"
+								title={t('home:stats.successRate')}
 								value={`${userStats.winRate}%`}
 								icon="📈"
 							/>
@@ -237,7 +239,7 @@ const HomePage: React.FC = () => {
 			<div className="px-6 py-8 mx-auto max-w-7xl">
 				<h2 className="text-3xl font-bold text-white mb-6 flex items-center">
 					<span className="mr-3 text-3xl">🏅</span>
-					Selecciona un Deporte
+					{t('home:selectSport')}
 				</h2>
 				<div className="grid grid-cols-2 md:grid-cols-5 gap-4 mb-12">
 					{sports.map((sport) => (
@@ -260,19 +262,21 @@ const HomePage: React.FC = () => {
 						<div className="flex justify-between items-center mb-4">
 							<h2 className="text-2xl font-bold text-white flex items-center">
 								<span className="mr-2 text-2xl">👥</span>
-								Mis Salas
+								{t('home:myRooms')}
 							</h2>
 							<button
 								onClick={handleCreateRoom}
 								className="flex items-center px-4 py-2 bg-green-500 hover:bg-green-600 text-white rounded-lg transition-colors"
 							>
 								<span className="mr-2">➕</span>
-								Crear Sala
+								{t('home:createRoom')}
 							</button>
 						</div>
 						<div className="space-y-4">
 							{loading ? (
-								<div className="text-white text-center py-8">Cargando...</div>
+								<div className="text-white text-center py-8">
+									{t('common:loading')}
+								</div>
 							) : userRooms.length > 0 ? (
 								userRooms.map((room) => (
 									<RoomCard
@@ -288,12 +292,12 @@ const HomePage: React.FC = () => {
 								))
 							) : (
 								<div className="bg-white/5 rounded-xl p-8 text-center">
-									<p className="text-gray-400 mb-4">No tienes salas activas</p>
+									<p className="text-gray-400 mb-4">{t('home:noActiveRooms')}</p>
 									<button
 										onClick={handleJoinRoom}
 										className="px-6 py-2 bg-blue-500 hover:bg-blue-600 text-white rounded-lg transition-colors"
 									>
-										Unirse a una Sala
+										{t('home:joinRoom')}
 									</button>
 								</div>
 							)}
@@ -305,13 +309,13 @@ const HomePage: React.FC = () => {
 						<div className="flex justify-between items-center mb-4">
 							<h2 className="text-2xl font-bold text-white flex items-center">
 								<span className="mr-2 text-2xl text-yellow-400">🏆</span>
-								Salas Populares
+								{t('home:popularRooms')}
 							</h2>
 							<button
 								onClick={handleJoinRoom}
 								className="flex items-center px-4 py-2 bg-blue-500 hover:bg-blue-600 text-white rounded-lg transition-colors"
 							>
-								Explorar Más
+								{t('home:exploreMore')}
 							</button>
 						</div>
 						<div className="space-y-4">
@@ -341,9 +345,9 @@ const HomePage: React.FC = () => {
 						<div className="text-5xl mb-3 text-center group-hover:animate-bounce">
 							⚽
 						</div>
-						<h3 className="text-xl font-bold">Ver Partidos</h3>
+						<h3 className="text-xl font-bold">{t('home:viewMatches')}</h3>
 						<p className="text-sm mt-2 opacity-90">
-							Explora los próximos encuentros
+							{t('home:viewMatchesDesc')}
 						</p>
 					</button>
 					<button
@@ -353,9 +357,9 @@ const HomePage: React.FC = () => {
 						<div className="text-5xl mb-3 text-center group-hover:animate-bounce">
 							🎲
 						</div>
-						<h3 className="text-xl font-bold">Mis Apuestas</h3>
+						<h3 className="text-xl font-bold">{t('home:myBets')}</h3>
 						<p className="text-sm mt-2 opacity-90">
-							Revisa tus predicciones activas
+							{t('home:myBetsDesc')}
 						</p>
 					</button>
 					<button
@@ -365,9 +369,9 @@ const HomePage: React.FC = () => {
 						<div className="text-5xl mb-3 text-center group-hover:animate-bounce">
 							🏆
 						</div>
-						<h3 className="text-xl font-bold">Rankings</h3>
+						<h3 className="text-xl font-bold">{t('home:rankings')}</h3>
 						<p className="text-sm mt-2 opacity-90">
-							Compite por el primer lugar
+							{t('home:rankingsDesc')}
 						</p>
 					</button>
 				</div>
@@ -375,20 +379,20 @@ const HomePage: React.FC = () => {
 				{/* Recent Activity Section */}
 				<div className="mt-12 bg-white/5 rounded-xl p-6">
 					<h3 className="text-2xl font-bold text-white mb-4">
-						🔥 Actividad Reciente
+						🔥 {t('home:recentActivity')}
 					</h3>
 					<div className="space-y-3">
 						<div className="flex items-center justify-between text-gray-300">
-							<span>Juan apostó en Real Madrid vs Barcelona</span>
-							<span className="text-sm">Hace 5 min</span>
+							<span>{t('home:activities.userBet', { user: 'Juan', match: 'Real Madrid vs Barcelona' })}</span>
+							<span className="text-sm">{t('home:timeAgo.minutes', { count: 5 })}</span>
 						</div>
 						<div className="flex items-center justify-between text-gray-300">
-							<span>María se unió a "Liga de Campeones"</span>
-							<span className="text-sm">Hace 12 min</span>
+							<span>{t('home:activities.userJoined', { user: 'María', room: 'Liga de Campeones' })}</span>
+							<span className="text-sm">{t('home:timeAgo.minutes', { count: 12 })}</span>
 						</div>
 						<div className="flex items-center justify-between text-gray-300">
-							<span>Carlos ganó 50 puntos en sus predicciones</span>
-							<span className="text-sm">Hace 1 hora</span>
+							<span>{t('home:activities.userWon', { user: 'Carlos', points: 50 })}</span>
+							<span className="text-sm">{t('home:timeAgo.hours', { count: 1 })}</span>
 						</div>
 					</div>
 				</div>

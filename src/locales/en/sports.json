@@ -1,0 +1,40 @@
+{
+  "football": "Soccer",
+  "basketball": "Basketball",
+  "baseball": "Baseball",
+  "tennis": "Tennis",
+  "volleyball": "Volleyball",
+  "formula1": "Formula 1",
+  "activeMatches": "{{count}} active match",
+  "activeMatches_plural": "{{count}} active matches",
+  "upcomingMatches": "Upcoming Matches",
+  "liveMatches": "Live",
+  "finishedMatches": "Finished Matches",
+  "matchStatus": {
+    "scheduled": "Scheduled",
+    "live": "Live",
+    "finished": "Finished",
+    "cancelled": "Cancelled"
+  },
+  "soccerMatches": {
+    "title": "Soccer Matches",
+    "subtitle": "Check upcoming matches and results from major competitions",
+    "upcomingTab": "Upcoming Matches",
+    "finishedTab": "Finished Matches",
+    "allCompetitions": "All Competitions",
+    "noMatches": "No {{type}} matches at the moment",
+    "noUpcomingMatches": "No upcoming matches at the moment",
+    "noFinishedMatches": "No finished matches at the moment",
+    "loading": "Loading matches...",
+    "error": "Error loading matches",
+    "retry": "Retry",
+    "bet": "Bet",
+    "liveStatus": "LIVE",
+    "status": {
+      "programado": "Scheduled",
+      "en curso": "Live",
+      "finalizado": "Finished",
+      "cancelado": "Cancelled"
+    }
+  }
+}

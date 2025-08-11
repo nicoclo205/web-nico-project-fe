@@ -1,6 +1,7 @@
 import React, { useState } from "react";
 import './index.css';
 import { useNavigate, useLocation } from 'react-router-dom';
+import { useTranslation } from 'react-i18next';
 import MensajeError from "./components/mensajeError";
 import BackButton from "./components/BackButton";
 import { Button } from "@/components/ui/button";
@@ -8,6 +9,7 @@ import { useAuth } from "./hooks/useAuth";
 
 function Auth() {
   const navigate = useNavigate();
+  const { t } = useTranslation(['auth', 'common']);
   const { 
     login, 
     register, 
@@ -166,7 +168,7 @@ function Auth() {
           <div className={`w-full lg:w-1/2 h-full flex flex-col justify-center items-center py-8 px-4 transition-all duration-500 lg:duration-300 ease-in-out 
             ${isLoginView ? 'opacity-100 z-10 translate-x-0' : 'opacity-0 lg:opacity-0 translate-x-full sm:translate-x-full md:translate-x-full lg:translate-x-0 absolute lg:relative pointer-events-none'}`}>
             <div className="text-white text-xl sm:text-2xl mb-8 lg:mb-16 font-bold text-center">
-              <h1>¡Bienvenido a FriendlyBet!</h1>
+              <h1>{t('auth:title')}</h1>
             </div>
 
             <section className="w-full max-w-md flex flex-col items-center">
@@ -174,19 +176,24 @@ function Auth() {
             </section>
 
             <section className="text-white font-sans w-full max-w-md flex flex-col justify-around py-5 items-center">
-              <input type="text" placeholder="Nombre de usuario" 
+              <input 
+                type="text" 
+                placeholder={t('auth:username')}
                 className="border-spacing-2 rounded-xl h-8 w-full max-w-xs sm:max-w-sm p-2 text-black mb-3"
                 onChange={handleLoginUsernameChange}
-                value={loginUsername} />
+                value={loginUsername} 
+              />
               
-              <input type="password" placeholder="Contraseña" 
+              <input 
+                type="password" 
+                placeholder={t('auth:password')}
                 className="border-spacing-2 rounded-xl h-8 w-full max-w-xs sm:max-w-sm p-2 text-black" 
                 onChange={handleLoginPasswordChange}
-                value={loginPassword} />
+                value={loginPassword} 
+              />
             </section>
 
             <section className="w-full max-w-md flex flex-col items-center mt-6">
-              {/* Reemplazo del botón anterior por el componente Button */}
               <Button 
                 variant="login" 
                 size="lg" 
@@ -195,11 +202,23 @@ function Auth() {
                 onClick={handleLoginSubmit}
                 disabled={loading}
               >
-                {loading ? 'Cargando...' : 'Iniciar sesión'}
+                {loading ? t('common:loading') : t('auth:loginButton')}
               </Button>
 
-              <p className="text-gray-500 text-sm text-center mt-4">¿Aún no tienes cuenta? 
-                <a href="#" onClick={(e) => { e.preventDefault(); toggleView(e); setError(false); setMensajeErr("")}} className="text-blue-500 hover:text-blue-200"> Regístrate</a>
+              <p className="text-gray-500 text-sm text-center mt-4">
+                {t('auth:noAccount')} 
+                <a 
+                  href="#" 
+                  onClick={(e) => { 
+                    e.preventDefault(); 
+                    toggleView(e); 
+                    setError(false); 
+                    setMensajeErr("") 
+                  }} 
+                  className="text-blue-500 hover:text-blue-200"
+                > 
+                  {t('auth:signUp')}
+                </a>
               </p>
             </section>
           </div>
@@ -208,7 +227,7 @@ function Auth() {
           <div className={`w-full lg:w-1/2 h-full flex flex-col justify-center items-center py-8 px-4 transition-all duration-500 lg:duration-300 ease-in-out 
             ${!isLoginView ? 'opacity-100 z-10 translate-x-0' : 'opacity-0 lg:opacity-0 -translate-x-full sm:-translate-x-full md:-translate-x-full lg:translate-x-0 absolute lg:relative pointer-events-none'}`}>
             <div className="text-white text-xl sm:text-2xl mb-8 lg:mb-16 font-bold text-center">
-              <h1>¡Regístrate en FriendlyBet!</h1>
+              <h1>{t('auth:registerTitle')}</h1>
             </div>
 
             <section className="w-full max-w-md flex flex-col items-center">
@@ -216,39 +235,56 @@ function Auth() {
             </section>
             
             <section className="text-white font-sans w-full max-w-md flex flex-col justify-around py-5 items-center">
-              <input type="text" placeholder="Nombre" 
+              <input 
+                type="text" 
+                placeholder={t('auth:name')}
                 className="border-spacing-2 rounded-xl h-8 w-full max-w-xs sm:max-w-sm p-2 text-black mb-3"
                 onChange={handleNameChange}
-                value={name} />
+                value={name} 
+              />
                 
-              <input type="text" placeholder="Apellido" 
+              <input 
+                type="text" 
+                placeholder={t('auth:lastName')}
                 className="border-spacing-2 rounded-xl h-8 w-full max-w-xs sm:max-w-sm p-2 text-black mb-3"
                 onChange={handleLastNameChange}
-                value={lastName} />
+                value={lastName} 
+              />
                 
-              <input type="text" placeholder="Usuario" 
+              <input 
+                type="text" 
+                placeholder={t('auth:username')}
                 className="border-spacing-2 rounded-xl h-8 w-full max-w-xs sm:max-w-sm p-2 text-black mb-3"
                 onChange={handleUsernameChange}
-                value={username} />
+                value={username} 
+              />
                 
-              <input type="text" placeholder="Número de celular" 
+              <input 
+                type="text" 
+                placeholder={t('auth:phone')}
                 className="border-spacing-2 rounded-xl h-8 w-full max-w-xs sm:max-w-sm p-2 text-black mb-3"
                 onChange={handlePhoneNumChange}
-                value={phoneNum} />
+                value={phoneNum} 
+              />
                 
-              <input type="email" placeholder="Correo electrónico" 
+              <input 
+                type="email" 
+                placeholder={t('auth:email')}
                 className="border-spacing-2 rounded-xl h-8 w-full max-w-xs sm:max-w-sm p-2 text-black mb-3"
                 onChange={handleEmailChange}
-                value={email} />
+                value={email} 
+              />
                 
-              <input type="password" placeholder="Contraseña" 
+              <input 
+                type="password" 
+                placeholder={t('auth:password')}
                 className="border-spacing-2 rounded-xl h-8 w-full max-w-xs sm:max-w-sm p-2 text-black mb-3"
                 onChange={handlePasswordChange}
-                value={password} />
+                value={password} 
+              />
             </section>
             
             <section className="w-full max-w-md flex flex-col items-center mt-2">
-              {/* Reemplazo del botón anterior por el componente Button */}
               <Button 
                 variant="login" 
                 size="lg" 
@@ -257,12 +293,23 @@ function Auth() {
                 onClick={handleRegisterSubmit}
                 disabled={loading}
               >
-                {loading ? 'Cargando...' : 'Registrarse'}
+                {loading ? t('common:loading') : t('auth:registerButton')}
               </Button>
               
-              <p className="text-gray-500 text-sm text-center mt-4">¿Tienes una cuenta? 
-                <a href="#" onClick={(e)=> {e.preventDefault();toggleView(e); setError(false); setMensajeErr("")}} 
-                  className="text-blue-500 hover:text-blue-200"> Inicia sesión</a>
+              <p className="text-gray-500 text-sm text-center mt-4">
+                {t('auth:hasAccount')} 
+                <a 
+                  href="#" 
+                  onClick={(e)=> {
+                    e.preventDefault();
+                    toggleView(e); 
+                    setError(false); 
+                    setMensajeErr("")
+                  }} 
+                  className="text-blue-500 hover:text-blue-200"
+                > 
+                  {t('auth:signIn')}
+                </a>
               </p>
             </section>
           </div>

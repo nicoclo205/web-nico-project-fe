@@ -1,4 +1,5 @@
 import React from 'react';
+import { useTranslation } from 'react-i18next';
 
 interface RoomCardProps {
   id: number;
@@ -25,6 +26,21 @@ const RoomCard: React.FC<RoomCardProps> = ({
   onJoin,
   showJoinButton = false
 }) => {
+  const { t } = useTranslation(['rooms', 'common']);
+
+  const getStatusText = (status?: string) => {
+    switch (status) {
+      case 'active':
+      case 'activo':
+        return t('rooms:active');
+      case 'inactive':
+      case 'inactivo':
+        return t('rooms:inactive');
+      default:
+        return status;
+    }
+  };
+
   return (
     <div
       onClick={() => onClick(id)}
@@ -46,11 +62,11 @@ const RoomCard: React.FC<RoomCardProps> = ({
             <p className="text-gray-300 text-sm mt-1">{description}</p>
             <div className="flex items-center mt-2 text-gray-400 text-sm">
               <span className="mr-1">👥</span>
-              <span>{members} miembros</span>
+              <span>{t('rooms:memberCount', { count: members })}</span>
               {code && (
                 <>
                   <span className="mx-2">•</span>
-                  <span>Código: {code}</span>
+                  <span>{t('rooms:roomCode')}: {code}</span>
                 </>
               )}
             </div>
@@ -59,9 +75,9 @@ const RoomCard: React.FC<RoomCardProps> = ({
         <div className="flex items-center gap-2">
           {status && (
             <div className={`px-2 py-1 rounded text-xs ${
-              status === 'activo' ? 'bg-green-500/20 text-green-400' : 'bg-gray-500/20 text-gray-400'
+              status === 'activo' || status === 'active' ? 'bg-green-500/20 text-green-400' : 'bg-gray-500/20 text-gray-400'
             }`}>
-              {status === 'activo' ? 'Activa' : 'Inactiva'}
+              {getStatusText(status)}
             </div>
           )}
           {showJoinButton && onJoin && (
@@ -72,7 +88,7 @@ const RoomCard: React.FC<RoomCardProps> = ({
               }}
               className="bg-blue-500/20 text-blue-400 px-3 py-1 rounded text-sm hover:bg-blue-500/30 transition-colors"
             >
-              Unirse
+              {t('rooms:joinRoom')}
             </button>
           )}
         </div>

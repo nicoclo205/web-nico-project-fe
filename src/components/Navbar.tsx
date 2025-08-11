@@ -1,9 +1,12 @@
 import React, { useEffect, useRef, useState } from 'react';
 import { useLocation, useNavigate } from 'react-router-dom';
+import { useTranslation } from 'react-i18next';
+import LanguageSelector from './LanguageSelector';
 
 const Navbar: React.FC = () => {
 	const navigate = useNavigate();
 	const location = useLocation();
+	const { t } = useTranslation(['common', 'sports']);
 	const [isMenuOpen, setIsMenuOpen] = useState(false);
 	const [isDropdownOpen, setIsDropdownOpen] = useState(false);
 	const dropdownRef = useRef<HTMLDivElement>(null);
@@ -37,19 +40,19 @@ const Navbar: React.FC = () => {
 
 	const sportOptions = [
 		{
-			name: 'Fútbol',
+			name: t('sports:football'),
 			icon: '⚽',
 			path: '/soccer-matches',
 			color: 'hover:bg-green-700',
 		},
 		{
-			name: 'Tenis',
+			name: t('sports:tennis'),
 			icon: '🎾',
 			path: '/tennis-matches',
 			color: 'hover:bg-yellow-700',
 		},
 		{
-			name: 'Baloncesto',
+			name: t('sports:basketball'),
 			icon: '🏀',
 			path: '/basketball-matches',
 			color: 'hover:bg-orange-700',
@@ -82,7 +85,7 @@ const Navbar: React.FC = () => {
 										: 'text-gray-300 hover:bg-gray-700 hover:text-white'
 								}`}
 							>
-								Inicio
+								{t('common:home', 'Inicio')}
 							</button>
 
 							{/* Partidos Dropdown */}
@@ -99,7 +102,7 @@ const Navbar: React.FC = () => {
 											: 'text-gray-300 hover:bg-gray-700 hover:text-white'
 									}`}
 								>
-									Partidos
+									{t('common:matches', 'Partidos')}
 									<svg
 										className={`w-4 h-4 transition-transform ${isDropdownOpen ? 'rotate-180' : ''}`}
 										fill="none"
@@ -148,7 +151,7 @@ const Navbar: React.FC = () => {
 										: 'text-gray-300 hover:bg-gray-700 hover:text-white'
 								}`}
 							>
-								Salas
+								{t('common:rooms', 'Salas')}
 							</button>
 							<button
 								onClick={() => navigate('/my-bets')}
@@ -158,7 +161,7 @@ const Navbar: React.FC = () => {
 										: 'text-gray-300 hover:bg-gray-700 hover:text-white'
 								}`}
 							>
-								Mis Apuestas
+								{t('common:myBets', 'Mis Apuestas')}
 							</button>
 							<button
 								onClick={() => navigate('/rankings')}
@@ -168,13 +171,14 @@ const Navbar: React.FC = () => {
 										: 'text-gray-300 hover:bg-gray-700 hover:text-white'
 								}`}
 							>
-								Rankings
+								{t('common:rankings', 'Rankings')}
 							</button>
 						</div>
 					</div>
 
 					{/* User Menu */}
 					<div className="hidden md:flex items-center space-x-4">
+						<LanguageSelector />
 						<div className="flex items-center space-x-2 text-white">
 							<span className="text-2xl">👤</span>
 							<span className="text-sm">{userName}</span>
@@ -183,7 +187,7 @@ const Navbar: React.FC = () => {
 							onClick={handleLogout}
 							className="bg-red-600 hover:bg-red-700 text-white px-4 py-2 rounded-md text-sm font-medium transition-colors"
 						>
-							Cerrar Sesión
+							{t('common:logout')}
 						</button>
 					</div>
 
@@ -193,7 +197,7 @@ const Navbar: React.FC = () => {
 							onClick={() => setIsMenuOpen(!isMenuOpen)}
 							className="inline-flex items-center justify-center p-2 rounded-md text-gray-400 hover:text-white hover:bg-gray-700 focus:outline-none"
 						>
-							<span className="sr-only">Abrir menú</span>
+							<span className="sr-only">{t('common:openMenu', 'Abrir menú')}</span>
 							{isMenuOpen ? (
 								<span className="text-2xl">✖</span>
 							) : (
@@ -215,13 +219,13 @@ const Navbar: React.FC = () => {
 							}}
 							className="block w-full text-left px-3 py-2 rounded-md text-base font-medium text-gray-300 hover:bg-gray-700 hover:text-white"
 						>
-							Inicio
+							{t('common:home', 'Inicio')}
 						</button>
 
 						{/* Mobile Sports Options */}
 						<div className="space-y-1">
 							<div className="px-3 py-2 text-xs font-semibold text-gray-500 uppercase tracking-wider">
-								Partidos
+								{t('common:matches', 'Partidos')}
 							</div>
 							{sportOptions.map((sport) => (
 								<button
@@ -245,7 +249,7 @@ const Navbar: React.FC = () => {
 							}}
 							className="block w-full text-left px-3 py-2 rounded-md text-base font-medium text-gray-300 hover:bg-gray-700 hover:text-white"
 						>
-							Salas
+							{t('common:rooms', 'Salas')}
 						</button>
 						<button
 							onClick={() => {
@@ -254,7 +258,7 @@ const Navbar: React.FC = () => {
 							}}
 							className="block w-full text-left px-3 py-2 rounded-md text-base font-medium text-gray-300 hover:bg-gray-700 hover:text-white"
 						>
-							Mis Apuestas
+							{t('common:myBets', 'Mis Apuestas')}
 						</button>
 						<button
 							onClick={() => {
@@ -263,15 +267,18 @@ const Navbar: React.FC = () => {
 							}}
 							className="block w-full text-left px-3 py-2 rounded-md text-base font-medium text-gray-300 hover:bg-gray-700 hover:text-white"
 						>
-							Rankings
+							{t('common:rankings', 'Rankings')}
 						</button>
 					</div>
 					<div className="pt-4 pb-3 border-t border-gray-700">
-						<div className="flex items-center px-5">
+						<div className="flex items-center px-5 mb-3">
 							<span className="text-2xl mr-2">👤</span>
 							<span className="text-base font-medium text-white">
 								{userName}
 							</span>
+						</div>
+						<div className="px-5 mb-3">
+							<LanguageSelector />
 						</div>
 						<div className="mt-3 px-2">
 							<button
@@ -281,7 +288,7 @@ const Navbar: React.FC = () => {
 								}}
 								className="block w-full text-left px-3 py-2 rounded-md text-base font-medium text-red-400 hover:bg-gray-700"
 							>
-								Cerrar Sesión
+								{t('common:logout')}
 							</button>
 						</div>
 					</div>

@@ -1,0 +1,36 @@
+{
+  "welcomeMessage": "¡Bienvenido, {{name}}!",
+  "subtitle": "Es hora de hacer tus predicciones y ganar grandes premios",
+  "selectSport": "Selecciona un Deporte",
+  "myRooms": "Mis Salas",
+  "popularRooms": "Salas Populares",
+  "createRoom": "Crear Sala",
+  "joinRoom": "Unirse a una Sala",
+  "exploreMore": "Explorar Más",
+  "noActiveRooms": "No tienes salas activas",
+  "viewMatches": "Ver Partidos",
+  "myBets": "Mis Apuestas",
+  "rankings": "Rankings",
+  "recentActivity": "Actividad Reciente",
+  "viewMatchesDesc": "Explora los próximos encuentros",
+  "myBetsDesc": "Revisa tus predicciones activas",
+  "rankingsDesc": "Compite por el primer lugar",
+  "timeAgo": {
+    "minutes": "Hace {{count}} min",
+    "hours": "Hace {{count}} hora",
+    "hours_plural": "Hace {{count}} horas",
+    "days": "Hace {{count}} día",
+    "days_plural": "Hace {{count}} días"
+  },
+  "activities": {
+    "userBet": "{{user}} apostó en {{match}}",
+    "userJoined": "{{user}} se unió a \"{{room}}\"",
+    "userWon": "{{user}} ganó {{points}} puntos en sus predicciones"
+  },
+  "stats": {
+    "totalPoints": "Puntos Totales",
+    "globalRank": "Ranking Global",
+    "activeBets": "Apuestas Activas",
+    "successRate": "Tasa de Éxito"
+  }
+}

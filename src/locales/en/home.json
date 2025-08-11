@@ -1,0 +1,36 @@
+{
+  "welcomeMessage": "Welcome, {{name}}!",
+  "subtitle": "Time to make your predictions and win big prizes",
+  "selectSport": "Select a Sport",
+  "myRooms": "My Rooms",
+  "popularRooms": "Popular Rooms",
+  "createRoom": "Create Room",
+  "joinRoom": "Join a Room",
+  "exploreMore": "Explore More",
+  "noActiveRooms": "You have no active rooms",
+  "viewMatches": "View Matches",
+  "myBets": "My Bets",
+  "rankings": "Rankings",
+  "recentActivity": "Recent Activity",
+  "viewMatchesDesc": "Explore upcoming matches",
+  "myBetsDesc": "Review your active predictions",
+  "rankingsDesc": "Compete for first place",
+  "timeAgo": {
+    "minutes": "{{count}} min ago",
+    "hours": "{{count}} hour ago",
+    "hours_plural": "{{count}} hours ago",
+    "days": "{{count}} day ago",
+    "days_plural": "{{count}} days ago"
+  },
+  "activities": {
+    "userBet": "{{user}} bet on {{match}}",
+    "userJoined": "{{user}} joined \"{{room}}\"",
+    "userWon": "{{user}} won {{points}} points on their predictions"
+  },
+  "stats": {
+    "totalPoints": "Total Points",
+    "globalRank": "Global Ranking",
+    "activeBets": "Active Bets",
+    "successRate": "Success Rate"
+  }
+}

@@ -1,12 +1,14 @@
 import React, { useEffect, useState } from 'react';
 import { useNavigate } from 'react-router-dom';
+import { useTranslation } from 'react-i18next';
 import Layout from '../components/Layout';
 import api from '../services/api';
 
 interface Team {
 	id_equipo: number;
 	nombre: string;
-	logo?: string;
+	logo?: string; // Full URL to team logo
+	bandera?: string; // Country code e.g., "CO"
 }
 
 interface Competition {
@@ -30,8 +32,26 @@ interface Match {
 	};
 }
 
+// Helper: Get flag URL from country code
+const getFlagUrl = (countryCode?: string) => {
+	if (!countryCode) return '';
+	return `https://flagcdn.com/w40/${countryCode.toLowerCase()}.png`; // 40px wide flag
+};
+
+// Helper: Prefer logo, fallback to flag
+const getTeamImage = (team: Team) => {
+	if (team.logo && team.logo.trim() !== '') {
+		return team.logo; // full URL to logo
+	}
+	if (team.bandera) {
+		return getFlagUrl(team.bandera);
+	}
+	return '';
+};
+
 const SoccerMatches: React.FC = () => {
 	const navigate = useNavigate();
+	const { t } = useTranslation(['sports', 'common']); // Add translation hook
 	const [matches, setMatches] = useState<Match[]>([]);
 	const [loading, setLoading] = useState(true);
 	const [error, setError] = useState<string | null>(null);
@@ -50,16 +70,12 @@ const SoccerMatches: React.FC = () => {
 			setLoading(true);
 			setError(null);
 
-			// Fetch soccer matches (assuming sport_id for soccer is 1)
 			const response = await api.get('/api/partidos/', {
-				params: {
-					deporte: 1, // Soccer sport ID
-				},
+				params: { deporte: 1 }, // Soccer sport ID
 			});
 
 			setMatches(response.data);
 
-			// Extract unique competitions
 			const uniqueCompetitions = Array.from(
 				new Map(
 					response.data
@@ -73,31 +89,30 @@ const SoccerMatches: React.FC = () => {
 			setCompetitions(uniqueCompetitions as Competition[]);
 		} catch (err) {
 			console.error('Error fetching matches:', err);
-			setError('Error al cargar los partidos');
+			setError(t('sports:soccerMatches.error')); // Replace hardcoded text
 		} finally {
 			setLoading(false);
 		}
 	};
 
-	const formatDate = (dateString: string) => {
-		const date = new Date(dateString);
-		const options: Intl.DateTimeFormatOptions = {
-			weekday: 'short',
-			day: 'numeric',
-			month: 'short',
-			year: 'numeric',
-			hour: '2-digit',
-			minute: '2-digit',
-		};
-		return date.toLocaleDateString('es-ES', options);
-	};
-
 	const getStatusBadge = (status: string) => {
 		const statusConfig = {
-			programado: { text: 'Programado', className: 'bg-blue-500' },
-			'en curso': { text: 'En Vivo', className: 'bg-red-500 animate-pulse' },
-			finalizado: { text: 'Finalizado', className: 'bg-gray-500' },
-			cancelado: { text: 'Cancelado', className: 'bg-red-700' },
+			programado: { 
+				text: t('sports:soccerMatches.status.programado'), 
+				className: 'bg-blue-500' 
+			},
+			'en curso': { 
+				text: t('sports:soccerMatches.status.en curso'), 
+				className: 'bg-red-500 animate-pulse' 
+			},
+			finalizado: { 
+				text: t('sports:soccerMatches.status.finalizado'), 
+				className: 'bg-gray-500' 
+			},
+			cancelado: { 
+				text: t('sports:soccerMatches.status.cancelado'), 
+				className: 'bg-red-700' 
+			},
 		};
 
 		const config =
@@ -161,7 +176,7 @@ const SoccerMatches: React.FC = () => {
 							onClick={fetchSoccerMatches}
 							className="mt-4 px-4 py-2 bg-green-600 text-white rounded-lg hover:bg-green-700"
 						>
-							Reintentar
+							{t('sports:soccerMatches.retry')}
 						</button>
 					</div>
 				</div>
@@ -177,12 +192,11 @@ const SoccerMatches: React.FC = () => {
 					<div className="flex items-center gap-3 mb-4">
 						<span className="text-5xl">⚽</span>
 						<h1 className="text-3xl font-bold text-white">
-							Partidos de Fútbol
+							{t('sports:soccerMatches.title')}
 						</h1>
 					</div>
 					<p className="text-gray-400">
-						Consulta los próximos partidos y resultados de las principales
-						competiciones
+						{t('sports:soccerMatches.subtitle')}
 					</p>
 				</div>
 
@@ -198,7 +212,7 @@ const SoccerMatches: React.FC = () => {
 									: 'text-gray-400 hover:text-white'
 							}`}
 						>
-							Próximos Partidos
+							{t('sports:soccerMatches.upcomingTab')}
 						</button>
 						<button
 							onClick={() => setActiveTab('finished')}
@@ -208,7 +222,7 @@ const SoccerMatches: React.FC = () => {
 									: 'text-gray-400 hover:text-white'
 							}`}
 						>
-							Partidos Finalizados
+							{t('sports:soccerMatches.finishedTab')}
 						</button>
 					</div>
 
@@ -223,7 +237,7 @@ const SoccerMatches: React.FC = () => {
 										: 'bg-gray-800 text-gray-400 hover:text-white'
 								}`}
 							>
-								Todas las Competiciones
+								{t('sports:soccerMatches.allCompetitions')}
 							</button>
 							{competitions.map((comp) => (
 								<button
@@ -250,9 +264,10 @@ const SoccerMatches: React.FC = () => {
 						<div className="text-center py-12 bg-gray-800 rounded-lg">
 							<span className="text-6xl mb-4 block">🔍</span>
 							<p className="text-gray-400 text-lg">
-								No hay partidos{' '}
-								{activeTab === 'upcoming' ? 'programados' : 'finalizados'} en
-								este momento
+								{activeTab === 'upcoming' 
+									? t('sports:soccerMatches.noUpcomingMatches')
+									: t('sports:soccerMatches.noFinishedMatches')
+								}
 							</p>
 						</div>
 					) : (
@@ -307,9 +322,9 @@ const SoccerMatches: React.FC = () => {
 															<span className="text-white font-medium text-lg">
 																{match.equipo_local.nombre}
 															</span>
-															{match.equipo_local.logo && (
+															{getTeamImage(match.equipo_local) && (
 																<img
-																	src={match.equipo_local.logo}
+																	src={getTeamImage(match.equipo_local)}
 																	alt={match.equipo_local.nombre}
 																	className="w-12 h-12 object-contain"
 																/>
@@ -336,7 +351,7 @@ const SoccerMatches: React.FC = () => {
 																	</div>
 																	{match.estado === 'en curso' && (
 																		<span className="text-xs text-red-500">
-																			EN VIVO
+																			{t('sports:soccerMatches.liveStatus')}
 																		</span>
 																	)}
 																</div>
@@ -345,9 +360,9 @@ const SoccerMatches: React.FC = () => {
 
 														{/* Away Team */}
 														<div className="flex items-center gap-3 flex-1">
-															{match.equipo_visitante.logo && (
+															{getTeamImage(match.equipo_visitante) && (
 																<img
-																	src={match.equipo_visitante.logo}
+																	src={getTeamImage(match.equipo_visitante)}
 																	alt={match.equipo_visitante.nombre}
 																	className="w-12 h-12 object-contain"
 																/>
@@ -371,7 +386,7 @@ const SoccerMatches: React.FC = () => {
 												{/* Action Button */}
 												{match.estado === 'programado' && (
 													<button className="px-4 py-2 bg-green-600 text-white rounded-lg hover:bg-green-700 transition-colors">
-														Apostar
+														{t('sports:soccerMatches.bet')}
 													</button>
 												)}
 											</div>
