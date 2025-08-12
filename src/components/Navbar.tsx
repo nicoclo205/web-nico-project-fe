@@ -1,6 +1,6 @@
 import React, { useEffect, useRef, useState } from 'react';
-import { useLocation, useNavigate } from 'react-router-dom';
 import { useTranslation } from 'react-i18next';
+import { useLocation, useNavigate } from 'react-router-dom';
 import LanguageSelector from './LanguageSelector';
 
 const Navbar: React.FC = () => {
@@ -173,6 +173,16 @@ const Navbar: React.FC = () => {
 							>
 								{t('common:rankings', 'Rankings')}
 							</button>
+							<button
+								onClick={() => navigate('/about')}
+								className={`px-3 py-2 rounded-md text-sm font-medium transition-colors ${
+									isActive('/about')
+										? 'bg-gray-800 text-white'
+										: 'text-gray-300 hover:bg-gray-700 hover:text-white'
+								}`}
+							>
+								{t('common:about', 'Acerca de')}
+							</button>
 						</div>
 					</div>
 
@@ -197,7 +207,9 @@ const Navbar: React.FC = () => {
 							onClick={() => setIsMenuOpen(!isMenuOpen)}
 							className="inline-flex items-center justify-center p-2 rounded-md text-gray-400 hover:text-white hover:bg-gray-700 focus:outline-none"
 						>
-							<span className="sr-only">{t('common:openMenu', 'Abrir menú')}</span>
+							<span className="sr-only">
+								{t('common:openMenu', 'Abrir menú')}
+							</span>
 							{isMenuOpen ? (
 								<span className="text-2xl">✖</span>
 							) : (
@@ -268,6 +280,15 @@ const Navbar: React.FC = () => {
 							className="block w-full text-left px-3 py-2 rounded-md text-base font-medium text-gray-300 hover:bg-gray-700 hover:text-white"
 						>
 							{t('common:rankings', 'Rankings')}
+						</button>
+						<button
+							onClick={() => {
+								navigate('/about');
+								setIsMenuOpen(false);
+							}}
+							className="block w-full text-left px-3 py-2 rounded-md text-base font-medium text-gray-300 hover:bg-gray-700 hover:text-white"
+						>
+							{t('common:about', 'Acerca de')}
 						</button>
 					</div>
 					<div className="pt-4 pb-3 border-t border-gray-700">

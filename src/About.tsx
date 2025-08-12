@@ -1,112 +1,237 @@
-import { useNavigate } from "react-router-dom";
+import React from 'react';
+import { useNavigate } from 'react-router-dom';
+import { useTranslation } from 'react-i18next';
 import {
   NavigationMenu,
   NavigationMenuItem,
   NavigationMenuLink,
   NavigationMenuList,
   navigationMenuTriggerStyle
-} from "./components/ui/navigation-menu";
+} from './components/ui/navigation-menu';
 
-function About() {
-
+const About: React.FC = () => {
   const navigate = useNavigate();
+  const { t, i18n } = useTranslation('about');
 
-  const handleLogin = () => {
-    navigate("/login");
-  }
+  const handleNavigation = (path: string) => {
+    navigate(path);
+  };
 
-  const handleAbout = () => {
-    navigate("/about");
-  }
-
-  const handleStart = () => {
-    navigate("/start");
-  }
+  const toggleLanguage = () => {
+    const newLang = i18n.language === 'es' ? 'en' : 'es';
+    i18n.changeLanguage(newLang);
+  };
 
   return (
     <div className="bg-myBlack text-white min-h-screen flex flex-col">
-
-
-      {/* Barra de navegación */}
+      {/* Navigation Header */}
       <header className="w-full p-4 flex flex-col">
-
         <div className="container mx-auto flex justify-between items-center">
-
-          <h1 className="text-2xl font-bold text-myBlue">FriendlyBet</h1>
-                    
-          <NavigationMenu>
-                        
-            <NavigationMenuList>
-
-            <NavigationMenuItem>
-                
-                <NavigationMenuLink 
-                  className={navigationMenuTriggerStyle({ variant: "transparent" })}
-                            onClick={handleStart}>
-                                    Inicio
-                </NavigationMenuLink>
-                            
-              </NavigationMenuItem>
-
-              <NavigationMenuItem>
-                
-                <NavigationMenuLink 
-                  className={navigationMenuTriggerStyle({ variant: "transparent" })}
-                            onClick={handleLogin}>
-                                    Iniciar sesión
-                </NavigationMenuLink>
-                            
-              </NavigationMenuItem>
-                            
-              <NavigationMenuItem>
-
-                <NavigationMenuLink 
-                  className={navigationMenuTriggerStyle({ variant: "transparent" })}
-                            onClick={handleAbout}>
-                                    Acerca de
-                </NavigationMenuLink>
-
-              </NavigationMenuItem>
-
-            </NavigationMenuList>
-
-          </NavigationMenu>
+          <h1 className="text-2xl font-bold text-myBlue cursor-pointer" 
+              onClick={() => handleNavigation('/homepage')}>
+            FriendlyBet
+          </h1>
           
-        </div>
+          <div className="flex items-center gap-4">
+            {/* Language Toggle */}
+            <button
+              onClick={toggleLanguage}
+              className="px-3 py-1 bg-myBlue text-white rounded hover:bg-blue-600 transition-colors"
+            >
+              {i18n.language === 'es' ? 'EN' : 'ES'}
+            </button>
+            
+            <NavigationMenu>
+              <NavigationMenuList>
+                <NavigationMenuItem>
+                  <NavigationMenuLink 
+                    className={navigationMenuTriggerStyle({ variant: "transparent" })}
+                    onClick={() => handleNavigation('/homepage')}>
+                    {t('navigation.home')}
+                  </NavigationMenuLink>
+                </NavigationMenuItem>
 
+                <NavigationMenuItem>
+                  <NavigationMenuLink 
+                    className={navigationMenuTriggerStyle({ variant: "transparent" })}
+                    onClick={() => handleNavigation('/login')}>
+                    {t('navigation.login')}
+                  </NavigationMenuLink>
+                </NavigationMenuItem>
+                            
+                <NavigationMenuItem>
+                  <NavigationMenuLink 
+                    className={navigationMenuTriggerStyle({ variant: "transparent" })}
+                    onClick={() => handleNavigation('/about')}>
+                    {t('navigation.about')}
+                  </NavigationMenuLink>
+                </NavigationMenuItem>
+              </NavigationMenuList>
+            </NavigationMenu>
+          </div>
+        </div>
       </header>
 
+      {/* Main Content */}
+      <main className="flex-grow px-6 lg:px-32 py-8">
+        <div className="max-w-4xl mx-auto">
+          <h1 className="text-4xl font-bold text-center mb-8 text-myBlue">
+            {t('title')}
+          </h1>
 
-      {/* Contenido principal*/}
+          {/* Who We Are Section */}
+          <section className="mb-8">
+            <h2 className="text-3xl font-semibold mb-4 text-myBlue">
+              {t('sections.whoWeAre.title')}
+            </h2>
+            <div className="space-y-4 text-lg leading-relaxed">
+              <p>{t('sections.whoWeAre.description')}</p>
+              <p>{t('sections.whoWeAre.background')}</p>
+              <p>{t('sections.whoWeAre.relationship')}</p>
+            </div>
+          </section>
 
-    <main className="flex flex-col justify-center px-10 lg:px-32 flex-grow">
+          {/* Why We Created This Game */}
+          <section className="mb-8">
+            <h2 className="text-3xl font-semibold mb-4 text-myBlue">
+              {t('sections.whyCreated.title')}
+            </h2>
+            <div className="space-y-4 text-lg leading-relaxed">
+              <p>{t('sections.whyCreated.purpose')}</p>
+              <p>{t('sections.whyCreated.goal')}</p>
+              <p>{t('sections.whyCreated.usage')}</p>
+            </div>
+          </section>
 
-      <h1 className="text-3xl py-5">¿Quiénes somos?</h1>
-      <p>Somos desarrolladores empezando en el mundo del desarrollo web. 
-        Creamos esta aplicación web para practicar y para unir más a amigos y familiares, es para motivos de diversión. </p>
-      
-      <h1 className="text-3xl py-5">¿Cuál es el objetivo de FriendlyBet?</h1>
-      <p>FriendlyBet es una aplicación web que permite a los usuarios crear y gestionar apuestas amistosas entre amigos y familiares. 
-        El objetivo es fomentar la diversión y la interacción social a través de las apuestas.</p>
-      
-      <h1 className="text-3xl py-5">¿Cómo funciona?</h1>
-      <p>Los usuarios pueden registrarse, iniciar sesión y crear apuestas. 
-        También pueden invitar a amigos a unirse a sus apuestas y realizar un seguimiento de los resultados por medio de un ranking.</p>
-      <p>Se puede apostar tanto para un torneo completo como tambien para partidos individuales.</p>
-      <p>¡Crea tus propias reglas! al poder modificar los puntajes de cada estadística y modificar los premios de cada apuesta.</p>
-      
-      <p>¡Diviértete apostando con tus amigos!</p>
-      <p>¡No olvides que es solo un juego!</p>
+          {/* How It Works */}
+          <section className="mb-8">
+            <h2 className="text-3xl font-semibold mb-4 text-myBlue">
+              {t('sections.howItWorks.title')}
+            </h2>
+            <p className="text-lg mb-6 leading-relaxed">
+              {t('sections.howItWorks.description')}
+            </p>
+            
+            <div className="grid md:grid-cols-2 gap-6">
+              <div className="bg-gray-800 p-6 rounded-lg border border-gray-700">
+                <h3 className="font-semibold mb-2 text-myBlue">
+                  {t('sections.howItWorks.steps.step1.title')}
+                </h3>
+                <p className="text-gray-300">
+                  {t('sections.howItWorks.steps.step1.description')}
+                </p>
+              </div>
+              
+              <div className="bg-gray-800 p-6 rounded-lg border border-gray-700">
+                <h3 className="font-semibold mb-2 text-myBlue">
+                  {t('sections.howItWorks.steps.step2.title')}
+                </h3>
+                <p className="text-gray-300">
+                  {t('sections.howItWorks.steps.step2.description')}
+                </p>
+              </div>
+              
+              <div className="bg-gray-800 p-6 rounded-lg border border-gray-700">
+                <h3 className="font-semibold mb-2 text-myBlue">
+                  {t('sections.howItWorks.steps.step3.title')}
+                </h3>
+                <p className="text-gray-300">
+                  {t('sections.howItWorks.steps.step3.description')}
+                </p>
+              </div>
+              
+              <div className="bg-gray-800 p-6 rounded-lg border border-gray-700">
+                <h3 className="font-semibold mb-2 text-myBlue">
+                  {t('sections.howItWorks.steps.step4.title')}
+                </h3>
+                <p className="text-gray-300">
+                  {t('sections.howItWorks.steps.step4.description')}
+                </p>
+              </div>
+            </div>
+          </section>
 
-    </main>
+          {/* Scoring System */}
+          <section className="mb-8">
+            <h2 className="text-3xl font-semibold mb-4 text-myBlue">
+              {t('sections.scoring.title')}
+            </h2>
+            <div className="bg-blue-900/30 p-6 rounded-lg border border-blue-700">
+              <ul className="space-y-2 text-lg">
+                <li><strong>{t('sections.scoring.exactScore')}</strong></li>
+                <li><strong>{t('sections.scoring.correctWinner')}</strong></li>
+                <li><strong>{t('sections.scoring.incorrect')}</strong></li>
+              </ul>
+            </div>
+          </section>
 
-      {/* Pie de página */}
+          {/* Under the Hood */}
+          <section className="mb-8">
+            <h2 className="text-3xl font-semibold mb-4 text-myBlue">
+              {t('sections.underTheHood.title')}
+            </h2>
+            <p className="text-lg mb-4 leading-relaxed">
+              {t('sections.underTheHood.description')}
+            </p>
+            
+            <div className="bg-gray-800 p-6 rounded-lg border border-gray-700 mb-4">
+              <ul className="space-y-2">
+                {(t('sections.underTheHood.technologies', { returnObjects: true }) as string[]).map((tech: string, index: number) => (
+                  <li key={index} className="flex items-center">
+                    <span className="text-myBlue mr-2">•</span>
+                    {tech}
+                  </li>
+                ))}
+              </ul>
+            </div>
+            
+            <div className="space-y-4 text-lg leading-relaxed">
+              <p>{t('sections.underTheHood.futurePlans')}</p>
+              <p>{t('sections.underTheHood.additionalSports')}</p>
+            </div>
+          </section>
+
+          {/* Social Features */}
+          <section className="mb-8">
+            <h2 className="text-3xl font-semibold mb-4 text-myBlue">
+              {t('sections.socialFeatures.title')}
+            </h2>
+            <p className="text-lg leading-relaxed">
+              {t('sections.socialFeatures.description')}
+            </p>
+          </section>
+
+          {/* Join the Game */}
+          <section className="mb-8">
+            <h2 className="text-3xl font-semibold mb-4 text-myBlue">
+              {t('sections.joinGame.title')}
+            </h2>
+            <div className="space-y-4 text-lg leading-relaxed">
+              <p>{t('sections.joinGame.description')}</p>
+              <p>{t('sections.joinGame.feedback')}</p>
+            </div>
+          </section>
+
+          {/* Reminder */}
+          <section className="mb-8 text-center">
+            <div className="bg-green-900/30 p-6 rounded-lg border border-green-700">
+              <p className="text-xl font-semibold mb-2">
+                {t('sections.reminder.fun')}
+              </p>
+              <p className="text-lg">
+                {t('sections.reminder.justGame')}
+              </p>
+            </div>
+          </section>
+        </div>
+      </main>
+
+      {/* Footer */}
       <footer className="w-full p-4 bg-gray-900 text-center mt-5">
-        <p>© 2025 FriendlyBet. Todos los derechos reservados.</p>
+        <p>{t('footer')}</p>
       </footer>
-
     </div>
   );
-}
+};
 
 export default About;
