@@ -198,7 +198,7 @@ function Auth() {
                 variant="login" 
                 size="lg" 
                 radius="full"
-                className="max-w-xs sm:max-w-sm md:w-44 h-12"
+                className="max-w-xs sm:max-w-sm md:w-56 h-11"
                 onClick={handleLoginSubmit}
                 disabled={loading}
               >
@@ -289,7 +289,7 @@ function Auth() {
                 variant="login" 
                 size="lg" 
                 radius="full"
-                className="max-w-xs sm:max-w-sm md:w-44 h-12"
+                className="max-w-xs sm:max-w-sm md:w-56 h-11"
                 onClick={handleRegisterSubmit}
                 disabled={loading}
               >
