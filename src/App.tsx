@@ -8,7 +8,7 @@ import About from './About';
 import SoccerMatches from './pages/SoccerMatches';
 import TennisMatches from './pages/TennisMatches';
 import BasketballMatches from './pages/BasketballMatches';
-// import { ProtectedRoute } from './components/ProtectedRoute';
+import { ProtectedRoute } from './components/ProtectedRoute';
 
 function App() {
 	return (
@@ -32,8 +32,7 @@ function App() {
 					element={<About />}
 				/>
 
-				{/* Protected Routes - Uncomment to require authentication */}
-				{/*
+				{/* Protected Routes */}
 				<Route
 					path="/homepage"
 					element={
@@ -42,16 +41,11 @@ function App() {
 						</ProtectedRoute>
 					}
 				/>
-				*/}
 
-				{/* Temporary: Unprotected routes (remove when ready to protect) */}
+				{/* Old Home route (unprotected) */}
 				<Route
 					path="/Home"
 					element={<Home />}
-				/>
-				<Route
-					path="/homepage"
-					element={<HomePage />}
 				/>
 
 				{/* Sports Matches Routes */}
