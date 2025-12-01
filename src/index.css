@@ -92,5 +92,14 @@
   body {
     @apply bg-background text-foreground;
   }
+
+  /* Ocultar scrollbar globalmente */
+*::-webkit-scrollbar {
+  display: none;
+}
+
+* {
+  scrollbar-width: none;
+}
 }
 
