@@ -1,23 +1,18 @@
 import { useState, useEffect, createContext, useContext, ReactNode } from 'react';
-
-interface User {
-  id: number;
-  nombre_usuario: string;
-  username: string;
-  email: string;
-  [key: string]: any;
-}
+import { authService, User, RegisterData } from '../services/authService';
 
 interface AuthContextType {
   user: User | null;
   loading: boolean;
   error: string | null;
   mensajeErr: string;
+  isAuthenticated: boolean;
   setError: (error: boolean) => void;
   setMensajeErr: (mensaje: string) => void;
   login: (username: string, password: string) => Promise<{ success: boolean }>;
-  register: (userData: any) => Promise<{ success: boolean }>;
+  register: (userData: RegisterData) => Promise<{ success: boolean }>;
   logout: () => Promise<void>;
+  refreshUser: () => Promise<void>;
 }
 
 const AuthContext = createContext<AuthContextType | undefined>(undefined);
@@ -31,37 +26,35 @@ export const AuthProvider = ({ children }: { children: ReactNode }) => {
 
   // Load user on mount if token exists
   useEffect(() => {
-    const fetchUser = async () => {
+    const initializeAuth = async () => {
       try {
         setLoading(true);
-        const token = localStorage.getItem('authToken');
-        if (!token) {
+
+        // Check if user is authenticated
+        if (!authService.isAuthenticated()) {
           setUser(null);
           return;
         }
-        
-        const res = await fetch('/api/usuario/me', {
-          headers: {
-            'Authorization': `Token ${token}`,
-          },
-        });
-        
-        if (res.ok) {
-          const data = await res.json();
-          setUser(data);
+
+        // Validate token and fetch user data
+        const isValid = await authService.validateToken();
+
+        if (isValid) {
+          const userData = authService.getUser();
+          setUser(userData);
         } else {
-          localStorage.removeItem('authToken');
           setUser(null);
         }
       } catch (err) {
-        console.error('Error fetching user:', err);
+        console.error('Error initializing auth:', err);
         setUser(null);
+        authService.clearAuthData();
       } finally {
         setLoading(false);
       }
     };
-    
-    fetchUser();
+
+    initializeAuth();
   }, []);
 
   const login = async (username: string, password: string): Promise<{ success: boolean }> => {
@@ -69,29 +62,16 @@ export const AuthProvider = ({ children }: { children: ReactNode }) => {
       setLoading(true);
       setError(null);
       setMensajeErr('');
-      
-      const res = await fetch('/api/login', {
-        method: 'POST',
-        headers: { 'Content-Type': 'application/json' },
-        body: JSON.stringify({ username, password }),
-      });
-      
-      if (!res.ok) {
-        const errorData = await res.json();
-        throw new Error(errorData.error || 'Credenciales inválidas');
-      }
-      
-      const data = await res.json();
-      
-      // Save token and user data
-      localStorage.setItem('authToken', data.token);
-      localStorage.setItem('user', JSON.stringify(data));
-      setUser(data);
-      
+      setErrorState(false);
+
+      const { user: userData } = await authService.login(username, password);
+      setUser(userData);
+
       return { success: true };
     } catch (err: any) {
-      setError(err.message);
-      setMensajeErr(err.message);
+      const errorMessage = err.message || 'Error al iniciar sesión';
+      setError(errorMessage);
+      setMensajeErr(errorMessage);
       setErrorState(true);
       return { success: false };
     } finally {
@@ -99,27 +79,20 @@ export const AuthProvider = ({ children }: { children: ReactNode }) => {
     }
   };
 
-  const register = async (userData: any): Promise<{ success: boolean }> => {
+  const register = async (userData: RegisterData): Promise<{ success: boolean }> => {
     try {
       setLoading(true);
       setError(null);
       setMensajeErr('');
-      
-      const res = await fetch('/api/usuarios/', {
-        method: 'POST',
-        headers: { 'Content-Type': 'application/json' },
-        body: JSON.stringify(userData),
-      });
-      
-      if (!res.ok) {
-        const errorData = await res.json();
-        throw new Error(errorData.detail || 'Error en el registro');
-      }
-      
+      setErrorState(false);
+
+      await authService.register(userData);
+
       return { success: true };
     } catch (err: any) {
-      setError(err.message);
-      setMensajeErr(err.message);
+      const errorMessage = err.message || 'Error en el registro';
+      setError(errorMessage);
+      setMensajeErr(errorMessage);
       setErrorState(true);
       return { success: false };
     } finally {
@@ -129,36 +102,40 @@ export const AuthProvider = ({ children }: { children: ReactNode }) => {
 
   const logout = async () => {
     try {
-      const token = localStorage.getItem('authToken');
-      if (token) {
-        await fetch('/api/logout', {
-          method: 'POST',
-          headers: {
-            'Authorization': `Token ${token}`,
-          },
-        });
-      }
+      setLoading(true);
+      await authService.logout();
     } catch (err) {
       console.error('Error al cerrar sesión', err);
     } finally {
-      localStorage.removeItem('authToken');
-      localStorage.removeItem('user');
+      setUser(null);
+      setLoading(false);
+    }
+  };
+
+  const refreshUser = async () => {
+    try {
+      const userData = await authService.getCurrentUser();
+      setUser(userData);
+    } catch (err) {
+      console.error('Error refreshing user:', err);
       setUser(null);
     }
   };
 
   return (
-    <AuthContext.Provider 
-      value={{ 
-        user, 
-        loading, 
+    <AuthContext.Provider
+      value={{
+        user,
+        loading,
         error: errorState ? error : null,
         mensajeErr,
+        isAuthenticated: !!user,
         setError: setErrorState,
         setMensajeErr,
-        login, 
+        login,
         register,
-        logout 
+        logout,
+        refreshUser
       }}
     >
       {children}

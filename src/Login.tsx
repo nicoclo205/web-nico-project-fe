@@ -104,7 +104,7 @@ function Auth() {
 
   const handleRegisterSubmit = async (e: React.FormEvent<HTMLButtonElement>) => {
     e.preventDefault();
-    
+
     const userData = {
       name,
       lastName,
@@ -113,10 +113,18 @@ function Auth() {
       email,
       password
     };
-    
+
     const result = await register(userData);
-    
+
     if (result?.success) {
+      // Limpiar los campos del formulario
+      setName("");
+      setLastName("");
+      setUsername("");
+      setPhoneNum("");
+      setEmail("");
+      setPassword("");
+
       // Después de registrarse, cambia a la vista de inicio de sesión
       setIsLoginView(true);
     }
