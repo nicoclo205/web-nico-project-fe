@@ -9,23 +9,32 @@ import SoccerMatches from './pages/SoccerMatches';
 import TennisMatches from './pages/TennisMatches';
 import BasketballMatches from './pages/BasketballMatches';
 import { ProtectedRoute } from './components/ProtectedRoute';
+import { PublicOnlyRoute } from './components/PublicOnlyRoute';
 
 function App() {
 	return (
 		<BrowserRouter>
 			<Routes>
-				{/* Public Routes */}
+				{/* Public only Routes */}
 				<Route
 					path="/start"
-					element={<Start />}
+					element={
+					<PublicOnlyRoute>
+					<Start />
+					</PublicOnlyRoute>}
 				/>
 				<Route
 					path="/login"
-					element={<Login />}
+					element={<PublicOnlyRoute>
+					<Login />
+					</PublicOnlyRoute>}
 				/>
 				<Route
 					path="/"
-					element={<Navigate to="/start" />}
+					element={
+						<PublicOnlyRoute>
+					<Navigate to="/start" />
+					</PublicOnlyRoute>}
 				/>
 				<Route
 					path="/about"
