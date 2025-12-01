@@ -1,5 +1,4 @@
 import React, { useState, useEffect } from 'react';
-import { useNavigate } from 'react-router-dom';
 import { useTranslation } from 'react-i18next';
 import Layout from './components/Layout';
 import SportCard from './components/SportCard';
@@ -33,7 +32,6 @@ interface UserStats {
 }
 
 const HomePage: React.FC = () => {
-	const navigate = useNavigate();
 	const { t } = useTranslation(['home', 'common', 'sports']);
 	const [userRooms, setUserRooms] = useState<Room[]>([]);
 	const [popularRooms, setPopularRooms] = useState<Room[]>([]);

@@ -1,6 +1,6 @@
 // Language API integration utilities
 import i18n from '../i18n';
-import axios from 'axios';
+import axios, { AxiosError, InternalAxiosRequestConfig } from 'axios';
 
 /**
  * Get the current language code
@@ -19,27 +19,33 @@ export const getLanguageHeaders = () => {
 };
 
 /**
- * Enhanced axios instance with language support
+ * Enhanced axios instance with language and authentication support
+ * This is the MAIN API client to be used throughout the application
  */
 const API_BASE_URL = 'http://localhost:8000';
 
 export const apiClient = axios.create({
   baseURL: API_BASE_URL,
   timeout: 10000,
+  headers: {
+    'Content-Type': 'application/json',
+  },
 });
 
-// Add language header to all requests
+// Request interceptor: Add auth token and language headers
 apiClient.interceptors.request.use(
-  (config) => {
+  (config: InternalAxiosRequestConfig) => {
     // Add authentication token if exists
     const token = localStorage.getItem('authToken');
-    if (token) {
+    if (token && config.headers) {
       config.headers.Authorization = `Token ${token}`;
     }
-    
+
     // Add language header
-    config.headers['Accept-Language'] = getCurrentLanguage();
-    
+    if (config.headers) {
+      config.headers['Accept-Language'] = getCurrentLanguage();
+    }
+
     return config;
   },
   (error) => {
@@ -47,16 +53,33 @@ apiClient.interceptors.request.use(
   }
 );
 
-// Response interceptor for error handling
+// Response interceptor: Handle errors and token expiration
 apiClient.interceptors.response.use(
   (response) => response,
-  (error) => {
+  (error: AxiosError) => {
+    // Handle unauthorized (401) - token expired or invalid
     if (error.response?.status === 401) {
-      // Handle unauthorized - redirect to login
+      // Clear auth data
       localStorage.removeItem('authToken');
       localStorage.removeItem('user');
-      window.location.href = '/login';
+
+      // Only redirect if not already on login page
+      if (!window.location.pathname.includes('/login') &&
+          !window.location.pathname.includes('/start')) {
+        window.location.href = '/login';
+      }
     }
+
+    // Handle forbidden (403) - user doesn't have permission
+    if (error.response?.status === 403) {
+      console.error('Acceso denegado: No tienes permisos para esta acción');
+    }
+
+    // Handle server errors (5xx)
+    if (error.response?.status && error.response.status >= 500) {
+      console.error('Error del servidor. Por favor, intenta más tarde.');
+    }
+
     return Promise.reject(error);
   }
 );
@@ -64,9 +87,9 @@ apiClient.interceptors.response.use(
 /**
  * Language change handler for API synchronization
  */
-export const syncLanguageWithAPI = async (newLanguage: string) => {
+export const syncLanguageWithAPI = async (newLanguage: string): Promise<void> => {
   try {
-    // Optionally save user's language preference to backend
+    // Save user's language preference to backend
     const token = localStorage.getItem('authToken');
     if (token) {
       await apiClient.patch('/api/users/me/', {
@@ -75,5 +98,6 @@ export const syncLanguageWithAPI = async (newLanguage: string) => {
     }
   } catch (error) {
     console.warn('Failed to sync language preference with API:', error);
+    // Don't throw - language change should still work locally
   }
 };

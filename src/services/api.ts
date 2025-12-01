@@ -1,40 +1,16 @@
-import axios from 'axios';
+/**
+ * @deprecated This file is deprecated. Use `apiClient` from '../utils/languageApi' instead.
+ *
+ * This export is kept for backwards compatibility but will be removed in a future version.
+ * The new apiClient provides the same functionality plus language support.
+ *
+ * Migration guide:
+ * - Replace: import api from './services/api';
+ * - With: import { apiClient } from './utils/languageApi';
+ * - Usage remains the same: apiClient.get(), apiClient.post(), etc.
+ */
 
-const API_BASE_URL = 'http://localhost:8000';
+import { apiClient } from '../utils/languageApi';
 
-const api = axios.create({
-  baseURL: API_BASE_URL,
-  headers: {
-    'Content-Type': 'application/json',
-  },
-});
-
-// Add token to requests if it exists
-api.interceptors.request.use(
-  (config) => {
-    const token = localStorage.getItem('authToken');
-    if (token) {
-      config.headers.Authorization = `Token ${token}`;
-    }
-    return config;
-  },
-  (error) => {
-    return Promise.reject(error);
-  }
-);
-
-// Handle response errors
-api.interceptors.response.use(
-  (response) => response,
-  (error) => {
-    if (error.response?.status === 401) {
-      // Unauthorized - redirect to login
-      localStorage.removeItem('authToken');
-      localStorage.removeItem('user');
-      window.location.href = '/login';
-    }
-    return Promise.reject(error);
-  }
-);
-
-export default api;
+// Re-export apiClient as default for backwards compatibility
+export default apiClient;
