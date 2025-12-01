@@ -1,5 +1,3 @@
-import axios from 'axios';
-
 /**
  * Convierte cualquier error de API a una única cadena de texto para mostrar al usuario
  * Priorizando el primer error encontrado

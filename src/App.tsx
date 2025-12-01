@@ -8,11 +8,13 @@ import About from './About';
 import SoccerMatches from './pages/SoccerMatches';
 import TennisMatches from './pages/TennisMatches';
 import BasketballMatches from './pages/BasketballMatches';
+// import { ProtectedRoute } from './components/ProtectedRoute';
 
 function App() {
 	return (
 		<BrowserRouter>
 			<Routes>
+				{/* Public Routes */}
 				<Route
 					path="/start"
 					element={<Start />}
@@ -22,20 +24,34 @@ function App() {
 					element={<Login />}
 				/>
 				<Route
-					path="/Home"
-					element={<Home />}
-				/>
-				<Route
-					path="/homepage"
-					element={<HomePage />}
-				/>
-				<Route
 					path="/"
 					element={<Navigate to="/start" />}
 				/>
 				<Route
 					path="/about"
 					element={<About />}
+				/>
+
+				{/* Protected Routes - Uncomment to require authentication */}
+				{/*
+				<Route
+					path="/homepage"
+					element={
+						<ProtectedRoute>
+							<HomePage />
+						</ProtectedRoute>
+					}
+				/>
+				*/}
+
+				{/* Temporary: Unprotected routes (remove when ready to protect) */}
+				<Route
+					path="/Home"
+					element={<Home />}
+				/>
+				<Route
+					path="/homepage"
+					element={<HomePage />}
 				/>
 
 				{/* Sports Matches Routes */}
