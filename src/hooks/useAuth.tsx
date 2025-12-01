@@ -24,26 +24,24 @@ export const AuthProvider = ({ children }: { children: ReactNode }) => {
   const [mensajeErr, setMensajeErr] = useState('');
   const [errorState, setErrorState] = useState(false);
 
-  // Load user on mount if token exists
   useEffect(() => {
     const initializeAuth = async () => {
       try {
         setLoading(true);
 
-        // Check if user is authenticated
-        if (!authService.isAuthenticated()) {
+        const isAuthenticated = authService.isAuthenticated();
+        if (!isAuthenticated) {
           setUser(null);
           return;
         }
 
-        // Validate token and fetch user data
         const isValid = await authService.validateToken();
-
         if (isValid) {
           const userData = authService.getUser();
           setUser(userData);
         } else {
           setUser(null);
+          authService.clearAuthData();
         }
       } catch (err) {
         console.error('Error initializing auth:', err);
@@ -129,7 +127,7 @@ export const AuthProvider = ({ children }: { children: ReactNode }) => {
         loading,
         error: errorState ? error : null,
         mensajeErr,
-        isAuthenticated: !!user,
+        isAuthenticated: !!user, 
         setError: setErrorState,
         setMensajeErr,
         login,
@@ -143,7 +141,6 @@ export const AuthProvider = ({ children }: { children: ReactNode }) => {
   );
 };
 
-// Hook to use auth context
 export const useAuth = () => {
   const context = useContext(AuthContext);
   if (!context) {

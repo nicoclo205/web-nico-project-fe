@@ -28,7 +28,7 @@ const About: React.FC = () => {
       <header className="w-full p-4 flex flex-col">
         <div className="container mx-auto flex justify-between items-center">
           <h1 className="text-2xl font-bold text-myBlue cursor-pointer" 
-              onClick={() => handleNavigation('/homepage')}>
+              onClick={() => handleNavigation('/start')}>
             FriendlyBet
           </h1>
           
@@ -46,7 +46,7 @@ const About: React.FC = () => {
                 <NavigationMenuItem>
                   <NavigationMenuLink 
                     className={navigationMenuTriggerStyle({ variant: "transparent" })}
-                    onClick={() => handleNavigation('/homepage')}>
+                    onClick={() => handleNavigation('/start')}>
                     {t('navigation.home')}
                   </NavigationMenuLink>
                 </NavigationMenuItem>
