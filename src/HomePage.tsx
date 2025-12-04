@@ -17,10 +17,10 @@ const HomePage = () => {
   const userName = user?.nombre_usuario || user?.username || "Usuario";
 
   return (
-    <div className="flex h-screen bg-[#0e0f11] text-white">
+    <div className="flex flex-col lg:flex-row h-screen bg-[#0e0f11] text-white">
 
       {/* Sidebar */}
-      <aside className="w-20 flex flex-col items-center py-6 space-y-8 bg-[#121316]">
+      <aside className="lg:w-20 w-full flex lg:flex-col flex-row items-center justify-around lg:justify-start py-4 lg:py-6 lg:space-y-8 space-x-4 lg:space-x-0 bg-[#121316]">
 
 		{/* Home icon */}
 		<FaHome
@@ -33,7 +33,9 @@ const HomePage = () => {
 				cursor-pointer"/>
 
 
-        <GiSoccerField 
+	{/* Soccer icon */}
+        <GiSoccerField
+		onClick={() => navigate('/soccer-matches')} 
 			className="
 				text-white w-12 h-12
 				p-3
@@ -47,22 +49,22 @@ const HomePage = () => {
       </aside>
 
       {/* Main panel */}
-      <main className="flex-1 p-8 overflow-y-auto">
+      <main className="flex-1 p-4 md:p-8 overflow-y-auto">
 
         {/* Header */}
-        <div className="flex justify-between items-center mb-10">
-          <h1 className="text-3xl font-bold">¡Bienvenido a FriendlyBet, {userName}! </h1>
+        <div className="flex flex-col md:flex-row justify-between items-start md:items-center mb-6 md:mb-10 gap-4">
+          <h1 className="text-xl md:text-2xl lg:text-3xl font-bold">¡Bienvenido a FriendlyBet, {userName}! </h1>
 
-          <div className="flex items-center space-x-4">
-            <span className="text-gray-300">{userName}</span>
-            <div className="w-10 h-10 rounded-full bg-white/20 flex items-center justify-center">
-              <span className="text-xl">{userName.charAt(0).toUpperCase()}</span>
+          <div className="flex items-center space-x-2 md:space-x-4">
+            <span className="text-gray-300 text-sm md:text-base">{userName}</span>
+            <div className="w-8 h-8 md:w-10 md:h-10 rounded-full bg-white/20 flex items-center justify-center">
+              <span className="text-lg md:text-xl">{userName.charAt(0).toUpperCase()}</span>
             </div>
 
             {/* Logout button */}
             <button
               onClick={handleLogout}
-              className="px-4 py-2 bg-red-700 hover:bg-red-400 transition rounded-2xl text-sm"
+              className="px-3 py-1.5 md:px-4 md:py-2 bg-red-700 hover:bg-red-400 transition rounded-2xl text-xs md:text-sm"
             >
               Cerrar sesión
             </button>
@@ -70,27 +72,27 @@ const HomePage = () => {
         </div>
 
         {/* Section header */}
-        <div className="flex justify-between items-center mb-6">
-          <h2 className="text-lg">Juntate con tus amigos y gana</h2>
+        <div className="flex justify-between items-center mb-4 md:mb-6">
+          <h2 className="text-base md:text-lg">Juntate con tus amigos y gana</h2>
         </div>
 
         {/* Search + Filters */}
-        <div className="flex space-x-3 mb-6">
-          <div className="flex items-center bg-white/10 px-4 py-2 rounded-xl flex-1">
-            <FiSearch className="text-gray-400 mr-3" />
+        <div className="flex flex-col sm:flex-row space-y-3 sm:space-y-0 sm:space-x-3 mb-6">
+          <div className="flex items-center bg-white/10 px-3 md:px-4 py-2 rounded-xl flex-1">
+            <FiSearch className="text-gray-400 mr-2 md:mr-3" />
             <input
               type="text"
               placeholder="Search"
-              className="bg-transparent outline-none w-full"
+              className="bg-transparent outline-none w-full text-sm md:text-base"
             />
           </div>
-          <button className="flex items-center bg-white/10 px-4 py-2 rounded-xl">
+          <button className="flex items-center justify-center bg-white/10 px-4 py-2 rounded-xl text-sm md:text-base">
             <FiFilter className="mr-2" /> Filter
           </button>
         </div>
 
         {/* Project cards grid */}
-        <div className="grid grid-cols-1 md:grid-cols-2 gap-6">
+        <div className="grid grid-cols-1 md:grid-cols-2 gap-4 md:gap-6">
 
           {/* Card */}
           <div className="rounded-3xl p-6 bg-gradient-to-br from-[#1f2126] to-[#141518] shadow-xl border border-white/5">
@@ -147,7 +149,7 @@ const HomePage = () => {
       </main>
 
       {/* Right panel */}
-      <aside className="w-96 bg-[#141518] border-l border-white/5 p-6 overflow-y-auto">
+      <aside className="hidden xl:block w-96 bg-[#141518] border-l border-white/5 p-6 overflow-y-auto">
         <h2 className="text-xl font-semibold mb-4">Client Messages</h2>
 
         <div className="space-y-4">
