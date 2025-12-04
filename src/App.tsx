@@ -54,15 +54,24 @@ function App() {
 				{/* Sports Matches Routes */}
 				<Route
 					path="/soccer-matches"
-					element={<SoccerMatches />}
+					element={
+					<ProtectedRoute>
+					<SoccerMatches />
+					</ProtectedRoute>}
 				/>
 				<Route
 					path="/tennis-matches"
-					element={<TennisMatches />}
+					element={
+					<ProtectedRoute>
+					<TennisMatches />
+					</ProtectedRoute>}
 				/>
 				<Route
 					path="/basketball-matches"
-					element={<BasketballMatches />}
+					element={
+					<ProtectedRoute>
+					<BasketballMatches />
+					</ProtectedRoute>}
 				/>
 			</Routes>
 		</BrowserRouter>
