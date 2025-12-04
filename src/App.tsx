@@ -1,7 +1,6 @@
 import './App.css';
 import { BrowserRouter, Routes, Route, Navigate } from 'react-router-dom';
 import Login from './Login';
-import Home from './Home';
 import HomePage from './HomePage';
 import Start from './Start';
 import About from './About';
@@ -51,11 +50,6 @@ function App() {
 					}
 				/>
 
-				{/* Old Home route (unprotected) */}
-				<Route
-					path="/Home"
-					element={<Home />}
-				/>
 
 				{/* Sports Matches Routes */}
 				<Route
