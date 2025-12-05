@@ -12,12 +12,16 @@ export interface LoginResponse {
 }
 
 export interface RegisterData {
-  name: string;
-  lastName: string;
+  nombre: string;
+  apellido: string;
+  nombre_usuario: string;
+  celular: string;
+  correo: string;
+  contrasena: string;
+
   username: string;
-  phoneNum: string;
-  email: string;
   password: string;
+  email: string;
 }
 
 export interface User {
@@ -129,12 +133,16 @@ class AuthService {
   async register(userData: RegisterData): Promise<void> {
     try {
       const response = await apiClient.post('/api/usuarios/', {
-        nombre: userData.name,
-        apellido: userData.lastName,
-        nombre_usuario: userData.username,
-        telefono: userData.phoneNum,
-        email: userData.email,
-        password: userData.password,
+        nombre: userData.nombre,
+        apellido: userData.apellido,
+        nombre_usuario: userData.nombre_usuario,
+        celular: userData.celular,
+        correo: userData.correo,
+        contrasena: userData.contrasena,
+        
+        username: userData.nombre_usuario,
+        password: userData.contrasena,
+        email: userData.correo,
       });
 
       return response.data;

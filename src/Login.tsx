@@ -1,11 +1,11 @@
-import React, { useState } from "react";
-import './index.css';
-import { useNavigate, useLocation } from 'react-router-dom';
-import { useTranslation } from 'react-i18next';
-import MensajeError from "./components/mensajeError";
-import BackButton from "./components/BackButton";
 import { Button } from "@/components/ui/button";
+import React, { useState } from "react";
+import { useTranslation } from 'react-i18next';
+import { useLocation, useNavigate } from 'react-router-dom';
+import BackButton from "./components/BackButton";
+import MensajeError from "./components/mensajeError";
 import { useAuth } from "./hooks/useAuth";
+import './index.css';
 
 function Auth() {
   const navigate = useNavigate();
@@ -106,12 +106,16 @@ function Auth() {
     e.preventDefault();
 
     const userData = {
-      name,
-      lastName,
-      username,
-      phoneNum,
-      email,
-      password
+      nombre: name,
+      apellido: lastName,
+      nombre_usuario: username,
+      celular: phoneNum,
+      correo: email,
+      contrasena: password,
+
+      username: username,
+      password: password,
+      email: email
     };
 
     const result = await register(userData);
