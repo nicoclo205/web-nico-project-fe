@@ -4,18 +4,30 @@ import { FaHome } from "react-icons/fa";
 import { GiSoccerField, GiTennisRacket, GiBasketballBall } from "react-icons/gi";
 import { FiSearch, FiFilter } from "react-icons/fi";
 import { useAuth } from '../hooks/useAuth';
+import { apiService } from '../services/apiService';
 
-interface Team {
-	id_equipo: number;
-	nombre: string;
-	logo?: string;
-	bandera?: string;
-}
-
-interface Competition {
-	id_competencia: number;
-	nombre: string;
-	logo?: string;
+// Backend response interfaces (basadas en el serializer del backend)
+interface BackendMatch {
+	id_partido: number;
+	api_fixture_id: number;
+	id_liga: number;
+	liga_nombre?: string;
+	liga_logo?: string;
+	temporada: string;
+	fecha: string;
+	ronda?: string;
+	equipo_local: number;
+	equipo_local_nombre?: string;
+	equipo_local_logo?: string;
+	equipo_visitante: number;
+	equipo_visitante_nombre?: string;
+	equipo_visitante_logo?: string;
+	goles_local?: number | null;
+	goles_visitante?: number | null;
+	estado: 'programado' | 'en curso' | 'finalizado' | 'cancelado' | 'pospuesto' | 'suspendido';
+	id_venue?: number | null;
+	venue_nombre?: string | null;
+	venue_ciudad?: string | null;
 }
 
 interface League {
@@ -26,19 +38,27 @@ interface League {
 	tipo?: string;
 }
 
+// Frontend display interface
 interface Match {
-	id_partidos: number;
-	equipo_local: Team;
-	equipo_visitante: Team;
-	resultado_local: number;
-	resultado_visitante: number;
-	id_competencia: Competition;
-	fecha_partido: string;
-	estado: 'programado' | 'en curso' | 'finalizado' | 'cancelado';
-	id_escenario?: {
+	id_partido: number;
+	equipo_local: {
+		id_equipo: number;
 		nombre: string;
-		ciudad?: string;
+		logo?: string;
 	};
+	equipo_visitante: {
+		id_equipo: number;
+		nombre: string;
+		logo?: string;
+	};
+	goles_local?: number;
+	goles_visitante?: number;
+	liga_nombre?: string;
+	liga_logo?: string;
+	fecha: string;
+	estado: 'programado' | 'en curso' | 'finalizado' | 'cancelado' | 'pospuesto' | 'suspendido';
+	venue_nombre?: string;
+	venue_ciudad?: string;
 }
 
 const SoccerMatches: React.FC = () => {
@@ -50,6 +70,11 @@ const SoccerMatches: React.FC = () => {
 	const [selectedLeague, setSelectedLeague] = useState<number | 'all'>('all');
 	const [activeTab, setActiveTab] = useState<'upcoming' | 'finished'>('upcoming');
 	const [searchTerm, setSearchTerm] = useState('');
+	const [error, setError] = useState<string | null>(null);
+	const [showFilters, setShowFilters] = useState(false);
+	const [filterEstado, setFilterEstado] = useState<string>('all');
+	const [filterFecha, setFilterFecha] = useState<string>('all');
+	const [displayCount, setDisplayCount] = useState(10); // Mostrar 10 partidos inicialmente
 
 	const userName = user?.nombre_usuario || user?.username || "Usuario";
 
@@ -58,78 +83,78 @@ const SoccerMatches: React.FC = () => {
 		navigate("/login");
 	};
 
-	// TODO: Conectar con tu backend
-	// Ejemplo de función para cargar ligas:
+	// Fetch leagues from backend
 	const fetchLeagues = async () => {
 		try {
 			setLoading(true);
-			// AQUI: Reemplaza con tu endpoint
-			// const response = await api.get('/api/ligas/por_deporte/', {
-			//   params: { deporte_id: 1 }
-			// });
-			// setLeagues(response.data);
+			setError(null);
 
-			// Datos de ejemplo para desarrollo
-			setLeagues([
-				{ id_liga: 1, nombre: 'La Liga', logo_url: 'https://upload.wikimedia.org/wikipedia/commons/thumb/1/13/LaLiga.svg/240px-LaLiga.svg.png', pais_nombre: 'España' },
-				{ id_liga: 2, nombre: 'Premier League', logo_url: 'https://upload.wikimedia.org/wikipedia/en/thumb/f/f2/Premier_League_Logo.svg/240px-Premier_League_Logo.svg.png', pais_nombre: 'Inglaterra' },
-				{ id_liga: 3, nombre: 'Serie A', logo_url: 'https://upload.wikimedia.org/wikipedia/commons/thumb/e/e5/Serie_A_logo_2022.svg/240px-Serie_A_logo_2022.svg.png', pais_nombre: 'Italia' },
-			]);
-		} catch (err) {
+			// Deporte ID 1 = Fútbol (según el backend)
+			const response = await apiService.getLeaguesBySport(1);
+
+			if (response.success && response.data) {
+				setLeagues(response.data);
+			} else {
+				setError(response.error || 'Error al cargar las ligas');
+				console.error('Error fetching leagues:', response.error);
+			}
+		} catch (err: any) {
+			setError(err.message || 'Error al cargar las ligas');
 			console.error('Error fetching leagues:', err);
 		} finally {
 			setLoading(false);
 		}
 	};
 
-	// TODO: Conectar con tu backend
+	// Fetch matches from backend
 	const fetchMatches = async () => {
 		try {
 			setLoading(true);
-			// AQUI: Reemplaza con tu endpoint
-			// if (selectedLeague === 'all') {
-			//   const response = await api.get('/api/partidos/', {
-			//     params: { deporte: 1 }
-			//   });
-			//   setMatches(response.data.results || response.data);
-			// } else {
-			//   const response = await api.get('/api/partidos/por_liga/', {
-			//     params: {
-			//       liga_id: selectedLeague,
-			//       temporada: new Date().getFullYear().toString()
-			//     }
-			//   });
-			//   setMatches(response.data.results || response.data);
-			// }
+			setError(null);
+			let response;
 
-			// Datos de ejemplo para desarrollo
-			const exampleMatches: Match[] = [
-				{
-					id_partidos: 1,
-					equipo_local: { id_equipo: 1, nombre: 'Real Madrid', logo: 'https://upload.wikimedia.org/wikipedia/en/thumb/5/56/Real_Madrid_CF.svg/40px-Real_Madrid_CF.svg.png' },
-					equipo_visitante: { id_equipo: 2, nombre: 'Barcelona', logo: 'https://upload.wikimedia.org/wikipedia/en/thumb/4/47/FC_Barcelona_%28crest%29.svg/40px-FC_Barcelona_%28crest%29.svg.png' },
-					resultado_local: 0,
-					resultado_visitante: 0,
-					id_competencia: { id_competencia: 1, nombre: 'La Liga' },
-					fecha_partido: new Date(Date.now() + 86400000).toISOString(),
-					estado: 'programado',
-					id_escenario: { nombre: 'Santiago Bernabéu', ciudad: 'Madrid' }
-				},
-				{
-					id_partidos: 2,
-					equipo_local: { id_equipo: 3, nombre: 'Atlético Madrid', logo: 'https://upload.wikimedia.org/wikipedia/en/thumb/f/f4/Atletico_Madrid_2017_logo.svg/40px-Atletico_Madrid_2017_logo.svg.png' },
-					equipo_visitante: { id_equipo: 4, nombre: 'Sevilla', logo: 'https://upload.wikimedia.org/wikipedia/en/thumb/3/3b/Sevilla_FC_logo.svg/40px-Sevilla_FC_logo.svg.png' },
-					resultado_local: 2,
-					resultado_visitante: 1,
-					id_competencia: { id_competencia: 1, nombre: 'La Liga' },
-					fecha_partido: new Date(Date.now() - 86400000).toISOString(),
-					estado: 'finalizado',
-					id_escenario: { nombre: 'Wanda Metropolitano', ciudad: 'Madrid' }
-				}
-			];
-			setMatches(exampleMatches);
-		} catch (err) {
+			if (selectedLeague === 'all') {
+				// Fetch all soccer matches
+				response = await apiService.getAllMatches();
+			} else {
+				// Fetch matches by league (sin temporada para obtener todos)
+				response = await apiService.getMatchesByLeague(selectedLeague as number);
+			}
+
+			if (response.success && response.data) {
+				// Transform backend data to frontend format
+				const transformedMatches: Match[] = response.data.map((backendMatch: BackendMatch) => ({
+					id_partido: backendMatch.id_partido,
+					equipo_local: {
+						id_equipo: backendMatch.equipo_local,
+						nombre: backendMatch.equipo_local_nombre || 'Equipo Local',
+						logo: backendMatch.equipo_local_logo
+					},
+					equipo_visitante: {
+						id_equipo: backendMatch.equipo_visitante,
+						nombre: backendMatch.equipo_visitante_nombre || 'Equipo Visitante',
+						logo: backendMatch.equipo_visitante_logo
+					},
+					goles_local: backendMatch.goles_local ?? undefined,
+					goles_visitante: backendMatch.goles_visitante ?? undefined,
+					liga_nombre: backendMatch.liga_nombre,
+					liga_logo: backendMatch.liga_logo,
+					fecha: backendMatch.fecha,
+					estado: backendMatch.estado,
+					venue_nombre: backendMatch.venue_nombre ?? undefined,
+					venue_ciudad: backendMatch.venue_ciudad ?? undefined
+				}));
+
+				setMatches(transformedMatches);
+			} else {
+				setError(response.error || 'Error al cargar los partidos');
+				console.error('Error fetching matches:', response.error);
+				setMatches([]);
+			}
+		} catch (err: any) {
+			setError(err.message || 'Error al cargar los partidos');
 			console.error('Error fetching matches:', err);
+			setMatches([]);
 		} finally {
 			setLoading(false);
 		}
@@ -141,6 +166,7 @@ const SoccerMatches: React.FC = () => {
 
 	useEffect(() => {
 		fetchMatches();
+		setDisplayCount(10); // Reset display count cuando cambia la liga
 	}, [selectedLeague]);
 
 	const filteredMatches = matches.filter((match) => {
@@ -152,8 +178,33 @@ const SoccerMatches: React.FC = () => {
 			match.equipo_local.nombre.toLowerCase().includes(searchTerm.toLowerCase()) ||
 			match.equipo_visitante.nombre.toLowerCase().includes(searchTerm.toLowerCase());
 
-		return matchesTab && matchesSearch;
+		// Filtro por estado
+		const matchesEstado = filterEstado === 'all' || match.estado === filterEstado;
+
+		// Filtro por fecha
+		let matchesFecha = true;
+		if (filterFecha !== 'all') {
+			const today = new Date();
+			const matchDate = new Date(match.fecha);
+
+			if (filterFecha === 'today') {
+				matchesFecha = matchDate.toDateString() === today.toDateString();
+			} else if (filterFecha === 'week') {
+				const nextWeek = new Date(today);
+				nextWeek.setDate(today.getDate() + 7);
+				matchesFecha = matchDate >= today && matchDate <= nextWeek;
+			} else if (filterFecha === 'month') {
+				matchesFecha = matchDate.getMonth() === today.getMonth() &&
+							   matchDate.getFullYear() === today.getFullYear();
+			}
+		}
+
+		return matchesTab && matchesSearch && matchesEstado && matchesFecha;
 	});
+
+	// Partidos a mostrar (paginados)
+	const displayedMatches = filteredMatches.slice(0, displayCount);
+	const hasMoreMatches = filteredMatches.length > displayCount;
 
 	return (
 		<div className="flex flex-col lg:flex-row h-screen bg-[#0e0f11] text-white">
@@ -237,6 +288,13 @@ const SoccerMatches: React.FC = () => {
 					</div>
 				</div>
 
+				{/* Error Display */}
+				{error && (
+					<div className="mb-6 p-4 bg-red-500/20 border border-red-500 rounded-xl">
+						<p className="text-red-200 text-sm">{error}</p>
+					</div>
+				)}
+
 				{/* League Selector */}
 				<div className="mb-6">
 					<h2 className="text-base md:text-lg font-semibold mb-4">Selecciona una Liga</h2>
@@ -314,10 +372,68 @@ const SoccerMatches: React.FC = () => {
 							className="bg-transparent outline-none w-full text-sm md:text-base"
 						/>
 					</div>
-					<button className="flex items-center justify-center bg-white/10 px-4 py-2 rounded-xl text-sm md:text-base hover:bg-white/20 transition">
+					<button
+						onClick={() => setShowFilters(!showFilters)}
+						className={`flex items-center justify-center px-4 py-2 rounded-xl text-sm md:text-base transition ${
+							showFilters ? 'bg-green-600' : 'bg-white/10 hover:bg-white/20'
+						}`}
+					>
 						<FiFilter className="mr-2" /> Filtros
 					</button>
 				</div>
+
+				{/* Filters Panel */}
+				{showFilters && (
+					<div className="mb-6 p-4 bg-white/5 rounded-xl border border-white/10">
+						<div className="grid grid-cols-1 md:grid-cols-2 gap-4">
+							{/* Filter by Estado */}
+							<div>
+								<label className="block text-sm font-medium text-gray-300 mb-2">Estado del Partido</label>
+								<select
+									value={filterEstado}
+									onChange={(e) => setFilterEstado(e.target.value)}
+									className="w-full bg-white/10 border border-white/20 rounded-lg px-3 py-2 text-sm focus:outline-none focus:ring-2 focus:ring-green-500"
+								>
+									<option value="all" className=' bg-slate-800'>Todos</option>
+									<option value="programado" className=' bg-slate-800'>Programados</option>
+									<option value="en curso" className='  bg-slate-800'>En Curso</option>
+									<option value="finalizado" className='  bg-slate-800'>Finalizados</option>
+									<option value="pospuesto" className='  bg-slate-800'>Pospuestos</option>
+									<option value="suspendido" className='  bg-slate-800'>Suspendidos</option>
+									<option value="cancelado" className='  bg-slate-800'>Cancelados</option>
+								</select>
+							</div>
+
+							{/* Filter by Fecha */}
+							<div>
+								<label className="block text-sm font-medium text-gray-300 mb-2">Período</label>
+								<select
+									value={filterFecha}
+									onChange={(e) => setFilterFecha(e.target.value)}
+									className="w-full bg-white/10 border border-white/20 rounded-lg px-3 py-2 text-sm focus:outline-none focus:ring-2 focus:ring-green-500"
+								>
+									<option value="all" className='  bg-slate-800'>Todas las fechas</option>
+									<option value="today" className='  bg-slate-800'>Hoy</option>
+									<option value="week" className='  bg-slate-800'>Esta semana</option>
+									<option value="month" className='  bg-slate-800'>Este mes</option>
+								</select>
+							</div>
+						</div>
+
+						{/* Reset Filters Button */}
+						<div className="mt-4 flex justify-end">
+							<button
+								onClick={() => {
+									setFilterEstado('all');
+									setFilterFecha('all');
+								}}
+								className="px-4 py-2 bg-white/10 hover:bg-white/20 rounded-lg text-sm transition"
+							>
+								Limpiar filtros
+							</button>
+						</div>
+					</div>
+				)}
 
 				{/* Matches Grid */}
 				{loading ? (
@@ -325,19 +441,20 @@ const SoccerMatches: React.FC = () => {
 						<div className="animate-spin rounded-full h-12 w-12 border-b-2 border-green-500"></div>
 					</div>
 				) : (
-					<div className="grid grid-cols-1 gap-4 md:gap-6">
-						{filteredMatches.length === 0 ? (
-							<div className="text-center py-12 bg-gradient-to-br from-[#1f2126] to-[#141518] rounded-3xl border border-white/5">
-								<span className="text-6xl mb-4 block">🔍</span>
-								<p className="text-gray-400 text-lg">
-									{activeTab === 'upcoming' ? 'No hay partidos próximos' : 'No hay partidos finalizados'}
-								</p>
-							</div>
-						) : (
-							filteredMatches.map((match) => (
+					<>
+						<div className="grid grid-cols-1 gap-4 md:gap-6">
+							{displayedMatches.length === 0 ? (
+								<div className="text-center py-12 bg-gradient-to-br from-[#1f2126] to-[#141518] rounded-3xl border border-white/5">
+									<span className="text-6xl mb-4 block">🔍</span>
+									<p className="text-gray-400 text-lg">
+										{activeTab === 'upcoming' ? 'No hay partidos próximos' : 'No hay partidos finalizados'}
+									</p>
+								</div>
+							) : (
+								displayedMatches.map((match) => (
 								<div
-									key={match.id_partidos}
-									onClick={() => match.estado === 'programado' && navigate(`/bet/${match.id_partidos}`)}
+									key={match.id_partido}
+									onClick={() => match.estado === 'programado' && navigate(`/bet/${match.id_partido}`)}
 									className={`rounded-3xl p-4 md:p-6 bg-gradient-to-br from-[#1f2126] to-[#141518] shadow-xl border border-white/5 transition-all ${
 										match.estado === 'programado' ? 'cursor-pointer hover:scale-[1.02] hover:border-green-500/50' : ''
 									}`}
@@ -345,23 +462,30 @@ const SoccerMatches: React.FC = () => {
 									{/* Match Header */}
 									<div className="flex flex-col sm:flex-row justify-between items-start sm:items-center mb-4 gap-2">
 										<div className="flex items-center gap-2">
-											{match.id_competencia?.logo && (
+											{match.liga_logo && (
 												<img
-													src={match.id_competencia.logo}
-													alt={match.id_competencia.nombre}
+													src={match.liga_logo}
+													alt={match.liga_nombre || 'Partido'}
 													className="w-5 h-5 object-contain"
+													onError={(e) => {
+														e.currentTarget.style.display = 'none';
+													}}
 												/>
 											)}
-											<span className="text-xs md:text-sm text-gray-400">{match.id_competencia?.nombre}</span>
+											<span className="text-xs md:text-sm text-gray-400">{match.liga_nombre || 'Liga'}</span>
 										</div>
 										<span className={`px-3 py-1 text-xs font-semibold rounded-full ${
 											match.estado === 'programado' ? 'bg-blue-500' :
 											match.estado === 'en curso' ? 'bg-red-500 animate-pulse' :
-											match.estado === 'finalizado' ? 'bg-gray-500' : 'bg-red-700'
+											match.estado === 'finalizado' ? 'bg-gray-500' :
+											match.estado === 'pospuesto' ? 'bg-yellow-500' :
+											match.estado === 'suspendido' ? 'bg-orange-500' : 'bg-red-700'
 										}`}>
 											{match.estado === 'programado' ? 'Programado' :
 											 match.estado === 'en curso' ? 'En vivo' :
-											 match.estado === 'finalizado' ? 'Finalizado' : 'Cancelado'}
+											 match.estado === 'finalizado' ? 'Finalizado' :
+											 match.estado === 'pospuesto' ? 'Pospuesto' :
+											 match.estado === 'suspendido' ? 'Suspendido' : 'Cancelado'}
 										</span>
 									</div>
 
@@ -370,33 +494,57 @@ const SoccerMatches: React.FC = () => {
 										{/* Home Team */}
 										<div className="flex items-center gap-3 flex-1 justify-end w-full">
 											<span className="text-base md:text-lg font-medium text-right">{match.equipo_local.nombre}</span>
-											{match.equipo_local.logo && (
+											{match.equipo_local.logo ? (
 												<img
 													src={match.equipo_local.logo}
 													alt={match.equipo_local.nombre}
 													className="w-10 h-10 md:w-12 md:h-12 object-contain"
+													onError={(e) => {
+														// Fallback to icon if image fails to load
+														e.currentTarget.style.display = 'none';
+														const parent = e.currentTarget.parentElement;
+														if (parent) {
+															const fallback = document.createElement('div');
+															fallback.className = 'w-10 h-10 md:w-12 md:h-12 rounded-full bg-white/10 flex items-center justify-center text-2xl';
+															fallback.textContent = '⚽';
+															parent.appendChild(fallback);
+														}
+													}}
 												/>
+											) : (
+												<div className="w-10 h-10 md:w-12 md:h-12 rounded-full bg-white/10 flex items-center justify-center text-2xl">
+													⚽
+												</div>
 											)}
 										</div>
 
 										{/* Score or Time */}
 										<div className="text-center px-4">
 											{match.estado === 'finalizado' ? (
-												<div className="flex items-center gap-2 text-xl md:text-2xl font-bold">
-													<span>{match.resultado_local}</span>
-													<span className="text-gray-500">-</span>
-													<span>{match.resultado_visitante}</span>
+												<div>
+													<div className="flex items-center gap-2 text-xl md:text-2xl font-bold mb-1">
+														<span>{match.goles_local ?? 0}</span>
+														<span className="text-gray-500">-</span>
+														<span>{match.goles_visitante ?? 0}</span>
+													</div>
+													<div className="text-xs text-gray-500">
+														{new Date(match.fecha).toLocaleDateString('es-ES', {
+															day: '2-digit',
+															month: 'short',
+															year: 'numeric'
+														})}
+													</div>
 												</div>
 											) : (
 												<div className="text-gray-400">
 													<div className="text-base md:text-lg font-medium">
-														{new Date(match.fecha_partido).toLocaleTimeString('es-ES', {
+														{new Date(match.fecha).toLocaleTimeString('es-ES', {
 															hour: '2-digit',
 															minute: '2-digit',
 														})}
 													</div>
 													<div className="text-xs text-gray-500">
-														{new Date(match.fecha_partido).toLocaleDateString('es-ES')}
+														{new Date(match.fecha).toLocaleDateString('es-ES')}
 													</div>
 												</div>
 											)}
@@ -404,37 +552,59 @@ const SoccerMatches: React.FC = () => {
 
 										{/* Away Team */}
 										<div className="flex items-center gap-3 flex-1 w-full">
-											{match.equipo_visitante.logo && (
+											{match.equipo_visitante.logo ? (
 												<img
 													src={match.equipo_visitante.logo}
 													alt={match.equipo_visitante.nombre}
 													className="w-10 h-10 md:w-12 md:h-12 object-contain"
+													onError={(e) => {
+														// Fallback to icon if image fails to load
+														e.currentTarget.style.display = 'none';
+														const parent = e.currentTarget.parentElement;
+														if (parent) {
+															const fallback = document.createElement('div');
+															fallback.className = 'w-10 h-10 md:w-12 md:h-12 rounded-full bg-white/10 flex items-center justify-center text-2xl';
+															fallback.textContent = '⚽';
+															parent.appendChild(fallback);
+														}
+													}}
 												/>
+											) : (
+												<div className="w-10 h-10 md:w-12 md:h-12 rounded-full bg-white/10 flex items-center justify-center text-2xl">
+													⚽
+												</div>
 											)}
 											<span className="text-base md:text-lg font-medium">{match.equipo_visitante.nombre}</span>
 										</div>
 									</div>
 
 									{/* Stadium Info */}
-									{match.id_escenario && (
+									{match.venue_nombre && (
 										<div className="text-center mt-3 text-xs md:text-sm text-gray-500">
-											📍 {match.id_escenario.nombre}
-											{match.id_escenario.ciudad && `, ${match.id_escenario.ciudad}`}
-										</div>
-									)}
-
-									{/* Action Button */}
-									{match.estado === 'programado' && (
-										<div className="mt-4">
-											<button className="w-full py-2 bg-green-600 text-white rounded-xl hover:bg-green-700 transition-colors text-sm md:text-base font-medium">
-												Apostar ahora
-											</button>
+											📍 {match.venue_nombre}
+											{match.venue_ciudad && `, ${match.venue_ciudad}`}
 										</div>
 									)}
 								</div>
 							))
 						)}
 					</div>
+
+					{/* Ver más button */}
+					{hasMoreMatches && (
+						<div className="flex justify-center mt-8">
+							<button
+								onClick={() => setDisplayCount(prev => prev + 10)}
+								className="px-6 py-3 bg-green-600 hover:bg-green-700 text-white rounded-xl transition-all font-medium flex items-center gap-2"
+							>
+								Ver más partidos
+								<svg xmlns="http://www.w3.org/2000/svg" className="h-5 w-5" viewBox="0 0 20 20" fill="currentColor">
+									<path fillRule="evenodd" d="M5.293 7.293a1 1 0 011.414 0L10 10.586l3.293-3.293a1 1 0 111.414 1.414l-4 4a1 1 0 01-1.414 0l-4-4a1 1 0 010-1.414z" clipRule="evenodd" />
+								</svg>
+							</button>
+						</div>
+					)}
+				</>
 				)}
 			</main>
 
@@ -450,7 +620,7 @@ const SoccerMatches: React.FC = () => {
 							<span className="text-2xl font-bold text-green-400">
 								{filteredMatches.filter(m => {
 									const today = new Date().toDateString();
-									return new Date(m.fecha_partido).toDateString() === today;
+									return new Date(m.fecha).toDateString() === today;
 								}).length}
 							</span>
 						</div>

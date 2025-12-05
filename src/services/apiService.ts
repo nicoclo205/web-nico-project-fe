@@ -84,7 +84,7 @@ class ApiService {
   async getUserStats(): Promise<ApiResponse<any>> {
     try {
       const response = await apiClient.get('/api/usuarios/me/stats/');
-      
+
       return {
         success: true,
         data: response.data,
@@ -93,6 +93,64 @@ class ApiService {
       return {
         success: false,
         error: error.response?.data?.detail || 'Failed to fetch user stats',
+      };
+    }
+  }
+
+  // Get leagues by sport
+  async getLeaguesBySport(deporteId: number): Promise<ApiResponse<any[]>> {
+    try {
+      const response = await apiClient.get('/api/ligas/por_deporte/', {
+        params: { deporte_id: deporteId }
+      });
+
+      return {
+        success: true,
+        data: response.data,
+      };
+    } catch (error: any) {
+      return {
+        success: false,
+        error: error.response?.data?.detail || 'Failed to fetch leagues',
+      };
+    }
+  }
+
+  // Get matches by league
+  async getMatchesByLeague(ligaId: number, temporada?: string): Promise<ApiResponse<any[]>> {
+    try {
+      const params: any = { liga_id: ligaId };
+      if (temporada) {
+        params.temporada = temporada;
+      }
+
+      const response = await apiClient.get('/api/partidos/por_liga/', { params });
+
+      return {
+        success: true,
+        data: response.data,
+      };
+    } catch (error: any) {
+      return {
+        success: false,
+        error: error.response?.data?.detail || 'Failed to fetch matches by league',
+      };
+    }
+  }
+
+  // Get all matches (soccer)
+  async getAllMatches(): Promise<ApiResponse<any[]>> {
+    try {
+      const response = await apiClient.get('/api/partidos/');
+
+      return {
+        success: true,
+        data: response.data,
+      };
+    } catch (error: any) {
+      return {
+        success: false,
+        error: error.response?.data?.detail || 'Failed to fetch all matches',
       };
     }
   }
