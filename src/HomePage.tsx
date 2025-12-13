@@ -1,4 +1,3 @@
-import { FiSearch, FiFilter } from "react-icons/fi";
 import { FaHome } from "react-icons/fa";
 import { GiSoccerField } from "react-icons/gi";
 import { MdMeetingRoom } from "react-icons/md";
@@ -83,108 +82,69 @@ const HomePage = () => {
 
         {/* Section header */}
         <div className="flex justify-between items-center mb-4 md:mb-6">
-          <h2 className="text-base md:text-lg">Juntate con tus amigos y gana</h2>
+          <h2 className="text-base md:text-lg">Accesos Rápidos</h2>
         </div>
 
-        {/* Search + Filters */}
-        <div className="flex flex-col sm:flex-row space-y-3 sm:space-y-0 sm:space-x-3 mb-6">
-          <div className="flex items-center bg-white/10 px-3 md:px-4 py-2 rounded-xl flex-1">
-            <FiSearch className="text-gray-400 mr-2 md:mr-3" />
-            <input
-              type="text"
-              placeholder="Search"
-              className="bg-transparent outline-none w-full text-sm md:text-base"
-            />
-          </div>
-          <button className="btn-secondary btn-icon">
-            <FiFilter /> Filter
-          </button>
-        </div>
-
-        {/* Project cards grid */}
+        {/* Quick Access Cards */}
         <div className="grid grid-cols-1 md:grid-cols-2 gap-4 md:gap-6">
 
-          {/* Card */}
-          <div className="rounded-3xl p-6 bg-gradient-to-br from-[#1f2126] to-[#141518] shadow-xl border border-white/5">
-            <p className="text-sm text-gray-400 mb-2">Feb 2, 2021</p>
-            <h3 className="text-xl font-bold">Web Designing</h3>
-            <p className="text-sm text-gray-400">Prototyping</p>
-
-            <div className="mt-4 bg-white/10 h-2 rounded-full">
-              <div className="h-full bg-green-400 rounded-full w-[90%]" />
-            </div>
-
-            <p className="text-sm text-gray-400 mt-3">2 days left</p>
+          {/* Soccer Matches Card */}
+          <div
+            onClick={() => navigate('/soccer-matches')}
+            className="rounded-3xl p-6 bg-gradient-to-br from-[#1f2126] to-[#141518] shadow-xl border border-white/5 hover:scale-[1.02] transition-all cursor-pointer"
+          >
+            <h3 className="text-xl font-bold mb-2">Partidos de Fútbol</h3>
+            <p className="text-sm text-gray-400 mb-4">Ver y apostar</p>
+            <p className="text-sm text-gray-300">
+              Explora los próximos partidos de fútbol y finalizados. Apuesta en tus equipos favoritos de La Liga y otras competiciones.
+            </p>
           </div>
 
-          {/* Card 2 */}
-          <div className="rounded-3xl p-6 bg-gradient-to-br from-[#262420] to-[#141414] shadow-xl border border-white/5">
-            <p className="text-sm text-gray-400 mb-2">Feb 05, 2021</p>
-            <h3 className="text-xl font-bold">Mobile App</h3>
-            <p className="text-sm text-gray-400">Shopping</p>
-
-            <div className="mt-4 bg-white/10 h-2 rounded-full">
-              <div className="h-full bg-yellow-400 rounded-full w-[30%]" />
-            </div>
-
-            <p className="text-sm text-gray-400 mt-3">3 weeks left</p>
+          {/* Rooms Card */}
+          <div
+            onClick={() => navigate('/rooms')}
+            className="rounded-3xl p-6 bg-gradient-to-br from-[#262420] to-[#141414] shadow-xl border border-white/5 hover:scale-[1.02] transition-all cursor-pointer"
+          >
+            <h3 className="text-xl font-bold mb-2">Salas de Apuestas</h3>
+            <p className="text-sm text-gray-400 mb-4">Crear o unirse</p>
+            <p className="text-sm text-gray-300">
+              Crea tus propias salas privadas o únete a salas existentes. Compite con amigos en apuestas grupales.
+            </p>
           </div>
 
-          {/* Card 3 */}
-          <div className="rounded-3xl p-6 bg-gradient-to-br from-[#241f26] to-[#141417] shadow-xl border border-white/5">
-            <p className="text-sm text-gray-400 mb-2">March 03, 2021</p>
-            <h3 className="text-xl font-bold">Dashboard</h3>
-            <p className="text-sm text-gray-400">Medical</p>
-
-            <div className="mt-4 bg-white/10 h-2 rounded-full">
-              <div className="h-full bg-blue-400 rounded-full w-[50%]" />
-            </div>
-
-            <p className="text-sm text-gray-400 mt-3">2 weeks left</p>
+          {/* Tennis Card */}
+          <div
+            onClick={() => navigate('/tennis-matches')}
+            className="rounded-3xl p-6 bg-gradient-to-br from-[#241f26] to-[#141417] shadow-xl border border-white/5 hover:scale-[1.02] transition-all cursor-pointer"
+          >
+            <h3 className="text-xl font-bold mb-2">Tenis</h3>
+            <p className="text-sm text-gray-400 mb-4">Próximamente</p>
+            <p className="text-sm text-gray-300">
+              Encuentra los mejores partidos de tenis y realiza tus apuestas en los torneos más importantes.
+            </p>
           </div>
 
-          {/* Card 4 */}
-          <div className="rounded-3xl p-6 bg-gradient-to-br from-[#1f2633] to-[#141518] shadow-xl border border-white/5">
-            <p className="text-sm text-gray-400 mb-2">March 08, 2021</p>
-            <h3 className="text-xl font-bold">Web Designing</h3>
-            <p className="text-sm text-gray-400">Wireframing</p>
-
-            <div className="mt-4 bg-white/10 h-2 rounded-full">
-              <div className="h-full bg-cyan-400 rounded-full w-[20%]" />
-            </div>
-
-            <p className="text-sm text-gray-400 mt-3">1 week left</p>
+          {/* Basketball Card */}
+          <div
+            onClick={() => navigate('/basketball-matches')}
+            className="rounded-3xl p-6 bg-gradient-to-br from-[#1f2633] to-[#141518] shadow-xl border border-white/5 hover:scale-[1.02] transition-all cursor-pointer"
+          >
+            <h3 className="text-xl font-bold mb-2">Baloncesto</h3>
+            <p className="text-sm text-gray-400 mb-4">Próximamente</p>
+            <p className="text-sm text-gray-300">
+              Apuesta en los mejores partidos de baloncesto de la NBA, Euroliga y más competiciones internacionales.
+            </p>
           </div>
         </div>
       </main>
 
-      {/* Right panel */}
-      <aside className="hidden xl:block w-96 bg-[#141518] border-l border-white/5 p-6 overflow-y-auto">
-        <h2 className="text-xl font-semibold mb-4">Client Messages</h2>
-
-        <div className="space-y-4">
-
-          <div className="flex items-start space-x-3 p-4 bg-white/5 rounded-2xl">
-            <div className="w-10 h-10 rounded-full bg-white/20" />
-            <div>
-              <p className="font-semibold">David</p>
-              <p className="text-gray-400 text-sm">
-                Hey tell me about progress of project?
-              </p>
-              <span className="text-xs text-gray-500">21 July</span>
-            </div>
-          </div>
-
-          <div className="flex items-start space-x-3 p-4 bg-[#00c896]/20 rounded-2xl border border-green-500/30">
-            <div className="w-10 h-10 rounded-full bg-green-500" />
-            <div>
-              <p className="font-semibold">Stephanie</p>
-              <p className="text-gray-300 text-sm">
-                I got your first assignment. It was good!
-              </p>
-              <span className="text-xs text-gray-500">19 July</span>
-            </div>
-          </div>
+      {/* Right sidebar - Future chat/notifications */}
+      <aside className="hidden xl:block w-80 bg-[#141518] border-l border-white/5 p-6">
+        <h2 className="text-xl font-semibold mb-4">Próximamente</h2>
+        <div className="text-center py-12">
+          <p className="text-gray-400 text-sm">
+            Esta sección estará disponible pronto para chats, notificaciones y más funcionalidades.
+          </p>
         </div>
       </aside>
     </div>

@@ -2,7 +2,7 @@ import React, { useState } from 'react';
 import { useNavigate } from 'react-router-dom';
 import { FaHome } from "react-icons/fa";
 import { GiSoccerField, GiTennisRacket, GiBasketballBall } from "react-icons/gi";
-import { FiSearch, FiFilter, FiPlus, FiUsers, FiLock, FiUnlock } from "react-icons/fi";
+import { FiSearch, FiPlus, FiUsers, FiLock, FiUnlock } from "react-icons/fi";
 import { MdMeetingRoom } from "react-icons/md";
 import { useAuth } from '../hooks/useAuth';
 import { useRoom } from '../hooks/useRoom';
@@ -21,7 +21,6 @@ const Rooms: React.FC = () => {
 	} = useRoom();
 
 	const [searchTerm, setSearchTerm] = useState('');
-	const [showFilters, setShowFilters] = useState(false);
 	const [showCreateModal, setShowCreateModal] = useState(false);
 	const [showJoinModal, setShowJoinModal] = useState(false);
 	const [filterType, setFilterType] = useState<'all' | 'my'>('my');
@@ -234,24 +233,16 @@ const Rooms: React.FC = () => {
 					</button>
 				</div>
 
-				{/* Search + Filters */}
-				<div className="flex flex-col sm:flex-row space-y-3 sm:space-y-0 sm:space-x-3 mb-6">
-					<div className="flex items-center bg-white/10 px-3 md:px-4 py-2 rounded-xl flex-1">
-						<FiSearch className="text-gray-400 mr-2 md:mr-3" />
-						<input
-							type="text"
-							placeholder="Buscar salas..."
-							value={searchTerm}
-							onChange={(e) => setSearchTerm(e.target.value)}
-							className="bg-transparent outline-none w-full text-sm md:text-base"
-						/>
-					</div>
-					<button
-						onClick={() => setShowFilters(!showFilters)}
-						className={`btn-icon ${showFilters ? 'btn-primary' : 'btn-secondary'}`}
-					>
-						<FiFilter /> Filtros
-					</button>
+				{/* Search */}
+				<div className="flex items-center bg-white/10 px-3 md:px-4 py-2 rounded-xl mb-6">
+					<FiSearch className="text-gray-400 mr-2 md:mr-3" />
+					<input
+						type="text"
+						placeholder="Buscar salas..."
+						value={searchTerm}
+						onChange={(e) => setSearchTerm(e.target.value)}
+						className="bg-transparent outline-none w-full text-sm md:text-base"
+					/>
 				</div>
 
 				{/* Rooms Grid */}

@@ -140,13 +140,23 @@ const SoccerMatches: React.FC = () => {
 				// Fetch all soccer matches
 				response = await apiService.getAllMatches();
 			} else {
-				// Fetch matches by league (sin temporada para obtener todos)
-				response = await apiService.getMatchesByLeague(selectedLeague as number);
+				// Buscar la liga seleccionada
+				const selectedLeagueData = leagues.find(l => l.id_liga === selectedLeague);
+
+				// Si es "La Liga", obtener TODOS los partidos y filtrar por nombre de liga
+				if (selectedLeagueData &&
+					(selectedLeagueData.nombre === 'La Liga' || selectedLeagueData.nombre.toLowerCase().includes('la liga'))) {
+					// Obtener todos los partidos y filtrarlos en el frontend
+					response = await apiService.getAllMatches();
+				} else {
+					// Para otras ligas, usar el endpoint normal
+					response = await apiService.getMatchesByLeague(selectedLeague as number);
+				}
 			}
 
 			if (response.success && response.data) {
 				// Transform backend data to frontend format
-				const transformedMatches: Match[] = response.data.map((backendMatch: BackendMatch) => ({
+				let transformedMatches: Match[] = response.data.map((backendMatch: BackendMatch) => ({
 					id_partido: backendMatch.id_partido,
 					equipo_local: {
 						id_equipo: backendMatch.equipo_local,
@@ -167,6 +177,16 @@ const SoccerMatches: React.FC = () => {
 					venue_nombre: backendMatch.venue_nombre ?? undefined,
 					venue_ciudad: backendMatch.venue_ciudad ?? undefined
 				}));
+
+				// Si se seleccionó "La Liga", filtrar solo partidos de La Liga
+				const selectedLeagueData = leagues.find(l => l.id_liga === selectedLeague);
+				if (selectedLeague !== 'all' && selectedLeagueData &&
+					(selectedLeagueData.nombre === 'La Liga' || selectedLeagueData.nombre.toLowerCase().includes('la liga'))) {
+					transformedMatches = transformedMatches.filter(match =>
+						match.liga_nombre === 'La Liga' ||
+						(match.liga_nombre && match.liga_nombre.toLowerCase().includes('la liga'))
+					);
+				}
 
 				setMatches(transformedMatches);
 			} else {
