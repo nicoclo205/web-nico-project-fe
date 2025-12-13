@@ -7,6 +7,7 @@ import About from './About';
 import SoccerMatches from './pages/SoccerMatches';
 import TennisMatches from './pages/TennisMatches';
 import BasketballMatches from './pages/BasketballMatches';
+import Rooms from './pages/Rooms';
 import { ProtectedRoute } from './components/ProtectedRoute';
 import { PublicOnlyRoute } from './components/PublicOnlyRoute';
 
@@ -71,6 +72,15 @@ function App() {
 					element={
 					<ProtectedRoute>
 					<BasketballMatches />
+					</ProtectedRoute>}
+				/>
+
+				{/* Rooms Route */}
+				<Route
+					path="/rooms"
+					element={
+					<ProtectedRoute>
+					<Rooms />
 					</ProtectedRoute>}
 				/>
 			</Routes>

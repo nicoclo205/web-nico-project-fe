@@ -1,6 +1,7 @@
 import { FiSearch, FiFilter } from "react-icons/fi";
 import { FaHome } from "react-icons/fa";
 import { GiSoccerField } from "react-icons/gi";
+import { MdMeetingRoom } from "react-icons/md";
 import { useAuth } from "./hooks/useAuth";
 import { useNavigate } from "react-router-dom";
 
@@ -34,7 +35,7 @@ const HomePage = () => {
 
 	{/* Soccer icon */}
         <GiSoccerField
-		onClick={() => navigate('/soccer-matches')} 
+		onClick={() => navigate('/soccer-matches')}
 			className="
 				text-white w-12 h-12
 				p-3
@@ -43,7 +44,17 @@ const HomePage = () => {
 				transition-all duration-200 ease-in-out
 				cursor-pointer"/>
 
-        <div className="w-12 h-12 bg-white/10 rounded-2xl" />
+        {/* Rooms icon */}
+        <MdMeetingRoom
+		onClick={() => navigate('/rooms')}
+			className="
+				text-white w-12 h-12
+				p-3
+				rounded-2xl
+				hover:bg-white/10
+				transition-all duration-200 ease-in-out
+				cursor-pointer"/>
+
         <div className="w-12 h-12 bg-white/10 rounded-2xl" />
       </aside>
 

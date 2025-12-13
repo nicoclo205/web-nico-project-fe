@@ -2,6 +2,7 @@ import React, { useEffect, useState } from 'react';
 import { useNavigate } from 'react-router-dom';
 import { FaHome } from "react-icons/fa";
 import { GiSoccerField, GiTennisRacket, GiBasketballBall } from "react-icons/gi";
+import { MdMeetingRoom } from "react-icons/md";
 import { FiSearch, FiFilter } from "react-icons/fi";
 import { useAuth } from '../hooks/useAuth';
 import { apiService } from '../services/apiService';
@@ -247,6 +248,18 @@ const SoccerMatches: React.FC = () => {
 				{/* Basketball icon */}
 				<GiBasketballBall
 					onClick={() => navigate('/basketball-matches')}
+					className="
+						text-white w-12 h-12
+						p-3
+						rounded-2xl
+						hover:bg-white/10
+						transition-all duration-200 ease-in-out
+						cursor-pointer"
+				/>
+
+				{/* Rooms icon */}
+				<MdMeetingRoom
+					onClick={() => navigate('/rooms')}
 					className="
 						text-white w-12 h-12
 						p-3
