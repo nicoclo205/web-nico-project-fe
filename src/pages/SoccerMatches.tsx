@@ -229,8 +229,7 @@ const SoccerMatches: React.FC = () => {
 						p-3
 						rounded-2xl
 						bg-green-600
-						transition-all duration-200 ease-in-out
-						cursor-pointer"
+						"
 				/>
 
 				{/* Tennis icon */}

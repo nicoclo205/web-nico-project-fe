@@ -28,9 +28,8 @@ const HomePage = () => {
 				text-white w-12 h-12
 				p-3
 				rounded-2xl
-				hover:bg-white/10
-				transition-all duration-200 ease-in-out
-				cursor-pointer"/>
+        bg-green-600
+				"/>
 
 
 	{/* Soccer icon */}
