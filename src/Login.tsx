@@ -129,9 +129,11 @@ function Auth() {
       setEmail("");
       setPassword("");
 
-      // Después de registrarse, cambia a la vista de inicio de sesión
+      // Después de registrarse exitosamente, cambia a la vista de inicio de sesión
       setIsLoginView(true);
     }
+    // Si hay error, result.success será false y nos quedaremos en la vista de registro
+    // mostrando el mensaje de error
   };
 
   //Control de errores

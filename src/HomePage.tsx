@@ -18,7 +18,7 @@ const HomePage = () => {
   const userName = user?.nombre_usuario || user?.username || "Usuario";
 
   return (
-    <div className="flex flex-col lg:flex-row h-screen bg-[#0e0f11] text-white">
+    <div className="flex flex-col lg:flex-row h-screen bg-[#0e0f11] text-white page-transition-enter">
 
       {/* Sidebar */}
       <aside className="lg:w-20 w-full flex lg:flex-col flex-row items-center justify-around lg:justify-start py-4 lg:py-6 lg:space-y-8 space-x-4 lg:space-x-0 bg-[#121316]">
@@ -74,7 +74,7 @@ const HomePage = () => {
             {/* Logout button */}
             <button
               onClick={handleLogout}
-              className="px-3 py-1.5 md:px-4 md:py-2 bg-red-700 hover:bg-red-400 transition rounded-2xl text-xs md:text-sm"
+              className="btn-danger"
             >
               Cerrar sesión
             </button>
@@ -96,8 +96,8 @@ const HomePage = () => {
               className="bg-transparent outline-none w-full text-sm md:text-base"
             />
           </div>
-          <button className="flex items-center justify-center bg-white/10 px-4 py-2 rounded-xl text-sm md:text-base">
-            <FiFilter className="mr-2" /> Filter
+          <button className="btn-secondary btn-icon">
+            <FiFilter /> Filter
           </button>
         </div>
 

@@ -16,9 +16,7 @@ const Rooms: React.FC = () => {
 		loading,
 		error,
 		createRoom,
-		deleteRoom,
 		joinRoom,
-		leaveRoom,
 		reload
 	} = useRoom();
 
@@ -26,7 +24,7 @@ const Rooms: React.FC = () => {
 	const [showFilters, setShowFilters] = useState(false);
 	const [showCreateModal, setShowCreateModal] = useState(false);
 	const [showJoinModal, setShowJoinModal] = useState(false);
-	const [filterType, setFilterType] = useState<'all' | 'my' | 'public'>('my');
+	const [filterType, setFilterType] = useState<'all' | 'my'>('my');
 
 	// Create room form state
 	const [newRoom, setNewRoom] = useState<CreateRoomData>({
@@ -86,28 +84,6 @@ const Rooms: React.FC = () => {
 		}
 	};
 
-	const handleDeleteRoom = async (roomId: number) => {
-		if (window.confirm('¿Estás seguro de que quieres eliminar esta sala?')) {
-			const result = await deleteRoom(roomId);
-			if (result.success) {
-				reload();
-			} else {
-				alert(result.error || 'Error al eliminar la sala');
-			}
-		}
-	};
-
-	const handleLeaveRoom = async (roomId: number) => {
-		if (window.confirm('¿Estás seguro de que quieres salir de esta sala?')) {
-			const result = await leaveRoom(roomId);
-			if (result.success) {
-				reload();
-			} else {
-				alert(result.error || 'Error al salir de la sala');
-			}
-		}
-	};
-
 	const filteredRooms = rooms.filter((room) => {
 		const matchesSearch = searchTerm === '' ||
 			room.nombre.toLowerCase().includes(searchTerm.toLowerCase()) ||
@@ -115,14 +91,17 @@ const Rooms: React.FC = () => {
 
 		const matchesFilter =
 			filterType === 'all' ? true :
-			filterType === 'my' ? room.id_usuario === currentUserId :
-			filterType === 'public' ? !room.es_privada : true;
+			filterType === 'my' ? (
+				// Usuario es creador O está en la lista de miembros
+				room.id_usuario === currentUserId ||
+				(room.miembros && room.miembros.some(m => m.id_usuario === currentUserId))
+			) : true;
 
 		return matchesSearch && matchesFilter;
 	});
 
 	return (
-		<div className="flex flex-col lg:flex-row h-screen bg-[#0e0f11] text-white">
+		<div className="flex flex-col lg:flex-row h-screen bg-[#0e0f11] text-white page-transition-enter">
 			{/* Sidebar */}
 			<aside className="lg:w-20 w-full flex lg:flex-col flex-row items-center justify-around lg:justify-start py-4 lg:py-6 lg:space-y-8 space-x-4 lg:space-x-0 bg-[#121316]">
 				{/* Home icon */}
@@ -207,7 +186,7 @@ const Rooms: React.FC = () => {
 						{/* Logout button */}
 						<button
 							onClick={handleLogout}
-							className="px-3 py-1.5 md:px-4 md:py-2 bg-red-700 hover:bg-red-400 transition rounded-2xl text-xs md:text-sm"
+							className="btn-danger"
 						>
 							Cerrar sesión
 						</button>
@@ -225,14 +204,14 @@ const Rooms: React.FC = () => {
 				<div className="flex flex-col sm:flex-row gap-3 mb-6">
 					<button
 						onClick={() => setShowCreateModal(true)}
-						className="flex items-center justify-center gap-2 bg-green-600 hover:bg-green-700 px-4 py-3 rounded-xl transition-all font-medium"
+						className="btn-primary btn-icon"
 					>
 						<FiPlus className="text-xl" />
 						<span>Crear Sala</span>
 					</button>
 					<button
 						onClick={() => setShowJoinModal(true)}
-						className="flex items-center justify-center gap-2 bg-blue-600 hover:bg-blue-700 px-4 py-3 rounded-xl transition-all font-medium"
+						className="btn-info btn-icon"
 					>
 						<FiUsers className="text-xl" />
 						<span>Unirse con Código</span>
@@ -243,31 +222,13 @@ const Rooms: React.FC = () => {
 				<div className="flex space-x-2 bg-white/10 p-1 rounded-xl max-w-md mb-6">
 					<button
 						onClick={() => setFilterType('my')}
-						className={`flex-1 py-2 px-4 rounded-lg font-medium transition-all text-sm md:text-base ${
-							filterType === 'my'
-								? 'bg-green-600 text-white'
-								: 'text-gray-400 hover:text-white'
-						}`}
+						className={filterType === 'my' ? 'flex-1 btn-tab-active' : 'flex-1 btn-tab-inactive'}
 					>
 						Mis Salas
 					</button>
 					<button
-						onClick={() => setFilterType('public')}
-						className={`flex-1 py-2 px-4 rounded-lg font-medium transition-all text-sm md:text-base ${
-							filterType === 'public'
-								? 'bg-green-600 text-white'
-								: 'text-gray-400 hover:text-white'
-						}`}
-					>
-						Públicas
-					</button>
-					<button
 						onClick={() => setFilterType('all')}
-						className={`flex-1 py-2 px-4 rounded-lg font-medium transition-all text-sm md:text-base ${
-							filterType === 'all'
-								? 'bg-green-600 text-white'
-								: 'text-gray-400 hover:text-white'
-						}`}
+						className={filterType === 'all' ? 'flex-1 btn-tab-active' : 'flex-1 btn-tab-inactive'}
 					>
 						Todas
 					</button>
@@ -287,11 +248,9 @@ const Rooms: React.FC = () => {
 					</div>
 					<button
 						onClick={() => setShowFilters(!showFilters)}
-						className={`flex items-center justify-center px-4 py-2 rounded-xl text-sm md:text-base transition ${
-							showFilters ? 'bg-green-600' : 'bg-white/10 hover:bg-white/20'
-						}`}
+						className={`btn-icon ${showFilters ? 'btn-primary' : 'btn-secondary'}`}
 					>
-						<FiFilter className="mr-2" /> Filtros
+						<FiFilter /> Filtros
 					</button>
 				</div>
 
@@ -370,31 +329,6 @@ const Rooms: React.FC = () => {
 												}}
 											/>
 										</div>
-
-										{/* Action Buttons */}
-										<div className="flex gap-2 mt-4" onClick={(e) => e.stopPropagation()}>
-											{isOwner ? (
-												<button
-													onClick={() => handleDeleteRoom(room.id_sala)}
-													className="flex-1 py-2 bg-red-600/20 hover:bg-red-600 text-red-400 hover:text-white rounded-xl transition-all text-sm font-medium"
-												>
-													Eliminar
-												</button>
-											) : (
-												<button
-													onClick={() => handleLeaveRoom(room.id_sala)}
-													className="flex-1 py-2 bg-yellow-600/20 hover:bg-yellow-600 text-yellow-400 hover:text-white rounded-xl transition-all text-sm font-medium"
-												>
-													Salir
-												</button>
-											)}
-											<button
-												onClick={() => navigate(`/room/${room.id_sala}`)}
-												className="flex-1 py-2 bg-green-600 hover:bg-green-700 rounded-xl transition-all text-sm font-medium"
-											>
-												Ver Sala
-											</button>
-										</div>
 									</div>
 								);
 							})
@@ -461,13 +395,13 @@ const Rooms: React.FC = () => {
 						<div className="flex gap-3 mt-6">
 							<button
 								onClick={() => setShowCreateModal(false)}
-								className="flex-1 py-3 bg-white/10 hover:bg-white/20 rounded-xl transition-all font-medium"
+								className="btn-secondary flex-1"
 							>
 								Cancelar
 							</button>
 							<button
 								onClick={handleCreateRoom}
-								className="flex-1 py-3 bg-green-600 hover:bg-green-700 rounded-xl transition-all font-medium"
+								className="btn-primary flex-1"
 							>
 								Crear Sala
 							</button>
@@ -506,13 +440,13 @@ const Rooms: React.FC = () => {
 									setShowJoinModal(false);
 									setJoinCode('');
 								}}
-								className="flex-1 py-3 bg-white/10 hover:bg-white/20 rounded-xl transition-all font-medium"
+								className="btn-secondary flex-1"
 							>
 								Cancelar
 							</button>
 							<button
 								onClick={handleJoinRoom}
-								className="flex-1 py-3 bg-blue-600 hover:bg-blue-700 rounded-xl transition-all font-medium"
+								className="btn-info flex-1"
 							>
 								Unirse
 							</button>

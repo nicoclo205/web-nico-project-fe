@@ -94,7 +94,29 @@ const SoccerMatches: React.FC = () => {
 			const response = await apiService.getLeaguesBySport(1);
 
 			if (response.success && response.data) {
-				setLeagues(response.data);
+				// Filtrar para quedarnos solo con una "La Liga" - la que tiene logo
+				const filteredLeagues = response.data.filter((league) => {
+					// Si es "La Liga", solo mantener la que tiene logo_url
+					if (league.nombre === 'La Liga' || league.nombre.toLowerCase().includes('la liga')) {
+						return league.logo_url && league.logo_url.trim() !== '';
+					}
+					// Para otras ligas, mantenerlas todas
+					return true;
+				});
+
+				// Eliminar duplicados basados en nombre (por si hay múltiples La Liga con logo)
+				const uniqueLeagues = filteredLeagues.filter((league, index, self) => {
+					if (league.nombre === 'La Liga' || league.nombre.toLowerCase().includes('la liga')) {
+						// Solo mantener la primera "La Liga" que tenga logo
+						return index === self.findIndex(l =>
+							(l.nombre === 'La Liga' || l.nombre.toLowerCase().includes('la liga')) &&
+							l.logo_url && l.logo_url.trim() !== ''
+						);
+					}
+					return true;
+				});
+
+				setLeagues(uniqueLeagues);
 			} else {
 				setError(response.error || 'Error al cargar las ligas');
 				console.error('Error fetching leagues:', response.error);
@@ -208,7 +230,7 @@ const SoccerMatches: React.FC = () => {
 	const hasMoreMatches = filteredMatches.length > displayCount;
 
 	return (
-		<div className="flex flex-col lg:flex-row h-screen bg-[#0e0f11] text-white">
+		<div className="flex flex-col lg:flex-row h-screen bg-[#0e0f11] text-white page-transition-enter">
 			{/* Sidebar */}
 			<aside className="lg:w-20 w-full flex lg:flex-col flex-row items-center justify-around lg:justify-start py-4 lg:py-6 lg:space-y-8 space-x-4 lg:space-x-0 bg-[#121316]">
 				{/* Home icon */}
@@ -293,7 +315,7 @@ const SoccerMatches: React.FC = () => {
 						{/* Logout button */}
 						<button
 							onClick={handleLogout}
-							className="px-3 py-1.5 md:px-4 md:py-2 bg-red-700 hover:bg-red-400 transition rounded-2xl text-xs md:text-sm"
+							className="btn-danger"
 						>
 							Cerrar sesión
 						</button>
@@ -313,24 +335,24 @@ const SoccerMatches: React.FC = () => {
 					<div className="flex gap-3 overflow-x-auto pb-2">
 						<button
 							onClick={() => setSelectedLeague('all')}
-							className={`flex flex-col items-center justify-center p-3 md:p-4 rounded-xl transition-all min-w-[80px] md:min-w-[100px] ${
+							className={`flex flex-col items-center justify-center p-3 md:p-4 rounded-xl transition-colors duration-300 min-w-[80px] md:min-w-[100px] ${
 								selectedLeague === 'all'
-									? 'bg-green-600 shadow-lg scale-105'
-									: 'bg-white/10 hover:bg-white/20'
+									? 'bg-green-800 shadow-lg'
+									: 'bg-white/10 hover:bg-gray-500'
 							}`}
 						>
 							<span className="text-2xl md:text-3xl mb-1">🌍</span>
-							<span className="text-xs md:text-sm font-medium text-center">Todas</span>
+							<span className="text-xs md:text-sm font-normal text-center">Todas</span>
 						</button>
 
 						{leagues.map((league) => (
 							<button
 								key={league.id_liga}
 								onClick={() => setSelectedLeague(league.id_liga)}
-								className={`flex flex-col items-center justify-center p-3 md:p-4 rounded-xl transition-all min-w-[80px] md:min-w-[100px] ${
+								className={`flex flex-col items-center justify-center p-3 md:p-4 rounded-xl transition-colors duration-300 min-w-[80px] md:min-w-[100px] ${
 									selectedLeague === league.id_liga
-										? 'bg-green-600 shadow-lg scale-105'
-										: 'bg-white/10 hover:bg-white/20'
+										? 'bg-green-800 shadow-lg'
+										: 'bg-white/10 hover:bg-gray-500'
 								}`}
 							>
 								{league.logo_url ? (
@@ -342,7 +364,7 @@ const SoccerMatches: React.FC = () => {
 								) : (
 									<span className="text-2xl md:text-3xl mb-1">🏆</span>
 								)}
-								<span className="text-xs md:text-sm font-medium text-center line-clamp-2">{league.nombre}</span>
+								<span className="text-xs md:text-sm font-normal text-center line-clamp-2">{league.nombre}</span>
 							</button>
 						))}
 					</div>
@@ -352,21 +374,13 @@ const SoccerMatches: React.FC = () => {
 				<div className="flex space-x-2 bg-white/10 p-1 rounded-xl max-w-md mb-6">
 					<button
 						onClick={() => setActiveTab('upcoming')}
-						className={`flex-1 py-2 px-4 rounded-lg font-medium transition-all text-sm md:text-base ${
-							activeTab === 'upcoming'
-								? 'bg-green-600 text-white'
-								: 'text-gray-400 hover:text-white'
-						}`}
+						className={activeTab === 'upcoming' ? 'flex-1 btn-tab-active' : 'flex-1 btn-tab-inactive'}
 					>
 						Próximos
 					</button>
 					<button
 						onClick={() => setActiveTab('finished')}
-						className={`flex-1 py-2 px-4 rounded-lg font-medium transition-all text-sm md:text-base ${
-							activeTab === 'finished'
-								? 'bg-green-600 text-white'
-								: 'text-gray-400 hover:text-white'
-						}`}
+						className={activeTab === 'finished' ? 'flex-1 btn-tab-active' : 'flex-1 btn-tab-inactive'}
 					>
 						Finalizados
 					</button>
@@ -386,11 +400,9 @@ const SoccerMatches: React.FC = () => {
 					</div>
 					<button
 						onClick={() => setShowFilters(!showFilters)}
-						className={`flex items-center justify-center px-4 py-2 rounded-xl text-sm md:text-base transition ${
-							showFilters ? 'bg-green-600' : 'bg-white/10 hover:bg-white/20'
-						}`}
+						className={`btn-icon ${showFilters ? 'btn-primary' : 'btn-secondary'}`}
 					>
-						<FiFilter className="mr-2" /> Filtros
+						<FiFilter /> Filtros
 					</button>
 				</div>
 
@@ -439,7 +451,7 @@ const SoccerMatches: React.FC = () => {
 									setFilterEstado('all');
 									setFilterFecha('all');
 								}}
-								className="px-4 py-2 bg-white/10 hover:bg-white/20 rounded-lg text-sm transition"
+								className="btn-secondary"
 							>
 								Limpiar filtros
 							</button>
@@ -607,7 +619,7 @@ const SoccerMatches: React.FC = () => {
 						<div className="flex justify-center mt-8">
 							<button
 								onClick={() => setDisplayCount(prev => prev + 10)}
-								className="px-6 py-3 bg-green-600 hover:bg-green-700 text-white rounded-xl transition-all font-medium flex items-center gap-2"
+								className="btn-primary btn-icon px-6 py-3"
 							>
 								Ver más partidos
 								<svg xmlns="http://www.w3.org/2000/svg" className="h-5 w-5" viewBox="0 0 20 20" fill="currentColor">
@@ -661,12 +673,6 @@ const SoccerMatches: React.FC = () => {
 				<div className="mt-8">
 					<h3 className="text-lg font-semibold mb-4">Accesos Rápidos</h3>
 					<div className="space-y-2">
-						<button
-							onClick={() => navigate('/my-bets')}
-							className="w-full text-left px-4 py-3 bg-white/5 hover:bg-white/10 rounded-xl transition"
-						>
-							<span className="text-sm">📊 Mis Apuestas</span>
-						</button>
 						<button
 							onClick={() => navigate('/rankings')}
 							className="w-full text-left px-4 py-3 bg-white/5 hover:bg-white/10 rounded-xl transition"

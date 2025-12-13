@@ -8,16 +8,96 @@
   .form-transitioning {
     overflow: hidden;
   }
-  
+
   /* Ajustes adicionales para que la transición sea más suave */
   @media (max-width: 1023px) { /* lg breakpoint en Tailwind */
     .translate-x-full {
       transform: translateX(100%);
     }
-    
+
     .-translate-x-full {
       transform: translateX(-100%);
     }
+  }
+
+  /* Transiciones de página - Fade + Slide */
+  @keyframes fadeSlideIn {
+    from {
+      opacity: 0;
+      transform: translateX(20px);
+    }
+    to {
+      opacity: 1;
+      transform: translateX(0);
+    }
+  }
+
+  @keyframes fadeSlideOut {
+    from {
+      opacity: 1;
+      transform: translateX(0);
+    }
+    to {
+      opacity: 0;
+      transform: translateX(-20px);
+    }
+  }
+
+  .page-transition-enter {
+    animation: fadeSlideIn 0.4s cubic-bezier(0.4, 0, 0.2, 1) forwards;
+  }
+
+  .page-transition-exit {
+    animation: fadeSlideOut 0.3s cubic-bezier(0.4, 0, 0.2, 1) forwards;
+  }
+
+  /* Botón estandarizado - Más pequeño como en /start */
+  .btn-standard {
+    @apply px-4 py-2 rounded-xl font-normal text-sm transition-colors duration-300;
+    @apply focus:outline-none focus:ring-2 focus:ring-offset-2 focus:ring-offset-[#0e0f11];
+  }
+
+  .btn-primary {
+    @apply btn-standard bg-green-700 hover:bg-green-600 text-white;
+    @apply focus:ring-green-500;
+  }
+
+  .btn-secondary {
+    @apply btn-standard bg-white/10 hover:bg-white/20 text-white;
+    @apply focus:ring-white/50;
+  }
+
+  .btn-danger {
+    @apply btn-standard bg-red-600 hover:bg-red-700 text-white;
+    @apply focus:ring-red-500;
+  }
+
+  .btn-warning {
+    @apply btn-standard bg-yellow-600 hover:bg-yellow-700 text-white;
+    @apply focus:ring-yellow-500;
+  }
+
+  .btn-info {
+    @apply btn-standard bg-blue-700 hover:bg-blue-600 text-white;
+    @apply focus:ring-blue-500;
+  }
+
+  /* Botones con iconos */
+  .btn-icon {
+    @apply flex items-center justify-center gap-2;
+  }
+
+  /* Botones de pestañas/tabs - más pequeños */
+  .btn-tab {
+    @apply px-3 py-1.5 rounded-lg font-normal text-xs transition-colors duration-200;
+  }
+
+  .btn-tab-active {
+    @apply btn-tab bg-green-800 text-white;
+  }
+
+  .btn-tab-inactive {
+    @apply btn-tab bg-transparent text-gray-400 hover:text-white hover:bg-white/5;
   }
 }
 
@@ -89,8 +169,14 @@
   * {
     @apply border-border;
   }
+
+  html {
+    background-color: #0e0f11;
+  }
+
   body {
     @apply bg-background text-foreground;
+    background-color: #0e0f11;
   }
 
   /* Ocultar scrollbar globalmente */
