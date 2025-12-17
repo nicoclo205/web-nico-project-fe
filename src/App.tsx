@@ -8,6 +8,7 @@ import SoccerMatches from './pages/SoccerMatches';
 import TennisMatches from './pages/TennisMatches';
 import BasketballMatches from './pages/BasketballMatches';
 import Rooms from './pages/Rooms';
+import RoomDetail from './pages/RoomDetail';
 import { ProtectedRoute } from './components/ProtectedRoute';
 import { PublicOnlyRoute } from './components/PublicOnlyRoute';
 
@@ -75,12 +76,19 @@ function App() {
 					</ProtectedRoute>}
 				/>
 
-				{/* Rooms Route */}
+				{/* Rooms Routes */}
 				<Route
 					path="/rooms"
 					element={
 					<ProtectedRoute>
 					<Rooms />
+					</ProtectedRoute>}
+				/>
+				<Route
+					path="/room/:roomHash"
+					element={
+					<ProtectedRoute>
+					<RoomDetail />
 					</ProtectedRoute>}
 				/>
 			</Routes>

@@ -312,35 +312,40 @@ const SoccerMatches: React.FC = () => {
 				/>
 			</aside>
 
-			{/* Main panel */}
-			<main className="flex-1 p-4 md:p-8 overflow-y-auto">
+			{/* Main Content Wrapper */}
+			<div className="flex-1 flex flex-col h-screen overflow-hidden">
+
 				{/* Header */}
-				<div className="flex flex-col md:flex-row justify-between items-start md:items-center mb-6 md:mb-10 gap-4">
+				<header className="h-16 md:h-20 flex items-center justify-between px-4 md:px-8 lg:px-12 bg-[#0e0f11]/95 backdrop-blur-sm z-10 sticky top-0">
 					<div>
-						<h1 className="text-xl md:text-2xl lg:text-3xl font-bold flex items-center gap-3">
-							<span className="text-4xl">⚽</span>
-							Partidos de Fútbol
+						<h1 className="text-lg md:text-2xl lg:text-3xl font-bold tracking-tight text-white flex items-center gap-2 md:gap-3">
+							<span className="text-3xl md:text-4xl">⚽</span>
+							<span className="hidden sm:inline">Partidos de Fútbol</span>
+							<span className="sm:hidden">Fútbol</span>
 						</h1>
-						<p className="text-gray-400 text-sm md:text-base mt-1">
-							Apuesta en tus partidos favoritos
-						</p>
 					</div>
-
 					<div className="flex items-center space-x-2 md:space-x-4">
-						<span className="text-gray-300 text-sm md:text-base">{userName}</span>
-						<div className="w-8 h-8 md:w-10 md:h-10 rounded-full bg-white/20 flex items-center justify-center">
-							<span className="text-lg md:text-xl">{userName.charAt(0).toUpperCase()}</span>
+						<div className="hidden sm:flex items-center space-x-3 bg-white/5 px-3 py-1.5 rounded-full border border-white/10">
+							<span className="text-sm font-medium text-gray-300">{userName}</span>
+							<div className="w-8 h-8 rounded-full bg-gray-600 flex items-center justify-center text-xs text-white font-bold">
+								{userName.charAt(0).toUpperCase()}
+							</div>
 						</div>
-
-						{/* Logout button */}
 						<button
 							onClick={handleLogout}
-							className="btn-danger"
+							className="btn-danger text-xs md:text-sm px-3 md:px-4"
 						>
-							Cerrar sesión
+							<span className="hidden sm:inline">Cerrar sesión</span>
+							<span className="sm:hidden">Salir</span>
 						</button>
 					</div>
-				</div>
+				</header>
+
+				{/* Main Content Area */}
+				<div className="flex-1 overflow-y-auto p-4 md:p-8 lg:px-12 pb-12 flex flex-col lg:flex-row gap-6 md:gap-8">
+
+					{/* Main Panel */}
+					<main className="flex-1 max-w-5xl">
 
 				{/* Error Display */}
 				{error && (
@@ -650,64 +655,66 @@ const SoccerMatches: React.FC = () => {
 					)}
 				</>
 				)}
-			</main>
+					</main>
 
-			{/* Right panel */}
-			<aside className="hidden xl:block w-96 bg-[#141518] border-l border-white/5 p-6 overflow-y-auto">
-				<h2 className="text-xl font-semibold mb-4">Estadísticas</h2>
+					{/* Right Sidebar */}
+					<aside className="w-full lg:w-80 flex flex-col gap-4 md:gap-6 flex-shrink-0">
 
-				<div className="space-y-4">
-					{/* Stats Card */}
-					<div className="p-4 bg-white/5 rounded-2xl">
-						<div className="flex items-center justify-between mb-2">
-							<span className="text-gray-400 text-sm">Partidos Hoy</span>
-							<span className="text-2xl font-bold text-green-400">
+				{/* Statistics Card */}
+				<div className="bg-[#181b21] rounded-xl md:rounded-2xl p-4 md:p-6 border border-white/5 shadow-sm">
+					<h3 className="text-base md:text-lg font-bold text-white mb-3 md:mb-4">Estadísticas</h3>
+					<div className="space-y-2 md:space-y-3">
+						<div className="flex items-center justify-between p-2.5 md:p-3 rounded-lg bg-[#0f1115] border border-white/5">
+							<span className="text-xs md:text-sm font-medium text-gray-400">Partidos Hoy</span>
+							<span className="text-base md:text-lg font-bold text-green-500">
 								{filteredMatches.filter(m => {
 									const today = new Date().toDateString();
 									return new Date(m.fecha).toDateString() === today;
 								}).length}
 							</span>
 						</div>
-					</div>
-
-					<div className="p-4 bg-white/5 rounded-2xl">
-						<div className="flex items-center justify-between mb-2">
-							<span className="text-gray-400 text-sm">Próximos Partidos</span>
-							<span className="text-2xl font-bold text-blue-400">
+						<div className="flex items-center justify-between p-2.5 md:p-3 rounded-lg bg-[#0f1115] border border-white/5">
+							<span className="text-xs md:text-sm font-medium text-gray-400">Próximos Partidos</span>
+							<span className="text-base md:text-lg font-bold text-blue-500">
 								{matches.filter(m => m.estado === 'programado').length}
 							</span>
 						</div>
-					</div>
-
-					<div className="p-4 bg-white/5 rounded-2xl">
-						<div className="flex items-center justify-between mb-2">
-							<span className="text-gray-400 text-sm">En Vivo</span>
-							<span className="text-2xl font-bold text-red-400 animate-pulse">
+						<div className="flex items-center justify-between p-2.5 md:p-3 rounded-lg bg-[#0f1115] border border-white/5">
+							<span className="text-xs md:text-sm font-medium text-gray-400">En Vivo</span>
+							<span className="text-base md:text-lg font-bold text-red-600 animate-pulse">
 								{matches.filter(m => m.estado === 'en curso').length}
 							</span>
 						</div>
 					</div>
 				</div>
 
-				{/* Quick Links */}
-				<div className="mt-8">
-					<h3 className="text-lg font-semibold mb-4">Accesos Rápidos</h3>
-					<div className="space-y-2">
+				{/* Quick Links Card */}
+				<div className="bg-gradient-to-br from-[#181b21] to-[#0f1115] rounded-xl md:rounded-2xl p-4 md:p-6 border border-white/5 relative overflow-hidden flex-1 min-h-[200px] md:min-h-[250px] flex flex-col justify-center">
+					<div className="absolute -top-10 -right-10 w-32 h-32 bg-green-500 opacity-10 blur-3xl rounded-full"></div>
+					<h3 className="text-base md:text-lg font-bold text-white mb-2 relative z-10">Accesos Rápidos</h3>
+					<p className="text-xs md:text-sm text-gray-400 relative z-10 leading-relaxed mb-4 md:mb-6">
+						Navega rápidamente a otras secciones de la aplicación.
+					</p>
+					<div className="space-y-2 relative z-10">
 						<button
-							onClick={() => navigate('/rankings')}
-							className="w-full text-left px-4 py-3 bg-white/5 hover:bg-white/10 rounded-xl transition"
+							onClick={() => navigate('/homepage')}
+							className="w-full text-left px-3 md:px-4 py-2.5 md:py-3 bg-white/5 hover:bg-white/10 rounded-lg md:rounded-xl transition border border-white/5"
 						>
-							<span className="text-sm">🏆 Rankings</span>
+							<span className="text-xs md:text-sm">🏠 Inicio</span>
 						</button>
 						<button
 							onClick={() => navigate('/rooms')}
-							className="w-full text-left px-4 py-3 bg-white/5 hover:bg-white/10 rounded-xl transition"
+							className="w-full text-left px-3 md:px-4 py-2.5 md:py-3 bg-white/5 hover:bg-white/10 rounded-lg md:rounded-xl transition border border-white/5"
 						>
-							<span className="text-sm">🎮 Salas</span>
+							<span className="text-xs md:text-sm">🎮 Salas</span>
 						</button>
 					</div>
+					</div>
+
+					</aside>
+
 				</div>
-			</aside>
+			</div>
 		</div>
 	);
 };

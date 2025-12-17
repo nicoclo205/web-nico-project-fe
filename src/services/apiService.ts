@@ -337,6 +337,134 @@ class ApiService {
       };
     }
   }
+
+  // ========== APUESTAS (BETS) ==========
+
+  // Get upcoming matches for betting (partidos disponibles para apostar)
+  async getUpcomingMatches(): Promise<ApiResponse<any[]>> {
+    try {
+      const response = await apiClient.get('/api/partidos/proximos/');
+
+      return {
+        success: true,
+        data: response.data,
+      };
+    } catch (error: any) {
+      return {
+        success: false,
+        error: error.response?.data?.detail || 'Failed to fetch upcoming matches',
+      };
+    }
+  }
+
+  // Create a bet (crear apuesta de fútbol)
+  async createBet(betData: {
+    id_partido: number;
+    id_sala: number;
+    prediccion_local: number;
+    prediccion_visitante: number;
+    primer_tiempo_local?: number;
+    primer_tiempo_visitante?: number;
+  }): Promise<ApiResponse<any>> {
+    try {
+      const response = await apiClient.post('/api/apuestas-futbol/', betData);
+
+      return {
+        success: true,
+        data: response.data,
+        message: 'Bet created successfully',
+      };
+    } catch (error: any) {
+      return {
+        success: false,
+        error: error.response?.data?.error || 'Failed to create bet',
+      };
+    }
+  }
+
+  // Get user bets for a room (apuestas del usuario en una sala)
+  async getUserBets(salaId: number): Promise<ApiResponse<any[]>> {
+    try {
+      const response = await apiClient.get('/api/apuestas-futbol/mis_apuestas/', {
+        params: { sala_id: salaId }
+      });
+
+      return {
+        success: true,
+        data: response.data,
+      };
+    } catch (error: any) {
+      return {
+        success: false,
+        error: error.response?.data?.error || 'Failed to fetch user bets',
+      };
+    }
+  }
+
+  // Get bets for a specific match (apuestas de un partido en una sala)
+  async getMatchBets(partidoId: number, salaId: number): Promise<ApiResponse<any[]>> {
+    try {
+      const response = await apiClient.get('/api/apuestas-futbol/por_partido/', {
+        params: {
+          partido_id: partidoId,
+          sala_id: salaId
+        }
+      });
+
+      return {
+        success: true,
+        data: response.data,
+      };
+    } catch (error: any) {
+      return {
+        success: false,
+        error: error.response?.data?.error || 'Failed to fetch match bets',
+      };
+    }
+  }
+
+  // ========== RANKING ==========
+
+  // Get current ranking for a room (ranking actual de una sala)
+  async getRoomRanking(salaId: number): Promise<ApiResponse<any>> {
+    try {
+      const response = await apiClient.get('/api/ranking/actual/', {
+        params: { sala_id: salaId }
+      });
+
+      return {
+        success: true,
+        data: response.data,
+      };
+    } catch (error: any) {
+      return {
+        success: false,
+        error: error.response?.data?.error || 'Failed to fetch room ranking',
+      };
+    }
+  }
+
+  // Get ranking by period (ranking por período)
+  async getRankingByPeriod(salaId: number, periodo?: string): Promise<ApiResponse<any[]>> {
+    try {
+      const params: any = { sala_id: salaId };
+      if (periodo) {
+        params.periodo = periodo;
+      }
+
+      const response = await apiClient.get('/api/ranking/por_sala/', { params });
+
+      return {
+        success: true,
+        data: response.data,
+      };
+    } catch (error: any) {
+      return {
+        success: false,
+        error: error.response?.data?.error || 'Failed to fetch ranking by period',
+      };
+    }
+  }
 }
 
 export const apiService = new ApiService();
