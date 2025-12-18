@@ -428,7 +428,7 @@ class ApiService {
   // Get current ranking for a room (ranking actual de una sala)
   async getRoomRanking(salaId: number): Promise<ApiResponse<any>> {
     try {
-      const response = await apiClient.get('/api/ranking/actual/', {
+      const response = await apiClient.get('/api/rankings/actual/', {
         params: { sala_id: salaId }
       });
 
@@ -452,7 +452,7 @@ class ApiService {
         params.periodo = periodo;
       }
 
-      const response = await apiClient.get('/api/ranking/por_sala/', { params });
+      const response = await apiClient.get('/api/rankings/por_sala/', { params });
 
       return {
         success: true,
