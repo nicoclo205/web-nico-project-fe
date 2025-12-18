@@ -16,7 +16,7 @@ export interface Room {
   es_privada: boolean;
   codigo_sala: string;
   fecha_creacion: string;
-  id_usuario: number;
+  id_usuario: number | { id_usuario: number; nombre_usuario?: string };
   creador?: {
     id_usuario: number;
     nombre_usuario: string;
@@ -341,9 +341,10 @@ class ApiService {
   // ========== APUESTAS (BETS) ==========
 
   // Get upcoming matches for betting (partidos disponibles para apostar)
-  async getUpcomingMatches(): Promise<ApiResponse<any[]>> {
+  async getUpcomingMatches(salaId?: number): Promise<ApiResponse<any[]>> {
     try {
-      const response = await apiClient.get('/api/partidos/proximos/');
+      const params = salaId ? { sala_id: salaId } : {};
+      const response = await apiClient.get('/api/partidos/proximos/', { params });
 
       return {
         success: true,

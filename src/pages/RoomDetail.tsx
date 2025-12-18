@@ -3,14 +3,15 @@ import { useNavigate, useParams } from 'react-router-dom';
 import { FaHome, FaArrowLeft } from "react-icons/fa";
 import { GiSoccerField } from "react-icons/gi";
 import { MdMeetingRoom } from "react-icons/md";
-import { FiUsers, FiLock, FiUnlock, FiCopy, FiUserMinus, FiSettings, FiTrash2, FiTrendingUp, FiTarget } from "react-icons/fi";
+import { FiUsers, FiLock, FiUnlock, FiCopy, FiUserMinus, FiSettings, FiTrash2, FiTrendingUp, FiTarget, FiSliders } from "react-icons/fi";
 import { useAuth } from '../hooks/useAuth';
 import { useRoom } from '../hooks/useRoom';
 import { getRoomIdFromHash } from '../utils/roomHash';
 import RoomBets from '../components/RoomBets';
 import RoomRanking from '../components/RoomRanking';
+import RoomConfiguration from '../components/RoomConfiguration';
 
-type TabType = 'info' | 'bets' | 'ranking';
+type TabType = 'info' | 'bets' | 'ranking' | 'config';
 
 const RoomDetail: React.FC = () => {
 	const navigate = useNavigate();
@@ -156,7 +157,11 @@ const RoomDetail: React.FC = () => {
 		);
 	}
 
-	const isOwner = selectedRoom.id_usuario === currentUserId;
+	// Check if current user is the owner (admin) of the room
+	// Handle both cases: id_usuario as number or as object with id_usuario property
+	const isOwner = typeof selectedRoom.id_usuario === 'number'
+		? selectedRoom.id_usuario === currentUserId
+		: selectedRoom.id_usuario?.id_usuario === currentUserId;
 	const memberCount = members.length;
 
 	return (
@@ -208,10 +213,10 @@ const RoomDetail: React.FC = () => {
 						</div>
 					</div>
 
-					<div className="flex items-center gap-3">
-						<span className="text-gray-300 text-sm md:text-base">{userName}</span>
-						<div className="w-8 h-8 md:w-10 md:h-10 rounded-full bg-white/20 flex items-center justify-center">
-							<span className="text-lg md:text-xl">{userName.charAt(0).toUpperCase()}</span>
+					<div className="flex items-center space-x-3 bg-white/5 px-3 py-1.5 rounded-full border border-white/10">
+						<span className="text-sm font-medium text-gray-300">{userName}</span>
+						<div className="w-8 h-8 rounded-full bg-gray-600 flex items-center justify-center text-xs text-white font-bold">
+							{userName.charAt(0).toUpperCase()}
 						</div>
 					</div>
 				</div>
@@ -223,7 +228,7 @@ const RoomDetail: React.FC = () => {
 					</div>
 				)}
 
-				{/* Tabs Navigation */}
+				{/* Tabs Navigation - Original Size */}
 				<div className="mb-6">
 					<div className="flex flex-wrap gap-2 p-2 bg-[#1f2126] rounded-2xl border border-white/5">
 						<button
@@ -259,64 +264,77 @@ const RoomDetail: React.FC = () => {
 							<FiTrendingUp className="text-lg" />
 							Ranking
 						</button>
+						{isOwner && (
+							<button
+								onClick={() => setActiveTab('config')}
+								className={`flex-1 min-w-[120px] px-6 py-3 rounded-xl font-semibold transition-all flex items-center justify-center gap-2 ${
+									activeTab === 'config'
+										? 'bg-green-600 text-white shadow-lg'
+										: 'bg-transparent text-gray-400 hover:text-white hover:bg-white/5'
+								}`}
+							>
+								<FiSliders className="text-lg" />
+								Configuración
+							</button>
+						)}
 					</div>
 				</div>
 
 				{/* Tab Content */}
 				<div className="tab-content-transition">
 					{activeTab === 'info' && (
-						<div className="grid grid-cols-1 lg:grid-cols-3 gap-6">
+						<div className="grid grid-cols-1 lg:grid-cols-3 gap-4">
 					{/* Room Info Panel */}
-					<div className="lg:col-span-2 space-y-6">
-						{/* Stats Cards */}
-						<div className="grid grid-cols-1 md:grid-cols-3 gap-4">
-							<div className="rounded-3xl p-6 bg-gradient-to-br from-[#1f2126] to-[#141518] shadow-xl border border-white/5">
-								<FiUsers className="text-3xl text-green-500 mb-3" />
-								<p className="text-gray-400 text-sm">Miembros</p>
-								<p className="text-2xl font-bold">{memberCount} / {selectedRoom.max_miembros || '∞'}</p>
+					<div className="lg:col-span-2 space-y-4">
+						{/* Stats Cards - More Compact */}
+						<div className="grid grid-cols-1 md:grid-cols-3 gap-3">
+							<div className="rounded-2xl p-4 bg-gradient-to-br from-[#1f2126] to-[#141518] shadow-lg border border-white/5">
+								<FiUsers className="text-2xl text-green-500 mb-2" />
+								<p className="text-gray-400 text-xs">Miembros</p>
+								<p className="text-xl font-bold">{memberCount} / {selectedRoom.max_miembros || '∞'}</p>
 							</div>
 
-							<div className="rounded-3xl p-6 bg-gradient-to-br from-[#1f2126] to-[#141518] shadow-xl border border-white/5">
-								<FiLock className="text-3xl text-blue-500 mb-3" />
-								<p className="text-gray-400 text-sm">Tipo</p>
-								<p className="text-2xl font-bold">{selectedRoom.es_privada ? 'Privada' : 'Pública'}</p>
+							<div className="rounded-2xl p-4 bg-gradient-to-br from-[#1f2126] to-[#141518] shadow-lg border border-white/5">
+								<FiLock className="text-2xl text-blue-500 mb-2" />
+								<p className="text-gray-400 text-xs">Tipo</p>
+								<p className="text-xl font-bold">{selectedRoom.es_privada ? 'Privada' : 'Pública'}</p>
 							</div>
 
-							<div className="rounded-3xl p-6 bg-gradient-to-br from-[#1f2126] to-[#141518] shadow-xl border border-white/5">
-								<FiSettings className="text-3xl text-yellow-500 mb-3" />
-								<p className="text-gray-400 text-sm">Creada</p>
-								<p className="text-lg font-bold">
+							<div className="rounded-2xl p-4 bg-gradient-to-br from-[#1f2126] to-[#141518] shadow-lg border border-white/5">
+								<FiSettings className="text-2xl text-yellow-500 mb-2" />
+								<p className="text-gray-400 text-xs">Creada</p>
+								<p className="text-base font-bold">
 									{new Date(selectedRoom.fecha_creacion).toLocaleDateString('es-ES')}
 								</p>
 							</div>
 						</div>
 
-						{/* Room Code */}
-						<div className="rounded-3xl p-6 bg-gradient-to-br from-[#1f2126] to-[#141518] shadow-xl border border-white/5">
-							<h3 className="text-xl font-bold mb-4">Código de Sala</h3>
-							<div className="flex items-center gap-3">
-								<div className="flex-1 p-4 bg-white/5 rounded-xl border border-white/10">
-									<p className="text-3xl font-mono font-bold text-green-400 text-center tracking-wider">
+						{/* Room Code - Smaller */}
+						<div className="rounded-2xl p-4 bg-gradient-to-br from-[#1f2126] to-[#141518] shadow-lg border border-white/5">
+							<h3 className="text-lg font-bold mb-3">Código de Sala</h3>
+							<div className="flex items-center gap-2">
+								<div className="flex-1 p-2 bg-white/5 rounded-xl border border-white/10">
+									<p className="text-lg font-mono font-bold text-green-400 text-center tracking-wider">
 										{selectedRoom.codigo_sala}
 									</p>
 								</div>
 								<button
 									onClick={handleCopyCode}
-									className="btn-secondary btn-icon h-full px-6"
+									className="btn-secondary btn-icon h-full px-3"
 								>
-									<FiCopy className="text-xl" />
+									<FiCopy className="text-base" />
 								</button>
 							</div>
-							<p className="text-gray-400 text-sm mt-3">
+							<p className="text-gray-400 text-xs mt-2">
 								Comparte este código para que otros se unan a la sala
 							</p>
 						</div>
 
-						{/* Admin Actions */}
+						{/* Admin Actions - More Compact */}
 						{isOwner && (
-							<div className="rounded-3xl p-6 bg-gradient-to-br from-[#1f2126] to-[#141518] shadow-xl border border-white/5">
-								<h3 className="text-xl font-bold mb-4">Administración</h3>
-								<div className="flex flex-col sm:flex-row gap-3">
+							<div className="rounded-2xl p-4 bg-gradient-to-br from-[#1f2126] to-[#141518] shadow-lg border border-white/5">
+								<h3 className="text-lg font-bold mb-3">Administración</h3>
+								<div className="flex flex-col sm:flex-row gap-2">
 									<button
 										onClick={openEditModal}
 										className="btn-info btn-icon flex-1"
@@ -333,9 +351,9 @@ const RoomDetail: React.FC = () => {
 							</div>
 						)}
 
-						{/* Leave Room Button */}
+						{/* Leave Room Button - More Compact */}
 						{!isOwner && (
-							<div className="rounded-3xl p-6 bg-gradient-to-br from-[#1f2126] to-[#141518] shadow-xl border border-white/5">
+							<div className="rounded-2xl p-4 bg-gradient-to-br from-[#1f2126] to-[#141518] shadow-lg border border-white/5">
 								<button
 									onClick={handleLeaveRoom}
 									className="btn-warning btn-icon w-full"
@@ -346,39 +364,40 @@ const RoomDetail: React.FC = () => {
 						)}
 					</div>
 
-					{/* Members Panel */}
+					{/* Members Panel - More Compact with Real Names */}
 					<div className="lg:col-span-1">
-						<div className="rounded-3xl p-6 bg-gradient-to-br from-[#1f2126] to-[#141518] shadow-xl border border-white/5 sticky top-4">
-							<h3 className="text-xl font-bold mb-4 flex items-center gap-2">
+						<div className="rounded-2xl p-4 bg-gradient-to-br from-[#1f2126] to-[#141518] shadow-lg border border-white/5 sticky top-4">
+							<h3 className="text-lg font-bold mb-3 flex items-center gap-2">
 								<FiUsers /> Miembros ({memberCount})
 							</h3>
 
-							<div className="space-y-3 max-h-[600px] overflow-y-auto">
+							<div className="space-y-2 max-h-[500px] overflow-y-auto">
 								{members.length === 0 ? (
-									<p className="text-gray-400 text-center py-8">No hay miembros</p>
+									<p className="text-gray-400 text-center py-6 text-sm">No hay miembros</p>
 								) : (
 									members.map((member) => {
-										const memberName = member.nombre_usuario || member.username || 'Usuario';
+										// Get the real username from the member object
+										const realMemberName = member.nombre_usuario || member.username || 'Usuario';
 										return (
 											<div
 												key={member.id_usuario_sala}
-												className="flex items-center justify-between p-3 bg-white/5 rounded-xl hover:bg-white/10 transition-colors"
+												className="flex items-center justify-between p-2 bg-white/5 rounded-lg hover:bg-white/10 transition-colors"
 											>
-												<div className="flex items-center gap-3">
-													<div className="w-10 h-10 rounded-full bg-green-600 flex items-center justify-center">
-														<span className="font-bold">
-															{memberName.charAt(0).toUpperCase()}
+												<div className="flex items-center gap-2">
+													<div className="w-8 h-8 rounded-full bg-green-600 flex items-center justify-center flex-shrink-0">
+														<span className="font-bold text-sm">
+															{realMemberName.charAt(0).toUpperCase()}
 														</span>
 													</div>
-													<div>
-														<p className="font-semibold">{memberName}</p>
+													<div className="min-w-0">
+														<p className="font-semibold text-sm truncate">{realMemberName}</p>
 														<p className="text-xs text-gray-400">
 															{member.rol === 'admin' ? '👑 Admin' : '👤 Miembro'}
 														</p>
 													</div>
 												</div>
 												{member.id_usuario === currentUserId && (
-													<span className="text-xs bg-green-700 px-2 py-1 rounded-full">Tú</span>
+													<span className="text-xs bg-green-700 px-2 py-0.5 rounded-full flex-shrink-0">Tú</span>
 												)}
 											</div>
 										);
@@ -396,6 +415,10 @@ const RoomDetail: React.FC = () => {
 
 				{activeTab === 'ranking' && roomId && (
 					<RoomRanking roomId={roomId} />
+				)}
+
+				{activeTab === 'config' && roomId && isOwner && (
+					<RoomConfiguration roomId={roomId} />
 				)}
 			</div>
 		</main>

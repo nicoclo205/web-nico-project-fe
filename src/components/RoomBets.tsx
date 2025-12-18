@@ -21,7 +21,7 @@ const RoomBets: React.FC<RoomBetsProps> = ({ roomId }) => {
 
   useEffect(() => {
     fetchUserBets(roomId);
-    fetchUpcomingMatches();
+    fetchUpcomingMatches(roomId); // Pass roomId to filter matches by room configuration
   }, [roomId, fetchUserBets, fetchUpcomingMatches]);
 
   const handleOpenBetModal = (match: Match) => {

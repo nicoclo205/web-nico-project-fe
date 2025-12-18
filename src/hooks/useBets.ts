@@ -59,11 +59,12 @@ export const useBets = () => {
   }, []);
 
   // Fetch upcoming matches available for betting
-  const fetchUpcomingMatches = useCallback(async () => {
+  // If salaId is provided, only returns matches configured for that room
+  const fetchUpcomingMatches = useCallback(async (salaId?: number) => {
     setLoading(true);
     setError(null);
 
-    const result = await apiService.getUpcomingMatches();
+    const result = await apiService.getUpcomingMatches(salaId);
 
     if (result.success && result.data) {
       setUpcomingMatches(result.data);
