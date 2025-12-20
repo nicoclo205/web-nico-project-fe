@@ -17,6 +17,8 @@ export interface Room {
   codigo_sala: string;
   fecha_creacion: string;
   id_usuario: number | { id_usuario: number; nombre_usuario?: string };
+  creador_nombre?: string;
+  avatar_sala?: string;
   creador?: {
     id_usuario: number;
     nombre_usuario: string;
@@ -28,7 +30,9 @@ export interface Room {
 export interface RoomMember {
   id_usuario_sala: number;
   id_usuario: number;
-  nombre_usuario: string;
+  nombre_usuario?: string;
+  usuario_nombre?: string;
+  foto_perfil?: string;
   rol: 'admin' | 'participante';
   fecha_union: string;
 }
@@ -38,6 +42,7 @@ export interface CreateRoomData {
   descripcion?: string;
   max_miembros?: number;
   es_privada?: boolean;
+  avatar_sala?: string;
 }
 
 export interface UpdateRoomData {

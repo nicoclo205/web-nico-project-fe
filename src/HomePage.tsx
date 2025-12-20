@@ -6,11 +6,14 @@ import { IoIosChatbubbles, IoMdNotifications, IoMdTrophy } from "react-icons/io"
 import { useAuth } from "./hooks/useAuth";
 import { useNavigate } from "react-router-dom";
 import { useState, useEffect } from "react";
+import { useRoom } from "./hooks/useRoom";
+import { registerRoomHash } from "./utils/roomHash";
 
 const HomePage = () => {
   const { user, logout } = useAuth();
   const navigate = useNavigate();
   const [userAvatar, setUserAvatar] = useState<string | null>(null);
+  const { rooms } = useRoom();
 
   useEffect(() => {
     const fetchUserAvatar = async () => {
@@ -44,6 +47,14 @@ const HomePage = () => {
 
   // Get user name from auth context
   const userName = user?.nombre_usuario || user?.username || "Usuario";
+  const currentUserId = user?.id_usuario || user?.id;
+
+  // Filter rooms where user is a member (creator or joined)
+  const userRooms = rooms.filter((room) => {
+    const isOwner = room.id_usuario === currentUserId;
+    const isMember = room.miembros && room.miembros.some(m => m.id_usuario === currentUserId);
+    return isOwner || isMember;
+  });
 
   return (
     <div className="flex flex-col lg:flex-row h-screen bg-[#0e0f11] text-white page-transition-enter">
@@ -207,24 +218,67 @@ const HomePage = () => {
           {/* Right Sidebar */}
           <aside className="w-full lg:w-80 flex flex-col gap-4 md:gap-6 flex-shrink-0">
 
-            {/* Statistics Card */}
-            <div className="bg-[#181b21] rounded-xl md:rounded-2xl p-4 md:p-6 border border-white/5 shadow-sm">
-              <h3 className="text-base md:text-lg font-bold text-white mb-3 md:mb-4">Estadísticas</h3>
-              <div className="space-y-2 md:space-y-3">
-                <div className="flex items-center justify-between p-2.5 md:p-3 rounded-lg bg-[#0f1115] border border-white/5">
-                  <span className="text-xs md:text-sm font-medium text-gray-400">Partidos Hoy</span>
-                  <span className="text-base md:text-lg font-bold text-green-500">0</span>
-                </div>
-                <div className="flex items-center justify-between p-2.5 md:p-3 rounded-lg bg-[#0f1115] border border-white/5">
-                  <span className="text-xs md:text-sm font-medium text-gray-400">Próximos Partidos</span>
-                  <span className="text-base md:text-lg font-bold text-blue-500">0</span>
-                </div>
-                <div className="flex items-center justify-between p-2.5 md:p-3 rounded-lg bg-[#0f1115] border border-white/5">
-                  <span className="text-xs md:text-sm font-medium text-gray-400">En Vivo</span>
-                  <span className="text-base md:text-lg font-bold text-red-600 animate-pulse">0</span>
+            {/* My Rooms Section */}
+            {userRooms.length > 0 && (
+              <div className="bg-[#181b21] rounded-xl md:rounded-2xl p-4 md:p-6 border border-white/5 shadow-sm">
+                <h3 className="text-base md:text-lg font-bold text-white mb-3 md:mb-4">Mis Salas</h3>
+                <div className="space-y-2">
+                  {userRooms.map((room) => {
+                    const roomHash = registerRoomHash(room.id_sala);
+
+                    // Get admin name - find the member with 'admin' role
+                    const adminMember = room.miembros?.find(m => m.rol === 'admin');
+                    const adminName = adminMember?.usuario_nombre ||
+                                     adminMember?.nombre_usuario ||
+                                     room.creador_nombre ||
+                                     'Admin';
+                    // Get real member count
+                    const memberCount = room.miembros?.length || 1;
+
+                    return (
+                      <button
+                        key={room.id_sala}
+                        onClick={() => navigate(`/room/${roomHash}`)}
+                        className="w-full text-left p-2.5 md:p-3 rounded-lg bg-[#0f1115] border border-white/5 hover:border-green-500/50 hover:bg-green-500/10 transition-all duration-200 group"
+                      >
+                        <div className="flex items-center justify-between gap-3">
+                          {/* Room Avatar */}
+                          {room.avatar_sala && (
+                            <img
+                              src={room.avatar_sala}
+                              alt={room.nombre}
+                              className="w-10 h-10 md:w-12 md:h-12 object-contain flex-shrink-0"
+                            />
+                          )}
+                          <div className="flex-1 min-w-0">
+                            <p className="text-xs md:text-sm font-medium text-white truncate group-hover:text-green-400 transition-colors">
+                              {room.nombre}
+                            </p>
+                            <div className="flex items-center gap-2 mt-0.5">
+                              <p className="text-xs text-gray-500">
+                                {memberCount} miembros
+                              </p>
+                              <span className="text-gray-600">•</span>
+                              <p className="text-xs text-gray-500 truncate">
+                                Admin: {adminName}
+                              </p>
+                            </div>
+                          </div>
+                          <svg
+                            className="w-4 h-4 text-gray-500 group-hover:text-green-400 transition-all group-hover:translate-x-1 flex-shrink-0"
+                            fill="none"
+                            stroke="currentColor"
+                            viewBox="0 0 24 24"
+                          >
+                            <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M9 5l7 7-7 7" />
+                          </svg>
+                        </div>
+                      </button>
+                    );
+                  })}
                 </div>
               </div>
-            </div>
+            )}
 
             {/* Coming Soon Card */}
             <div className="bg-gradient-to-br from-[#181b21] to-[#0f1115] rounded-xl md:rounded-2xl p-4 md:p-6 border border-white/5 relative overflow-hidden flex-1 min-h-[200px] md:min-h-[250px] flex flex-col justify-center text-center">

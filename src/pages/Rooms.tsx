@@ -8,6 +8,7 @@ import { useAuth } from '../hooks/useAuth';
 import { useRoom } from '../hooks/useRoom';
 import { CreateRoomData, apiService } from '../services/apiService';
 import { registerRoomHash } from '../utils/roomHash';
+import { ROOM_AVATARS, DEFAULT_ROOM_AVATAR } from '../constants/roomAvatars';
 
 const Rooms: React.FC = () => {
 	const navigate = useNavigate();
@@ -32,7 +33,8 @@ const Rooms: React.FC = () => {
 	const [newRoom, setNewRoom] = useState<CreateRoomData>({
 		nombre: '',
 		descripcion: '',
-		max_miembros: 10
+		max_miembros: 10,
+		avatar_sala: DEFAULT_ROOM_AVATAR
 	});
 
 	// Join room state
@@ -138,7 +140,8 @@ const Rooms: React.FC = () => {
 			setNewRoom({
 				nombre: '',
 				descripcion: '',
-				max_miembros: 10
+				max_miembros: 10,
+				avatar_sala: DEFAULT_ROOM_AVATAR
 			});
 			setSelectedLeagues([]);
 			reload();
@@ -298,7 +301,7 @@ const Rooms: React.FC = () => {
 						) : (
 							filteredRooms.map((room) => {
 								const isOwner = room.id_usuario === currentUserId;
-								const memberCount = room.miembros_count || 0;
+								const memberCount = room.miembros?.length || 1;
 								const maxMembers = room.max_miembros || 10;
 								const roomHash = registerRoomHash(room.id_sala);
 
@@ -410,9 +413,9 @@ const Rooms: React.FC = () => {
 
 			{/* Create Room Modal */}
 			{showCreateModal && (
-				<div className="fixed inset-0 bg-black/70 backdrop-blur-sm flex items-center justify-center p-4 z-50 overflow-y-auto" onClick={() => setShowCreateModal(false)}>
-					<div className="bg-gradient-to-br from-[#1f2126] to-[#16181d] rounded-3xl p-6 md:p-8 max-w-2xl w-full border border-white/10 shadow-2xl my-8" onClick={(e) => e.stopPropagation()}>
-						<div className="flex items-center justify-between mb-6">
+				<div className="fixed inset-0 bg-black/70 backdrop-blur-sm flex items-center justify-center p-4 z-50" onClick={() => setShowCreateModal(false)}>
+					<div className="bg-gradient-to-br from-[#1f2126] to-[#16181d] rounded-3xl p-6 md:p-8 max-w-2xl w-full border border-white/10 shadow-2xl max-h-[90vh] flex flex-col" onClick={(e) => e.stopPropagation()}>
+						<div className="flex items-center justify-between mb-6 flex-shrink-0">
 							<h2 className="text-2xl md:text-3xl font-bold bg-gradient-to-r from-green-400 to-blue-500 bg-clip-text text-transparent">
 								Crear Nueva Sala
 							</h2>
@@ -426,7 +429,7 @@ const Rooms: React.FC = () => {
 							</button>
 						</div>
 
-						<div className="space-y-4">
+						<div className="space-y-4 overflow-y-auto flex-1 pr-2">
 							<div>
 								<label className="block text-sm font-medium text-gray-300 mb-2">Nombre de la Sala *</label>
 								<input
@@ -463,6 +466,37 @@ const Rooms: React.FC = () => {
 									<option value={30} className="bg-[#1f2126]">30 miembros</option>
 									<option value={50} className="bg-[#1f2126]">50 miembros</option>
 								</select>
+							</div>
+
+							<div>
+								<label className="block text-sm font-medium text-gray-300 mb-3">Avatar de la Sala *</label>
+								<div className="grid grid-cols-2 sm:grid-cols-4 gap-3">
+									{ROOM_AVATARS.map((avatar) => (
+										<button
+											key={avatar}
+											type="button"
+											onClick={() => setNewRoom({ ...newRoom, avatar_sala: avatar })}
+											className={`relative rounded-xl p-3 border-2 transition-all duration-300 flex flex-col items-center justify-center bg-white/5 hover:bg-white/10 ${
+												newRoom.avatar_sala === avatar
+													? 'border-green-500 ring-2 ring-green-500/30 scale-105'
+													: 'border-transparent hover:border-gray-600'
+											}`}
+										>
+											<img
+												src={avatar}
+												alt="Avatar"
+												className="w-16 h-16 object-contain"
+											/>
+											{newRoom.avatar_sala === avatar && (
+												<div className="absolute top-1 right-1 w-5 h-5 bg-green-500 rounded-full flex items-center justify-center">
+													<svg className="w-3 h-3 text-white" fill="currentColor" viewBox="0 0 20 20">
+														<path fillRule="evenodd" d="M16.707 5.293a1 1 0 010 1.414l-8 8a1 1 0 01-1.414 0l-4-4a1 1 0 011.414-1.414L8 12.586l7.293-7.293a1 1 0 011.414 0z" clipRule="evenodd" />
+													</svg>
+												</div>
+											)}
+										</button>
+									))}
+								</div>
 							</div>
 
 							<div>
@@ -522,7 +556,7 @@ const Rooms: React.FC = () => {
 							</p>
 						</div>
 
-						<div className="flex gap-3 mt-6">
+						<div className="flex gap-3 mt-6 pt-4 border-t border-white/10 flex-shrink-0">
 							<button
 								onClick={() => setShowCreateModal(false)}
 								className="btn-secondary flex-1"

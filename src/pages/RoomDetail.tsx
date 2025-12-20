@@ -218,18 +218,28 @@ const RoomDetail: React.FC = () => {
 						>
 							<FaArrowLeft />
 						</button>
-						<div>
-							<div className="flex items-center gap-3">
-								<h1 className="text-xl md:text-2xl lg:text-3xl font-bold">{selectedRoom.nombre}</h1>
-								{isOwner && (
-									<span className="px-3 py-1 text-xs font-semibold rounded-full bg-green-600">
-										Admin
-									</span>
+						<div className="flex items-center gap-3 md:gap-4">
+							{/* Room Avatar */}
+							{selectedRoom.avatar_sala && (
+								<img
+									src={selectedRoom.avatar_sala}
+									alt={selectedRoom.nombre}
+									className="w-12 h-12 md:w-16 md:h-16 lg:w-20 lg:h-20 object-contain flex-shrink-0"
+								/>
+							)}
+							<div>
+								<div className="flex items-center gap-3">
+									<h1 className="text-xl md:text-2xl lg:text-3xl font-bold">{selectedRoom.nombre}</h1>
+									{isOwner && (
+										<span className="px-3 py-1 text-xs font-semibold rounded-full bg-green-600">
+											Admin
+										</span>
+									)}
+								</div>
+								{selectedRoom.descripcion && (
+									<p className="text-gray-400 text-sm mt-1">{selectedRoom.descripcion}</p>
 								)}
 							</div>
-							{selectedRoom.descripcion && (
-								<p className="text-gray-400 text-sm mt-1">{selectedRoom.descripcion}</p>
-							)}
 						</div>
 					</div>
 
@@ -375,19 +385,27 @@ const RoomDetail: React.FC = () => {
 									<p className="text-gray-400 text-center py-6 text-sm">No hay miembros</p>
 								) : (
 									members.map((member) => {
-										// Get the real username from the member object
-										const realMemberName = member.nombre_usuario || member.username || 'Usuario';
+										// Get the real username from the member object - backend sends 'usuario_nombre'
+										const realMemberName = member.usuario_nombre || member.nombre_usuario || member.username || 'Usuario';
 										return (
 											<div
 												key={member.id_usuario_sala}
 												className="flex items-center justify-between p-2 bg-white/5 rounded-lg hover:bg-white/10 transition-colors"
 											>
 												<div className="flex items-center gap-2">
-													<div className="w-8 h-8 rounded-full bg-green-600 flex items-center justify-center flex-shrink-0">
-														<span className="font-bold text-sm">
-															{realMemberName.charAt(0).toUpperCase()}
-														</span>
-													</div>
+													{member.foto_perfil ? (
+														<img
+															src={member.foto_perfil}
+															alt={realMemberName}
+															className="w-8 h-8 rounded-full object-cover border border-white/20 flex-shrink-0"
+														/>
+													) : (
+														<div className="w-8 h-8 rounded-full bg-green-600 flex items-center justify-center flex-shrink-0">
+															<span className="font-bold text-sm">
+																{realMemberName.charAt(0).toUpperCase()}
+															</span>
+														</div>
+													)}
 													<div className="min-w-0">
 														<p className="font-semibold text-sm truncate">{realMemberName}</p>
 														<p className="text-xs text-gray-400">
