@@ -1,9 +1,9 @@
 import React, { useEffect, useState } from 'react';
 import { useNavigate } from 'react-router-dom';
 import { FaHome } from "react-icons/fa";
-import { GiSoccerField, GiTennisRacket, GiBasketballBall } from "react-icons/gi";
+import { GiSoccerField } from "react-icons/gi";
 import { MdMeetingRoom } from "react-icons/md";
-import { FiSearch, FiFilter } from "react-icons/fi";
+import { FiSearch, FiFilter, FiSettings } from "react-icons/fi";
 import { useAuth } from '../hooks/useAuth';
 import { apiService } from '../services/apiService';
 
@@ -76,8 +76,36 @@ const SoccerMatches: React.FC = () => {
 	const [filterEstado, setFilterEstado] = useState<string>('all');
 	const [filterFecha, setFilterFecha] = useState<string>('all');
 	const [displayCount, setDisplayCount] = useState(10); // Mostrar 10 partidos inicialmente
+	const [userAvatar, setUserAvatar] = useState<string | null>(null);
+	const [selectedMatch, setSelectedMatch] = useState<Match | null>(null);
+	const [showMatchModal, setShowMatchModal] = useState(false);
 
 	const userName = user?.nombre_usuario || user?.username || "Usuario";
+
+	useEffect(() => {
+		const fetchUserAvatar = async () => {
+			try {
+				const token = localStorage.getItem('authToken');
+				if (token) {
+					const response = await fetch('http://localhost:8000/api/usuario/me', {
+						headers: {
+							'Authorization': `Token ${token}`
+						}
+					});
+					if (response.ok) {
+						const data = await response.json();
+						if (data.foto_perfil) {
+							setUserAvatar(data.foto_perfil);
+						}
+					}
+				}
+			} catch (error) {
+				console.error('Error fetching user avatar', error);
+			}
+		};
+
+		fetchUserAvatar();
+	}, []);
 
 	const handleLogout = async () => {
 		await logout();
@@ -249,6 +277,11 @@ const SoccerMatches: React.FC = () => {
 	const displayedMatches = filteredMatches.slice(0, displayCount);
 	const hasMoreMatches = filteredMatches.length > displayCount;
 
+	const handleMatchClick = (match: Match) => {
+		setSelectedMatch(match);
+		setShowMatchModal(true);
+	};
+
 	return (
 		<div className="flex flex-col lg:flex-row h-screen bg-[#0e0f11] text-white page-transition-enter">
 			{/* Sidebar */}
@@ -275,33 +308,21 @@ const SoccerMatches: React.FC = () => {
 						"
 				/>
 
-				{/* Tennis icon */}
-				<GiTennisRacket
-					onClick={() => navigate('/tennis-matches')}
-					className="
-						text-white w-12 h-12
-						p-3
-						rounded-2xl
-						hover:bg-white/10
-						transition-all duration-200 ease-in-out
-						cursor-pointer"
-				/>
-
-				{/* Basketball icon */}
-				<GiBasketballBall
-					onClick={() => navigate('/basketball-matches')}
-					className="
-						text-white w-12 h-12
-						p-3
-						rounded-2xl
-						hover:bg-white/10
-						transition-all duration-200 ease-in-out
-						cursor-pointer"
-				/>
-
 				{/* Rooms icon */}
 				<MdMeetingRoom
 					onClick={() => navigate('/rooms')}
+					className="
+						text-white w-12 h-12
+						p-3
+						rounded-2xl
+						hover:bg-white/10
+						transition-all duration-200 ease-in-out
+						cursor-pointer"
+				/>
+
+				{/* Settings icon */}
+				<FiSettings
+					onClick={() => navigate('/settings')}
 					className="
 						text-white w-12 h-12
 						p-3
@@ -325,11 +346,22 @@ const SoccerMatches: React.FC = () => {
 						</h1>
 					</div>
 					<div className="flex items-center space-x-2 md:space-x-4">
-						<div className="hidden sm:flex items-center space-x-3 bg-white/5 px-3 py-1.5 rounded-full border border-white/10">
+						<div
+							onClick={() => navigate('/settings')}
+							className="hidden sm:flex items-center space-x-3 bg-white/5 px-3 py-1.5 rounded-full border border-white/10 cursor-pointer hover:bg-white/10 transition-all"
+						>
 							<span className="text-sm font-medium text-gray-300">{userName}</span>
-							<div className="w-8 h-8 rounded-full bg-gray-600 flex items-center justify-center text-xs text-white font-bold">
-								{userName.charAt(0).toUpperCase()}
-							</div>
+							{userAvatar ? (
+								<img
+									src={userAvatar}
+									alt="Profile"
+									className="w-8 h-8 rounded-full object-cover border border-white/20"
+								/>
+							) : (
+								<div className="w-8 h-8 rounded-full bg-gray-600 flex items-center justify-center text-xs text-white font-bold">
+									{userName.charAt(0).toUpperCase()}
+								</div>
+							)}
 						</div>
 						<button
 							onClick={handleLogout}
@@ -503,10 +535,8 @@ const SoccerMatches: React.FC = () => {
 								displayedMatches.map((match) => (
 								<div
 									key={match.id_partido}
-									onClick={() => match.estado === 'programado' && navigate(`/bet/${match.id_partido}`)}
-									className={`rounded-3xl p-4 md:p-6 bg-gradient-to-br from-[#1f2126] to-[#141518] shadow-xl border border-white/5 transition-all ${
-										match.estado === 'programado' ? 'cursor-pointer hover:scale-[1.02] hover:border-green-500/50' : ''
-									}`}
+									onClick={() => handleMatchClick(match)}
+									className="rounded-3xl p-4 md:p-6 bg-gradient-to-br from-[#1f2126] to-[#141518] shadow-xl border border-white/5 transition-all cursor-pointer hover:scale-[1.02] hover:border-green-500/50"
 								>
 									{/* Match Header */}
 									<div className="flex flex-col sm:flex-row justify-between items-start sm:items-center mb-4 gap-2">
@@ -593,7 +623,11 @@ const SoccerMatches: React.FC = () => {
 														})}
 													</div>
 													<div className="text-xs text-gray-500">
-														{new Date(match.fecha).toLocaleDateString('es-ES')}
+														{new Date(match.fecha).toLocaleDateString('es-ES', {
+															day: '2-digit',
+															month: 'short',
+															year: 'numeric'
+														})}
 													</div>
 												</div>
 											)}
@@ -715,6 +749,135 @@ const SoccerMatches: React.FC = () => {
 
 				</div>
 			</div>
+
+			{/* Match Details Modal */}
+			{showMatchModal && selectedMatch && (
+				<div className="fixed inset-0 bg-black/70 backdrop-blur-sm flex items-center justify-center p-4 z-50" onClick={() => setShowMatchModal(false)}>
+					<div className="bg-gradient-to-br from-[#1f2126] to-[#16181d] rounded-3xl p-6 md:p-8 max-w-2xl w-full border border-white/10 shadow-2xl" onClick={(e) => e.stopPropagation()}>
+						{/* Header */}
+						<div className="flex items-center justify-between mb-6">
+							<h2 className="text-2xl md:text-3xl font-bold bg-gradient-to-r from-green-400 to-blue-500 bg-clip-text text-transparent">
+								Información del Partido
+							</h2>
+							<button onClick={() => setShowMatchModal(false)} className="text-gray-400 hover:text-white transition-colors">
+								<svg className="w-6 h-6" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+									<path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M6 18L18 6M6 6l12 12" />
+								</svg>
+							</button>
+						</div>
+
+						{/* Liga Info */}
+						<div className="flex items-center gap-3 mb-6 p-4 bg-white/5 rounded-xl">
+							{selectedMatch.liga_logo && (
+								<img src={selectedMatch.liga_logo} alt={selectedMatch.liga_nombre || 'Liga'} className="w-8 h-8 object-contain" />
+							)}
+							<span className="text-lg font-semibold">{selectedMatch.liga_nombre || 'Liga'}</span>
+							<span className={`ml-auto px-3 py-1 text-xs font-semibold rounded-full ${
+								selectedMatch.estado === 'programado' ? 'bg-blue-500' :
+								selectedMatch.estado === 'en curso' ? 'bg-red-500 animate-pulse' :
+								selectedMatch.estado === 'finalizado' ? 'bg-gray-500' :
+								selectedMatch.estado === 'pospuesto' ? 'bg-yellow-500' :
+								selectedMatch.estado === 'suspendido' ? 'bg-orange-500' : 'bg-red-700'
+							}`}>
+								{selectedMatch.estado === 'programado' ? 'Programado' :
+								 selectedMatch.estado === 'en curso' ? 'En vivo' :
+								 selectedMatch.estado === 'finalizado' ? 'Finalizado' :
+								 selectedMatch.estado === 'pospuesto' ? 'Pospuesto' :
+								 selectedMatch.estado === 'suspendido' ? 'Suspendido' : 'Cancelado'}
+							</span>
+						</div>
+
+						{/* Teams Display */}
+						<div className="mb-6">
+							<div className="flex items-center justify-between gap-4">
+								{/* Home Team */}
+								<div className="flex-1 flex flex-col items-center">
+									{selectedMatch.equipo_local.logo ? (
+										<img src={selectedMatch.equipo_local.logo} alt={selectedMatch.equipo_local.nombre} className="w-20 h-20 md:w-24 md:h-24 object-contain mb-3" />
+									) : (
+										<div className="w-20 h-20 md:w-24 md:h-24 rounded-full bg-white/10 flex items-center justify-center text-4xl mb-3">⚽</div>
+									)}
+									<span className="text-lg md:text-xl font-bold text-center">{selectedMatch.equipo_local.nombre}</span>
+								</div>
+
+								{/* Score or Time */}
+								<div className="text-center">
+									{selectedMatch.estado === 'finalizado' ? (
+										<div className="flex items-center gap-3 text-3xl md:text-4xl font-bold">
+											<span>{selectedMatch.goles_local ?? 0}</span>
+											<span className="text-gray-500">-</span>
+											<span>{selectedMatch.goles_visitante ?? 0}</span>
+										</div>
+									) : (
+										<div className="text-gray-400">
+											<div className="text-2xl md:text-3xl font-bold">
+												{new Date(selectedMatch.fecha).toLocaleTimeString('es-ES', {
+													hour: '2-digit',
+													minute: '2-digit',
+												})}
+											</div>
+										</div>
+									)}
+								</div>
+
+								{/* Away Team */}
+								<div className="flex-1 flex flex-col items-center">
+									{selectedMatch.equipo_visitante.logo ? (
+										<img src={selectedMatch.equipo_visitante.logo} alt={selectedMatch.equipo_visitante.nombre} className="w-20 h-20 md:w-24 md:h-24 object-contain mb-3" />
+									) : (
+										<div className="w-20 h-20 md:w-24 md:h-24 rounded-full bg-white/10 flex items-center justify-center text-4xl mb-3">⚽</div>
+									)}
+									<span className="text-lg md:text-xl font-bold text-center">{selectedMatch.equipo_visitante.nombre}</span>
+								</div>
+							</div>
+						</div>
+
+						{/* Additional Info */}
+						<div className="space-y-3 mb-6">
+							{/* Date & Time */}
+							<div className="flex items-center justify-between p-4 bg-white/5 rounded-xl">
+								<span className="text-gray-400 text-sm">📅 Fecha y Hora</span>
+								<span className="font-semibold">
+									{new Date(selectedMatch.fecha).toLocaleDateString('es-ES', {
+										weekday: 'long',
+										day: '2-digit',
+										month: 'long',
+										year: 'numeric'
+									})} - {new Date(selectedMatch.fecha).toLocaleTimeString('es-ES', {
+										hour: '2-digit',
+										minute: '2-digit',
+									})}
+								</span>
+							</div>
+
+							{/* Stadium */}
+							<div className="flex items-center justify-between p-4 bg-white/5 rounded-xl">
+								<span className="text-gray-400 text-sm">🏟️ Estadio</span>
+								<span className="font-semibold text-right">
+									{selectedMatch.venue_nombre ? (
+										<>
+											{selectedMatch.venue_nombre}
+											{selectedMatch.venue_ciudad && `, ${selectedMatch.venue_ciudad}`}
+										</>
+									) : (
+										<span className="text-gray-500">No disponible</span>
+									)}
+								</span>
+							</div>
+						</div>
+
+						{/* Action Button */}
+						<div className="flex justify-center">
+							<button
+								onClick={() => setShowMatchModal(false)}
+								className="w-full bg-white/10 hover:bg-white/20 text-white font-semibold py-3 rounded-xl transition-all"
+							>
+								Cerrar
+							</button>
+						</div>
+					</div>
+				</div>
+			)}
 		</div>
 	);
 };

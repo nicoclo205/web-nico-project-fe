@@ -91,11 +91,11 @@ const RoomRanking: React.FC<RoomRankingProps> = ({ roomId }) => {
         </button>
       </div>
 
-      {/* Top 3 Podium */}
+      {/* Top 3 Podium - Más Compacto */}
       {rankingData.ranking.length > 0 && (
-        <div className="rounded-3xl p-6 bg-gradient-to-br from-[#1f2126] to-[#141518] shadow-xl border border-white/5">
-          <h3 className="text-lg font-bold mb-4">🏆 Top 3</h3>
-          <div className="grid grid-cols-1 md:grid-cols-3 gap-4">
+        <div className="rounded-2xl p-4 bg-gradient-to-br from-[#1f2126] to-[#141518] shadow-xl border border-white/5">
+          <h3 className="text-base font-bold mb-3">🏆 Top 3</h3>
+          <div className="grid grid-cols-1 sm:grid-cols-3 gap-3">
             {rankingData.ranking.slice(0, 3).map((user) => {
               const userName = user.usuario.nombre_usuario || 'Usuario';
               const initial = userName.charAt(0).toUpperCase();
@@ -103,30 +103,30 @@ const RoomRanking: React.FC<RoomRankingProps> = ({ roomId }) => {
               return (
                 <div
                   key={user.usuario.id_usuario}
-                  className={`relative rounded-2xl p-6 ${
+                  className={`relative rounded-xl p-4 ${
                     user.posicion === 1
-                      ? 'bg-gradient-to-br from-yellow-600/30 to-yellow-900/30 border-2 border-yellow-500/50'
+                      ? 'bg-gradient-to-br from-yellow-600/30 to-yellow-900/30 border border-yellow-500/50'
                       : user.posicion === 2
-                      ? 'bg-gradient-to-br from-gray-600/30 to-gray-900/30 border-2 border-gray-400/50'
-                      : 'bg-gradient-to-br from-orange-600/30 to-orange-900/30 border-2 border-orange-500/50'
+                      ? 'bg-gradient-to-br from-gray-600/30 to-gray-900/30 border border-gray-400/50'
+                      : 'bg-gradient-to-br from-orange-600/30 to-orange-900/30 border border-orange-500/50'
                   }`}
                 >
                   {/* Position Badge */}
-                  <div className="absolute -top-3 -right-3">
-                    <div className={`w-12 h-12 rounded-full flex items-center justify-center ${
+                  <div className="absolute -top-2 -right-2">
+                    <div className={`w-8 h-8 rounded-full flex items-center justify-center text-xs font-bold ${
                       user.posicion === 1
                         ? 'bg-yellow-500'
                         : user.posicion === 2
                         ? 'bg-gray-400'
                         : 'bg-orange-500'
                     }`}>
-                      <span className="text-white font-bold text-lg">#{user.posicion}</span>
+                      #{user.posicion}
                     </div>
                   </div>
 
                   {/* User Avatar */}
-                  <div className="flex flex-col items-center mb-4">
-                    <div className={`w-20 h-20 rounded-full flex items-center justify-center mb-3 ${
+                  <div className="flex flex-col items-center mb-3">
+                    <div className={`w-14 h-14 rounded-full flex items-center justify-center mb-2 ${
                       user.posicion === 1
                         ? 'bg-yellow-500'
                         : user.posicion === 2
@@ -140,19 +140,19 @@ const RoomRanking: React.FC<RoomRankingProps> = ({ roomId }) => {
                           className="w-full h-full rounded-full object-cover"
                         />
                       ) : (
-                        <span className="text-white text-3xl font-bold">{initial}</span>
+                        <span className="text-white text-xl font-bold">{initial}</span>
                       )}
                     </div>
-                    <h4 className="font-bold text-lg text-center">{userName}</h4>
+                    <h4 className="font-bold text-sm text-center truncate w-full px-2">{userName}</h4>
                   </div>
 
                   {/* Stats */}
-                  <div className="space-y-2 text-center">
+                  <div className="space-y-1 text-center">
                     <div>
                       <p className="text-gray-400 text-xs">Puntos</p>
-                      <p className="text-3xl font-bold text-green-400">{user.puntos}</p>
+                      <p className="text-2xl font-bold text-green-400">{user.puntos}</p>
                     </div>
-                    <div className="grid grid-cols-2 gap-2 text-xs">
+                    <div className="grid grid-cols-2 gap-1 text-xs">
                       <div>
                         <p className="text-gray-400">Apuestas</p>
                         <p className="font-semibold">{user.total_apuestas}</p>
@@ -160,7 +160,7 @@ const RoomRanking: React.FC<RoomRankingProps> = ({ roomId }) => {
                       <div>
                         <p className="text-gray-400">Efectividad</p>
                         <p className={`font-semibold ${getEffectivenessColor(user.efectividad)}`}>
-                          {user.efectividad.toFixed(1)}%
+                          {user.efectividad.toFixed(0)}%
                         </p>
                       </div>
                     </div>
@@ -173,8 +173,8 @@ const RoomRanking: React.FC<RoomRankingProps> = ({ roomId }) => {
       )}
 
       {/* Full Ranking Table */}
-      <div className="rounded-3xl p-6 bg-gradient-to-br from-[#1f2126] to-[#141518] shadow-xl border border-white/5">
-        <h3 className="text-lg font-bold mb-4 flex items-center gap-2">
+      <div className="rounded-3xl p-4 md:p-6 bg-gradient-to-br from-[#1f2126] to-[#141518] shadow-xl border border-white/5">
+        <h3 className="text-base md:text-lg font-bold mb-4 flex items-center gap-2">
           <FiTrendingUp className="text-blue-500" />
           Clasificación Completa
         </h3>
@@ -183,8 +183,8 @@ const RoomRanking: React.FC<RoomRankingProps> = ({ roomId }) => {
           <p className="text-gray-400 text-center py-8">No hay datos de ranking</p>
         ) : (
           <div className="space-y-2">
-            {/* Table Header */}
-            <div className="grid grid-cols-12 gap-4 px-4 py-2 text-xs font-semibold text-gray-400 border-b border-white/10">
+            {/* Table Header - Hidden on mobile */}
+            <div className="hidden md:grid grid-cols-12 gap-2 lg:gap-4 px-2 lg:px-4 py-2 text-xs font-semibold text-gray-400 border-b border-white/10">
               <div className="col-span-1">#</div>
               <div className="col-span-4">Usuario</div>
               <div className="col-span-2 text-center">Puntos</div>
@@ -200,71 +200,135 @@ const RoomRanking: React.FC<RoomRankingProps> = ({ roomId }) => {
               const initial = userName.charAt(0).toUpperCase();
 
               return (
-                <div
-                  key={user.usuario.id_usuario}
-                  className={`grid grid-cols-12 gap-4 px-4 py-3 rounded-xl hover:bg-white/5 transition-colors ${
-                    user.posicion <= 3 ? 'bg-white/5' : ''
-                  }`}
-                >
-                  {/* Position */}
-                  <div className="col-span-1 flex items-center">
-                    {user.posicion <= 3 ? (
-                      <div className="flex items-center justify-center">
-                        {getMedalIcon(user.posicion)}
-                      </div>
-                    ) : (
-                      <span className="text-gray-400 font-semibold">#{user.posicion}</span>
-                    )}
-                  </div>
-
-                  {/* User Info */}
-                  <div className="col-span-4 flex items-center gap-3">
-                    <div className="w-10 h-10 rounded-full bg-green-600 flex items-center justify-center flex-shrink-0">
-                      {user.usuario.foto_perfil ? (
-                        <img
-                          src={user.usuario.foto_perfil}
-                          alt={userName}
-                          className="w-full h-full rounded-full object-cover"
-                        />
+                <div key={user.usuario.id_usuario}>
+                  {/* Desktop View */}
+                  <div
+                    className={`hidden md:grid grid-cols-12 gap-2 lg:gap-4 px-2 lg:px-4 py-3 rounded-xl hover:bg-white/5 transition-colors ${
+                      user.posicion <= 3 ? 'bg-white/5' : ''
+                    }`}
+                  >
+                    {/* Position */}
+                    <div className="col-span-1 flex items-center">
+                      {user.posicion <= 3 ? (
+                        <div className="flex items-center justify-center">
+                          {getMedalIcon(user.posicion)}
+                        </div>
                       ) : (
-                        <span className="text-white font-bold">{initial}</span>
+                        <span className="text-gray-400 font-semibold text-sm">#{user.posicion}</span>
                       )}
                     </div>
-                    <div className="min-w-0">
-                      <p className="font-semibold truncate">{userName}</p>
-                      {(user.usuario.nombre || user.usuario.apellido) && (
-                        <p className="text-xs text-gray-400 truncate">
-                          {user.usuario.nombre} {user.usuario.apellido}
+
+                    {/* User Info */}
+                    <div className="col-span-4 flex items-center gap-2 lg:gap-3">
+                      <div className="w-8 h-8 lg:w-10 lg:h-10 rounded-full bg-green-600 flex items-center justify-center flex-shrink-0">
+                        {user.usuario.foto_perfil ? (
+                          <img
+                            src={user.usuario.foto_perfil}
+                            alt={userName}
+                            className="w-full h-full rounded-full object-cover"
+                          />
+                        ) : (
+                          <span className="text-white font-bold text-sm">{initial}</span>
+                        )}
+                      </div>
+                      <div className="min-w-0">
+                        <p className="font-semibold truncate text-sm">{userName}</p>
+                        {(user.usuario.nombre || user.usuario.apellido) && (
+                          <p className="text-xs text-gray-400 truncate hidden lg:block">
+                            {user.usuario.nombre} {user.usuario.apellido}
+                          </p>
+                        )}
+                      </div>
+                    </div>
+
+                    {/* Points */}
+                    <div className="col-span-2 flex items-center justify-center">
+                      <span className="text-base lg:text-lg font-bold text-green-400">{user.puntos}</span>
+                    </div>
+
+                    {/* Total Bets */}
+                    <div className="col-span-2 flex items-center justify-center">
+                      <span className="font-semibold text-sm">{user.total_apuestas}</span>
+                    </div>
+
+                    {/* Won */}
+                    <div className="col-span-1 flex items-center justify-center">
+                      <span className="text-green-400 font-semibold text-sm">{user.apuestas_ganadas}</span>
+                    </div>
+
+                    {/* Lost */}
+                    <div className="col-span-1 flex items-center justify-center">
+                      <span className="text-red-400 font-semibold text-sm">{user.apuestas_perdidas}</span>
+                    </div>
+
+                    {/* Effectiveness */}
+                    <div className="col-span-1 flex items-center justify-center">
+                      <span className={`font-semibold text-sm ${getEffectivenessColor(user.efectividad)}`}>
+                        {user.efectividad.toFixed(0)}%
+                      </span>
+                    </div>
+                  </div>
+
+                  {/* Mobile View - Card Layout */}
+                  <div
+                    className={`md:hidden rounded-xl p-3 ${
+                      user.posicion <= 3 ? 'bg-white/5 border border-white/10' : 'bg-white/5'
+                    }`}
+                  >
+                    <div className="flex items-center justify-between mb-2">
+                      {/* Position and User */}
+                      <div className="flex items-center gap-3">
+                        {user.posicion <= 3 ? (
+                          <div className="flex items-center justify-center w-6">
+                            <FiAward className={`text-lg ${getMedalColor(user.posicion)}`} />
+                          </div>
+                        ) : (
+                          <span className="text-gray-400 font-semibold text-sm w-6">#{user.posicion}</span>
+                        )}
+                        <div className="w-10 h-10 rounded-full bg-green-600 flex items-center justify-center flex-shrink-0">
+                          {user.usuario.foto_perfil ? (
+                            <img
+                              src={user.usuario.foto_perfil}
+                              alt={userName}
+                              className="w-full h-full rounded-full object-cover"
+                            />
+                          ) : (
+                            <span className="text-white font-bold text-sm">{initial}</span>
+                          )}
+                        </div>
+                        <div className="min-w-0">
+                          <p className="font-semibold text-sm truncate">{userName}</p>
+                        </div>
+                      </div>
+
+                      {/* Points */}
+                      <div className="text-right">
+                        <p className="text-xs text-gray-400">Puntos</p>
+                        <p className="text-xl font-bold text-green-400">{user.puntos}</p>
+                      </div>
+                    </div>
+
+                    {/* Stats Grid */}
+                    <div className="grid grid-cols-4 gap-2 text-center text-xs">
+                      <div>
+                        <p className="text-gray-400">Total</p>
+                        <p className="font-semibold">{user.total_apuestas}</p>
+                      </div>
+                      <div>
+                        <p className="text-gray-400">Ganadas</p>
+                        <p className="font-semibold text-green-400">{user.apuestas_ganadas}</p>
+                      </div>
+                      <div>
+                        <p className="text-gray-400">Perdidas</p>
+                        <p className="font-semibold text-red-400">{user.apuestas_perdidas}</p>
+                      </div>
+                      <div>
+                        <p className="text-gray-400">Efectividad</p>
+                        <p className={`font-semibold ${getEffectivenessColor(user.efectividad)}`}>
+                          {user.efectividad.toFixed(0)}%
                         </p>
-                      )}
+                      </div>
                     </div>
-                  </div>
-
-                  {/* Points */}
-                  <div className="col-span-2 flex items-center justify-center">
-                    <span className="text-lg font-bold text-green-400">{user.puntos}</span>
-                  </div>
-
-                  {/* Total Bets */}
-                  <div className="col-span-2 flex items-center justify-center">
-                    <span className="font-semibold">{user.total_apuestas}</span>
-                  </div>
-
-                  {/* Won */}
-                  <div className="col-span-1 flex items-center justify-center">
-                    <span className="text-green-400 font-semibold">{user.apuestas_ganadas}</span>
-                  </div>
-
-                  {/* Lost */}
-                  <div className="col-span-1 flex items-center justify-center">
-                    <span className="text-red-400 font-semibold">{user.apuestas_perdidas}</span>
-                  </div>
-
-                  {/* Effectiveness */}
-                  <div className="col-span-1 flex items-center justify-center">
-                    <span className={`font-semibold ${getEffectivenessColor(user.efectividad)}`}>
-                      {user.efectividad.toFixed(0)}%
-                    </span>
                   </div>
                 </div>
               );

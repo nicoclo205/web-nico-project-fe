@@ -1,13 +1,41 @@
 import { FaHome } from "react-icons/fa";
 import { GiSoccerField } from "react-icons/gi";
-import { MdMeetingRoom, MdSportsBasketball, MdSportsTennis } from "react-icons/md";
+import { MdMeetingRoom, MdSportsTennis, MdSportsBasketball } from "react-icons/md";
+import { FiSettings } from "react-icons/fi";
 import { IoIosChatbubbles, IoMdNotifications, IoMdTrophy } from "react-icons/io";
 import { useAuth } from "./hooks/useAuth";
 import { useNavigate } from "react-router-dom";
+import { useState, useEffect } from "react";
 
 const HomePage = () => {
   const { user, logout } = useAuth();
   const navigate = useNavigate();
+  const [userAvatar, setUserAvatar] = useState<string | null>(null);
+
+  useEffect(() => {
+    const fetchUserAvatar = async () => {
+      try {
+        const token = localStorage.getItem('authToken');
+        if (token) {
+          const response = await fetch('http://localhost:8000/api/usuario/me', {
+            headers: {
+              'Authorization': `Token ${token}`
+            }
+          });
+          if (response.ok) {
+            const data = await response.json();
+            if (data.foto_perfil) {
+              setUserAvatar(data.foto_perfil);
+            }
+          }
+        }
+      } catch (error) {
+        console.error('Error fetching user avatar', error);
+      }
+    };
+
+    fetchUserAvatar();
+  }, []);
 
   const handleLogout = async () => {
     await logout();
@@ -22,40 +50,21 @@ const HomePage = () => {
 
       {/* Sidebar */}
       <aside className="lg:w-20 w-full flex lg:flex-col flex-row items-center justify-around lg:justify-start py-4 lg:py-6 lg:space-y-8 space-x-4 lg:space-x-0 bg-[#121316]">
-
-		{/* Home icon */}
-		<FaHome
-			className="
-				text-white w-12 h-12
-				p-3
-				rounded-2xl
-        bg-green-600
-				"/>
-
-
-	{/* Soccer icon */}
+        <FaHome
+          className="text-white w-12 h-12 p-3 rounded-2xl bg-green-600"
+        />
         <GiSoccerField
-		onClick={() => navigate('/soccer-matches')}
-			className="
-				text-white w-12 h-12
-				p-3
-				rounded-2xl
-				hover:bg-white/10
-				transition-all duration-200 ease-in-out
-				cursor-pointer"/>
-
-        {/* Rooms icon */}
+          onClick={() => navigate('/soccer-matches')}
+          className="text-white w-12 h-12 p-3 rounded-2xl hover:bg-white/10 transition-all duration-200 ease-in-out cursor-pointer"
+        />
         <MdMeetingRoom
-		onClick={() => navigate('/rooms')}
-			className="
-				text-white w-12 h-12
-				p-3
-				rounded-2xl
-				hover:bg-white/10
-				transition-all duration-200 ease-in-out
-				cursor-pointer"/>
-
-        <div className="w-12 h-12 bg-white/10 rounded-2xl" />
+          onClick={() => navigate('/rooms')}
+          className="text-white w-12 h-12 p-3 rounded-2xl hover:bg-white/10 transition-all duration-200 ease-in-out cursor-pointer"
+        />
+        <FiSettings
+          onClick={() => navigate('/settings')}
+          className="text-white w-12 h-12 p-3 rounded-2xl hover:bg-white/10 transition-all duration-200 ease-in-out cursor-pointer"
+        />
       </aside>
 
       {/* Main Content Wrapper */}
@@ -69,11 +78,22 @@ const HomePage = () => {
             <span className="text-green-500">{userName}</span>!
           </h1>
           <div className="flex items-center space-x-2 md:space-x-4">
-            <div className="hidden sm:flex items-center space-x-3 bg-white/5 px-3 py-1.5 rounded-full border border-white/10">
+            <div
+              onClick={() => navigate('/settings')}
+              className="hidden sm:flex items-center space-x-3 bg-white/5 px-3 py-1.5 rounded-full border border-white/10 cursor-pointer hover:bg-white/10 transition-all"
+            >
               <span className="text-sm font-medium text-gray-300">{userName}</span>
-              <div className="w-8 h-8 rounded-full bg-gray-600 flex items-center justify-center text-xs text-white font-bold">
-                {userName.charAt(0).toUpperCase()}
-              </div>
+              {userAvatar ? (
+                <img
+                  src={userAvatar}
+                  alt="Profile"
+                  className="w-8 h-8 rounded-full object-cover border border-white/20"
+                />
+              ) : (
+                <div className="w-8 h-8 rounded-full bg-gray-600 flex items-center justify-center text-xs text-white font-bold">
+                  {userName.charAt(0).toUpperCase()}
+                </div>
+              )}
             </div>
             <button
               onClick={handleLogout}

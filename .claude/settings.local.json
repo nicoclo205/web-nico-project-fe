@@ -3,7 +3,11 @@
     "allow": [
       "Bash(dir:*)",
       "Bash(npm run build:*)",
-      "Bash(npm install:*)"
+      "Bash(npm install:*)",
+      "Bash(python manage.py:*)",
+      "Bash(\"..\\bet-project-env\\Scripts\\python.exe\" manage.py makemigrations)",
+      "Bash(docker exec:*)",
+      "Bash(docker restart:*)"
     ],
     "deny": [],
     "ask": []

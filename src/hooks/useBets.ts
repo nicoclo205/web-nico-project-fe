@@ -110,6 +110,41 @@ export const useBets = () => {
     return result;
   }, []);
 
+  // Update an existing bet
+  const updateBet = useCallback(async (betId: number, betData: {
+    prediccion_local: number;
+    prediccion_visitante: number;
+    primer_tiempo_local?: number;
+    primer_tiempo_visitante?: number;
+  }): Promise<ApiResponse<any>> => {
+    setLoading(true);
+    setError(null);
+
+    const result = await apiService.updateBet(betId, betData);
+
+    if (!result.success) {
+      setError(result.error || 'Failed to update bet');
+    }
+
+    setLoading(false);
+    return result;
+  }, []);
+
+  // Delete a bet
+  const deleteBet = useCallback(async (betId: number): Promise<ApiResponse<null>> => {
+    setLoading(true);
+    setError(null);
+
+    const result = await apiService.deleteBet(betId);
+
+    if (!result.success) {
+      setError(result.error || 'Failed to delete bet');
+    }
+
+    setLoading(false);
+    return result;
+  }, []);
+
   return {
     userBets,
     upcomingMatches,
@@ -119,5 +154,7 @@ export const useBets = () => {
     fetchUpcomingMatches,
     createBet,
     fetchMatchBets,
+    updateBet,
+    deleteBet,
   };
 };

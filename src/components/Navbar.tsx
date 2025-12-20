@@ -9,11 +9,39 @@ const Navbar: React.FC = () => {
 	const { t } = useTranslation(['common', 'sports']);
 	const [isMenuOpen, setIsMenuOpen] = useState(false);
 	const [isDropdownOpen, setIsDropdownOpen] = useState(false);
+	const [userAvatar, setUserAvatar] = useState<string | null>(null);
 	const dropdownRef = useRef<HTMLDivElement>(null);
 
 	const userName = localStorage.getItem('user')
 		? JSON.parse(localStorage.getItem('user')!).nombre_usuario || 'Usuario'
 		: 'Usuario';
+
+	useEffect(() => {
+		const fetchUserData = async () => {
+			try {
+				// Assuming we have an api service or using fetch directly
+				// We'll use the token from localStorage
+				const token = localStorage.getItem('authToken');
+				if (token) {
+					const response = await fetch('http://localhost:8000/api/usuario/me', {
+						headers: {
+							'Authorization': `Token ${token}`
+						}
+					});
+					if (response.ok) {
+						const data = await response.json();
+						if (data.foto_perfil) {
+							setUserAvatar(data.foto_perfil);
+						}
+					}
+				}
+			} catch (error) {
+				console.error('Error fetching user data', error);
+			}
+		};
+
+		fetchUserData();
+	}, [location.pathname]); // Refetch on navigation (e.g. coming back from Settings)
 
 	const handleLogout = () => {
 		localStorage.removeItem('authToken');
@@ -79,11 +107,10 @@ const Navbar: React.FC = () => {
 						<div className="ml-10 flex items-baseline space-x-4">
 							<button
 								onClick={() => navigate('/homepage')}
-								className={`px-3 py-2 rounded-md text-sm font-medium transition-colors ${
-									isActive('/homepage')
-										? 'bg-gray-800 text-white'
-										: 'text-gray-300 hover:bg-gray-700 hover:text-white'
-								}`}
+								className={`px-3 py-2 rounded-md text-sm font-medium transition-colors ${isActive('/homepage')
+									? 'bg-gray-800 text-white'
+									: 'text-gray-300 hover:bg-gray-700 hover:text-white'
+									}`}
 							>
 								{t('common:home', 'Inicio')}
 							</button>
@@ -96,11 +123,10 @@ const Navbar: React.FC = () => {
 								<button
 									onMouseEnter={() => setIsDropdownOpen(true)}
 									onClick={() => setIsDropdownOpen(!isDropdownOpen)}
-									className={`px-3 py-2 rounded-md text-sm font-medium transition-colors flex items-center gap-1 ${
-										location.pathname.includes('matches')
-											? 'bg-gray-800 text-white'
-											: 'text-gray-300 hover:bg-gray-700 hover:text-white'
-									}`}
+									className={`px-3 py-2 rounded-md text-sm font-medium transition-colors flex items-center gap-1 ${location.pathname.includes('matches')
+										? 'bg-gray-800 text-white'
+										: 'text-gray-300 hover:bg-gray-700 hover:text-white'
+										}`}
 								>
 									{t('common:matches', 'Partidos')}
 									<svg
@@ -145,41 +171,37 @@ const Navbar: React.FC = () => {
 
 							<button
 								onClick={() => navigate('/rooms')}
-								className={`px-3 py-2 rounded-md text-sm font-medium transition-colors ${
-									isActive('/rooms')
-										? 'bg-gray-800 text-white'
-										: 'text-gray-300 hover:bg-gray-700 hover:text-white'
-								}`}
+								className={`px-3 py-2 rounded-md text-sm font-medium transition-colors ${isActive('/rooms')
+									? 'bg-gray-800 text-white'
+									: 'text-gray-300 hover:bg-gray-700 hover:text-white'
+									}`}
 							>
 								{t('common:rooms', 'Salas')}
 							</button>
 							<button
 								onClick={() => navigate('/my-bets')}
-								className={`px-3 py-2 rounded-md text-sm font-medium transition-colors ${
-									isActive('/my-bets')
-										? 'bg-gray-800 text-white'
-										: 'text-gray-300 hover:bg-gray-700 hover:text-white'
-								}`}
+								className={`px-3 py-2 rounded-md text-sm font-medium transition-colors ${isActive('/my-bets')
+									? 'bg-gray-800 text-white'
+									: 'text-gray-300 hover:bg-gray-700 hover:text-white'
+									}`}
 							>
 								{t('common:myBets', 'Mis Apuestas')}
 							</button>
 							<button
 								onClick={() => navigate('/rankings')}
-								className={`px-3 py-2 rounded-md text-sm font-medium transition-colors ${
-									isActive('/rankings')
-										? 'bg-gray-800 text-white'
-										: 'text-gray-300 hover:bg-gray-700 hover:text-white'
-								}`}
+								className={`px-3 py-2 rounded-md text-sm font-medium transition-colors ${isActive('/rankings')
+									? 'bg-gray-800 text-white'
+									: 'text-gray-300 hover:bg-gray-700 hover:text-white'
+									}`}
 							>
 								{t('common:rankings', 'Rankings')}
 							</button>
 							<button
 								onClick={() => navigate('/about')}
-								className={`px-3 py-2 rounded-md text-sm font-medium transition-colors ${
-									isActive('/about')
-										? 'bg-gray-800 text-white'
-										: 'text-gray-300 hover:bg-gray-700 hover:text-white'
-								}`}
+								className={`px-3 py-2 rounded-md text-sm font-medium transition-colors ${isActive('/about')
+									? 'bg-gray-800 text-white'
+									: 'text-gray-300 hover:bg-gray-700 hover:text-white'
+									}`}
 							>
 								{t('common:about', 'Acerca de')}
 							</button>
@@ -189,9 +211,24 @@ const Navbar: React.FC = () => {
 					{/* User Menu */}
 					<div className="hidden md:flex items-center space-x-4">
 						<LanguageSelector />
-						<div className="flex items-center space-x-2 text-white">
-							<span className="text-2xl">👤</span>
-							<span className="text-sm">{userName}</span>
+						<div
+							onClick={() => navigate('/settings')}
+							className="flex items-center space-x-2 text-white cursor-pointer hover:bg-gray-700 px-3 py-1.5 rounded-full transition-all"
+						>
+							{userAvatar ? (
+								<img
+									src={userAvatar}
+									alt="Profile"
+									className="w-10 h-10 rounded-full border border-gray-600 object-cover"
+								/>
+							) : (
+								<div className="w-10 h-10 rounded-full bg-gray-700 flex items-center justify-center border border-gray-600">
+									<span className="text-lg font-bold text-gray-300">
+										{userName.charAt(0).toUpperCase()}
+									</span>
+								</div>
+							)}
+							<span className="text-sm font-medium">{userName}</span>
 						</div>
 						<button
 							onClick={handleLogout}
@@ -302,6 +339,15 @@ const Navbar: React.FC = () => {
 							<LanguageSelector />
 						</div>
 						<div className="mt-3 px-2">
+							<button
+								onClick={() => {
+									navigate('/settings');
+									setIsMenuOpen(false);
+								}}
+								className="block w-full text-left px-3 py-2 rounded-md text-base font-medium text-gray-300 hover:bg-gray-700 mb-2"
+							>
+								Settings
+							</button>
 							<button
 								onClick={() => {
 									handleLogout();

@@ -1,12 +1,12 @@
 import React, { useState, useEffect } from 'react';
 import { useNavigate } from 'react-router-dom';
 import { FaHome } from "react-icons/fa";
-import { GiSoccerField, GiTennisRacket, GiBasketballBall } from "react-icons/gi";
-import { FiSearch, FiPlus, FiUsers, FiLock, FiUnlock } from "react-icons/fi";
+import { GiSoccerField } from "react-icons/gi";
+import { FiSearch, FiPlus, FiUsers, FiSettings } from "react-icons/fi";
 import { MdMeetingRoom } from "react-icons/md";
 import { useAuth } from '../hooks/useAuth';
 import { useRoom } from '../hooks/useRoom';
-import { CreateRoomData } from '../services/apiService';
+import { CreateRoomData, apiService } from '../services/apiService';
 import { registerRoomHash } from '../utils/roomHash';
 
 const Rooms: React.FC = () => {
@@ -24,14 +24,15 @@ const Rooms: React.FC = () => {
 	const [searchTerm, setSearchTerm] = useState('');
 	const [showCreateModal, setShowCreateModal] = useState(false);
 	const [showJoinModal, setShowJoinModal] = useState(false);
-	const [filterType, setFilterType] = useState<'all' | 'my'>('my');
+	const [userAvatar, setUserAvatar] = useState<string | null>(null);
+	const [leagues, setLeagues] = useState<any[]>([]);
+	const [selectedLeagues, setSelectedLeagues] = useState<number[]>([]);
 
 	// Create room form state
 	const [newRoom, setNewRoom] = useState<CreateRoomData>({
 		nombre: '',
 		descripcion: '',
-		max_miembros: 10,
-		es_privada: false
+		max_miembros: 10
 	});
 
 	// Join room state
@@ -39,6 +40,62 @@ const Rooms: React.FC = () => {
 
 	const userName = user?.nombre_usuario || user?.username || "Usuario";
 	const currentUserId = user?.id_usuario || user?.id;
+
+	useEffect(() => {
+		const fetchUserAvatar = async () => {
+			try {
+				const token = localStorage.getItem('authToken');
+				if (token) {
+					const response = await fetch('http://localhost:8000/api/usuario/me', {
+						headers: {
+							'Authorization': `Token ${token}`
+						}
+					});
+					if (response.ok) {
+						const data = await response.json();
+						if (data.foto_perfil) {
+							setUserAvatar(data.foto_perfil);
+						}
+					}
+				}
+			} catch (error) {
+				console.error('Error fetching user avatar', error);
+			}
+		};
+
+		const fetchLeagues = async () => {
+			const response = await apiService.getLeaguesBySport(1); // Fútbol
+			if (response.success && response.data) {
+				// Filtrar para mostrar solo ligas con logo
+				// Para La Liga específicamente, solo mantener la que tiene logo
+				const filteredLeagues = response.data.filter((league: any) => {
+					// Si es La Liga, solo mantener la que tiene logo
+					if (league.nombre === 'La Liga' || league.nombre.toLowerCase().includes('la liga')) {
+						return league.logo_url && league.logo_url.trim() !== '';
+					}
+					// Para otras ligas, mantenerlas todas
+					return true;
+				});
+
+				// Eliminar duplicados basados en nombre para La Liga
+				const uniqueLeagues = filteredLeagues.filter((league: any, index: number, self: any[]) => {
+					if (league.nombre === 'La Liga' || league.nombre.toLowerCase().includes('la liga')) {
+						// Solo mantener la primera La Liga que tenga logo
+						return index === self.findIndex(l =>
+							(l.nombre === 'La Liga' || l.nombre.toLowerCase().includes('la liga')) &&
+							l.logo_url && l.logo_url.trim() !== ''
+						);
+					}
+					return true;
+				});
+
+				setLeagues(uniqueLeagues);
+			}
+		};
+
+		fetchUserAvatar();
+		fetchLeagues();
+	}, []);
 
 	// Register room hashes when rooms change
 	useEffect(() => {
@@ -58,15 +115,32 @@ const Rooms: React.FC = () => {
 			return;
 		}
 
+		if (selectedLeagues.length === 0) {
+			alert('Por favor selecciona al menos una competición');
+			return;
+		}
+
+		console.log('Creating room with data:', newRoom);
 		const result = await createRoom(newRoom);
-		if (result.success) {
+		if (result.success && result.data) {
+			// Agregar las ligas seleccionadas a la sala
+			const salaId = result.data.id_sala;
+			console.log('Room created with ID:', salaId);
+			console.log('Adding leagues:', selectedLeagues);
+			console.log('League details:', leagues.filter(l => selectedLeagues.includes(l.id_liga)));
+
+			for (const ligaId of selectedLeagues) {
+				const addResult = await apiService.addSalaLiga(salaId, ligaId);
+				console.log(`Added league ${ligaId} to room:`, addResult);
+			}
+
 			setShowCreateModal(false);
 			setNewRoom({
 				nombre: '',
 				descripcion: '',
-				max_miembros: 10,
-				es_privada: false
+				max_miembros: 10
 			});
+			setSelectedLeagues([]);
 			reload();
 		} else {
 			alert(result.error || 'Error al crear la sala');
@@ -91,82 +165,37 @@ const Rooms: React.FC = () => {
 		}
 	};
 
+	// Filtrar solo las salas del usuario (creador o miembro)
 	const filteredRooms = rooms.filter((room) => {
 		const matchesSearch = searchTerm === '' ||
 			room.nombre.toLowerCase().includes(searchTerm.toLowerCase()) ||
 			(room.descripcion && room.descripcion.toLowerCase().includes(searchTerm.toLowerCase()));
 
-		const matchesFilter =
-			filterType === 'all' ? true :
-			filterType === 'my' ? (
-				// Usuario es creador O está en la lista de miembros
-				room.id_usuario === currentUserId ||
-				(room.miembros && room.miembros.some(m => m.id_usuario === currentUserId))
-			) : true;
+		// Solo mostrar salas donde el usuario es creador o miembro
+		const isUserRoom = room.id_usuario === currentUserId ||
+			(room.miembros && room.miembros.some(m => m.id_usuario === currentUserId));
 
-		return matchesSearch && matchesFilter;
+		return matchesSearch && isUserRoom;
 	});
 
 	return (
 		<div className="flex flex-col lg:flex-row h-screen bg-[#0e0f11] text-white page-transition-enter">
 			{/* Sidebar */}
 			<aside className="lg:w-20 w-full flex lg:flex-col flex-row items-center justify-around lg:justify-start py-4 lg:py-6 lg:space-y-8 space-x-4 lg:space-x-0 bg-[#121316]">
-				{/* Home icon */}
 				<FaHome
 					onClick={() => navigate('/homepage')}
-					className="
-						text-white w-12 h-12
-						p-3
-						rounded-2xl
-						hover:bg-white/10
-						transition-all duration-200 ease-in-out
-						cursor-pointer"
+					className="text-white w-12 h-12 p-3 rounded-2xl hover:bg-white/10 transition-all duration-200 ease-in-out cursor-pointer"
 				/>
-
-				{/* Soccer icon */}
 				<GiSoccerField
 					onClick={() => navigate('/soccer-matches')}
-					className="
-						text-white w-12 h-12
-						p-3
-						rounded-2xl
-						hover:bg-white/10
-						transition-all duration-200 ease-in-out
-						cursor-pointer"
+					className="text-white w-12 h-12 p-3 rounded-2xl hover:bg-white/10 transition-all duration-200 ease-in-out cursor-pointer"
 				/>
-
-				{/* Tennis icon */}
-				<GiTennisRacket
-					onClick={() => navigate('/tennis-matches')}
-					className="
-						text-white w-12 h-12
-						p-3
-						rounded-2xl
-						hover:bg-white/10
-						transition-all duration-200 ease-in-out
-						cursor-pointer"
-				/>
-
-				{/* Basketball icon */}
-				<GiBasketballBall
-					onClick={() => navigate('/basketball-matches')}
-					className="
-						text-white w-12 h-12
-						p-3
-						rounded-2xl
-						hover:bg-white/10
-						transition-all duration-200 ease-in-out
-						cursor-pointer"
-				/>
-
-				{/* Rooms icon - Active */}
 				<MdMeetingRoom
-					className="
-						text-white w-12 h-12
-						p-3
-						rounded-2xl
-						bg-green-600
-						"
+					className="text-white w-12 h-12 p-3 rounded-2xl bg-green-600"
+				/>
+				<FiSettings
+					onClick={() => navigate('/settings')}
+					className="text-white w-12 h-12 p-3 rounded-2xl hover:bg-white/10 transition-all duration-200 ease-in-out cursor-pointer"
 				/>
 			</aside>
 
@@ -183,11 +212,22 @@ const Rooms: React.FC = () => {
 						</h1>
 					</div>
 					<div className="flex items-center space-x-2 md:space-x-4">
-						<div className="hidden sm:flex items-center space-x-3 bg-white/5 px-3 py-1.5 rounded-full border border-white/10">
+						<div
+							onClick={() => navigate('/settings')}
+							className="hidden sm:flex items-center space-x-3 bg-white/5 px-3 py-1.5 rounded-full border border-white/10 cursor-pointer hover:bg-white/10 transition-all"
+						>
 							<span className="text-sm font-medium text-gray-300">{userName}</span>
-							<div className="w-8 h-8 rounded-full bg-gray-600 flex items-center justify-center text-xs text-white font-bold">
-								{userName.charAt(0).toUpperCase()}
-							</div>
+							{userAvatar ? (
+								<img
+									src={userAvatar}
+									alt="Profile"
+									className="w-8 h-8 rounded-full object-cover border border-white/20"
+								/>
+							) : (
+								<div className="w-8 h-8 rounded-full bg-gray-600 flex items-center justify-center text-xs text-white font-bold">
+									{userName.charAt(0).toUpperCase()}
+								</div>
+							)}
 						</div>
 						<button
 							onClick={handleLogout}
@@ -230,22 +270,6 @@ const Rooms: React.FC = () => {
 					</button>
 				</div>
 
-				{/* Tabs - Filter Type */}
-				<div className="flex space-x-2 bg-white/10 p-1 rounded-xl max-w-md mb-6">
-					<button
-						onClick={() => setFilterType('my')}
-						className={filterType === 'my' ? 'flex-1 btn-tab-active' : 'flex-1 btn-tab-inactive'}
-					>
-						Mis Salas
-					</button>
-					<button
-						onClick={() => setFilterType('all')}
-						className={filterType === 'all' ? 'flex-1 btn-tab-active' : 'flex-1 btn-tab-inactive'}
-					>
-						Todas
-					</button>
-				</div>
-
 				{/* Search */}
 				<div className="flex items-center bg-white/10 px-3 md:px-4 py-2 rounded-xl mb-6">
 					<FiSearch className="text-gray-400 mr-2 md:mr-3" />
@@ -268,14 +292,14 @@ const Rooms: React.FC = () => {
 						{filteredRooms.length === 0 ? (
 							<div className="col-span-full text-center py-12 bg-gradient-to-br from-[#1f2126] to-[#141518] rounded-3xl border border-white/5">
 								<span className="text-6xl mb-4 block">🔍</span>
-								<p className="text-gray-400 text-lg">
-									{filterType === 'my' ? 'No tienes salas creadas' : 'No hay salas disponibles'}
-								</p>
+								<p className="text-gray-400 text-lg">No tienes salas</p>
+								<p className="text-gray-500 text-sm mt-2">Crea una sala o únete con un código</p>
 							</div>
 						) : (
 							filteredRooms.map((room) => {
 								const isOwner = room.id_usuario === currentUserId;
 								const memberCount = room.miembros_count || 0;
+								const maxMembers = room.max_miembros || 10;
 								const roomHash = registerRoomHash(room.id_sala);
 
 								return (
@@ -287,14 +311,7 @@ const Rooms: React.FC = () => {
 										{/* Room Header */}
 										<div className="flex justify-between items-start mb-4">
 											<div className="flex-1">
-												<div className="flex items-center gap-2 mb-2">
-													<h3 className="text-lg md:text-xl font-bold">{room.nombre}</h3>
-													{room.es_privada ? (
-														<FiLock className="text-yellow-500" />
-													) : (
-														<FiUnlock className="text-green-500" />
-													)}
-												</div>
+												<h3 className="text-lg md:text-xl font-bold mb-2">{room.nombre}</h3>
 												{room.descripcion && (
 													<p className="text-sm text-gray-400 line-clamp-2">{room.descripcion}</p>
 												)}
@@ -310,7 +327,7 @@ const Rooms: React.FC = () => {
 										<div className="flex items-center justify-between text-sm text-gray-400 mb-4">
 											<div className="flex items-center gap-2">
 												<FiUsers />
-												<span>{memberCount} / {room.max_miembros || '∞'} miembros</span>
+												<span>{memberCount} / {maxMembers} miembros</span>
 											</div>
 											<div className="text-xs">
 												{new Date(room.fecha_creacion).toLocaleDateString('es-ES')}
@@ -318,19 +335,17 @@ const Rooms: React.FC = () => {
 										</div>
 
 										{/* Room Code */}
-										{!room.es_privada && (
-											<div className="mb-4 p-3 bg-white/5 rounded-xl">
-												<p className="text-xs text-gray-400 mb-1">Código de sala</p>
-												<p className="text-lg font-mono font-bold text-green-400">{room.codigo_sala}</p>
-											</div>
-										)}
+										<div className="mb-4 p-3 bg-white/5 rounded-xl">
+											<p className="text-xs text-gray-400 mb-1">Código de sala</p>
+											<p className="text-lg font-mono font-bold text-green-400">{room.codigo_sala}</p>
+										</div>
 
 										{/* Progress Bar */}
 										<div className="mt-4 bg-white/10 h-2 rounded-full overflow-hidden">
 											<div
 												className="h-full bg-green-400 rounded-full transition-all"
 												style={{
-													width: `${room.max_miembros ? (memberCount / room.max_miembros) * 100 : 0}%`
+													width: `${(memberCount / maxMembers) * 100}%`
 												}}
 											/>
 										</div>
@@ -360,12 +375,6 @@ const Rooms: React.FC = () => {
 											r.id_usuario === currentUserId ||
 											(r.miembros && r.miembros.some(m => m.id_usuario === currentUserId))
 										).length}
-									</span>
-								</div>
-								<div className="flex items-center justify-between p-2.5 md:p-3 rounded-lg bg-[#0f1115] border border-white/5">
-									<span className="text-xs md:text-sm font-medium text-gray-400">Salas Públicas</span>
-									<span className="text-base md:text-lg font-bold text-purple-500">
-										{rooms.filter(r => !r.es_privada).length}
 									</span>
 								</div>
 							</div>
@@ -401,9 +410,21 @@ const Rooms: React.FC = () => {
 
 			{/* Create Room Modal */}
 			{showCreateModal && (
-				<div className="fixed inset-0 bg-black/70 flex items-center justify-center p-4 z-50" onClick={() => setShowCreateModal(false)}>
-					<div className="bg-[#1f2126] rounded-3xl p-6 md:p-8 max-w-md w-full border border-white/10" onClick={(e) => e.stopPropagation()}>
-						<h2 className="text-2xl font-bold mb-6">Crear Nueva Sala</h2>
+				<div className="fixed inset-0 bg-black/70 backdrop-blur-sm flex items-center justify-center p-4 z-50 overflow-y-auto" onClick={() => setShowCreateModal(false)}>
+					<div className="bg-gradient-to-br from-[#1f2126] to-[#16181d] rounded-3xl p-6 md:p-8 max-w-2xl w-full border border-white/10 shadow-2xl my-8" onClick={(e) => e.stopPropagation()}>
+						<div className="flex items-center justify-between mb-6">
+							<h2 className="text-2xl md:text-3xl font-bold bg-gradient-to-r from-green-400 to-blue-500 bg-clip-text text-transparent">
+								Crear Nueva Sala
+							</h2>
+							<button
+								onClick={() => setShowCreateModal(false)}
+								className="text-gray-400 hover:text-white transition-colors"
+							>
+								<svg className="w-6 h-6" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+									<path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M6 18L18 6M6 6l12 12" />
+								</svg>
+							</button>
+						</div>
 
 						<div className="space-y-4">
 							<div>
@@ -430,28 +451,75 @@ const Rooms: React.FC = () => {
 
 							<div>
 								<label className="block text-sm font-medium text-gray-300 mb-2">Máximo de Miembros</label>
-								<input
-									type="number"
+								<select
 									value={newRoom.max_miembros}
-									onChange={(e) => setNewRoom({ ...newRoom, max_miembros: parseInt(e.target.value) || 10 })}
+									onChange={(e) => setNewRoom({ ...newRoom, max_miembros: parseInt(e.target.value) })}
 									className="w-full bg-white/10 border border-white/20 rounded-xl px-4 py-3 focus:outline-none focus:ring-2 focus:ring-green-500"
-									min="2"
-									max="100"
-								/>
+								>
+									<option value={5} className="bg-[#1f2126]">5 miembros</option>
+									<option value={10} className="bg-[#1f2126]">10 miembros</option>
+									<option value={15} className="bg-[#1f2126]">15 miembros</option>
+									<option value={20} className="bg-[#1f2126]">20 miembros</option>
+									<option value={30} className="bg-[#1f2126]">30 miembros</option>
+									<option value={50} className="bg-[#1f2126]">50 miembros</option>
+								</select>
 							</div>
 
-							<div className="flex items-center gap-3">
-								<input
-									type="checkbox"
-									id="es_privada"
-									checked={newRoom.es_privada}
-									onChange={(e) => setNewRoom({ ...newRoom, es_privada: e.target.checked })}
-									className="w-5 h-5 rounded bg-white/10 border-white/20 focus:ring-2 focus:ring-green-500"
-								/>
-								<label htmlFor="es_privada" className="text-sm text-gray-300 cursor-pointer">
-									Sala Privada (requiere código para unirse)
+							<div>
+								<label className="block text-sm font-medium text-gray-300 mb-3 flex items-center gap-2">
+									<span className="text-green-400">⚽</span>
+									Competiciones *
+									<span className="text-xs text-gray-500">({selectedLeagues.length} seleccionadas)</span>
 								</label>
+								<div className="max-h-64 overflow-y-auto bg-white/5 rounded-xl p-3 border border-white/10">
+									<div className="grid grid-cols-1 sm:grid-cols-2 gap-2">
+										{leagues.map((league) => (
+											<label
+												key={league.id_liga}
+												className={`flex items-center gap-3 p-3 rounded-lg cursor-pointer transition-all duration-200 ${
+													selectedLeagues.includes(league.id_liga)
+														? 'bg-green-600/20 border-2 border-green-500 shadow-lg'
+														: 'bg-white/5 border-2 border-transparent hover:bg-white/10 hover:border-white/20'
+												}`}
+											>
+												<input
+													type="checkbox"
+													checked={selectedLeagues.includes(league.id_liga)}
+													onChange={(e) => {
+														if (e.target.checked) {
+															setSelectedLeagues([...selectedLeagues, league.id_liga]);
+														} else {
+															setSelectedLeagues(selectedLeagues.filter(id => id !== league.id_liga));
+														}
+													}}
+													className="w-5 h-5 rounded border-white/20 bg-white/10 text-green-600 focus:ring-green-500 focus:ring-offset-0"
+												/>
+												{league.logo_url && (
+													<img
+														src={league.logo_url}
+														alt={league.nombre}
+														className="w-8 h-8 object-contain flex-shrink-0"
+														onError={(e) => {
+															e.currentTarget.style.display = 'none';
+														}}
+													/>
+												)}
+												<span className="text-sm font-medium text-gray-200 truncate">{league.nombre}</span>
+											</label>
+										))}
+									</div>
+								</div>
+								<p className="text-xs text-gray-400 mt-2 flex items-center gap-1">
+									<svg className="w-4 h-4" fill="currentColor" viewBox="0 0 20 20">
+										<path fillRule="evenodd" d="M18 10a8 8 0 11-16 0 8 8 0 0116 0zm-7-4a1 1 0 11-2 0 1 1 0 012 0zM9 9a1 1 0 000 2v3a1 1 0 001 1h1a1 1 0 100-2v-3a1 1 0 00-1-1H9z" clipRule="evenodd" />
+									</svg>
+									Solo verás partidos de las competiciones seleccionadas
+								</p>
 							</div>
+
+							<p className="text-xs text-gray-400">
+								Se generará automáticamente un código único para tu sala que podrás compartir con tus amigos.
+							</p>
 						</div>
 
 						<div className="flex gap-3 mt-6">

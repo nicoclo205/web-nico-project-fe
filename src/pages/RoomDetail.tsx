@@ -3,15 +3,14 @@ import { useNavigate, useParams } from 'react-router-dom';
 import { FaHome, FaArrowLeft } from "react-icons/fa";
 import { GiSoccerField } from "react-icons/gi";
 import { MdMeetingRoom } from "react-icons/md";
-import { FiUsers, FiLock, FiUnlock, FiCopy, FiUserMinus, FiSettings, FiTrash2, FiTrendingUp, FiTarget, FiSliders } from "react-icons/fi";
+import { FiUsers, FiCopy, FiUserMinus, FiSettings, FiTrash2, FiTrendingUp, FiTarget } from "react-icons/fi";
 import { useAuth } from '../hooks/useAuth';
 import { useRoom } from '../hooks/useRoom';
 import { getRoomIdFromHash } from '../utils/roomHash';
 import RoomBets from '../components/RoomBets';
 import RoomRanking from '../components/RoomRanking';
-import RoomConfiguration from '../components/RoomConfiguration';
 
-type TabType = 'info' | 'bets' | 'ranking' | 'config';
+type TabType = 'info' | 'bets' | 'ranking';
 
 const RoomDetail: React.FC = () => {
 	const navigate = useNavigate();
@@ -36,11 +35,37 @@ const RoomDetail: React.FC = () => {
 		max_miembros: 10
 	});
 	const [activeTab, setActiveTab] = useState<TabType>('info');
+	const [userAvatar, setUserAvatar] = useState<string | null>(null);
 
 	const userName = user?.nombre_usuario || user?.username || "Usuario";
 	const currentUserId = user?.id_usuario || user?.id;
 	const [roomId, setRoomId] = useState<number | null>(null);
 	const [localError, setLocalError] = useState<string | null>(null);
+
+	useEffect(() => {
+		const fetchUserAvatar = async () => {
+			try {
+				const token = localStorage.getItem('authToken');
+				if (token) {
+					const response = await fetch('http://localhost:8000/api/usuario/me', {
+						headers: {
+							'Authorization': `Token ${token}`
+						}
+					});
+					if (response.ok) {
+						const data = await response.json();
+						if (data.foto_perfil) {
+							setUserAvatar(data.foto_perfil);
+						}
+					}
+				}
+			} catch (error) {
+				console.error('Error fetching user avatar', error);
+			}
+		};
+
+		fetchUserAvatar();
+	}, []);
 
 	useEffect(() => {
 		if (roomHash) {
@@ -196,11 +221,6 @@ const RoomDetail: React.FC = () => {
 						<div>
 							<div className="flex items-center gap-3">
 								<h1 className="text-xl md:text-2xl lg:text-3xl font-bold">{selectedRoom.nombre}</h1>
-								{selectedRoom.es_privada ? (
-									<FiLock className="text-yellow-500 text-xl" />
-								) : (
-									<FiUnlock className="text-green-500 text-xl" />
-								)}
 								{isOwner && (
 									<span className="px-3 py-1 text-xs font-semibold rounded-full bg-green-600">
 										Admin
@@ -213,11 +233,22 @@ const RoomDetail: React.FC = () => {
 						</div>
 					</div>
 
-					<div className="flex items-center space-x-3 bg-white/5 px-3 py-1.5 rounded-full border border-white/10">
+					<div
+						onClick={() => navigate('/settings')}
+						className="flex items-center space-x-3 bg-white/5 px-3 py-1.5 rounded-full border border-white/10 cursor-pointer hover:bg-white/10 transition-all"
+					>
 						<span className="text-sm font-medium text-gray-300">{userName}</span>
-						<div className="w-8 h-8 rounded-full bg-gray-600 flex items-center justify-center text-xs text-white font-bold">
-							{userName.charAt(0).toUpperCase()}
-						</div>
+						{userAvatar ? (
+							<img
+								src={userAvatar}
+								alt="Profile"
+								className="w-8 h-8 rounded-full object-cover border border-white/20"
+							/>
+						) : (
+							<div className="w-8 h-8 rounded-full bg-gray-600 flex items-center justify-center text-xs text-white font-bold">
+								{userName.charAt(0).toUpperCase()}
+							</div>
+						)}
 					</div>
 				</div>
 
@@ -228,56 +259,30 @@ const RoomDetail: React.FC = () => {
 					</div>
 				)}
 
-				{/* Tabs Navigation - Original Size */}
-				<div className="mb-6">
-					<div className="flex flex-wrap gap-2 p-2 bg-[#1f2126] rounded-2xl border border-white/5">
-						<button
-							onClick={() => setActiveTab('info')}
-							className={`flex-1 min-w-[120px] px-6 py-3 rounded-xl font-semibold transition-all flex items-center justify-center gap-2 ${
-								activeTab === 'info'
-									? 'bg-green-600 text-white shadow-lg'
-									: 'bg-transparent text-gray-400 hover:text-white hover:bg-white/5'
-							}`}
-						>
-							<FiUsers className="text-lg" />
-							Información
-						</button>
-						<button
-							onClick={() => setActiveTab('bets')}
-							className={`flex-1 min-w-[120px] px-6 py-3 rounded-xl font-semibold transition-all flex items-center justify-center gap-2 ${
-								activeTab === 'bets'
-									? 'bg-green-600 text-white shadow-lg'
-									: 'bg-transparent text-gray-400 hover:text-white hover:bg-white/5'
-							}`}
-						>
-							<FiTarget className="text-lg" />
-							Apuestas
-						</button>
-						<button
-							onClick={() => setActiveTab('ranking')}
-							className={`flex-1 min-w-[120px] px-6 py-3 rounded-xl font-semibold transition-all flex items-center justify-center gap-2 ${
-								activeTab === 'ranking'
-									? 'bg-green-600 text-white shadow-lg'
-									: 'bg-transparent text-gray-400 hover:text-white hover:bg-white/5'
-							}`}
-						>
-							<FiTrendingUp className="text-lg" />
-							Ranking
-						</button>
-						{isOwner && (
-							<button
-								onClick={() => setActiveTab('config')}
-								className={`flex-1 min-w-[120px] px-6 py-3 rounded-xl font-semibold transition-all flex items-center justify-center gap-2 ${
-									activeTab === 'config'
-										? 'bg-green-600 text-white shadow-lg'
-										: 'bg-transparent text-gray-400 hover:text-white hover:bg-white/5'
-								}`}
-							>
-								<FiSliders className="text-lg" />
-								Configuración
-							</button>
-						)}
-					</div>
+				{/* Tabs Navigation */}
+				<div className="flex space-x-2 bg-white/10 p-1 rounded-xl mb-6 overflow-x-auto">
+					<button
+						onClick={() => setActiveTab('info')}
+						className={activeTab === 'info' ? 'flex-1 min-w-[100px] flex items-center justify-center gap-2 btn-tab-active' : 'flex-1 min-w-[100px] flex items-center justify-center gap-2 btn-tab-inactive'}
+					>
+						<FiUsers className="text-lg" />
+						<span className="hidden sm:inline">Información</span>
+						<span className="sm:hidden">Info</span>
+					</button>
+					<button
+						onClick={() => setActiveTab('bets')}
+						className={activeTab === 'bets' ? 'flex-1 min-w-[100px] flex items-center justify-center gap-2 btn-tab-active' : 'flex-1 min-w-[100px] flex items-center justify-center gap-2 btn-tab-inactive'}
+					>
+						<FiTarget className="text-lg" />
+						Apuestas
+					</button>
+					<button
+						onClick={() => setActiveTab('ranking')}
+						className={activeTab === 'ranking' ? 'flex-1 min-w-[100px] flex items-center justify-center gap-2 btn-tab-active' : 'flex-1 min-w-[100px] flex items-center justify-center gap-2 btn-tab-inactive'}
+					>
+						<FiTrendingUp className="text-lg" />
+						Ranking
+					</button>
 				</div>
 
 				{/* Tab Content */}
@@ -287,17 +292,11 @@ const RoomDetail: React.FC = () => {
 					{/* Room Info Panel */}
 					<div className="lg:col-span-2 space-y-4">
 						{/* Stats Cards - More Compact */}
-						<div className="grid grid-cols-1 md:grid-cols-3 gap-3">
+						<div className="grid grid-cols-1 md:grid-cols-2 gap-3">
 							<div className="rounded-2xl p-4 bg-gradient-to-br from-[#1f2126] to-[#141518] shadow-lg border border-white/5">
 								<FiUsers className="text-2xl text-green-500 mb-2" />
 								<p className="text-gray-400 text-xs">Miembros</p>
-								<p className="text-xl font-bold">{memberCount} / {selectedRoom.max_miembros || '∞'}</p>
-							</div>
-
-							<div className="rounded-2xl p-4 bg-gradient-to-br from-[#1f2126] to-[#141518] shadow-lg border border-white/5">
-								<FiLock className="text-2xl text-blue-500 mb-2" />
-								<p className="text-gray-400 text-xs">Tipo</p>
-								<p className="text-xl font-bold">{selectedRoom.es_privada ? 'Privada' : 'Pública'}</p>
+								<p className="text-xl font-bold">{memberCount} / {selectedRoom.max_miembros || 10}</p>
 							</div>
 
 							<div className="rounded-2xl p-4 bg-gradient-to-br from-[#1f2126] to-[#141518] shadow-lg border border-white/5">
@@ -415,10 +414,6 @@ const RoomDetail: React.FC = () => {
 
 				{activeTab === 'ranking' && roomId && (
 					<RoomRanking roomId={roomId} />
-				)}
-
-				{activeTab === 'config' && roomId && isOwner && (
-					<RoomConfiguration roomId={roomId} />
 				)}
 			</div>
 		</main>

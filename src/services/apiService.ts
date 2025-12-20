@@ -47,6 +47,31 @@ export interface UpdateRoomData {
   es_privada?: boolean;
 }
 
+export interface SalaLiga {
+  id_sala_liga: number;
+  id_sala: number;
+  id_liga: number;
+  liga_nombre: string;
+  liga_pais: string;
+  liga_logo: string;
+  sala_nombre: string;
+  deporte_id: number;
+  deporte_nombre: string;
+  fecha_activacion: string;
+}
+
+export interface SalaPartido {
+  id_sala_partido: number;
+  id_sala: number;
+  id_partido: number;
+  partido_info: string;
+  equipo_local: string;
+  equipo_visitante: string;
+  fecha_partido: string;
+  agregado_por: number | null;
+  fecha_activacion: string;
+}
+
 class ApiService {
   // User authentication
   async login(username: string, password: string): Promise<ApiResponse<any>> {
@@ -420,6 +445,164 @@ class ApiService {
       return {
         success: false,
         error: error.response?.data?.error || 'Failed to fetch match bets',
+      };
+    }
+  }
+
+  // Update bet (editar apuesta de fútbol)
+  async updateBet(betId: number, betData: {
+    prediccion_local: number;
+    prediccion_visitante: number;
+    primer_tiempo_local?: number;
+    primer_tiempo_visitante?: number;
+  }): Promise<ApiResponse<any>> {
+    try {
+      const response = await apiClient.patch(`/api/apuestas-futbol/${betId}/`, betData);
+
+      return {
+        success: true,
+        data: response.data,
+        message: 'Bet updated successfully',
+      };
+    } catch (error: any) {
+      return {
+        success: false,
+        error: error.response?.data?.error || 'Failed to update bet',
+      };
+    }
+  }
+
+  // Delete bet (eliminar apuesta de fútbol)
+  async deleteBet(betId: number): Promise<ApiResponse<null>> {
+    try {
+      await apiClient.delete(`/api/apuestas-futbol/${betId}/`);
+
+      return {
+        success: true,
+        message: 'Bet deleted successfully',
+      };
+    } catch (error: any) {
+      return {
+        success: false,
+        error: error.response?.data?.error || 'Failed to delete bet',
+      };
+    }
+  }
+
+  // ========== SALA LIGAS ==========
+
+  // Get leagues enabled for a room
+  async getSalaLigas(salaId: number): Promise<ApiResponse<SalaLiga[]>> {
+    try {
+      const response = await apiClient.get('/api/sala-ligas/', {
+        params: { sala_id: salaId }
+      });
+
+      return {
+        success: true,
+        data: response.data,
+      };
+    } catch (error: any) {
+      return {
+        success: false,
+        error: error.response?.data?.error || 'Failed to fetch room leagues',
+      };
+    }
+  }
+
+  // Add league to room
+  async addSalaLiga(salaId: number, ligaId: number): Promise<ApiResponse<SalaLiga>> {
+    try {
+      const response = await apiClient.post('/api/sala-ligas/', {
+        id_sala: salaId,
+        id_liga: ligaId
+      });
+
+      return {
+        success: true,
+        data: response.data,
+        message: 'League added to room successfully',
+      };
+    } catch (error: any) {
+      return {
+        success: false,
+        error: error.response?.data?.error || 'Failed to add league to room',
+      };
+    }
+  }
+
+  // Remove league from room
+  async removeSalaLiga(salaLigaId: number): Promise<ApiResponse<null>> {
+    try {
+      await apiClient.delete(`/api/sala-ligas/${salaLigaId}/`);
+
+      return {
+        success: true,
+        message: 'League removed from room successfully',
+      };
+    } catch (error: any) {
+      return {
+        success: false,
+        error: error.response?.data?.error || 'Failed to remove league from room',
+      };
+    }
+  }
+
+  // ========== SALA PARTIDOS ==========
+
+  // Get individual matches enabled for a room
+  async getSalaPartidos(salaId: number): Promise<ApiResponse<SalaPartido[]>> {
+    try {
+      const response = await apiClient.get('/api/sala-partidos/', {
+        params: { sala_id: salaId }
+      });
+
+      return {
+        success: true,
+        data: response.data,
+      };
+    } catch (error: any) {
+      return {
+        success: false,
+        error: error.response?.data?.error || 'Failed to fetch room matches',
+      };
+    }
+  }
+
+  // Add individual match to room
+  async addSalaPartido(salaId: number, partidoId: number): Promise<ApiResponse<SalaPartido>> {
+    try {
+      const response = await apiClient.post('/api/sala-partidos/', {
+        id_sala: salaId,
+        id_partido: partidoId
+      });
+
+      return {
+        success: true,
+        data: response.data,
+        message: 'Match added to room successfully',
+      };
+    } catch (error: any) {
+      return {
+        success: false,
+        error: error.response?.data?.error || 'Failed to add match to room',
+      };
+    }
+  }
+
+  // Remove individual match from room
+  async removeSalaPartido(salaPartidoId: number): Promise<ApiResponse<null>> {
+    try {
+      await apiClient.delete(`/api/sala-partidos/${salaPartidoId}/`);
+
+      return {
+        success: true,
+        message: 'Match removed from room successfully',
+      };
+    } catch (error: any) {
+      return {
+        success: false,
+        error: error.response?.data?.error || 'Failed to remove match from room',
       };
     }
   }

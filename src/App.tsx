@@ -9,6 +9,7 @@ import TennisMatches from './pages/TennisMatches';
 import BasketballMatches from './pages/BasketballMatches';
 import Rooms from './pages/Rooms';
 import RoomDetail from './pages/RoomDetail';
+import Settings from './pages/Settings';
 import { ProtectedRoute } from './components/ProtectedRoute';
 import { PublicOnlyRoute } from './components/PublicOnlyRoute';
 
@@ -20,22 +21,22 @@ function App() {
 				<Route
 					path="/start"
 					element={
-					<PublicOnlyRoute>
-					<Start />
-					</PublicOnlyRoute>}
+						<PublicOnlyRoute>
+							<Start />
+						</PublicOnlyRoute>}
 				/>
 				<Route
 					path="/login"
 					element={<PublicOnlyRoute>
-					<Login />
+						<Login />
 					</PublicOnlyRoute>}
 				/>
 				<Route
 					path="/"
 					element={
 						<PublicOnlyRoute>
-					<Navigate to="/start" />
-					</PublicOnlyRoute>}
+							<Navigate to="/start" />
+						</PublicOnlyRoute>}
 				/>
 				<Route
 					path="/about"
@@ -57,39 +58,46 @@ function App() {
 				<Route
 					path="/soccer-matches"
 					element={
-					<ProtectedRoute>
-					<SoccerMatches />
-					</ProtectedRoute>}
+						<ProtectedRoute>
+							<SoccerMatches />
+						</ProtectedRoute>}
 				/>
 				<Route
 					path="/tennis-matches"
 					element={
-					<ProtectedRoute>
-					<TennisMatches />
-					</ProtectedRoute>}
+						<ProtectedRoute>
+							<TennisMatches />
+						</ProtectedRoute>}
 				/>
 				<Route
 					path="/basketball-matches"
 					element={
-					<ProtectedRoute>
-					<BasketballMatches />
-					</ProtectedRoute>}
+						<ProtectedRoute>
+							<BasketballMatches />
+						</ProtectedRoute>}
 				/>
 
 				{/* Rooms Routes */}
 				<Route
 					path="/rooms"
 					element={
-					<ProtectedRoute>
-					<Rooms />
-					</ProtectedRoute>}
+						<ProtectedRoute>
+							<Rooms />
+						</ProtectedRoute>}
 				/>
 				<Route
 					path="/room/:roomHash"
 					element={
-					<ProtectedRoute>
-					<RoomDetail />
-					</ProtectedRoute>}
+						<ProtectedRoute>
+							<RoomDetail />
+						</ProtectedRoute>}
+				/>
+				<Route
+					path="/settings"
+					element={
+						<ProtectedRoute>
+							<Settings />
+						</ProtectedRoute>}
 				/>
 			</Routes>
 		</BrowserRouter>
