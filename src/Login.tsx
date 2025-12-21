@@ -4,30 +4,32 @@ import { useTranslation } from 'react-i18next';
 import { useLocation, useNavigate } from 'react-router-dom';
 import BackButton from "./components/BackButton";
 import MensajeError from "./components/mensajeError";
+import SuccessMessage from "./components/SuccessMessage";
 import { useAuth } from "./hooks/useAuth";
 import './index.css';
 
 function Auth() {
   const navigate = useNavigate();
   const { t } = useTranslation(['auth', 'common']);
-  const { 
-    login, 
-    register, 
-    loading, 
-    error, 
-    mensajeErr, 
-    setError, 
-    setMensajeErr 
+  const {
+    login,
+    register,
+    loading,
+    error,
+    mensajeErr,
+    setError,
+    setMensajeErr
   } = useAuth();
 
   // Obtenemos el estado de la ubicación actual
   const location = useLocation();
-  const initialLoginView = location.state?.isLoginView !== undefined 
-    ? location.state.isLoginView 
+  const initialLoginView = location.state?.isLoginView !== undefined
+    ? location.state.isLoginView
     : true;
-    
+
   //cambiar entre el login y el registro
   const [isLoginView, setIsLoginView] = useState<boolean>(initialLoginView);
+  const [registrationSuccess, setRegistrationSuccess] = useState<boolean>(false);
   
   // Inicio de sesión estados
   const [loginUsername, setLoginUsername] = useState<string>("");
@@ -129,6 +131,9 @@ function Auth() {
       setEmail("");
       setPassword("");
 
+      // Mostrar mensaje de éxito
+      setRegistrationSuccess(true);
+
       // Después de registrarse exitosamente, cambia a la vista de inicio de sesión
       setIsLoginView(true);
     }
@@ -179,7 +184,7 @@ function Auth() {
         <div className="w-full lg:w-full h-full flex flex-col lg:flex-row justify-between overflow-hidden">
           
           {/* Login Form */}
-          <div className={`w-full lg:w-1/2 h-full flex flex-col justify-center items-center py-8 px-4 transition-all duration-500 lg:duration-300 ease-in-out 
+          <div className={`w-full lg:w-1/2 h-full flex flex-col justify-center items-center py-8 px-4 transition-all duration-500 lg:duration-300 ease-in-out
             ${isLoginView ? 'opacity-100 z-10 translate-x-0' : 'opacity-0 lg:opacity-0 translate-x-full sm:translate-x-full md:translate-x-full lg:translate-x-0 absolute lg:relative pointer-events-none'}`}>
             <div className="text-white text-xl sm:text-2xl mb-8 lg:mb-16 font-bold text-center">
               <h1>{t('auth:title')}</h1>
@@ -187,6 +192,12 @@ function Auth() {
 
             <section className="w-full max-w-md flex flex-col items-center">
               {componenteError}
+              {registrationSuccess && isLoginView && (
+                <SuccessMessage
+                  message="Registration successful! Please check your email to verify your account before logging in."
+                  showEmailIcon={true}
+                />
+              )}
             </section>
 
             <section className="text-white font-sans w-full max-w-md flex flex-col justify-around py-5 items-center">
@@ -208,9 +219,9 @@ function Auth() {
             </section>
 
             <section className="w-full max-w-md flex flex-col items-center mt-6">
-              <Button 
-                variant="login" 
-                size="lg" 
+              <Button
+                variant="login"
+                size="lg"
                 radius="full"
                 className="max-w-xs sm:max-w-sm md:w-56 h-11"
                 onClick={handleLoginSubmit}
@@ -219,18 +230,31 @@ function Auth() {
                 {loading ? t('common:loading') : t('auth:loginButton')}
               </Button>
 
+              <p className="text-gray-400 text-sm text-center mt-3">
+                <a
+                  href="#"
+                  onClick={(e) => {
+                    e.preventDefault();
+                    navigate('/forgot-password');
+                  }}
+                  className="hover:text-blue-400 underline"
+                >
+                  Forgot password?
+                </a>
+              </p>
+
               <p className="text-gray-500 text-sm text-center mt-4">
-                {t('auth:noAccount')} 
-                <a 
-                  href="#" 
-                  onClick={(e) => { 
-                    e.preventDefault(); 
-                    toggleView(e); 
-                    setError(false); 
-                    setMensajeErr("") 
-                  }} 
+                {t('auth:noAccount')}
+                <a
+                  href="#"
+                  onClick={(e) => {
+                    e.preventDefault();
+                    toggleView(e);
+                    setError(false);
+                    setMensajeErr("")
+                  }}
                   className="text-blue-500 hover:text-blue-200"
-                > 
+                >
                   {t('auth:signUp')}
                 </a>
               </p>

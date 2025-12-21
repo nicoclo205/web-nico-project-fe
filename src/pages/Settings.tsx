@@ -3,7 +3,7 @@ import { useNavigate } from 'react-router-dom';
 import { FaHome } from "react-icons/fa";
 import { GiSoccerField } from "react-icons/gi";
 import { MdMeetingRoom, MdSettings } from "react-icons/md";
-import { FiUser, FiPhone, FiImage, FiTrash2, FiSave, FiCheck } from "react-icons/fi";
+import { FiUser, FiPhone, FiImage, FiTrash2, FiSave, FiCheck, FiMail } from "react-icons/fi";
 import { useAuth } from '../hooks/useAuth';
 import api from '../services/api';
 
@@ -22,6 +22,7 @@ const Settings = () => {
         apellido: '',
         celular: '',
         foto_perfil: '',
+        correo: '',
         id_usuario: null
     });
     const [isDeleting, setIsDeleting] = useState(false);
@@ -240,6 +241,27 @@ const Settings = () => {
                                         placeholder="+57 300 123 4567"
                                         className="w-full bg-white/5 border border-white/10 rounded-xl px-4 py-3 text-white placeholder-gray-500 focus:outline-none focus:ring-2 focus:ring-green-500 focus:border-transparent transition-all"
                                     />
+                                </div>
+
+                                <div className="md:col-span-2">
+                                    <label className="block text-sm font-medium text-gray-400 mb-2 flex items-center gap-2">
+                                        <FiMail className="text-gray-500" />
+                                        Correo Electrónico
+                                    </label>
+                                    <input
+                                        type="email"
+                                        name="correo"
+                                        value={userData.correo || ''}
+                                        disabled
+                                        className="w-full bg-white/5 border border-white/10 rounded-xl px-4 py-3 text-gray-400 cursor-not-allowed opacity-60"
+                                        title="El correo electrónico no puede ser modificado"
+                                    />
+                                    <p className="text-xs text-gray-500 mt-1.5 flex items-center gap-1">
+                                        <svg className="w-3 h-3" fill="currentColor" viewBox="0 0 20 20">
+                                            <path fillRule="evenodd" d="M18 10a8 8 0 11-16 0 8 8 0 0116 0zm-7-4a1 1 0 11-2 0 1 1 0 012 0zM9 9a1 1 0 000 2v3a1 1 0 001 1h1a1 1 0 100-2v-3a1 1 0 00-1-1H9z" clipRule="evenodd" />
+                                        </svg>
+                                        El correo electrónico no puede ser modificado
+                                    </p>
                                 </div>
                             </div>
                         </div>

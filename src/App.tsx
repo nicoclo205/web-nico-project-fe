@@ -10,6 +10,9 @@ import BasketballMatches from './pages/BasketballMatches';
 import Rooms from './pages/Rooms';
 import RoomDetail from './pages/RoomDetail';
 import Settings from './pages/Settings';
+import { VerifyEmail } from './pages/VerifyEmail';
+import { ResetPassword } from './pages/ResetPassword';
+import { ForgotPasswordPage } from './pages/ForgotPasswordPage';
 import { ProtectedRoute } from './components/ProtectedRoute';
 import { PublicOnlyRoute } from './components/PublicOnlyRoute';
 
@@ -30,6 +33,20 @@ function App() {
 					element={<PublicOnlyRoute>
 						<Login />
 					</PublicOnlyRoute>}
+				/>
+				<Route
+					path="/forgot-password"
+					element={<PublicOnlyRoute>
+						<ForgotPasswordPage />
+					</PublicOnlyRoute>}
+				/>
+				<Route
+					path="/verify-email"
+					element={<VerifyEmail />}
+				/>
+				<Route
+					path="/reset-password"
+					element={<ResetPassword />}
 				/>
 				<Route
 					path="/"
