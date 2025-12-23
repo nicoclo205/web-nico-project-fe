@@ -7,11 +7,16 @@ import { FiUser, FiPhone, FiImage, FiTrash2, FiSave, FiCheck, FiMail } from "rea
 import { useAuth } from '../hooks/useAuth';
 import api from '../services/api';
 
-const AVATARS = [
+// Avatar paths - all avatars in the public/avatars folder
+const avatarPaths = [
     '/avatars/messi_avatar.svg',
-    '/avatars/lebron_avatar.svg',
-    '/avatars/nadal_avatar.svg',
-    '/avatars/verstappen_avatar.svg',
+    '/avatars/ronaldo_avatar.svg',
+    '/avatars/neymar_avatar.svg',
+    '/avatars/mbappe_avatar.svg',
+    '/avatars/haaland_avatar.svg',
+    '/avatars/benzema_avatar.svg',
+    '/avatars/lewandowski_avatar.svg',
+    '/avatars/salah_avatar.svg',
 ];
 
 const Settings = () => {
@@ -279,22 +284,22 @@ const Settings = () => {
                             </div>
 
                             <div className="grid grid-cols-2 sm:grid-cols-4 gap-4">
-                                {AVATARS.map((avatar) => (
+                                {avatarPaths.map((avatarPath) => (
                                     <button
-                                        key={avatar}
-                                        onClick={() => handleAvatarSelect(avatar)}
+                                        key={avatarPath}
+                                        onClick={() => handleAvatarSelect(avatarPath)}
                                         className={`relative rounded-2xl p-3 md:p-4 border-2 transition-all duration-300 flex flex-col items-center justify-center bg-white/5 hover:bg-white/10 ${
-                                            userData.foto_perfil === avatar
+                                            userData.foto_perfil === avatarPath
                                                 ? 'border-green-500 ring-2 ring-green-500/30 scale-105'
                                                 : 'border-transparent hover:border-gray-600'
                                         }`}
                                     >
                                         <img
-                                            src={avatar}
+                                            src={avatarPath}
                                             alt="Avatar"
                                             className="w-16 h-16 md:w-20 md:h-20 rounded-full object-cover"
                                         />
-                                        {userData.foto_perfil === avatar && (
+                                        {userData.foto_perfil === avatarPath && (
                                             <div className="absolute -top-2 -right-2 w-6 h-6 bg-green-500 rounded-full flex items-center justify-center">
                                                 <FiCheck className="text-white text-sm" />
                                             </div>
