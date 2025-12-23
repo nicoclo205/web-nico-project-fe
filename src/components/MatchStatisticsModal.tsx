@@ -67,19 +67,21 @@ const MatchStatisticsModal: React.FC<MatchStatisticsModalProps> = ({
 
   if (!isOpen) return null;
 
-  // Buscar estadísticas por nombre de equipo (intentando coincidencia parcial)
-  const homeStats = statistics.find(s =>
-    s.equipo_nombre.toLowerCase().includes(equipoLocal.toLowerCase()) ||
-    equipoLocal.toLowerCase().includes(s.equipo_nombre.toLowerCase())
-  );
-  const awayStats = statistics.find(s =>
-    s.equipo_nombre.toLowerCase().includes(equipoVisitante.toLowerCase()) ||
-    equipoVisitante.toLowerCase().includes(s.equipo_nombre.toLowerCase())
-  );
+  // Usar el orden de las estadísticas (primero = local, segundo = visitante)
+  // El backend devuelve las estadísticas en el orden correcto
+  let finalHomeStats = statistics.length > 0 ? statistics[0] : null;
+  let finalAwayStats = statistics.length > 1 ? statistics[1] : null;
 
-  // Si no encontramos por nombre, usar por orden (primero = local, segundo = visitante)
-  const finalHomeStats = homeStats || (statistics.length > 0 ? statistics[0] : null);
-  const finalAwayStats = awayStats || (statistics.length > 1 ? statistics[1] : null);
+  // Verificar si están en el orden correcto comparando con los nombres de los equipos
+  if (finalHomeStats && finalAwayStats) {
+    const firstMatchesHome = finalHomeStats.equipo_nombre.toLowerCase().includes(equipoLocal.toLowerCase()) ||
+                             equipoLocal.toLowerCase().includes(finalHomeStats.equipo_nombre.toLowerCase());
+
+    // Si el primer registro NO es el equipo local, invertir
+    if (!firstMatchesHome) {
+      [finalHomeStats, finalAwayStats] = [finalAwayStats, finalHomeStats];
+    }
+  }
 
   const StatRow = ({ label, homeValue, awayValue, isPercentage = false, index = 0 }: {
     label: string;
@@ -95,30 +97,31 @@ const MatchStatisticsModal: React.FC<MatchStatisticsModalProps> = ({
     const awayPercent = (away / total) * 100;
 
     return (
-      <div
-        className="py-3 border-b border-white/10 last:border-b-0 opacity-0 animate-fadeInUp"
-        style={{ animationDelay: `${index * 50}ms`, animationFillMode: 'forwards' }}
-      >
+      <div className="py-3 border-b border-white/10 last:border-b-0">
         <div className="flex justify-between items-center mb-2">
           <span className="text-sm text-green-400 font-semibold">{isPercentage ? `${home}%` : home}</span>
           <span className="text-xs text-gray-300 font-medium tracking-wide uppercase">{label}</span>
           <span className="text-sm text-green-400 font-semibold">{isPercentage ? `${away}%` : away}</span>
         </div>
-        <div className="flex h-2.5 bg-white/5 rounded-full overflow-hidden">
+        <div className="flex h-2.5 bg-white/5 rounded-full overflow-hidden relative">
+          {/* Barra local - se anima de izquierda a derecha */}
           <div
-            className="h-2.5 bg-gradient-to-r from-green-600 to-green-500 transition-all duration-1000 ease-out rounded-l"
+            className="h-2.5 bg-gradient-to-r from-green-600 to-green-500 rounded-l absolute left-0"
             style={{
               width: `${homePercent}%`,
-              animation: 'slideInLeft 0.8s ease-out forwards',
-              animationDelay: `${index * 50 + 100}ms`
+              animation: 'expandRight 0.8s ease-out forwards',
+              animationDelay: `${index * 80}ms`,
+              transformOrigin: 'left center'
             }}
           />
+          {/* Barra visitante - se anima de derecha a izquierda */}
           <div
-            className="h-2.5 bg-gradient-to-l from-green-600 to-green-500 transition-all duration-1000 ease-out rounded-r"
+            className="h-2.5 bg-gradient-to-l from-green-600 to-green-500 rounded-r absolute right-0"
             style={{
               width: `${awayPercent}%`,
-              animation: 'slideInRight 0.8s ease-out forwards',
-              animationDelay: `${index * 50 + 100}ms`
+              animation: 'expandLeft 0.8s ease-out forwards',
+              animationDelay: `${index * 80}ms`,
+              transformOrigin: 'right center'
             }}
           />
         </div>
@@ -129,46 +132,27 @@ const MatchStatisticsModal: React.FC<MatchStatisticsModalProps> = ({
   return (
     <>
       <style>{`
-        @keyframes fadeInUp {
+        @keyframes expandRight {
           from {
-            opacity: 0;
-            transform: translateY(10px);
+            transform: scaleX(0);
           }
           to {
-            opacity: 1;
-            transform: translateY(0);
+            transform: scaleX(1);
           }
         }
 
-        @keyframes slideInLeft {
+        @keyframes expandLeft {
           from {
-            width: 0%;
-          }
-        }
-
-        @keyframes slideInRight {
-          from {
-            width: 0%;
-          }
-        }
-
-        @keyframes modalFadeIn {
-          from {
-            opacity: 0;
-            transform: scale(0.95);
+            transform: scaleX(0);
           }
           to {
-            opacity: 1;
-            transform: scale(1);
+            transform: scaleX(1);
           }
         }
       `}</style>
 
       <div className="fixed inset-0 z-50 flex items-center justify-center p-4 bg-black/70 backdrop-blur-sm">
-        <div
-          className="bg-gradient-to-br from-[#1f2126] to-[#16181d] rounded-3xl shadow-2xl max-w-2xl w-full max-h-[90vh] overflow-y-auto border border-white/10"
-          style={{ animation: 'modalFadeIn 0.3s ease-out' }}
-        >
+        <div className="bg-gradient-to-br from-[#1f2126] to-[#16181d] rounded-3xl shadow-2xl max-w-2xl w-full max-h-[90vh] overflow-y-auto border border-white/10">
           {/* Header */}
           <div className="sticky top-0 bg-gradient-to-br from-[#1f2126] to-[#16181d] p-6 rounded-t-3xl border-b border-white/10">
             <div className="flex justify-between items-center mb-4">
