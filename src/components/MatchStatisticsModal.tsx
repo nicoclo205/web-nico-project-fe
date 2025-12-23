@@ -53,8 +53,12 @@ const MatchStatisticsModal: React.FC<MatchStatisticsModalProps> = ({
     const response = await apiService.getMatchStatistics(partidoId);
 
     if (response.success && response.data) {
+      console.log('Estadísticas recibidas:', response.data);
+      console.log('Equipo Local buscado:', equipoLocal);
+      console.log('Equipo Visitante buscado:', equipoVisitante);
       setStatistics(response.data);
     } else {
+      console.error('Error al cargar estadísticas:', response.error);
       setError(response.error || 'No se pudieron cargar las estadísticas');
     }
 
@@ -63,8 +67,19 @@ const MatchStatisticsModal: React.FC<MatchStatisticsModalProps> = ({
 
   if (!isOpen) return null;
 
-  const homeStats = statistics.find(s => s.equipo_nombre === equipoLocal);
-  const awayStats = statistics.find(s => s.equipo_nombre === equipoVisitante);
+  // Buscar estadísticas por nombre de equipo (intentando coincidencia parcial)
+  const homeStats = statistics.find(s =>
+    s.equipo_nombre.toLowerCase().includes(equipoLocal.toLowerCase()) ||
+    equipoLocal.toLowerCase().includes(s.equipo_nombre.toLowerCase())
+  );
+  const awayStats = statistics.find(s =>
+    s.equipo_nombre.toLowerCase().includes(equipoVisitante.toLowerCase()) ||
+    equipoVisitante.toLowerCase().includes(s.equipo_nombre.toLowerCase())
+  );
+
+  // Si no encontramos por nombre, usar por orden (primero = local, segundo = visitante)
+  const finalHomeStats = homeStats || (statistics.length > 0 ? statistics[0] : null);
+  const finalAwayStats = awayStats || (statistics.length > 1 ? statistics[1] : null);
 
   const StatRow = ({ label, homeValue, awayValue, isPercentage = false }: {
     label: string;
@@ -143,69 +158,69 @@ const MatchStatisticsModal: React.FC<MatchStatisticsModalProps> = ({
             </div>
           )}
 
-          {!loading && !error && statistics.length > 0 && homeStats && awayStats && (
+          {!loading && !error && statistics.length > 0 && finalHomeStats && finalAwayStats && (
             <div className="space-y-2">
               <StatRow
                 label="Posesión"
-                homeValue={homeStats.posesion}
-                awayValue={awayStats.posesion}
+                homeValue={finalHomeStats.posesion}
+                awayValue={finalAwayStats.posesion}
                 isPercentage={true}
               />
 
               <StatRow
                 label="Tiros Totales"
-                homeValue={homeStats.tiros_total}
-                awayValue={awayStats.tiros_total}
+                homeValue={finalHomeStats.tiros_total}
+                awayValue={finalAwayStats.tiros_total}
               />
 
               <StatRow
                 label="Tiros a Puerta"
-                homeValue={homeStats.tiros_a_puerta}
-                awayValue={awayStats.tiros_a_puerta}
+                homeValue={finalHomeStats.tiros_a_puerta}
+                awayValue={finalAwayStats.tiros_a_puerta}
               />
 
               <StatRow
                 label="Tiros Fuera"
-                homeValue={homeStats.tiros_fuera}
-                awayValue={awayStats.tiros_fuera}
+                homeValue={finalHomeStats.tiros_fuera}
+                awayValue={finalAwayStats.tiros_fuera}
               />
 
               <StatRow
                 label="Tiros Bloqueados"
-                homeValue={homeStats.tiros_bloqueados}
-                awayValue={awayStats.tiros_bloqueados}
+                homeValue={finalHomeStats.tiros_bloqueados}
+                awayValue={finalAwayStats.tiros_bloqueados}
               />
 
               <StatRow
                 label="Tiros de Esquina"
-                homeValue={homeStats.corners}
-                awayValue={awayStats.corners}
+                homeValue={finalHomeStats.corners}
+                awayValue={finalAwayStats.corners}
               />
 
               <StatRow
                 label="Fueras de Juego"
-                homeValue={homeStats.offsides}
-                awayValue={awayStats.offsides}
+                homeValue={finalHomeStats.offsides}
+                awayValue={finalAwayStats.offsides}
               />
 
               <StatRow
                 label="Faltas"
-                homeValue={homeStats.faltas}
-                awayValue={awayStats.faltas}
+                homeValue={finalHomeStats.faltas}
+                awayValue={finalAwayStats.faltas}
               />
 
               <StatRow
                 label="Tarjetas Amarillas"
-                homeValue={homeStats.tarjetas_amarillas}
-                awayValue={awayStats.tarjetas_amarillas}
+                homeValue={finalHomeStats.tarjetas_amarillas}
+                awayValue={finalAwayStats.tarjetas_amarillas}
               />
 
-              {((homeStats.tarjetas_rojas && homeStats.tarjetas_rojas > 0) ||
-                (awayStats.tarjetas_rojas && awayStats.tarjetas_rojas > 0)) && (
+              {((finalHomeStats.tarjetas_rojas && finalHomeStats.tarjetas_rojas > 0) ||
+                (finalAwayStats.tarjetas_rojas && finalAwayStats.tarjetas_rojas > 0)) && (
                 <StatRow
                   label="Tarjetas Rojas"
-                  homeValue={homeStats.tarjetas_rojas}
-                  awayValue={awayStats.tarjetas_rojas}
+                  homeValue={finalHomeStats.tarjetas_rojas}
+                  awayValue={finalAwayStats.tarjetas_rojas}
                 />
               )}
             </div>
