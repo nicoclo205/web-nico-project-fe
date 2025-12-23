@@ -81,11 +81,12 @@ const MatchStatisticsModal: React.FC<MatchStatisticsModalProps> = ({
   const finalHomeStats = homeStats || (statistics.length > 0 ? statistics[0] : null);
   const finalAwayStats = awayStats || (statistics.length > 1 ? statistics[1] : null);
 
-  const StatRow = ({ label, homeValue, awayValue, isPercentage = false }: {
+  const StatRow = ({ label, homeValue, awayValue, isPercentage = false, index = 0 }: {
     label: string;
     homeValue: number | null;
     awayValue: number | null;
     isPercentage?: boolean;
+    index?: number;
   }) => {
     const home = homeValue ?? 0;
     const away = awayValue ?? 0;
@@ -94,20 +95,31 @@ const MatchStatisticsModal: React.FC<MatchStatisticsModalProps> = ({
     const awayPercent = (away / total) * 100;
 
     return (
-      <div className="mb-4">
-        <div className="flex justify-between items-center mb-1">
-          <span className="text-sm font-medium text-white/90">{isPercentage ? `${home}%` : home}</span>
-          <span className="text-xs text-gray-400">{label}</span>
-          <span className="text-sm font-medium text-white/90">{isPercentage ? `${away}%` : away}</span>
+      <div
+        className="py-3 border-b border-white/10 last:border-b-0 opacity-0 animate-fadeInUp"
+        style={{ animationDelay: `${index * 50}ms`, animationFillMode: 'forwards' }}
+      >
+        <div className="flex justify-between items-center mb-2">
+          <span className="text-sm text-green-400 font-semibold">{isPercentage ? `${home}%` : home}</span>
+          <span className="text-xs text-gray-300 font-medium tracking-wide uppercase">{label}</span>
+          <span className="text-sm text-green-400 font-semibold">{isPercentage ? `${away}%` : away}</span>
         </div>
-        <div className="flex gap-1">
+        <div className="flex h-2.5 bg-white/5 rounded-full overflow-hidden">
           <div
-            className="h-2 bg-blue-500 rounded-l transition-all duration-300"
-            style={{ width: `${homePercent}%` }}
+            className="h-2.5 bg-gradient-to-r from-green-600 to-green-500 transition-all duration-1000 ease-out rounded-l"
+            style={{
+              width: `${homePercent}%`,
+              animation: 'slideInLeft 0.8s ease-out forwards',
+              animationDelay: `${index * 50 + 100}ms`
+            }}
           />
           <div
-            className="h-2 bg-red-500 rounded-r transition-all duration-300"
-            style={{ width: `${awayPercent}%` }}
+            className="h-2.5 bg-gradient-to-l from-green-600 to-green-500 transition-all duration-1000 ease-out rounded-r"
+            style={{
+              width: `${awayPercent}%`,
+              animation: 'slideInRight 0.8s ease-out forwards',
+              animationDelay: `${index * 50 + 100}ms`
+            }}
           />
         </div>
       </div>
@@ -115,135 +127,188 @@ const MatchStatisticsModal: React.FC<MatchStatisticsModalProps> = ({
   };
 
   return (
-    <div className="fixed inset-0 z-50 flex items-center justify-center p-4 bg-black/70 backdrop-blur-sm">
-      <div className="bg-gray-800 rounded-2xl shadow-2xl max-w-2xl w-full max-h-[90vh] overflow-y-auto">
-        {/* Header */}
-        <div className="sticky top-0 bg-gradient-to-r from-blue-600 to-purple-600 p-6 rounded-t-2xl">
-          <div className="flex justify-between items-center">
-            <h2 className="text-2xl font-bold text-white">Estadísticas del Partido</h2>
+    <>
+      <style>{`
+        @keyframes fadeInUp {
+          from {
+            opacity: 0;
+            transform: translateY(10px);
+          }
+          to {
+            opacity: 1;
+            transform: translateY(0);
+          }
+        }
+
+        @keyframes slideInLeft {
+          from {
+            width: 0%;
+          }
+        }
+
+        @keyframes slideInRight {
+          from {
+            width: 0%;
+          }
+        }
+
+        @keyframes modalFadeIn {
+          from {
+            opacity: 0;
+            transform: scale(0.95);
+          }
+          to {
+            opacity: 1;
+            transform: scale(1);
+          }
+        }
+      `}</style>
+
+      <div className="fixed inset-0 z-50 flex items-center justify-center p-4 bg-black/70 backdrop-blur-sm">
+        <div
+          className="bg-gradient-to-br from-[#1f2126] to-[#16181d] rounded-3xl shadow-2xl max-w-2xl w-full max-h-[90vh] overflow-y-auto border border-white/10"
+          style={{ animation: 'modalFadeIn 0.3s ease-out' }}
+        >
+          {/* Header */}
+          <div className="sticky top-0 bg-gradient-to-br from-[#1f2126] to-[#16181d] p-6 rounded-t-3xl border-b border-white/10">
+            <div className="flex justify-between items-center mb-4">
+              <h2 className="text-2xl md:text-3xl font-bold bg-gradient-to-r from-green-400 to-blue-500 bg-clip-text text-transparent">
+                Estadísticas del Partido
+              </h2>
+              <button
+                onClick={onClose}
+                className="p-2 hover:bg-white/10 rounded-full transition-colors text-gray-400 hover:text-white"
+              >
+                <FiX className="w-6 h-6" />
+              </button>
+            </div>
+
+            {/* Score */}
+            <div className="mt-4 flex justify-around items-center bg-white/5 rounded-xl p-4">
+              <div className="text-center flex-1">
+                <p className="text-white/90 font-medium text-sm md:text-base mb-2">{equipoLocal}</p>
+                <p className="text-3xl md:text-4xl font-bold text-white">{golesLocal ?? '-'}</p>
+              </div>
+              <div className="text-xl md:text-2xl text-white/40 font-bold px-4">VS</div>
+              <div className="text-center flex-1">
+                <p className="text-white/90 font-medium text-sm md:text-base mb-2">{equipoVisitante}</p>
+                <p className="text-3xl md:text-4xl font-bold text-white">{golesVisitante ?? '-'}</p>
+              </div>
+            </div>
+          </div>
+
+          {/* Content */}
+          <div className="p-6">
+            {loading && (
+              <div className="flex justify-center items-center py-12">
+                <div className="animate-spin rounded-full h-12 w-12 border-b-2 border-green-500"></div>
+              </div>
+            )}
+
+            {error && (
+              <div className="bg-yellow-500/10 border border-yellow-500/30 rounded-xl p-4 text-center">
+                <p className="text-yellow-400 font-medium">{error}</p>
+                <p className="text-sm text-gray-400 mt-2">Las estadísticas aún no están disponibles para este partido</p>
+              </div>
+            )}
+
+            {!loading && !error && statistics.length > 0 && finalHomeStats && finalAwayStats && (
+              <div className="space-y-1">
+                <StatRow
+                  label="Posesión"
+                  homeValue={finalHomeStats.posesion}
+                  awayValue={finalAwayStats.posesion}
+                  isPercentage={true}
+                  index={0}
+                />
+
+                <StatRow
+                  label="Tiros Totales"
+                  homeValue={finalHomeStats.tiros_total}
+                  awayValue={finalAwayStats.tiros_total}
+                  index={1}
+                />
+
+                <StatRow
+                  label="Tiros a Puerta"
+                  homeValue={finalHomeStats.tiros_a_puerta}
+                  awayValue={finalAwayStats.tiros_a_puerta}
+                  index={2}
+                />
+
+                <StatRow
+                  label="Tiros Fuera"
+                  homeValue={finalHomeStats.tiros_fuera}
+                  awayValue={finalAwayStats.tiros_fuera}
+                  index={3}
+                />
+
+                <StatRow
+                  label="Tiros Bloqueados"
+                  homeValue={finalHomeStats.tiros_bloqueados}
+                  awayValue={finalAwayStats.tiros_bloqueados}
+                  index={4}
+                />
+
+                <StatRow
+                  label="Corners"
+                  homeValue={finalHomeStats.corners}
+                  awayValue={finalAwayStats.corners}
+                  index={5}
+                />
+
+                <StatRow
+                  label="Offsides"
+                  homeValue={finalHomeStats.offsides}
+                  awayValue={finalAwayStats.offsides}
+                  index={6}
+                />
+
+                <StatRow
+                  label="Faltas"
+                  homeValue={finalHomeStats.faltas}
+                  awayValue={finalAwayStats.faltas}
+                  index={7}
+                />
+
+                <StatRow
+                  label="Tarjetas Amarillas"
+                  homeValue={finalHomeStats.tarjetas_amarillas}
+                  awayValue={finalAwayStats.tarjetas_amarillas}
+                  index={8}
+                />
+
+                {((finalHomeStats.tarjetas_rojas && finalHomeStats.tarjetas_rojas > 0) ||
+                  (finalAwayStats.tarjetas_rojas && finalAwayStats.tarjetas_rojas > 0)) && (
+                  <StatRow
+                    label="Tarjetas Rojas"
+                    homeValue={finalHomeStats.tarjetas_rojas}
+                    awayValue={finalAwayStats.tarjetas_rojas}
+                    index={9}
+                  />
+                )}
+              </div>
+            )}
+
+            {!loading && !error && statistics.length === 0 && (
+              <div className="text-center py-8 text-gray-400">
+                <p>No hay estadísticas disponibles para este partido</p>
+              </div>
+            )}
+          </div>
+
+          {/* Footer */}
+          <div className="p-6 border-t border-white/10">
             <button
               onClick={onClose}
-              className="p-2 hover:bg-white/20 rounded-full transition-colors"
+              className="w-full bg-white/10 hover:bg-white/20 text-white font-semibold py-3 rounded-xl transition-all"
             >
-              <FiX className="w-6 h-6 text-white" />
+              Cerrar
             </button>
           </div>
-
-          {/* Score */}
-          <div className="mt-4 flex justify-around items-center">
-            <div className="text-center">
-              <p className="text-white/90 font-medium">{equipoLocal}</p>
-              <p className="text-4xl font-bold text-white mt-2">{golesLocal ?? '-'}</p>
-            </div>
-            <div className="text-2xl text-white/60 font-bold">VS</div>
-            <div className="text-center">
-              <p className="text-white/90 font-medium">{equipoVisitante}</p>
-              <p className="text-4xl font-bold text-white mt-2">{golesVisitante ?? '-'}</p>
-            </div>
-          </div>
-        </div>
-
-        {/* Content */}
-        <div className="p-6">
-          {loading && (
-            <div className="flex justify-center items-center py-12">
-              <div className="animate-spin rounded-full h-12 w-12 border-b-2 border-blue-500"></div>
-            </div>
-          )}
-
-          {error && (
-            <div className="bg-yellow-500/10 border border-yellow-500/30 rounded-lg p-4 text-center">
-              <p className="text-yellow-400">{error}</p>
-              <p className="text-sm text-gray-400 mt-2">Las estadísticas aún no están disponibles para este partido</p>
-            </div>
-          )}
-
-          {!loading && !error && statistics.length > 0 && finalHomeStats && finalAwayStats && (
-            <div className="space-y-2">
-              <StatRow
-                label="Posesión"
-                homeValue={finalHomeStats.posesion}
-                awayValue={finalAwayStats.posesion}
-                isPercentage={true}
-              />
-
-              <StatRow
-                label="Tiros Totales"
-                homeValue={finalHomeStats.tiros_total}
-                awayValue={finalAwayStats.tiros_total}
-              />
-
-              <StatRow
-                label="Tiros a Puerta"
-                homeValue={finalHomeStats.tiros_a_puerta}
-                awayValue={finalAwayStats.tiros_a_puerta}
-              />
-
-              <StatRow
-                label="Tiros Fuera"
-                homeValue={finalHomeStats.tiros_fuera}
-                awayValue={finalAwayStats.tiros_fuera}
-              />
-
-              <StatRow
-                label="Tiros Bloqueados"
-                homeValue={finalHomeStats.tiros_bloqueados}
-                awayValue={finalAwayStats.tiros_bloqueados}
-              />
-
-              <StatRow
-                label="Tiros de Esquina"
-                homeValue={finalHomeStats.corners}
-                awayValue={finalAwayStats.corners}
-              />
-
-              <StatRow
-                label="Fueras de Juego"
-                homeValue={finalHomeStats.offsides}
-                awayValue={finalAwayStats.offsides}
-              />
-
-              <StatRow
-                label="Faltas"
-                homeValue={finalHomeStats.faltas}
-                awayValue={finalAwayStats.faltas}
-              />
-
-              <StatRow
-                label="Tarjetas Amarillas"
-                homeValue={finalHomeStats.tarjetas_amarillas}
-                awayValue={finalAwayStats.tarjetas_amarillas}
-              />
-
-              {((finalHomeStats.tarjetas_rojas && finalHomeStats.tarjetas_rojas > 0) ||
-                (finalAwayStats.tarjetas_rojas && finalAwayStats.tarjetas_rojas > 0)) && (
-                <StatRow
-                  label="Tarjetas Rojas"
-                  homeValue={finalHomeStats.tarjetas_rojas}
-                  awayValue={finalAwayStats.tarjetas_rojas}
-                />
-              )}
-            </div>
-          )}
-
-          {!loading && !error && statistics.length === 0 && (
-            <div className="text-center py-8 text-gray-400">
-              <p>No hay estadísticas disponibles para este partido</p>
-            </div>
-          )}
-        </div>
-
-        {/* Footer */}
-        <div className="p-4 border-t border-gray-700">
-          <button
-            onClick={onClose}
-            className="w-full bg-gradient-to-r from-blue-600 to-purple-600 text-white py-3 rounded-lg font-medium hover:from-blue-700 hover:to-purple-700 transition-all"
-          >
-            Cerrar
-          </button>
         </div>
       </div>
-    </div>
+    </>
   );
 };
 
