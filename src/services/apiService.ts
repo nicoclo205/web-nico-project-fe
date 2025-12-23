@@ -368,6 +368,25 @@ class ApiService {
     }
   }
 
+  // Get match statistics
+  async getMatchStatistics(partidoId: number): Promise<ApiResponse<any[]>> {
+    try {
+      const response = await apiClient.get('/api/partidos-estadisticas/por_partido/', {
+        params: { partido_id: partidoId }
+      });
+
+      return {
+        success: true,
+        data: response.data,
+      };
+    } catch (error: any) {
+      return {
+        success: false,
+        error: error.response?.data?.detail || 'Failed to fetch match statistics',
+      };
+    }
+  }
+
   // ========== APUESTAS (BETS) ==========
 
   // Get upcoming matches for betting (partidos disponibles para apostar)

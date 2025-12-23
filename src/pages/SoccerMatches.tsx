@@ -6,6 +6,7 @@ import { MdMeetingRoom } from "react-icons/md";
 import { FiSearch, FiFilter, FiSettings } from "react-icons/fi";
 import { useAuth } from '../hooks/useAuth';
 import { apiService } from '../services/apiService';
+import MatchStatisticsModal from '../components/MatchStatisticsModal';
 
 // Backend response interfaces (basadas en el serializer del backend)
 interface BackendMatch {
@@ -79,6 +80,7 @@ const SoccerMatches: React.FC = () => {
 	const [userAvatar, setUserAvatar] = useState<string | null>(null);
 	const [selectedMatch, setSelectedMatch] = useState<Match | null>(null);
 	const [showMatchModal, setShowMatchModal] = useState(false);
+	const [showStatsModal, setShowStatsModal] = useState(false);
 
 	const userName = user?.nombre_usuario || user?.username || "Usuario";
 
@@ -279,7 +281,13 @@ const SoccerMatches: React.FC = () => {
 
 	const handleMatchClick = (match: Match) => {
 		setSelectedMatch(match);
-		setShowMatchModal(true);
+		// Si el partido está finalizado, mostrar estadísticas
+		if (match.estado === 'finalizado') {
+			setShowStatsModal(true);
+		} else {
+			// Para otros estados, mostrar modal de información general
+			setShowMatchModal(true);
+		}
 	};
 
 	return (
@@ -877,6 +885,19 @@ const SoccerMatches: React.FC = () => {
 						</div>
 					</div>
 				</div>
+			)}
+
+			{/* Match Statistics Modal */}
+			{selectedMatch && (
+				<MatchStatisticsModal
+					isOpen={showStatsModal}
+					onClose={() => setShowStatsModal(false)}
+					partidoId={selectedMatch.id_partido}
+					equipoLocal={selectedMatch.equipo_local.nombre}
+					equipoVisitante={selectedMatch.equipo_visitante.nombre}
+					golesLocal={selectedMatch.goles_local ?? null}
+					golesVisitante={selectedMatch.goles_visitante ?? null}
+				/>
 			)}
 		</div>
 	);
