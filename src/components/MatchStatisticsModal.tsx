@@ -25,6 +25,8 @@ interface MatchStatisticsModalProps {
   equipoVisitante: string;
   golesLocal: number | null;
   golesVisitante: number | null;
+  logoLocal?: string;
+  logoVisitante?: string;
 }
 
 const MatchStatisticsModal: React.FC<MatchStatisticsModalProps> = ({
@@ -35,6 +37,8 @@ const MatchStatisticsModal: React.FC<MatchStatisticsModalProps> = ({
   equipoVisitante,
   golesLocal,
   golesVisitante,
+  logoLocal,
+  logoVisitante,
 }) => {
   const [statistics, setStatistics] = useState<MatchStatistic[]>([]);
   const [loading, setLoading] = useState(true);
@@ -106,21 +110,21 @@ const MatchStatisticsModal: React.FC<MatchStatisticsModalProps> = ({
         <div className="flex h-2.5 bg-white/5 rounded-full overflow-hidden relative">
           {/* Barra local - se anima de izquierda a derecha */}
           <div
-            className="h-2.5 bg-gradient-to-r from-green-600 to-green-500 rounded-l absolute left-0"
+            className="h-2.5 bg-gradient-to-r from-black to-black rounded-l absolute left-0"
             style={{
               width: `${homePercent}%`,
-              animation: 'expandRight 0.8s ease-out forwards',
-              animationDelay: `${index * 80}ms`,
+              animation: 'expandRight 1.2s ease-out forwards',
+              animationDelay: `${index * 50}ms`,
               transformOrigin: 'left center'
             }}
           />
           {/* Barra visitante - se anima de derecha a izquierda */}
           <div
-            className="h-2.5 bg-gradient-to-l from-green-600 to-green-500 rounded-r absolute right-0"
+            className="h-2.5 bg-gradient-to-l from-white to-white rounded-r absolute right-0"
             style={{
               width: `${awayPercent}%`,
-              animation: 'expandLeft 0.8s ease-out forwards',
-              animationDelay: `${index * 80}ms`,
+              animation: 'expandLeft 1.2s ease-out forwards',
+              animationDelay: `${index * 50}ms`,
               transformOrigin: 'right center'
             }}
           />
@@ -154,7 +158,7 @@ const MatchStatisticsModal: React.FC<MatchStatisticsModalProps> = ({
       <div className="fixed inset-0 z-50 flex items-center justify-center p-4 bg-black/70 backdrop-blur-sm">
         <div className="bg-gradient-to-br from-[#1f2126] to-[#16181d] rounded-3xl shadow-2xl max-w-2xl w-full max-h-[90vh] overflow-y-auto border border-white/10">
           {/* Header */}
-          <div className="sticky top-0 bg-gradient-to-br from-[#1f2126] to-[#16181d] p-6 rounded-t-3xl border-b border-white/10">
+          <div className="sticky top-0 z-10 bg-gradient-to-br from-[#1f2126] to-[#16181d] p-6 rounded-t-3xl border-b border-white/10">
             <div className="flex justify-between items-center mb-4">
               <h2 className="text-2xl md:text-3xl font-bold bg-gradient-to-r from-green-400 to-blue-500 bg-clip-text text-transparent">
                 Estadísticas del Partido
@@ -170,11 +174,25 @@ const MatchStatisticsModal: React.FC<MatchStatisticsModalProps> = ({
             {/* Score */}
             <div className="mt-4 flex justify-around items-center bg-white/5 rounded-xl p-4">
               <div className="text-center flex-1">
+                {logoLocal && (
+                  <img
+                    src={logoLocal}
+                    alt={equipoLocal}
+                    className="w-12 h-12 md:w-16 md:h-16 mx-auto mb-2 object-contain"
+                  />
+                )}
                 <p className="text-white/90 font-medium text-sm md:text-base mb-2">{equipoLocal}</p>
                 <p className="text-3xl md:text-4xl font-bold text-white">{golesLocal ?? '-'}</p>
               </div>
               <div className="text-xl md:text-2xl text-white/40 font-bold px-4">VS</div>
               <div className="text-center flex-1">
+                {logoVisitante && (
+                  <img
+                    src={logoVisitante}
+                    alt={equipoVisitante}
+                    className="w-12 h-12 md:w-16 md:h-16 mx-auto mb-2 object-contain"
+                  />
+                )}
                 <p className="text-white/90 font-medium text-sm md:text-base mb-2">{equipoVisitante}</p>
                 <p className="text-3xl md:text-4xl font-bold text-white">{golesVisitante ?? '-'}</p>
               </div>

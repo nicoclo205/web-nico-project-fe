@@ -672,7 +672,7 @@ const SoccerMatches: React.FC = () => {
 									{/* Stadium Info */}
 									{match.venue_nombre && (
 										<div className="text-center mt-3 text-xs md:text-sm text-gray-500">
-											📍 {match.venue_nombre}
+											{match.venue_nombre}
 											{match.venue_ciudad && `, ${match.venue_ciudad}`}
 										</div>
 									)}
@@ -897,6 +897,8 @@ const SoccerMatches: React.FC = () => {
 					equipoVisitante={selectedMatch.equipo_visitante.nombre}
 					golesLocal={selectedMatch.goles_local ?? null}
 					golesVisitante={selectedMatch.goles_visitante ?? null}
+					logoLocal={selectedMatch.equipo_local.logo}
+					logoVisitante={selectedMatch.equipo_visitante.logo}
 				/>
 			)}
 		</div>

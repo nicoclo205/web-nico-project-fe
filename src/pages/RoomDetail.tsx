@@ -3,14 +3,15 @@ import { useNavigate, useParams } from 'react-router-dom';
 import { FaHome, FaArrowLeft } from "react-icons/fa";
 import { GiSoccerField } from "react-icons/gi";
 import { MdMeetingRoom } from "react-icons/md";
-import { FiUsers, FiCopy, FiUserMinus, FiSettings, FiTrash2, FiTrendingUp, FiTarget } from "react-icons/fi";
+import { FiUsers, FiCopy, FiUserMinus, FiSettings, FiTrash2, FiTrendingUp, FiTarget, FiMessageSquare } from "react-icons/fi";
 import { useAuth } from '../hooks/useAuth';
 import { useRoom } from '../hooks/useRoom';
 import { getRoomIdFromHash } from '../utils/roomHash';
 import RoomBets from '../components/RoomBets';
 import RoomRanking from '../components/RoomRanking';
+import { RoomChat } from '../components/RoomChat';
 
-type TabType = 'info' | 'bets' | 'ranking';
+type TabType = 'info' | 'bets' | 'ranking' | 'chat';
 
 const RoomDetail: React.FC = () => {
 	const navigate = useNavigate();
@@ -293,6 +294,13 @@ const RoomDetail: React.FC = () => {
 						<FiTrendingUp className="text-lg" />
 						Ranking
 					</button>
+					<button
+						onClick={() => setActiveTab('chat')}
+						className={activeTab === 'chat' ? 'flex-1 min-w-[100px] flex items-center justify-center gap-2 btn-tab-active' : 'flex-1 min-w-[100px] flex items-center justify-center gap-2 btn-tab-inactive'}
+					>
+						<FiMessageSquare className="text-lg" />
+						Chat
+					</button>
 				</div>
 
 				{/* Tab Content */}
@@ -432,6 +440,14 @@ const RoomDetail: React.FC = () => {
 
 				{activeTab === 'ranking' && roomId && (
 					<RoomRanking roomId={roomId} />
+				)}
+
+				{activeTab === 'chat' && roomId && (
+					<RoomChat
+						roomId={String(roomId)}
+						token={localStorage.getItem('authToken') || ''}
+						currentUserId={currentUserId || 0}
+					/>
 				)}
 			</div>
 		</main>
