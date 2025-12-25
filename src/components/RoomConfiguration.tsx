@@ -61,7 +61,7 @@ const RoomConfiguration: React.FC<RoomConfigurationProps> = ({ roomId }) => {
     setError(null);
 
     try {
-      const token = localStorage.getItem('token');
+      const token = localStorage.getItem('authToken');
       const headers = { Authorization: `Token ${token}` };
 
       // Load activated leagues
@@ -86,7 +86,7 @@ const RoomConfiguration: React.FC<RoomConfigurationProps> = ({ roomId }) => {
 
   const loadAvailableLeagues = async () => {
     try {
-      const token = localStorage.getItem('token');
+      const token = localStorage.getItem('authToken');
       const headers = { Authorization: `Token ${token}` };
 
       const res = await fetch(`http://localhost:8000/api/sala-ligas/disponibles/?sala_id=${roomId}`, { headers });
@@ -101,7 +101,7 @@ const RoomConfiguration: React.FC<RoomConfigurationProps> = ({ roomId }) => {
 
   const loadAvailableMatches = async () => {
     try {
-      const token = localStorage.getItem('token');
+      const token = localStorage.getItem('authToken');
       const headers = { Authorization: `Token ${token}` };
 
       const res = await fetch(`http://localhost:8000/api/sala-partidos/disponibles/?sala_id=${roomId}`, { headers });
@@ -116,7 +116,7 @@ const RoomConfiguration: React.FC<RoomConfigurationProps> = ({ roomId }) => {
 
   const handleAddLeague = async (ligaId: number) => {
     try {
-      const token = localStorage.getItem('token');
+      const token = localStorage.getItem('authToken');
       const res = await fetch('http://localhost:8000/api/sala-ligas/', {
         method: 'POST',
         headers: {
@@ -145,7 +145,7 @@ const RoomConfiguration: React.FC<RoomConfigurationProps> = ({ roomId }) => {
     if (!window.confirm('¿Eliminar esta liga de la sala?')) return;
 
     try {
-      const token = localStorage.getItem('token');
+      const token = localStorage.getItem('authToken');
       const res = await fetch(`http://localhost:8000/api/sala-ligas/${salaLigaId}/`, {
         method: 'DELETE',
         headers: { Authorization: `Token ${token}` },
@@ -163,7 +163,7 @@ const RoomConfiguration: React.FC<RoomConfigurationProps> = ({ roomId }) => {
 
   const handleAddMatch = async (partidoId: number) => {
     try {
-      const token = localStorage.getItem('token');
+      const token = localStorage.getItem('authToken');
       const res = await fetch('http://localhost:8000/api/sala-partidos/', {
         method: 'POST',
         headers: {
@@ -192,7 +192,7 @@ const RoomConfiguration: React.FC<RoomConfigurationProps> = ({ roomId }) => {
     if (!window.confirm('¿Eliminar este partido de la sala?')) return;
 
     try {
-      const token = localStorage.getItem('token');
+      const token = localStorage.getItem('authToken');
       const res = await fetch(`http://localhost:8000/api/sala-partidos/${salaPartidoId}/`, {
         method: 'DELETE',
         headers: { Authorization: `Token ${token}` },

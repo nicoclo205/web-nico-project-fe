@@ -8,6 +8,8 @@ export interface ApiResponse<T> {
 }
 
 // Room interfaces
+export type ModoSala = 'ligas' | 'partidos_individuales' | 'mixto';
+
 export interface Room {
   id_sala: number;
   nombre: string;
@@ -19,6 +21,7 @@ export interface Room {
   id_usuario: number | { id_usuario: number; nombre_usuario?: string };
   creador_nombre?: string;
   avatar_sala?: string;
+  modo_sala?: ModoSala;
   creador?: {
     id_usuario: number;
     nombre_usuario: string;
@@ -43,6 +46,7 @@ export interface CreateRoomData {
   max_miembros?: number;
   es_privada?: boolean;
   avatar_sala?: string;
+  modo_sala?: ModoSala;
 }
 
 export interface UpdateRoomData {

@@ -28,13 +28,16 @@ const Rooms: React.FC = () => {
 	const [userAvatar, setUserAvatar] = useState<string | null>(null);
 	const [leagues, setLeagues] = useState<any[]>([]);
 	const [selectedLeagues, setSelectedLeagues] = useState<number[]>([]);
+	const [matches, setMatches] = useState<any[]>([]);
+	const [selectedMatches, setSelectedMatches] = useState<number[]>([]);
 
 	// Create room form state
 	const [newRoom, setNewRoom] = useState<CreateRoomData>({
 		nombre: '',
 		descripcion: '',
 		max_miembros: 10,
-		avatar_sala: DEFAULT_ROOM_AVATAR
+		avatar_sala: DEFAULT_ROOM_AVATAR,
+		modo_sala: 'ligas'
 	});
 
 	// Join room state
@@ -95,8 +98,16 @@ const Rooms: React.FC = () => {
 			}
 		};
 
+		const fetchMatches = async () => {
+			const response = await apiService.getUpcomingMatches();
+			if (response.success && response.data) {
+				setMatches(response.data);
+			}
+		};
+
 		fetchUserAvatar();
 		fetchLeagues();
+		fetchMatches();
 	}, []);
 
 	// Register room hashes when rooms change
@@ -117,23 +128,43 @@ const Rooms: React.FC = () => {
 			return;
 		}
 
-		if (selectedLeagues.length === 0) {
-			alert('Por favor selecciona al menos una competición');
-			return;
+		// Validar según el modo de sala
+		if (newRoom.modo_sala === 'ligas' || newRoom.modo_sala === 'mixto') {
+			if (selectedLeagues.length === 0) {
+				alert('Por favor selecciona al menos una competición');
+				return;
+			}
+		}
+
+		if (newRoom.modo_sala === 'partidos_individuales' || newRoom.modo_sala === 'mixto') {
+			if (selectedMatches.length === 0) {
+				alert('Por favor selecciona al menos un partido');
+				return;
+			}
 		}
 
 		console.log('Creating room with data:', newRoom);
 		const result = await createRoom(newRoom);
 		if (result.success && result.data) {
-			// Agregar las ligas seleccionadas a la sala
 			const salaId = result.data.id_sala;
 			console.log('Room created with ID:', salaId);
-			console.log('Adding leagues:', selectedLeagues);
-			console.log('League details:', leagues.filter(l => selectedLeagues.includes(l.id_liga)));
 
-			for (const ligaId of selectedLeagues) {
-				const addResult = await apiService.addSalaLiga(salaId, ligaId);
-				console.log(`Added league ${ligaId} to room:`, addResult);
+			// Agregar las ligas seleccionadas si aplica
+			if ((newRoom.modo_sala === 'ligas' || newRoom.modo_sala === 'mixto') && selectedLeagues.length > 0) {
+				console.log('Adding leagues:', selectedLeagues);
+				for (const ligaId of selectedLeagues) {
+					const addResult = await apiService.addSalaLiga(salaId, ligaId);
+					console.log(`Added league ${ligaId} to room:`, addResult);
+				}
+			}
+
+			// Agregar los partidos individuales seleccionados si aplica
+			if ((newRoom.modo_sala === 'partidos_individuales' || newRoom.modo_sala === 'mixto') && selectedMatches.length > 0) {
+				console.log('Adding matches:', selectedMatches);
+				for (const matchId of selectedMatches) {
+					const addResult = await apiService.addSalaPartido(salaId, matchId);
+					console.log(`Added match ${matchId} to room:`, addResult);
+				}
 			}
 
 			setShowCreateModal(false);
@@ -141,9 +172,11 @@ const Rooms: React.FC = () => {
 				nombre: '',
 				descripcion: '',
 				max_miembros: 10,
-				avatar_sala: DEFAULT_ROOM_AVATAR
+				avatar_sala: DEFAULT_ROOM_AVATAR,
+				modo_sala: 'ligas'
 			});
 			setSelectedLeagues([]);
+			setSelectedMatches([]);
 			reload();
 		} else {
 			alert(result.error || 'Error al crear la sala');
@@ -500,56 +533,139 @@ const Rooms: React.FC = () => {
 							</div>
 
 							<div>
-								<label className="block text-sm font-medium text-gray-300 mb-3 flex items-center gap-2">
-									<span className="text-green-400">⚽</span>
-									Competiciones *
-									<span className="text-xs text-gray-500">({selectedLeagues.length} seleccionadas)</span>
-								</label>
-								<div className="max-h-64 overflow-y-auto bg-white/5 rounded-xl p-3 border border-white/10">
-									<div className="grid grid-cols-1 sm:grid-cols-2 gap-2">
-										{leagues.map((league) => (
-											<label
-												key={league.id_liga}
-												className={`flex items-center gap-3 p-3 rounded-lg cursor-pointer transition-all duration-200 ${
-													selectedLeagues.includes(league.id_liga)
-														? 'bg-green-600/20 border-2 border-green-500 shadow-lg'
-														: 'bg-white/5 border-2 border-transparent hover:bg-white/10 hover:border-white/20'
-												}`}
-											>
-												<input
-													type="checkbox"
-													checked={selectedLeagues.includes(league.id_liga)}
-													onChange={(e) => {
-														if (e.target.checked) {
-															setSelectedLeagues([...selectedLeagues, league.id_liga]);
-														} else {
-															setSelectedLeagues(selectedLeagues.filter(id => id !== league.id_liga));
-														}
-													}}
-													className="w-5 h-5 rounded border-white/20 bg-white/10 text-green-600 focus:ring-green-500 focus:ring-offset-0"
-												/>
-												{league.logo_url && (
-													<img
-														src={league.logo_url}
-														alt={league.nombre}
-														className="w-8 h-8 object-contain flex-shrink-0"
-														onError={(e) => {
-															e.currentTarget.style.display = 'none';
-														}}
-													/>
-												)}
-												<span className="text-sm font-medium text-gray-200 truncate">{league.nombre}</span>
-											</label>
-										))}
-									</div>
-								</div>
+								<label className="block text-sm font-medium text-gray-300 mb-3">Modo de Sala *</label>
+								<select
+									value={newRoom.modo_sala}
+									onChange={(e) => {
+										setNewRoom({ ...newRoom, modo_sala: e.target.value as any });
+										// Limpiar selecciones al cambiar de modo
+										setSelectedLeagues([]);
+										setSelectedMatches([]);
+									}}
+									className="w-full bg-white/10 border border-white/20 rounded-xl px-4 py-3 focus:outline-none focus:ring-2 focus:ring-green-500"
+								>
+									<option value="ligas" className="bg-[#1f2126]">Ligas/Torneos - Todos los partidos de las ligas seleccionadas</option>
+									<option value="partidos_individuales" className="bg-[#1f2126]">Partidos Individuales - Solo partidos específicos</option>
+									<option value="mixto" className="bg-[#1f2126]">Mixto - Ligas + Partidos Individuales</option>
+								</select>
 								<p className="text-xs text-gray-400 mt-2 flex items-center gap-1">
 									<svg className="w-4 h-4" fill="currentColor" viewBox="0 0 20 20">
 										<path fillRule="evenodd" d="M18 10a8 8 0 11-16 0 8 8 0 0116 0zm-7-4a1 1 0 11-2 0 1 1 0 012 0zM9 9a1 1 0 000 2v3a1 1 0 001 1h1a1 1 0 100-2v-3a1 1 0 00-1-1H9z" clipRule="evenodd" />
 									</svg>
-									Solo verás partidos de las competiciones seleccionadas
+									{newRoom.modo_sala === 'ligas' && 'Solo verás partidos de las ligas seleccionadas'}
+									{newRoom.modo_sala === 'partidos_individuales' && 'Solo verás los partidos que agregues manualmente'}
+									{newRoom.modo_sala === 'mixto' && 'Verás partidos de ligas y partidos individuales agregados'}
 								</p>
 							</div>
+
+							{(newRoom.modo_sala === 'ligas' || newRoom.modo_sala === 'mixto') && (
+								<div>
+									<label className="block text-sm font-medium text-gray-300 mb-3 flex items-center gap-2">
+										<span className="text-green-400">🏆</span>
+										Competiciones {newRoom.modo_sala === 'ligas' ? '*' : '(Opcional)'}
+										<span className="text-xs text-gray-500">({selectedLeagues.length} seleccionadas)</span>
+									</label>
+									<div className="max-h-64 overflow-y-auto bg-white/5 rounded-xl p-3 border border-white/10">
+										<div className="grid grid-cols-1 sm:grid-cols-2 gap-2">
+											{leagues.map((league) => (
+												<label
+													key={league.id_liga}
+													className={`flex items-center gap-3 p-3 rounded-lg cursor-pointer transition-all duration-200 ${
+														selectedLeagues.includes(league.id_liga)
+															? 'bg-green-600/20 border-2 border-green-500 shadow-lg'
+															: 'bg-white/5 border-2 border-transparent hover:bg-white/10 hover:border-white/20'
+													}`}
+												>
+													<input
+														type="checkbox"
+														checked={selectedLeagues.includes(league.id_liga)}
+														onChange={(e) => {
+															if (e.target.checked) {
+																setSelectedLeagues([...selectedLeagues, league.id_liga]);
+															} else {
+																setSelectedLeagues(selectedLeagues.filter(id => id !== league.id_liga));
+															}
+														}}
+														className="w-5 h-5 rounded border-white/20 bg-white/10 text-green-600 focus:ring-green-500 focus:ring-offset-0"
+													/>
+													{league.logo_url && (
+														<img
+															src={league.logo_url}
+															alt={league.nombre}
+															className="w-8 h-8 object-contain flex-shrink-0"
+															onError={(e) => {
+																e.currentTarget.style.display = 'none';
+															}}
+														/>
+													)}
+													<span className="text-sm font-medium text-gray-200 truncate">{league.nombre}</span>
+												</label>
+											))}
+										</div>
+									</div>
+								</div>
+							)}
+
+							{(newRoom.modo_sala === 'partidos_individuales' || newRoom.modo_sala === 'mixto') && (
+								<div>
+									<label className="block text-sm font-medium text-gray-300 mb-3 flex items-center gap-2">
+										<span className="text-green-400">⚽</span>
+										Partidos Individuales {newRoom.modo_sala === 'partidos_individuales' ? '*' : '(Opcional)'}
+										<span className="text-xs text-gray-500">({selectedMatches.length} seleccionados)</span>
+									</label>
+									<div className="max-h-64 overflow-y-auto bg-white/5 rounded-xl p-3 border border-white/10">
+										<div className="space-y-2">
+											{matches.slice(0, 20).map((match) => (
+												<label
+													key={match.id_partido}
+													className={`flex items-center gap-3 p-3 rounded-lg cursor-pointer transition-all duration-200 ${
+														selectedMatches.includes(match.id_partido)
+															? 'bg-green-600/20 border-2 border-green-500 shadow-lg'
+															: 'bg-white/5 border-2 border-transparent hover:bg-white/10 hover:border-white/20'
+													}`}
+												>
+													<input
+														type="checkbox"
+														checked={selectedMatches.includes(match.id_partido)}
+														onChange={(e) => {
+															if (e.target.checked) {
+																setSelectedMatches([...selectedMatches, match.id_partido]);
+															} else {
+																setSelectedMatches(selectedMatches.filter(id => id !== match.id_partido));
+															}
+														}}
+														className="w-5 h-5 rounded border-white/20 bg-white/10 text-green-600 focus:ring-green-500 focus:ring-offset-0"
+													/>
+													<div className="flex-1 grid grid-cols-3 gap-2 items-center text-sm">
+														<div className="flex items-center gap-2">
+															{match.equipo_local_logo && (
+																<img src={match.equipo_local_logo} alt="" className="w-6 h-6 object-contain" />
+															)}
+															<span className="font-medium text-gray-200 truncate">{match.equipo_local_nombre}</span>
+														</div>
+														<span className="text-center text-gray-400 text-xs">vs</span>
+														<div className="flex items-center gap-2 justify-end">
+															<span className="font-medium text-gray-200 truncate">{match.equipo_visitante_nombre}</span>
+															{match.equipo_visitante_logo && (
+																<img src={match.equipo_visitante_logo} alt="" className="w-6 h-6 object-contain" />
+															)}
+														</div>
+													</div>
+													<div className="text-xs text-gray-400 whitespace-nowrap">
+														{new Date(match.fecha).toLocaleDateString('es-ES', { day: '2-digit', month: 'short' })}
+													</div>
+												</label>
+											))}
+										</div>
+									</div>
+									<p className="text-xs text-gray-400 mt-2 flex items-center gap-1">
+										<svg className="w-4 h-4" fill="currentColor" viewBox="0 0 20 20">
+											<path fillRule="evenodd" d="M18 10a8 8 0 11-16 0 8 8 0 0116 0zm-7-4a1 1 0 11-2 0 1 1 0 012 0zM9 9a1 1 0 000 2v3a1 1 0 001 1h1a1 1 0 100-2v-3a1 1 0 00-1-1H9z" clipRule="evenodd" />
+										</svg>
+										Mostrando los próximos 20 partidos. Puedes agregar más desde la configuración de la sala.
+									</p>
+								</div>
+							)}
 
 							<p className="text-xs text-gray-400">
 								Se generará automáticamente un código único para tu sala que podrás compartir con tus amigos.

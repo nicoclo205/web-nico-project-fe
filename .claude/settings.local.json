@@ -7,7 +7,17 @@
       "Bash(python manage.py:*)",
       "Bash(\"..\\bet-project-env\\Scripts\\python.exe\" manage.py makemigrations)",
       "Bash(docker exec:*)",
-      "Bash(docker restart:*)"
+      "Bash(docker restart:*)",
+      "Bash(timeout 15 docker logs:*)",
+      "Bash(docker-compose restart:*)",
+      "Bash(docker stop:*)",
+      "Bash(docker start:*)",
+      "Bash(findstr:*)",
+      "Bash(docker-compose down:*)",
+      "Bash(docker-compose build:*)",
+      "Bash(docker-compose up:*)",
+      "Bash(docker logs:*)",
+      "Bash(timeout 10 docker logs:*)"
     ],
     "deny": [],
     "ask": []

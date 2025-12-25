@@ -20,6 +20,7 @@ export interface ChatServiceCallbacks {
 
 class ChatService {
   private socket: WebSocket | null = null;
+  // eslint-disable-next-line @typescript-eslint/no-unused-vars
   private roomId: string | null = null;
   private callbacks: ChatServiceCallbacks = {};
   private reconnectAttempts = 0;
