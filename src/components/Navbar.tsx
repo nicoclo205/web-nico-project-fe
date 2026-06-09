@@ -2,6 +2,7 @@ import React, { useEffect, useRef, useState } from 'react';
 import { useTranslation } from 'react-i18next';
 import { useLocation, useNavigate } from 'react-router-dom';
 import LanguageSelector from './LanguageSelector';
+import { API_BASE_URL } from '../config/api';
 
 const Navbar: React.FC = () => {
 	const navigate = useNavigate();
@@ -23,7 +24,7 @@ const Navbar: React.FC = () => {
 				// We'll use the token from localStorage
 				const token = localStorage.getItem('authToken');
 				if (token) {
-					const response = await fetch('http://localhost:8000/api/usuario/me', {
+					const response = await fetch(`${API_BASE_URL}/api/usuario/me`, {
 						headers: {
 							'Authorization': `Token ${token}`
 						}

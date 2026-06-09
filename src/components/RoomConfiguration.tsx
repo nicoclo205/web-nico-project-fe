@@ -1,6 +1,7 @@
 import React, { useEffect, useState } from 'react';
 import { FiPlus, FiTrash2, FiX, FiCheck, FiAlertCircle } from 'react-icons/fi';
 import { GiSoccerBall } from 'react-icons/gi';
+import { API_BASE_URL } from '../config/api';
 
 interface RoomConfigurationProps {
   roomId: number;
@@ -65,14 +66,14 @@ const RoomConfiguration: React.FC<RoomConfigurationProps> = ({ roomId }) => {
       const headers = { Authorization: `Token ${token}` };
 
       // Load activated leagues
-      const leaguesRes = await fetch(`http://localhost:8000/api/sala-ligas/?sala_id=${roomId}`, { headers });
+      const leaguesRes = await fetch(`${API_BASE_URL}/api/sala-ligas/?sala_id=${roomId}`, { headers });
       if (leaguesRes.ok) {
         const leaguesData = await leaguesRes.json();
         setActivatedLeagues(leaguesData);
       }
 
       // Load activated matches
-      const matchesRes = await fetch(`http://localhost:8000/api/sala-partidos/?sala_id=${roomId}`, { headers });
+      const matchesRes = await fetch(`${API_BASE_URL}/api/sala-partidos/?sala_id=${roomId}`, { headers });
       if (matchesRes.ok) {
         const matchesData = await matchesRes.json();
         setActivatedMatches(matchesData);
@@ -89,7 +90,7 @@ const RoomConfiguration: React.FC<RoomConfigurationProps> = ({ roomId }) => {
       const token = localStorage.getItem('authToken');
       const headers = { Authorization: `Token ${token}` };
 
-      const res = await fetch(`http://localhost:8000/api/sala-ligas/disponibles/?sala_id=${roomId}`, { headers });
+      const res = await fetch(`${API_BASE_URL}/api/sala-ligas/disponibles/?sala_id=${roomId}`, { headers });
       if (res.ok) {
         const data = await res.json();
         setAvailableLeagues(data);
@@ -104,7 +105,7 @@ const RoomConfiguration: React.FC<RoomConfigurationProps> = ({ roomId }) => {
       const token = localStorage.getItem('authToken');
       const headers = { Authorization: `Token ${token}` };
 
-      const res = await fetch(`http://localhost:8000/api/sala-partidos/disponibles/?sala_id=${roomId}`, { headers });
+      const res = await fetch(`${API_BASE_URL}/api/sala-partidos/disponibles/?sala_id=${roomId}`, { headers });
       if (res.ok) {
         const data = await res.json();
         setAvailableMatches(data);
@@ -117,7 +118,7 @@ const RoomConfiguration: React.FC<RoomConfigurationProps> = ({ roomId }) => {
   const handleAddLeague = async (ligaId: number) => {
     try {
       const token = localStorage.getItem('authToken');
-      const res = await fetch('http://localhost:8000/api/sala-ligas/', {
+      const res = await fetch('${API_BASE_URL}/api/sala-ligas/', {
         method: 'POST',
         headers: {
           'Content-Type': 'application/json',
@@ -146,7 +147,7 @@ const RoomConfiguration: React.FC<RoomConfigurationProps> = ({ roomId }) => {
 
     try {
       const token = localStorage.getItem('authToken');
-      const res = await fetch(`http://localhost:8000/api/sala-ligas/${salaLigaId}/`, {
+      const res = await fetch(`${API_BASE_URL}/api/sala-ligas/${salaLigaId}/`, {
         method: 'DELETE',
         headers: { Authorization: `Token ${token}` },
       });
@@ -164,7 +165,7 @@ const RoomConfiguration: React.FC<RoomConfigurationProps> = ({ roomId }) => {
   const handleAddMatch = async (partidoId: number) => {
     try {
       const token = localStorage.getItem('authToken');
-      const res = await fetch('http://localhost:8000/api/sala-partidos/', {
+      const res = await fetch('${API_BASE_URL}/api/sala-partidos/', {
         method: 'POST',
         headers: {
           'Content-Type': 'application/json',
@@ -193,7 +194,7 @@ const RoomConfiguration: React.FC<RoomConfigurationProps> = ({ roomId }) => {
 
     try {
       const token = localStorage.getItem('authToken');
-      const res = await fetch(`http://localhost:8000/api/sala-partidos/${salaPartidoId}/`, {
+      const res = await fetch(`${API_BASE_URL}/api/sala-partidos/${salaPartidoId}/`, {
         method: 'DELETE',
         headers: { Authorization: `Token ${token}` },
       });

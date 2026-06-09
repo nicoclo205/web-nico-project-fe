@@ -1,6 +1,7 @@
 import React, { useEffect, useState } from 'react';
 import { FiUsers, FiCopy, FiTrendingUp, FiClock, FiTarget, FiBell, FiCalendar, FiAward, FiAlertCircle } from 'react-icons/fi';
 import { GiSoccerBall, GiTrophy } from 'react-icons/gi';
+import { API_BASE_URL } from '../config/api';
 
 interface RoomDashboardProps {
   roomId: number;
@@ -70,14 +71,14 @@ const RoomDashboard: React.FC<RoomDashboardProps> = ({
       const headers = { Authorization: `Token ${token}` };
 
       // Cargar próximos 3 partidos
-      const matchesRes = await fetch(`http://localhost:8000/api/partidos/proximos/?sala_id=${roomId}`, { headers });
+      const matchesRes = await fetch(`${API_BASE_URL}/api/partidos/proximos/?sala_id=${roomId}`, { headers });
       if (matchesRes.ok) {
         const matchesData = await matchesRes.json();
         setUpcomingMatches(matchesData.slice(0, 3));
       }
 
       // Cargar último resultado (partidos finalizados)
-      const finishedRes = await fetch(`http://localhost:8000/api/partidos/?sala_id=${roomId}&estado=finalizado`, { headers });
+      const finishedRes = await fetch(`${API_BASE_URL}/api/partidos/?sala_id=${roomId}&estado=finalizado`, { headers });
       if (finishedRes.ok) {
         const finishedData = await finishedRes.json();
         if (finishedData.length > 0) {
@@ -90,7 +91,7 @@ const RoomDashboard: React.FC<RoomDashboardProps> = ({
       }
 
       // Cargar líder de la sala (ranking)
-      const rankingRes = await fetch(`http://localhost:8000/api/rankings/actual/?sala_id=${roomId}`, { headers });
+      const rankingRes = await fetch(`${API_BASE_URL}/api/rankings/actual/?sala_id=${roomId}`, { headers });
       if (rankingRes.ok) {
         const rankingData = await rankingRes.json();
         if (rankingData.ranking && rankingData.ranking.length > 0) {
@@ -99,7 +100,7 @@ const RoomDashboard: React.FC<RoomDashboardProps> = ({
       }
 
       // Cargar notificaciones
-      const notifRes = await fetch(`http://localhost:8000/api/sala-notificaciones/?sala_id=${roomId}`, { headers });
+      const notifRes = await fetch(`${API_BASE_URL}/api/sala-notificaciones/?sala_id=${roomId}`, { headers });
       if (notifRes.ok) {
         const notifData = await notifRes.json();
         setNotifications(notifData.slice(0, 5)); // Últimas 5 notificaciones

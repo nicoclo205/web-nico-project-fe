@@ -1,4 +1,5 @@
 import { FaHome } from "react-icons/fa";
+import { API_BASE_URL } from './config/api';
 import { GiSoccerField } from "react-icons/gi";
 import { MdMeetingRoom, MdSportsTennis, MdSportsBasketball } from "react-icons/md";
 import { FiSettings } from "react-icons/fi";
@@ -20,7 +21,7 @@ const HomePage = () => {
       try {
         const token = localStorage.getItem('authToken');
         if (token) {
-          const response = await fetch('http://localhost:8000/api/usuario/me', {
+          const response = await fetch(`${API_BASE_URL}/api/usuario/me`, {
             headers: {
               'Authorization': `Token ${token}`
             }

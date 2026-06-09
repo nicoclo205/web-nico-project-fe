@@ -5,6 +5,7 @@ import { GiSoccerField } from "react-icons/gi";
 import { FiSearch, FiPlus, FiUsers, FiSettings } from "react-icons/fi";
 import { MdMeetingRoom } from "react-icons/md";
 import { useAuth } from '../hooks/useAuth';
+import { API_BASE_URL } from '../config/api';
 import { useRoom } from '../hooks/useRoom';
 import { CreateRoomData, apiService } from '../services/apiService';
 import { registerRoomHash } from '../utils/roomHash';
@@ -51,7 +52,7 @@ const Rooms: React.FC = () => {
 			try {
 				const token = localStorage.getItem('authToken');
 				if (token) {
-					const response = await fetch('http://localhost:8000/api/usuario/me', {
+					const response = await fetch(`${API_BASE_URL}/api/usuario/me`, {
 						headers: {
 							'Authorization': `Token ${token}`
 						}

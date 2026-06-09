@@ -1,4 +1,5 @@
 // src/services/chatService.ts
+import { WS_BASE_URL } from '../config/api';
 export interface ChatMessage {
   id_mensaje: number;
   contenido: string;
@@ -28,7 +29,7 @@ class ChatService {
   connect(roomId: string, token: string, callbacks: ChatServiceCallbacks) {
     this.callbacks = callbacks;
 
-    const wsUrl = `ws://localhost:8000/ws/chat/${roomId}/?token=${token}`;
+    const wsUrl = `${WS_BASE_URL}/ws/chat/${roomId}/?token=${token}`;
     this.socket = new WebSocket(wsUrl);
 
     this.socket.onopen = () => {
