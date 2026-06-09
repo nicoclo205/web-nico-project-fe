@@ -20,15 +20,12 @@ export interface ChatServiceCallbacks {
 
 class ChatService {
   private socket: WebSocket | null = null;
-  // eslint-disable-next-line @typescript-eslint/no-unused-vars
-  private roomId: string | null = null;
   private callbacks: ChatServiceCallbacks = {};
   private reconnectAttempts = 0;
   private maxReconnectAttempts = 5;
   private reconnectDelay = 3000;
 
   connect(roomId: string, token: string, callbacks: ChatServiceCallbacks) {
-    this.roomId = roomId;
     this.callbacks = callbacks;
 
     const wsUrl = `ws://localhost:8000/ws/chat/${roomId}/?token=${token}`;
@@ -92,7 +89,6 @@ class ChatService {
     if (this.socket) {
       this.socket.close();
       this.socket = null;
-      this.roomId = null;
       this.reconnectAttempts = this.maxReconnectAttempts; // Evitar reconexión
     }
   }

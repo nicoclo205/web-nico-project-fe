@@ -241,7 +241,7 @@ const RoomDashboard: React.FC<RoomDashboardProps> = ({
             </div>
           ) : (
             <div className="space-y-3">
-              {upcomingMatches.map((match, index) => (
+              {upcomingMatches.map((match) => (
                 <div
                   key={match.id_partido}
                   className="p-4 bg-white/5 rounded-xl hover:bg-white/10 transition-colors border border-white/5"

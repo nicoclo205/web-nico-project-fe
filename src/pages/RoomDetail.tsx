@@ -3,7 +3,7 @@ import { useNavigate, useParams } from 'react-router-dom';
 import { FaHome, FaArrowLeft } from "react-icons/fa";
 import { GiSoccerField } from "react-icons/gi";
 import { MdMeetingRoom } from "react-icons/md";
-import { FiUsers, FiCopy, FiUserMinus, FiSettings, FiTrash2, FiTrendingUp, FiTarget, FiMessageSquare } from "react-icons/fi";
+import { FiUsers, FiSettings, FiTrendingUp, FiTarget, FiMessageSquare } from "react-icons/fi";
 import { useAuth } from '../hooks/useAuth';
 import { useRoom } from '../hooks/useRoom';
 import { getRoomIdFromHash } from '../utils/roomHash';
@@ -25,8 +25,6 @@ const RoomDetail: React.FC = () => {
 		error,
 		fetchRoomById,
 		getRoomMembers,
-		leaveRoom,
-		deleteRoom,
 		updateRoom
 	} = useRoom();
 
@@ -106,30 +104,6 @@ const RoomDetail: React.FC = () => {
 		}
 	};
 
-	const handleLeaveRoom = async () => {
-		if (!roomId) return;
-		if (window.confirm('¿Estás seguro de que quieres salir de esta sala?')) {
-			const result = await leaveRoom(roomId);
-			if (result.success) {
-				navigate('/rooms');
-			} else {
-				alert(result.error || 'Error al salir de la sala');
-			}
-		}
-	};
-
-	const handleDeleteRoom = async () => {
-		if (!roomId) return;
-		if (window.confirm('¿Estás seguro de que quieres eliminar esta sala? Esta acción no se puede deshacer.')) {
-			const result = await deleteRoom(roomId);
-			if (result.success) {
-				navigate('/rooms');
-			} else {
-				alert(result.error || 'Error al eliminar la sala');
-			}
-		}
-	};
-
 	const handleEditRoom = async () => {
 		if (!roomId) return;
 		const result = await updateRoom(roomId, editForm);
@@ -138,17 +112,6 @@ const RoomDetail: React.FC = () => {
 			loadRoomData();
 		} else {
 			alert(result.error || 'Error al actualizar la sala');
-		}
-	};
-
-	const openEditModal = () => {
-		if (selectedRoom) {
-			setEditForm({
-				nombre: selectedRoom.nombre,
-				descripcion: selectedRoom.descripcion || '',
-				max_miembros: selectedRoom.max_miembros || 10
-			});
-			setShowEditModal(true);
 		}
 	};
 
