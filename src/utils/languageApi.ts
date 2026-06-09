@@ -22,7 +22,7 @@ export const getLanguageHeaders = () => {
  * Enhanced axios instance with language and authentication support
  * This is the MAIN API client to be used throughout the application
  */
-const API_BASE_URL = 'http://localhost:8000';
+const API_BASE_URL = import.meta.env.VITE_API_URL || '';
 
 export const apiClient = axios.create({
   baseURL: API_BASE_URL,
