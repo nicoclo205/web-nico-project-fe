@@ -4,7 +4,7 @@ import { useNavigate } from 'react-router-dom';
 import { FaHome } from "react-icons/fa";
 import { GiSoccerField } from "react-icons/gi";
 import { MdMeetingRoom } from "react-icons/md";
-import { FiSearch, FiFilter, FiSettings } from "react-icons/fi";
+import { FiSearch, FiFilter, FiSettings, FiInfo } from "react-icons/fi";
 import { useAuth } from '../hooks/useAuth';
 import { API_BASE_URL } from '../config/api';
 import { apiService } from '../services/apiService';
@@ -341,6 +341,12 @@ const SoccerMatches: React.FC = () => {
 						hover:bg-white/10
 						transition-all duration-200 ease-in-out
 						cursor-pointer"
+				/>
+
+				{/* About icon */}
+				<FiInfo
+					onClick={() => navigate('/about')}
+					className="text-white w-12 h-12 p-3 rounded-2xl hover:bg-white/10 transition-all duration-200 ease-in-out cursor-pointer"
 				/>
 			</aside>
 

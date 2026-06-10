@@ -1,235 +1,202 @@
 import React from 'react';
 import { useNavigate } from 'react-router-dom';
 import { useTranslation } from 'react-i18next';
-import {
-  NavigationMenu,
-  NavigationMenuItem,
-  NavigationMenuLink,
-  NavigationMenuList,
-  navigationMenuTriggerStyle
-} from './components/ui/navigation-menu';
+import { FaHome } from "react-icons/fa";
+import { GiSoccerField } from "react-icons/gi";
+import { MdMeetingRoom } from "react-icons/md";
+import { FiSettings, FiInfo, FiMail, FiCode } from "react-icons/fi";
+import LanguageSelectorEnhanced from './components/LanguageSelectorEnhanced';
 
 const About: React.FC = () => {
   const navigate = useNavigate();
-  const { t, i18n } = useTranslation('about');
-
-  const handleNavigation = (path: string) => {
-    navigate(path);
-  };
-
-  const toggleLanguage = () => {
-    const newLang = i18n.language === 'es' ? 'en' : 'es';
-    i18n.changeLanguage(newLang);
-  };
+  const { t } = useTranslation(['about']);
 
   return (
-    <div className="bg-myBlack text-white min-h-screen flex flex-col">
-      {/* Navigation Header */}
-      <header className="w-full p-4 flex flex-col">
-        <div className="container mx-auto flex justify-between items-center">
-          <h1 className="text-2xl font-bold text-myBlue cursor-pointer" 
-              onClick={() => handleNavigation('/start')}>
-            FriendlyBet
-          </h1>
-          
-          <div className="flex items-center gap-4">
-            {/* Language Toggle */}
-            <button
-              onClick={toggleLanguage}
-              className="px-3 py-1 bg-myBlue text-white rounded hover:bg-blue-600 transition-colors"
-            >
-              {i18n.language === 'es' ? 'EN' : 'ES'}
-            </button>
-            
-            <NavigationMenu>
-              <NavigationMenuList>
-                <NavigationMenuItem>
-                  <NavigationMenuLink 
-                    className={navigationMenuTriggerStyle({ variant: "transparent" })}
-                    onClick={() => handleNavigation('/start')}>
-                    {t('navigation.home')}
-                  </NavigationMenuLink>
-                </NavigationMenuItem>
+    <div className="flex flex-col lg:flex-row h-screen bg-[#0e0f11] text-white page-transition-enter">
 
-                <NavigationMenuItem>
-                  <NavigationMenuLink 
-                    className={navigationMenuTriggerStyle({ variant: "transparent" })}
-                    onClick={() => handleNavigation('/login')}>
-                    {t('navigation.login')}
-                  </NavigationMenuLink>
-                </NavigationMenuItem>
-                            
-                <NavigationMenuItem>
-                  <NavigationMenuLink 
-                    className={navigationMenuTriggerStyle({ variant: "transparent" })}
-                    onClick={() => handleNavigation('/about')}>
-                    {t('navigation.about')}
-                  </NavigationMenuLink>
-                </NavigationMenuItem>
-              </NavigationMenuList>
-            </NavigationMenu>
-          </div>
-        </div>
-      </header>
+      {/* Sidebar */}
+      <aside className="lg:w-20 w-full flex lg:flex-col flex-row items-center justify-around lg:justify-start py-4 lg:py-6 lg:space-y-8 space-x-4 lg:space-x-0 bg-[#121316]">
+        <FaHome
+          onClick={() => navigate('/homepage')}
+          className="text-white w-12 h-12 p-3 rounded-2xl hover:bg-white/10 transition-all duration-200 ease-in-out cursor-pointer"
+        />
+        <GiSoccerField
+          onClick={() => navigate('/soccer-matches')}
+          className="text-white w-12 h-12 p-3 rounded-2xl hover:bg-white/10 transition-all duration-200 ease-in-out cursor-pointer"
+        />
+        <MdMeetingRoom
+          onClick={() => navigate('/rooms')}
+          className="text-white w-12 h-12 p-3 rounded-2xl hover:bg-white/10 transition-all duration-200 ease-in-out cursor-pointer"
+        />
+        <FiSettings
+          onClick={() => navigate('/settings')}
+          className="text-white w-12 h-12 p-3 rounded-2xl hover:bg-white/10 transition-all duration-200 ease-in-out cursor-pointer"
+        />
+        <FiInfo
+          className="text-white w-12 h-12 p-3 rounded-2xl bg-green-600"
+        />
+      </aside>
 
       {/* Main Content */}
-      <main className="flex-grow px-6 lg:px-32 py-8">
-        <div className="max-w-4xl mx-auto">
-          <h1 className="text-4xl font-bold text-center mb-8 text-myBlue">
-            {t('title')}
-          </h1>
+      <main className="flex-1 overflow-y-auto p-4 md:p-8">
 
-          {/* Who We Are Section */}
-          <section className="mb-8">
-            <h2 className="text-3xl font-semibold mb-4 text-myBlue">
-              {t('sections.whoWeAre.title')}
-            </h2>
-            <div className="space-y-4 text-lg leading-relaxed">
-              <p>{t('sections.whoWeAre.description')}</p>
-              <p>{t('sections.whoWeAre.background')}</p>
-              <p>{t('sections.whoWeAre.relationship')}</p>
+        {/* Header */}
+        <div className="flex justify-between items-center mb-8 md:mb-10">
+          <div>
+            <h1 className="text-2xl md:text-3xl font-bold text-white">{t('title')}</h1>
+            <p className="text-gray-400 text-sm mt-1">FriendlyBet</p>
+          </div>
+          <LanguageSelectorEnhanced />
+        </div>
+
+        <div className="max-w-4xl mx-auto space-y-6">
+
+          {/* Hero Card */}
+          <div className="relative overflow-hidden bg-gradient-to-br from-green-900/40 to-green-700/10 border border-green-700/30 rounded-2xl p-6 md:p-8">
+            <div className="relative z-10">
+              <div className="flex items-center gap-3 mb-3">
+                <span className="text-3xl">⚽</span>
+                <h2 className="text-2xl md:text-3xl font-bold text-white">FriendlyBet</h2>
+              </div>
+              <p className="text-gray-300 text-base md:text-lg leading-relaxed max-w-2xl">
+                {t('sections.howItWorks.description')}
+              </p>
             </div>
-          </section>
+          </div>
 
-          {/* Why We Created This Game */}
-          <section className="mb-8">
-            <h2 className="text-3xl font-semibold mb-4 text-myBlue">
-              {t('sections.whyCreated.title')}
-            </h2>
-            <div className="space-y-4 text-lg leading-relaxed">
-              <p>{t('sections.whyCreated.purpose')}</p>
-              <p>{t('sections.whyCreated.goal')}</p>
-              <p>{t('sections.whyCreated.usage')}</p>
-            </div>
-          </section>
+          {/* Team + How to Play */}
+          <div className="grid md:grid-cols-2 gap-6">
 
-          {/* How It Works */}
-          <section className="mb-8">
-            <h2 className="text-3xl font-semibold mb-4 text-myBlue">
-              {t('sections.howItWorks.title')}
-            </h2>
-            <p className="text-lg mb-6 leading-relaxed">
-              {t('sections.howItWorks.description')}
-            </p>
-            
-            <div className="grid md:grid-cols-2 gap-6">
-              <div className="bg-gray-800 p-6 rounded-lg border border-gray-700">
-                <h3 className="font-semibold mb-2 text-myBlue">
-                  {t('sections.howItWorks.steps.step1.title')}
-                </h3>
-                <p className="text-gray-300">
-                  {t('sections.howItWorks.steps.step1.description')}
-                </p>
-              </div>
-              
-              <div className="bg-gray-800 p-6 rounded-lg border border-gray-700">
-                <h3 className="font-semibold mb-2 text-myBlue">
-                  {t('sections.howItWorks.steps.step2.title')}
-                </h3>
-                <p className="text-gray-300">
-                  {t('sections.howItWorks.steps.step2.description')}
-                </p>
-              </div>
-              
-              <div className="bg-gray-800 p-6 rounded-lg border border-gray-700">
-                <h3 className="font-semibold mb-2 text-myBlue">
-                  {t('sections.howItWorks.steps.step3.title')}
-                </h3>
-                <p className="text-gray-300">
-                  {t('sections.howItWorks.steps.step3.description')}
-                </p>
-              </div>
-              
-              <div className="bg-gray-800 p-6 rounded-lg border border-gray-700">
-                <h3 className="font-semibold mb-2 text-myBlue">
-                  {t('sections.howItWorks.steps.step4.title')}
-                </h3>
-                <p className="text-gray-300">
-                  {t('sections.howItWorks.steps.step4.description')}
+            {/* The Team */}
+            <div className="bg-[#1a1d21] border border-white/10 rounded-2xl p-6">
+              <h3 className="text-lg font-semibold text-white mb-5 flex items-center gap-2">
+                <span>👋</span> {t('sections.whoWeAre.title')}
+              </h3>
+              <div className="space-y-4">
+                <div className="flex items-center gap-3">
+                  <div className="w-10 h-10 rounded-full bg-green-600 flex items-center justify-center text-white font-bold text-sm flex-shrink-0">N</div>
+                  <div>
+                    <p className="text-white font-medium">Nico</p>
+                    <p className="text-gray-400 text-sm">Frontend · React & TypeScript</p>
+                  </div>
+                </div>
+                <div className="flex items-center gap-3">
+                  <div className="w-10 h-10 rounded-full bg-blue-600 flex items-center justify-center text-white font-bold text-sm flex-shrink-0">M</div>
+                  <div>
+                    <p className="text-white font-medium">Miguel</p>
+                    <p className="text-gray-400 text-sm">Backend · Django & Python</p>
+                  </div>
+                </div>
+                <p className="text-gray-400 text-sm pt-3 border-t border-white/10 leading-relaxed">
+                  {t('sections.whoWeAre.relationship')}
                 </p>
               </div>
             </div>
-          </section>
+
+            {/* How to Play */}
+            <div className="bg-[#1a1d21] border border-white/10 rounded-2xl p-6">
+              <h3 className="text-lg font-semibold text-white mb-5 flex items-center gap-2">
+                <span>🎮</span> {t('sections.howItWorks.title')}
+              </h3>
+              <div className="space-y-4">
+                {[
+                  { step: '1', title: t('sections.howItWorks.steps.step1.title'), desc: t('sections.howItWorks.steps.step1.description') },
+                  { step: '2', title: t('sections.howItWorks.steps.step2.title'), desc: t('sections.howItWorks.steps.step2.description') },
+                  { step: '3', title: t('sections.howItWorks.steps.step3.title'), desc: t('sections.howItWorks.steps.step3.description') },
+                  { step: '4', title: t('sections.howItWorks.steps.step4.title'), desc: t('sections.howItWorks.steps.step4.description') },
+                ].map(({ step, title, desc }) => (
+                  <div key={step} className="flex items-start gap-3">
+                    <span className="w-6 h-6 rounded-full bg-green-600/20 border border-green-600/40 flex items-center justify-center text-green-400 text-xs font-bold flex-shrink-0 mt-0.5">
+                      {step}
+                    </span>
+                    <div>
+                      <p className="text-white text-sm font-medium">{title}</p>
+                      <p className="text-gray-400 text-xs mt-0.5">{desc}</p>
+                    </div>
+                  </div>
+                ))}
+              </div>
+            </div>
+          </div>
 
           {/* Scoring System */}
-          <section className="mb-8">
-            <h2 className="text-3xl font-semibold mb-4 text-myBlue">
-              {t('sections.scoring.title')}
-            </h2>
-            <div className="bg-blue-900/30 p-6 rounded-lg border border-blue-700">
-              <ul className="space-y-2 text-lg">
-                <li><strong>{t('sections.scoring.exactScore')}</strong></li>
-                <li><strong>{t('sections.scoring.correctWinner')}</strong></li>
-                <li><strong>{t('sections.scoring.incorrect')}</strong></li>
-              </ul>
-            </div>
-          </section>
-
-          {/* Under the Hood */}
-          <section className="mb-8">
-            <h2 className="text-3xl font-semibold mb-4 text-myBlue">
-              {t('sections.underTheHood.title')}
-            </h2>
-            <p className="text-lg mb-4 leading-relaxed">
-              {t('sections.underTheHood.description')}
+          <div className="bg-[#1a1d21] border border-white/10 rounded-2xl p-6">
+            <h3 className="text-lg font-semibold text-white mb-2 flex items-center gap-2">
+              <span>🏆</span> {t('sections.scoring.title')}
+            </h3>
+            <p className="text-gray-400 text-sm mb-6 leading-relaxed">
+              {t('sections.scoring.description')}
             </p>
-            
-            <div className="bg-gray-800 p-6 rounded-lg border border-gray-700 mb-4">
-              <ul className="space-y-2">
-                {(t('sections.underTheHood.technologies', { returnObjects: true }) as string[]).map((tech: string, index: number) => (
-                  <li key={index} className="flex items-center">
-                    <span className="text-myBlue mr-2">•</span>
+
+            <div className="grid grid-cols-3 gap-4 mb-5">
+              <div className="text-center bg-green-900/20 border border-green-700/30 rounded-xl p-4">
+                <div className="text-3xl font-bold text-green-400 mb-1">3</div>
+                <div className="text-white text-sm font-semibold mb-1">{t('sections.scoring.exactScoreLabel')}</div>
+                <div className="text-gray-400 text-xs leading-snug">{t('sections.scoring.exactScoreDesc')}</div>
+              </div>
+              <div className="text-center bg-yellow-900/20 border border-yellow-700/30 rounded-xl p-4">
+                <div className="text-3xl font-bold text-yellow-400 mb-1">1</div>
+                <div className="text-white text-sm font-semibold mb-1">{t('sections.scoring.winnerLabel')}</div>
+                <div className="text-gray-400 text-xs leading-snug">{t('sections.scoring.winnerDesc')}</div>
+              </div>
+              <div className="text-center bg-red-900/20 border border-red-700/30 rounded-xl p-4">
+                <div className="text-3xl font-bold text-red-400 mb-1">0</div>
+                <div className="text-white text-sm font-semibold mb-1">{t('sections.scoring.wrongLabel')}</div>
+                <div className="text-gray-400 text-xs leading-snug">{t('sections.scoring.wrongDesc')}</div>
+              </div>
+            </div>
+
+            <div className="p-4 bg-white/5 rounded-xl border border-white/10">
+              <p className="text-white text-sm font-medium mb-1">📊 {t('sections.scoring.rankingTitle')}</p>
+              <p className="text-gray-400 text-sm leading-relaxed">{t('sections.scoring.rankingDesc')}</p>
+            </div>
+          </div>
+
+          {/* Tech Stack + Contact */}
+          <div className="grid md:grid-cols-2 gap-6">
+
+            {/* Tech Stack */}
+            <div className="bg-[#1a1d21] border border-white/10 rounded-2xl p-6">
+              <h3 className="text-lg font-semibold text-white mb-4 flex items-center gap-2">
+                <FiCode className="text-green-400" /> {t('sections.underTheHood.title')}
+              </h3>
+              <div className="flex flex-wrap gap-2">
+                {['React', 'TypeScript', 'Django', 'Python', 'MySQL', 'Tailwind', 'Vercel', 'Docker'].map(tech => (
+                  <span
+                    key={tech}
+                    className="px-3 py-1 bg-white/10 border border-white/10 rounded-full text-sm text-gray-300 font-medium"
+                  >
                     {tech}
-                  </li>
+                  </span>
                 ))}
-              </ul>
+              </div>
             </div>
-            
-            <div className="space-y-4 text-lg leading-relaxed">
-              <p>{t('sections.underTheHood.futurePlans')}</p>
-              <p>{t('sections.underTheHood.additionalSports')}</p>
-            </div>
-          </section>
 
-          {/* Social Features */}
-          <section className="mb-8">
-            <h2 className="text-3xl font-semibold mb-4 text-myBlue">
-              {t('sections.socialFeatures.title')}
-            </h2>
-            <p className="text-lg leading-relaxed">
-              {t('sections.socialFeatures.description')}
-            </p>
-          </section>
-
-          {/* Join the Game */}
-          <section className="mb-8">
-            <h2 className="text-3xl font-semibold mb-4 text-myBlue">
-              {t('sections.joinGame.title')}
-            </h2>
-            <div className="space-y-4 text-lg leading-relaxed">
-              <p>{t('sections.joinGame.description')}</p>
-              <p>{t('sections.joinGame.feedback')}</p>
-            </div>
-          </section>
-
-          {/* Reminder */}
-          <section className="mb-8 text-center">
-            <div className="bg-green-900/30 p-6 rounded-lg border border-green-700">
-              <p className="text-xl font-semibold mb-2">
-                {t('sections.reminder.fun')}
+            {/* Contact */}
+            <div className="bg-[#1a1d21] border border-white/10 rounded-2xl p-6">
+              <h3 className="text-lg font-semibold text-white mb-4 flex items-center gap-2">
+                <FiMail className="text-green-400" /> {t('sections.joinGame.title')}
+              </h3>
+              <p className="text-gray-400 text-sm mb-4 leading-relaxed">
+                {t('sections.joinGame.description')}
               </p>
-              <p className="text-lg">
-                {t('sections.reminder.justGame')}
-              </p>
+              <a
+                href="mailto:global.niclami@gmail.com"
+                className="inline-flex items-center gap-2 text-green-400 text-sm hover:text-green-300 transition-colors font-medium"
+              >
+                <FiMail className="w-4 h-4" />
+                global.niclami@gmail.com
+              </a>
             </div>
-          </section>
+          </div>
+
+          {/* Footer */}
+          <div className="text-center py-6">
+            <p className="text-gray-600 text-sm">{t('footer')}</p>
+          </div>
+
         </div>
       </main>
-
-      {/* Footer */}
-      <footer className="w-full p-4 bg-gray-900 text-center mt-5">
-        <p>{t('footer')}</p>
-      </footer>
     </div>
   );
 };

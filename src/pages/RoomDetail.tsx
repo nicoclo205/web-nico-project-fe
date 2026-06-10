@@ -4,7 +4,7 @@ import { useNavigate, useParams } from 'react-router-dom';
 import { FaHome, FaArrowLeft } from "react-icons/fa";
 import { GiSoccerField } from "react-icons/gi";
 import { MdMeetingRoom } from "react-icons/md";
-import { FiUsers, FiSettings, FiTrendingUp, FiTarget, FiMessageSquare } from "react-icons/fi";
+import { FiUsers, FiSettings, FiTrendingUp, FiTarget, FiMessageSquare, FiInfo } from "react-icons/fi";
 import { useAuth } from '../hooks/useAuth';
 import { API_BASE_URL } from '../config/api';
 import { useRoom } from '../hooks/useRoom';
@@ -174,6 +174,10 @@ const RoomDetail: React.FC = () => {
 				<MdMeetingRoom
 					onClick={() => navigate('/rooms')}
 					className="text-white w-12 h-12 p-3 rounded-2xl bg-green-600"
+				/>
+				<FiInfo
+					onClick={() => navigate('/about')}
+					className="text-white w-12 h-12 p-3 rounded-2xl hover:bg-white/10 transition-all duration-200 ease-in-out cursor-pointer"
 				/>
 			</aside>
 

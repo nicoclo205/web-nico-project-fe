@@ -3,7 +3,7 @@ import React, { useState, useEffect } from 'react';
 import { useNavigate } from 'react-router-dom';
 import { FaHome } from "react-icons/fa";
 import { GiSoccerField } from "react-icons/gi";
-import { FiSearch, FiPlus, FiUsers, FiSettings } from "react-icons/fi";
+import { FiSearch, FiPlus, FiUsers, FiSettings, FiInfo } from "react-icons/fi";
 import { MdMeetingRoom } from "react-icons/md";
 import { useAuth } from '../hooks/useAuth';
 import { API_BASE_URL } from '../config/api';
@@ -234,6 +234,10 @@ const Rooms: React.FC = () => {
 				/>
 				<FiSettings
 					onClick={() => navigate('/settings')}
+					className="text-white w-12 h-12 p-3 rounded-2xl hover:bg-white/10 transition-all duration-200 ease-in-out cursor-pointer"
+				/>
+				<FiInfo
+					onClick={() => navigate('/about')}
 					className="text-white w-12 h-12 p-3 rounded-2xl hover:bg-white/10 transition-all duration-200 ease-in-out cursor-pointer"
 				/>
 			</aside>

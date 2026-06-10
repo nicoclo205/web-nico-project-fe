@@ -1,5 +1,5 @@
 {
-  "title": "About Us",
+  "title": "About",
   "navigation": {
     "home": "Home",
     "login": "Login",
@@ -7,71 +7,80 @@
   },
   "sections": {
     "whoWeAre": {
-      "title": "Who We Are",
-      "description": "Hello! We're Nicolas and Miguel, the passionate developers behind this sports prediction game. ⚽️",
-      "background": "We're both fans of sports and Computer Science. Our love for coding and sports brought us together to create this project.",
-      "relationship": "We are father and son, both engineers... well, Nico is still a sophomore working hard to be a senior."
+      "title": "The Team",
+      "description": "Hello! We're Nico and Miguel, the developers behind FriendlyBet. ⚽",
+      "background": "We're both fans of sports and computer science. Our love for coding and sports brought us together to build this.",
+      "relationship": "Father and son — both engineers. Nico is still working his way through university."
     },
     "whyCreated": {
-      "title": "Why We Created This Game",
-      "purpose": "We built this prediction game to take our Python and React knowledge to the next level.",
-      "goal": "We wanted to make a simple but very fun app.",
-      "usage": "You can play here with friends and family, predicting the scores of various sports events."
+      "title": "Why We Built This",
+      "purpose": "We built FriendlyBet to level up our React and Python skills while making something actually fun.",
+      "goal": "The goal: a simple, enjoyable app you can play with friends and family.",
+      "usage": "Predict match scores, compete in private rooms, and see who knows their sport best."
     },
     "howItWorks": {
       "title": "How It Works",
-      "description": "FriendlyBet is a sports prediction platform where you can compete with friends and colleagues in a friendly and fun environment.",
+      "description": "FriendlyBet is a sports prediction platform where you compete with friends and colleagues in a friendly, private environment.",
       "steps": {
         "step1": {
-          "title": "1. Join or Create Rooms",
-          "description": "Create private rooms with your friends or join public competitions"
+          "title": "Create or Join a Room",
+          "description": "Create a private room and invite friends, or join one with a code"
         },
         "step2": {
-          "title": "2. Make Predictions",
-          "description": "Predict match scores before they begin"
+          "title": "Make Predictions",
+          "description": "Predict match scores before kick-off — no changes once it starts"
         },
         "step3": {
-          "title": "3. Earn Points",
-          "description": "Get points for exact predictions and correct results"
+          "title": "Earn Points",
+          "description": "Score points for exact results or correct outcomes"
         },
         "step4": {
-          "title": "4. Compete",
-          "description": "Climb the rankings and compete for first place"
+          "title": "Climb the Ranking",
+          "description": "Points accumulate per room — compete to reach the top"
         }
       }
     },
     "scoring": {
-      "title": "🏆 Soccer Scoring System",
+      "title": "Scoring System",
+      "description": "Points are awarded after each match result is confirmed. You must place your prediction before the match kicks off.",
+      "exactScoreLabel": "Exact Score",
+      "exactScoreDesc": "You predicted the exact final scoreline",
+      "winnerLabel": "Correct Outcome",
+      "winnerDesc": "Right winner or draw, but wrong score",
+      "wrongLabel": "No Points",
+      "wrongDesc": "Incorrect prediction",
+      "rankingTitle": "How the Ranking Works",
+      "rankingDesc": "Points accumulate across all predictions within a room. The ranking updates automatically after each match result. Compete consistently to stay at the top — every match counts.",
       "exactScore": "Exact score: 3 points",
       "correctWinner": "Correct winner: 1 point",
       "incorrect": "Incorrect prediction: 0 points"
     },
     "underTheHood": {
-      "title": "Under the Hood",
-      "description": "For those tech-savvy folks, here's a peek at what powers this game:",
+      "title": "Tech Stack",
+      "description": "A peek at what powers this app:",
       "technologies": [
-        "React and TypeScript for modern user interface",
-        "Django for the web framework backend",
-        "Python for backend logic",
-        "Tailwind CSS for frontend design",
-        "MySQL for data storage",
-        "Token authentication for security"
+        "React & TypeScript — frontend",
+        "Django & Python — backend",
+        "MySQL — data storage",
+        "Tailwind CSS — styling",
+        "Vercel — frontend hosting",
+        "Docker — backend deployment"
       ],
-      "futurePlans": "We plan to update the app with AI engine integration so you can have additional info on events and upcoming games.",
-      "additionalSports": "We will also add other sports like Tennis and NBA."
+      "futurePlans": "We plan to add AI-powered match insights and predictions.",
+      "additionalSports": "More sports coming: expanded Tennis and NBA support."
     },
     "socialFeatures": {
-      "title": "💬 Social Features",
-      "description": "Chat with other participants in rooms, share strategies and enjoy the excitement of competing with friends in real time."
+      "title": "Social Features",
+      "description": "Chat with room members, share strategies, and enjoy the competition in real time."
     },
     "joinGame": {
-      "title": "Join the Game!",
-      "description": "Ready to test your prediction skills and compete with fellow soccer fans? Sign up and start making your picks!",
-      "feedback": "We're always open to feedback and suggestions. Feel free to reach out to us at global.niclami@gmail.com"
+      "title": "Get in Touch",
+      "description": "Questions, feedback, or ideas? We'd love to hear from you.",
+      "feedback": "Reach us at global.niclami@gmail.com"
     },
     "reminder": {
       "fun": "Have fun betting with your friends!",
-      "justGame": "Don't forget it's just a game!"
+      "justGame": "Remember — it's just a game!"
     }
   },
   "footer": "© 2025 FriendlyBet. All rights reserved."

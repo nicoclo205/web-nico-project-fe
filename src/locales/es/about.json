@@ -1,78 +1,87 @@
 {
-	"title": "Acerca de Nosotros",
-	"navigation": {
-		"home": "Inicio",
-		"login": "Iniciar sesión",
-		"about": "Acerca de"
-	},
-	"sections": {
-		"whoWeAre": {
-			"title": "¿Quiénes somos?",
-			"description": "¡Hola! Somos Nicolás y Miguel, los desarrolladores apasionados detrás de este juego de predicciones deportivas. ⚽️",
-			"background": "Somos fanáticos de los deportes y la Ciencia de la Computación. Nuestro amor por la programación y los deportes nos unió para crear este proyecto.",
-			"relationship": "Somos padre e hijo, ambos ingenieros... bueno, Nico aún es estudiante de tercer año trabajando duro para graduarse."
-		},
-		"whyCreated": {
-			"title": "¿Por qué creamos este juego?",
-			"purpose": "Construimos este juego de predicciones para llevar nuestro conocimiento en Python y React al siguiente nivel",
-			"goal": "Queríamos hacer una aplicación simple pero muy divertida.",
-			"usage": "Puedes jugar aquí con amigos y familia, prediciendo los marcadores de varios eventos deportivos."
-		},
-		"howItWorks": {
-			"title": "¿Cómo funciona?",
-			"description": "FriendlyBet es una plataforma de predicciones deportivas donde puedes competir con amigos y colegas en un ambiente amigable y divertido.",
-			"steps": {
-				"step1": {
-					"title": "1. Únete o Crea Salas",
-					"description": "Crea salas privadas con tus amigos o únete a competencias públicas"
-				},
-				"step2": {
-					"title": "2. Haz Predicciones",
-					"description": "Predice los marcadores de los partidos antes de que comiencen"
-				},
-				"step3": {
-					"title": "3. Gana Puntos",
-					"description": "Obtén puntos por predicciones exactas y resultados correctos"
-				},
-				"step4": {
-					"title": "4. Compite",
-					"description": "Sube en las clasificaciones y compite por el primer lugar"
-				}
-			}
-		},
-		"scoring": {
-			"title": "🏆 Sistema de Puntuación para Futbol",
-			"exactScore": "Resultado exacto: 3 puntos",
-			"correctWinner": "Ganador correcto: 1 punto",
-			"incorrect": "Predicción incorrecta: 0 puntos"
-		},
-		"underTheHood": {
-			"title": "Bajo el Capó",
-			"description": "Para aquellos que aman la tecnología, aquí tienes un vistazo a lo que impulsa este juego:",
-			"technologies": [
-				"React y TypeScript para la interfaz de usuario moderna",
-				"Django para el framework web del backend",
-				"Python para la lógica del backend",
-				"Tailwind CSS para el diseño del frontend",
-				"MySQL para almacenamiento de datos",
-				"Autenticación por tokens para seguridad"
-			],
-			"futurePlans": "Planeamos actualizar la aplicación con integración de motores de IA para que puedas tener información adicional sobre los eventos y próximos partidos.",
-			"additionalSports": "También agregaremos otros deportes como Tenis y NBA."
-		},
-		"socialFeatures": {
-			"title": "💬 Características Sociales",
-			"description": "Chatea con otros participantes en las salas, comparte estrategias y disfruta de la emoción de competir con amigos en tiempo real."
-		},
-		"joinGame": {
-			"title": "¡Únete al Juego!",
-			"description": "¿Listo para poner a prueba tus habilidades de predicción y competir con otros fanáticos del fútbol? ¡Regístrate y comienza a hacer tus predicciones!",
-			"feedback": "Siempre estamos abiertos a comentarios y sugerencias. No dudes en contactarnos en global.niclami@gmail.com"
-		},
-		"reminder": {
-			"fun": "¡Diviértete apostando con tus amigos!",
-			"justGame": "¡No olvides que es solo un juego!"
-		}
-	},
-	"footer": "© 2025 FriendlyBet. Todos los derechos reservados."
+  "title": "Acerca de",
+  "navigation": {
+    "home": "Inicio",
+    "login": "Iniciar sesión",
+    "about": "Acerca de"
+  },
+  "sections": {
+    "whoWeAre": {
+      "title": "El Equipo",
+      "description": "¡Hola! Somos Nico y Miguel, los desarrolladores detrás de FriendlyBet. ⚽",
+      "background": "Somos fanáticos del deporte y la informática. Nuestro amor por programar y por el deporte nos unió para construir esto.",
+      "relationship": "Padre e hijo — ambos ingenieros. Nico todavía está terminando la universidad."
+    },
+    "whyCreated": {
+      "title": "Por qué lo construimos",
+      "purpose": "Construimos FriendlyBet para mejorar nuestras habilidades en React y Python mientras hacíamos algo divertido.",
+      "goal": "El objetivo: una app simple y entretenida para jugar con amigos y familia.",
+      "usage": "Predice marcadores, compite en salas privadas y demuestra quién conoce mejor su deporte."
+    },
+    "howItWorks": {
+      "title": "Cómo funciona",
+      "description": "FriendlyBet es una plataforma de predicciones deportivas donde compites con amigos y colegas en un entorno privado y amigable.",
+      "steps": {
+        "step1": {
+          "title": "Crea o únete a una sala",
+          "description": "Crea una sala privada e invita a amigos, o únete con un código"
+        },
+        "step2": {
+          "title": "Haz tus predicciones",
+          "description": "Predice el marcador antes del partido — no se permiten cambios una vez iniciado"
+        },
+        "step3": {
+          "title": "Gana puntos",
+          "description": "Obtén puntos por resultados exactos o por acertar el ganador"
+        },
+        "step4": {
+          "title": "Sube en el ranking",
+          "description": "Los puntos se acumulan por sala — compite para llegar a lo más alto"
+        }
+      }
+    },
+    "scoring": {
+      "title": "Sistema de Puntuación",
+      "description": "Los puntos se otorgan tras confirmarse el resultado del partido. Debes hacer tu predicción antes del inicio del partido.",
+      "exactScoreLabel": "Resultado Exacto",
+      "exactScoreDesc": "Predijiste el marcador final exacto",
+      "winnerLabel": "Resultado Correcto",
+      "winnerDesc": "Acertaste el ganador o empate, pero no el marcador",
+      "wrongLabel": "Sin Puntos",
+      "wrongDesc": "Predicción incorrecta",
+      "rankingTitle": "Cómo funciona el ranking",
+      "rankingDesc": "Los puntos se acumulan a lo largo de todas tus predicciones dentro de una sala. El ranking se actualiza automáticamente tras cada resultado. Compite de forma constante para mantenerte en lo alto — cada partido cuenta.",
+      "exactScore": "Resultado exacto: 3 puntos",
+      "correctWinner": "Ganador correcto: 1 punto",
+      "incorrect": "Predicción incorrecta: 0 puntos"
+    },
+    "underTheHood": {
+      "title": "Tecnología",
+      "description": "Un vistazo a lo que impulsa esta app:",
+      "technologies": [
+        "React y TypeScript — frontend",
+        "Django y Python — backend",
+        "MySQL — almacenamiento de datos",
+        "Tailwind CSS — diseño",
+        "Vercel — hosting del frontend",
+        "Docker — despliegue del backend"
+      ],
+      "futurePlans": "Planeamos agregar análisis de partidos con inteligencia artificial.",
+      "additionalSports": "Más deportes pronto: Tenis y NBA con soporte ampliado."
+    },
+    "socialFeatures": {
+      "title": "Características Sociales",
+      "description": "Chatea con los miembros de la sala, comparte estrategias y disfruta la competencia en tiempo real."
+    },
+    "joinGame": {
+      "title": "Contáctanos",
+      "description": "¿Preguntas, comentarios o ideas? Nos encantaría escucharte.",
+      "feedback": "Escríbenos a global.niclami@gmail.com"
+    },
+    "reminder": {
+      "fun": "¡Diviértete apostando con tus amigos!",
+      "justGame": "¡Recuerda que es solo un juego!"
+    }
+  },
+  "footer": "© 2025 FriendlyBet. Todos los derechos reservados."
 }

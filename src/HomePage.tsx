@@ -3,7 +3,7 @@ import { useTranslation } from 'react-i18next';
 import { API_BASE_URL } from './config/api';
 import { GiSoccerField } from "react-icons/gi";
 import { MdMeetingRoom, MdSportsTennis, MdSportsBasketball } from "react-icons/md";
-import { FiSettings } from "react-icons/fi";
+import { FiSettings, FiInfo } from "react-icons/fi";
 import { IoIosChatbubbles, IoMdNotifications, IoMdTrophy } from "react-icons/io";
 import { useAuth } from "./hooks/useAuth";
 import { useNavigate } from "react-router-dom";
@@ -77,6 +77,10 @@ const HomePage = () => {
         />
         <FiSettings
           onClick={() => navigate('/settings')}
+          className="text-white w-12 h-12 p-3 rounded-2xl hover:bg-white/10 transition-all duration-200 ease-in-out cursor-pointer"
+        />
+        <FiInfo
+          onClick={() => navigate('/about')}
           className="text-white w-12 h-12 p-3 rounded-2xl hover:bg-white/10 transition-all duration-200 ease-in-out cursor-pointer"
         />
       </aside>
