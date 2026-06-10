@@ -14,7 +14,17 @@
   "actions": "Acciones",
   "enter": "Entrar",
   "leave": "Salir",
-  "invite": "Invitar",
+  "invite": {
+    "title": "Invitar a un miembro",
+    "emailPlaceholder": "Ingresa el correo electrónico",
+    "button": "Enviar Invitación",
+    "sending": "Enviando...",
+    "success": "¡Invitación enviada!",
+    "alreadyMember": "Este usuario ya es miembro",
+    "error": "No se pudo enviar la invitación",
+    "invalidEmail": "Por favor ingresa un correo válido",
+    "joinedRoom": "Fuiste invitado a unirte a"
+  },
   "share": "Compartir",
   "settings": "Configuración",
   "statistics": "Estadísticas",

@@ -300,6 +300,7 @@ const RoomDetail: React.FC = () => {
 							memberCount={memberCount}
 							maxMembers={selectedRoom.max_miembros || 10}
 							onCopyCode={handleCopyCode}
+							isAdmin={isOwner}
 						/>
 					)}
 

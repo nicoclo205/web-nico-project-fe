@@ -7,6 +7,7 @@ import MensajeError from "./components/mensajeError";
 import SuccessMessage from "./components/SuccessMessage";
 import LanguageSelectorEnhanced from './components/LanguageSelectorEnhanced';
 import { useAuth } from "./hooks/useAuth";
+import { API_BASE_URL } from './config/api';
 import './index.css';
 
 function Auth() {
@@ -28,8 +29,21 @@ function Auth() {
     ? location.state.isLoginView
     : true;
 
-  //cambiar entre el login y el registro
-  const [isLoginView, setIsLoginView] = useState<boolean>(initialLoginView);
+  // Read invite token from URL (?invite=TOKEN) — used by email invitations
+  const searchParams = new URLSearchParams(location.search);
+  const inviteToken = searchParams.get('invite') || '';
+  const [inviteRoomName, setInviteRoomName] = useState<string>('');
+
+  // If an invite token is present, switch to register view and fetch room name
+  const [isLoginView, setIsLoginView] = useState<boolean>(inviteToken ? false : initialLoginView);
+
+  React.useEffect(() => {
+    if (!inviteToken) return;
+    fetch(`${API_BASE_URL}/api/invitations/validate/?token=${inviteToken}`)
+      .then(r => r.json())
+      .then(data => { if (data.valid) setInviteRoomName(data.room_name); })
+      .catch(() => {});
+  }, [inviteToken]);
   const [registrationSuccess, setRegistrationSuccess] = useState<boolean>(false);
   
   // Inicio de sesión estados
@@ -118,7 +132,8 @@ function Auth() {
 
       username: username,
       password: password,
-      email: email
+      email: email,
+      ...(inviteToken ? { invite_token: inviteToken } : {}),
     };
 
     const result = await register(userData);
@@ -269,9 +284,17 @@ function Auth() {
           {/* Register Form */}
           <div className={`w-full lg:w-1/2 h-full flex flex-col justify-center items-center py-8 px-4 transition-all duration-500 lg:duration-300 ease-in-out 
             ${!isLoginView ? 'opacity-100 z-10 translate-x-0' : 'opacity-0 lg:opacity-0 -translate-x-full sm:-translate-x-full md:-translate-x-full lg:translate-x-0 absolute lg:relative pointer-events-none'}`}>
-            <div className="text-white text-xl sm:text-2xl mb-8 lg:mb-16 font-bold text-center">
+            <div className="text-white text-xl sm:text-2xl mb-4 lg:mb-8 font-bold text-center">
               <h1>{t('auth:registerTitle')}</h1>
             </div>
+
+            {inviteRoomName && (
+              <div className="w-full max-w-md mb-4 px-4 py-3 bg-green-900/40 border border-green-500/40 rounded-xl text-center">
+                <p className="text-green-400 text-sm font-medium">
+                  🏆 {t('rooms:invite.joinedRoom')}: <strong>{inviteRoomName}</strong>
+                </p>
+              </div>
+            )}
 
             <section className="w-full max-w-md flex flex-col items-center">
               {componenteError}

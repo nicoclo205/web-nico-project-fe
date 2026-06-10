@@ -14,7 +14,17 @@
   "actions": "Actions",
   "enter": "Enter",
   "leave": "Leave",
-  "invite": "Invite",
+  "invite": {
+    "title": "Invite a member",
+    "emailPlaceholder": "Enter email address",
+    "button": "Send Invite",
+    "sending": "Sending...",
+    "success": "Invitation sent!",
+    "alreadyMember": "This user is already a member",
+    "error": "Failed to send invitation",
+    "invalidEmail": "Please enter a valid email address",
+    "joinedRoom": "You've been invited to join"
+  },
   "share": "Share",
   "settings": "Settings",
   "statistics": "Statistics",

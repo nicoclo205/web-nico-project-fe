@@ -1,6 +1,6 @@
 import { useTranslation } from 'react-i18next';
 import React, { useEffect, useState } from 'react';
-import { FiUsers, FiCopy, FiTrendingUp, FiClock, FiTarget, FiBell, FiCalendar, FiAward, FiAlertCircle } from 'react-icons/fi';
+import { FiUsers, FiCopy, FiTrendingUp, FiClock, FiTarget, FiBell, FiCalendar, FiAward, FiAlertCircle, FiMail, FiSend } from 'react-icons/fi';
 import { GiSoccerBall, GiTrophy } from 'react-icons/gi';
 import { API_BASE_URL } from '../config/api';
 
@@ -11,6 +11,7 @@ interface RoomDashboardProps {
   memberCount: number;
   maxMembers: number;
   onCopyCode: () => void;
+  isAdmin?: boolean;
 }
 
 interface Match {
@@ -54,6 +55,7 @@ const RoomDashboard: React.FC<RoomDashboardProps> = ({
   memberCount,
   maxMembers,
   onCopyCode,
+  isAdmin = false,
 }) => {
   const { t } = useTranslation(['rooms', 'common']);
   const [upcomingMatches, setUpcomingMatches] = useState<Match[]>([]);
@@ -61,6 +63,44 @@ const RoomDashboard: React.FC<RoomDashboardProps> = ({
   const [leader, setLeader] = useState<RankingUser | null>(null);
   const [notifications, setNotifications] = useState<Notification[]>([]);
   const [loading, setLoading] = useState(true);
+
+  // Invite state
+  const [inviteEmail, setInviteEmail] = useState('');
+  const [inviteStatus, setInviteStatus] = useState<'idle' | 'sending' | 'success' | 'error'>('idle');
+  const [inviteError, setInviteError] = useState('');
+
+  const handleInvite = async () => {
+    const emailRegex = /^[^\s@]+@[^\s@]+\.[^\s@]+$/;
+    if (!emailRegex.test(inviteEmail.trim())) {
+      setInviteError(t('rooms:invite.invalidEmail'));
+      return;
+    }
+    setInviteStatus('sending');
+    setInviteError('');
+    try {
+      const token = localStorage.getItem('auth_token');
+      const res = await fetch(`${API_BASE_URL}/api/salas/${roomId}/invite/`, {
+        method: 'POST',
+        headers: {
+          'Content-Type': 'application/json',
+          'Authorization': `Token ${token}`,
+        },
+        body: JSON.stringify({ email: inviteEmail.trim().toLowerCase() }),
+      });
+      const data = await res.json();
+      if (res.ok) {
+        setInviteStatus('success');
+        setInviteEmail('');
+        setTimeout(() => setInviteStatus('idle'), 3000);
+      } else {
+        setInviteError(data.error || t('rooms:invite.error'));
+        setInviteStatus('error');
+      }
+    } catch {
+      setInviteError(t('rooms:invite.error'));
+      setInviteStatus('error');
+    }
+  };
 
   useEffect(() => {
     loadDashboardData();
@@ -190,6 +230,40 @@ const RoomDashboard: React.FC<RoomDashboardProps> = ({
             </div>
           </div>
         </div>
+
+        {/* Invite Member (admin only) */}
+        {isAdmin && (
+          <div className="rounded-2xl p-4 bg-gradient-to-br from-[#1f2126] to-[#141518] shadow-lg border border-white/5">
+            <div className="flex items-center gap-2 mb-3">
+              <FiMail className="text-lg text-blue-400" />
+              <h3 className="text-sm font-semibold text-gray-300">{t('rooms:invite.title')}</h3>
+            </div>
+            <div className="flex gap-2">
+              <input
+                type="email"
+                value={inviteEmail}
+                onChange={e => { setInviteEmail(e.target.value); setInviteStatus('idle'); setInviteError(''); }}
+                placeholder={t('rooms:invite.emailPlaceholder')}
+                className="flex-1 px-3 py-2 bg-white/5 border border-white/10 rounded-lg text-sm text-white placeholder-gray-500 focus:outline-none focus:border-blue-500 transition-colors"
+                onKeyDown={e => e.key === 'Enter' && handleInvite()}
+              />
+              <button
+                onClick={handleInvite}
+                disabled={inviteStatus === 'sending'}
+                className="flex items-center gap-1.5 px-4 py-2 bg-blue-600 hover:bg-blue-500 disabled:opacity-50 rounded-lg text-sm font-medium transition-colors"
+              >
+                <FiSend className="text-sm" />
+                {inviteStatus === 'sending' ? t('rooms:invite.sending') : t('rooms:invite.button')}
+              </button>
+            </div>
+            {inviteStatus === 'success' && (
+              <p className="mt-2 text-xs text-green-400">{t('rooms:invite.success')}</p>
+            )}
+            {inviteStatus === 'error' && inviteError && (
+              <p className="mt-2 text-xs text-red-400">{inviteError}</p>
+            )}
+          </div>
+        )}
 
         {/* Avisos Importantes */}
         <div className="rounded-2xl p-5 bg-gradient-to-br from-[#1f2126] to-[#141518] shadow-lg border border-white/5">
