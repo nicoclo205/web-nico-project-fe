@@ -32,5 +32,20 @@
     "globalRank": "Ranking Global",
     "activeBets": "Apuestas Activas",
     "successRate": "Tasa de Éxito"
-  }
+  },
+  "welcomeFriendlyBet": "Bienvenido a FriendlyBet, ",
+  "hey": "¡Hola, ",
+  "quickAccess": "Acceso Rápido",
+  "soccerCardTitle": "Partidos de Fútbol",
+  "soccerCardTagline": "Explorar y apostar →",
+  "soccerCardDesc": "Consulta los próximos y finalizados partidos de fútbol. Apuesta por tus equipos favoritos en La Liga y otras competiciones.",
+  "exploreMatches": "Ver Partidos",
+  "bettingRoomsTitle": "Salas de Apuestas",
+  "bettingRoomsTagline": "Crear o unirse ⊕",
+  "bettingRoomsDesc": "Crea tus propias salas privadas o únete a las existentes. Compite con amigos en predicciones grupales.",
+  "join": "Unirse",
+  "comingSoon": "Próximamente",
+  "inDevelopment": "En desarrollo",
+  "myRoomsSection": "Mis Salas",
+  "comingSoonTitle": "Próximamente"
 }

@@ -87,8 +87,8 @@ const HomePage = () => {
         {/* Header */}
         <header className="h-16 md:h-20 flex items-center justify-between px-4 md:px-8 lg:px-12 bg-[#0e0f11]/95 backdrop-blur-sm z-10 sticky top-0">
           <h1 className="text-lg md:text-2xl lg:text-3xl font-bold tracking-tight text-white">
-            <span className="hidden md:inline">Welcome to FriendlyBet, </span>
-            <span className="md:hidden">Hey, </span>
+            <span className="hidden md:inline">{t('home:welcomeFriendlyBet')}</span>
+            <span className="md:hidden">{t('home:hey')}</span>
             <span className="text-green-500">{userName}</span>!
           </h1>
           <div className="flex items-center space-x-2 md:space-x-4">
@@ -126,7 +126,7 @@ const HomePage = () => {
           <main className="flex-1 max-w-5xl">
             <h2 className="text-lg md:text-xl font-medium text-gray-300 mb-4 md:mb-6 flex items-center gap-2">
               <span className="text-green-500">⚡</span>
-              Quick Access
+              {t('home:quickAccess')}
             </h2>
 
             {/* Quick Access Cards */}
@@ -141,15 +141,15 @@ const HomePage = () => {
                   <GiSoccerField className="text-8xl text-green-500 transform rotate-12" />
                 </div>
                 <div className="relative z-10">
-                  <h3 className="text-xl font-bold text-white mb-1">Soccer Matches</h3>
+                  <h3 className="text-xl font-bold text-white mb-1">{t('home:soccerCardTitle')}</h3>
                   <p className="text-sm text-green-500 font-medium mb-4 flex items-center gap-1">
-                    Explore & bet <span>→</span>
+                    {t('home:soccerCardTagline')}
                   </p>
                   <p className="text-gray-400 text-sm leading-relaxed mb-6">
-                    Browse upcoming and finished soccer matches. Place your bets on your favorite teams across La Liga and other competitions.
+                    {t('home:soccerCardDesc')}
                   </p>
                   <button className="w-full py-2.5 rounded-lg bg-gray-800 text-white font-medium text-sm hover:bg-green-600 hover:text-white transition-colors">
-                    Explore Matches
+                    {t('home:exploreMatches')}
                   </button>
                 </div>
               </div>
@@ -163,19 +163,19 @@ const HomePage = () => {
                   <MdMeetingRoom className="text-8xl text-yellow-500 transform -rotate-12" />
                 </div>
                 <div className="relative z-10">
-                  <h3 className="text-xl font-bold text-white mb-1">Betting Rooms</h3>
+                  <h3 className="text-xl font-bold text-white mb-1">{t('home:bettingRoomsTitle')}</h3>
                   <p className="text-sm text-yellow-500 font-medium mb-4 flex items-center gap-1">
-                    Create or join <span>⊕</span>
+                    {t('home:bettingRoomsTagline')}
                   </p>
                   <p className="text-gray-400 text-sm leading-relaxed mb-6">
-                    Create your own private rooms or jump into existing ones. Compete with friends in group predictions.
+                    {t('home:bettingRoomsDesc')}
                   </p>
                   <div className="flex gap-3">
                     <button className="flex-1 py-2.5 rounded-lg bg-gray-800 text-white font-medium text-sm hover:bg-green-600 hover:text-white transition-colors">
-                      Join
+                      {t('home:join')}
                     </button>
                     <button className="flex-1 py-2.5 rounded-lg border border-gray-600 text-gray-300 font-medium text-sm hover:border-green-500 hover:text-green-500 transition-colors">
-                      Create Room
+                      {t('home:createRoom')}
                     </button>
                   </div>
                 </div>
@@ -186,9 +186,9 @@ const HomePage = () => {
                 <div className="relative z-10 opacity-75">
                   <div className="flex justify-between items-start mb-1">
                     <h3 className="text-xl font-bold text-gray-300">{t('sports:tennis')}</h3>
-                    <span className="bg-gray-800 text-gray-400 text-xs px-2 py-1 rounded font-medium uppercase tracking-wider">Coming Soon</span>
+                    <span className="bg-gray-800 text-gray-400 text-xs px-2 py-1 rounded font-medium uppercase tracking-wider">{t('home:comingSoon')}</span>
                   </div>
-                  <p className="text-sm text-gray-500 font-medium mb-4">In development</p>
+                  <p className="text-sm text-gray-500 font-medium mb-4">{t('home:inDevelopment')}</p>
                   <p className="text-gray-500 text-sm leading-relaxed">
                     Find the best tennis matches and place your bets on the world's biggest tournaments.
                   </p>
@@ -203,9 +203,9 @@ const HomePage = () => {
                 <div className="relative z-10 opacity-75">
                   <div className="flex justify-between items-start mb-1">
                     <h3 className="text-xl font-bold text-gray-300">{t('sports:basketball')}</h3>
-                    <span className="bg-gray-800 text-gray-400 text-xs px-2 py-1 rounded font-medium uppercase tracking-wider">Coming Soon</span>
+                    <span className="bg-gray-800 text-gray-400 text-xs px-2 py-1 rounded font-medium uppercase tracking-wider">{t('home:comingSoon')}</span>
                   </div>
-                  <p className="text-sm text-gray-500 font-medium mb-4">In development</p>
+                  <p className="text-sm text-gray-500 font-medium mb-4">{t('home:inDevelopment')}</p>
                   <p className="text-gray-500 text-sm leading-relaxed">
                     Bet on the best basketball games from the NBA, EuroLeague, and more international competitions.
                   </p>
@@ -224,7 +224,7 @@ const HomePage = () => {
             {/* My Rooms Section */}
             {userRooms.length > 0 && (
               <div className="bg-[#181b21] rounded-xl md:rounded-2xl p-4 md:p-6 border border-white/5 shadow-sm">
-                <h3 className="text-base md:text-lg font-bold text-white mb-3 md:mb-4">My Rooms</h3>
+                <h3 className="text-base md:text-lg font-bold text-white mb-3 md:mb-4">{t('home:myRoomsSection')}</h3>
                 <div className="space-y-2">
                   {userRooms.map((room) => {
                     const roomHash = registerRoomHash(room.id_sala);
@@ -286,7 +286,7 @@ const HomePage = () => {
             {/* Coming Soon Card */}
             <div className="bg-gradient-to-br from-[#181b21] to-[#0f1115] rounded-xl md:rounded-2xl p-4 md:p-6 border border-white/5 relative overflow-hidden flex-1 min-h-[200px] md:min-h-[250px] flex flex-col justify-center text-center">
               <div className="absolute -top-10 -right-10 w-32 h-32 bg-green-500 opacity-10 blur-3xl rounded-full"></div>
-              <h3 className="text-base md:text-lg font-bold text-white mb-2 relative z-10">Coming Soon</h3>
+              <h3 className="text-base md:text-lg font-bold text-white mb-2 relative z-10">{t('home:comingSoon')}</h3>
               <p className="text-xs md:text-sm text-gray-400 relative z-10 leading-relaxed mb-4 md:mb-6">
                 This section is coming soon — chats, notifications, and more social features are on the way!
               </p>

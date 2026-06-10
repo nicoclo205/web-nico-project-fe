@@ -32,5 +32,20 @@
     "globalRank": "Global Ranking",
     "activeBets": "Active Bets",
     "successRate": "Success Rate"
-  }
+  },
+  "welcomeFriendlyBet": "Welcome to FriendlyBet, ",
+  "hey": "Hey, ",
+  "quickAccess": "Quick Access",
+  "soccerCardTitle": "Soccer Matches",
+  "soccerCardTagline": "Explore & bet →",
+  "soccerCardDesc": "Browse upcoming and finished soccer matches. Place your bets on your favorite teams across La Liga and other competitions.",
+  "exploreMatches": "Explore Matches",
+  "bettingRoomsTitle": "Betting Rooms",
+  "bettingRoomsTagline": "Create or join ⊕",
+  "bettingRoomsDesc": "Create your own private rooms or jump into existing ones. Compete with friends in group predictions.",
+  "join": "Join",
+  "comingSoon": "Coming Soon",
+  "inDevelopment": "In development",
+  "myRoomsSection": "My Rooms",
+  "comingSoonTitle": "Coming Soon"
 }
