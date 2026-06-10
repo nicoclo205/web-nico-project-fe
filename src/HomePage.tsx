@@ -12,7 +12,7 @@ import { useRoom } from "./hooks/useRoom";
 import { registerRoomHash } from "./utils/roomHash";
 
 const HomePage = () => {
-	const { t } = useTranslation(['home', 'common']);
+	const { t } = useTranslation(['home', 'common', 'sports']);
   const { user, logout } = useAuth();
   const navigate = useNavigate();
   const [userAvatar, setUserAvatar] = useState<string | null>(null);

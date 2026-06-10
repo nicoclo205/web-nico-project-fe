@@ -81,7 +81,7 @@ const TennisMatches: React.FC = () => {
 			setCompetitions(uniqueCompetitions as Competition[]);
 		} catch (err) {
 			console.error('Error fetching tennis matches:', err);
-			setError(t('sports:tennis.error'));
+			setError(t('sports:tennisPage.error'));
 		} finally {
 			setLoading(false);
 		}
@@ -171,10 +171,10 @@ const TennisMatches: React.FC = () => {
 				<div className="mb-8">
 					<div className="flex items-center gap-3 mb-4">
 						<span className="text-5xl">🎾</span>
-						<h1 className="text-3xl font-bold text-white">{t('sports:tennis.title')}</h1>
+						<h1 className="text-3xl font-bold text-white">{t('sports:tennisPage.title')}</h1>
 					</div>
 					<p className="text-gray-400">
-						{t('sports:tennis.subtitle')}
+						{t('sports:tennisPage.subtitle')}
 					</p>
 				</div>
 
@@ -242,7 +242,7 @@ const TennisMatches: React.FC = () => {
 						<div className="text-center py-12 bg-gray-800 rounded-lg">
 							<span className="text-6xl mb-4 block">🔍</span>
 							<p className="text-gray-400 text-lg">
-								{activeTab === 'upcoming' ? t('sports:tennis.noUpcoming') : t('sports:tennis.noFinished')}
+								{activeTab === 'upcoming' ? t('sports:tennisPage.noUpcoming') : t('sports:tennisPage.noFinished')}
 							</p>
 						</div>
 					) : (

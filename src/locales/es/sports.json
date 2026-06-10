@@ -1,26 +1,6 @@
 {
   "football": "Fútbol",
-  "basketball": {
-    "title": "Partidos de Baloncesto",
-    "subtitle": "Consulta los próximos partidos y resultados de las principales ligas",
-    "allLeagues": "Todas las Ligas",
-    "upcomingTab": "Próximos Partidos",
-    "finishedTab": "Partidos Finalizados",
-    "noUpcoming": "No hay próximos partidos ahora",
-    "noFinished": "No hay partidos finalizados ahora",
-    "error": "Error al cargar los partidos de baloncesto"
-  },
   "baseball": "Béisbol",
-  "tennis": {
-    "title": "Partidos de Tenis",
-    "subtitle": "Consulta los próximos partidos y resultados de los principales torneos",
-    "allTournaments": "Todos los Torneos",
-    "upcomingTab": "Próximos Partidos",
-    "finishedTab": "Partidos Finalizados",
-    "noUpcoming": "No hay próximos partidos ahora",
-    "noFinished": "No hay partidos finalizados ahora",
-    "error": "Error al cargar los partidos de tenis"
-  },
   "volleyball": "Voleibol",
   "formula1": "Fórmula 1",
   "activeMatches": "{{count}} partido activo",
@@ -36,7 +16,48 @@
     "postponed": "Pospuesto",
     "suspended": "Suspendido"
   },
-  "soccer": {
+  "soccerMatches": {
+    "title": "Partidos de Fútbol",
+    "subtitle": "Consulta los próximos partidos y resultados de las principales competiciones",
+    "upcomingTab": "Próximos Partidos",
+    "finishedTab": "Partidos Finalizados",
+    "allCompetitions": "Todas las Competiciones",
+    "noMatches": "No hay partidos {{type}} en este momento",
+    "noUpcomingMatches": "No hay partidos programados en este momento",
+    "noFinishedMatches": "No hay partidos finalizados en este momento",
+    "loading": "Cargando partidos...",
+    "error": "Error al cargar los partidos",
+    "retry": "Reintentar",
+    "bet": "Apostar",
+    "liveStatus": "EN VIVO",
+    "status": {
+      "programado": "Programado",
+      "en curso": "En Vivo",
+      "finalizado": "Finalizado",
+      "cancelado": "Cancelado"
+    }
+  },
+  "tennisPage": {
+    "title": "Partidos de Tenis",
+    "subtitle": "Consulta los próximos partidos y resultados de los principales torneos",
+    "allTournaments": "Todos los Torneos",
+    "upcomingTab": "Próximos Partidos",
+    "finishedTab": "Partidos Finalizados",
+    "noUpcoming": "No hay próximos partidos ahora",
+    "noFinished": "No hay partidos finalizados ahora",
+    "error": "Error al cargar los partidos de tenis"
+  },
+  "basketballPage": {
+    "title": "Partidos de Baloncesto",
+    "subtitle": "Consulta los próximos partidos y resultados de las principales ligas",
+    "allLeagues": "Todas las Ligas",
+    "upcomingTab": "Próximos Partidos",
+    "finishedTab": "Partidos Finalizados",
+    "noUpcoming": "No hay próximos partidos ahora",
+    "noFinished": "No hay partidos finalizados ahora",
+    "error": "Error al cargar los partidos de baloncesto"
+  },
+  "soccerPage": {
     "title": "Partidos de Fútbol",
     "subtitle": "Consulta los próximos partidos y resultados de las principales competiciones",
     "allLeagues": "Todas las Ligas",
@@ -85,25 +106,6 @@
     "selectLeague": "Selecciona una Liga",
     "all": "Todas"
   },
-  "soccerMatches": {
-    "title": "Partidos de Fútbol",
-    "subtitle": "Consulta los próximos partidos y resultados de las principales competiciones",
-    "upcomingTab": "Próximos Partidos",
-    "finishedTab": "Partidos Finalizados",
-    "allCompetitions": "Todas las Competiciones",
-    "noMatches": "No hay partidos {{type}} en este momento",
-    "noUpcomingMatches": "No hay partidos programados en este momento",
-    "noFinishedMatches": "No hay partidos finalizados en este momento",
-    "loading": "Cargando partidos...",
-    "error": "Error al cargar los partidos",
-    "retry": "Reintentar",
-    "bet": "Apostar",
-    "liveStatus": "EN VIVO",
-    "status": {
-      "programado": "Programado",
-      "en curso": "En Vivo",
-      "finalizado": "Finalizado",
-      "cancelado": "Cancelado"
-    }
-  }
+  "basketball": "Baloncesto",
+  "tennis": "Tenis"
 }
