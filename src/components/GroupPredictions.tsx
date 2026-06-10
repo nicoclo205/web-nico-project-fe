@@ -72,7 +72,7 @@ const GroupPredictions: React.FC<GroupPredictionsProps> = ({ roomId }) => {
         `${API_BASE_URL}/api/apuestas-futbol/por_sala/?sala_id=${roomId}`,
         { headers: { Authorization: `Token ${token}` } }
       );
-      if (!res.ok) throw new Error('Failed to load predictions');
+      if (!res.ok) throw new Error(t('rooms:predictions.loadError'));
       const data: Prediction[] = await res.json();
 
       // Group by match

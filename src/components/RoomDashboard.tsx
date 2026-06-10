@@ -120,8 +120,8 @@ const RoomDashboard: React.FC<RoomDashboardProps> = ({
     const diffTime = date.getTime() - now.getTime();
     const diffDays = Math.ceil(diffTime / (1000 * 60 * 60 * 24));
 
-    if (diffDays === 0) return 'Today';
-    if (diffDays === 1) return 'Tomorrow';
+    if (diffDays === 0) return t('rooms:dashboard.today');
+    if (diffDays === 1) return t('rooms:dashboard.tomorrow');
     if (diffDays < 7) return `In ${diffDays} days`;
 
     return date.toLocaleDateString('en-US', { day: '2-digit', month: 'short' });
@@ -170,7 +170,7 @@ const RoomDashboard: React.FC<RoomDashboardProps> = ({
                 <button
                   onClick={onCopyCode}
                   className="p-2 bg-white/10 hover:bg-white/20 rounded-lg border border-white/10 transition-colors"
-                  title="Copy code"
+                  title={t('rooms:dashboard.copyCodeTitle')}
                 >
                   <FiCopy className="text-sm text-green-400" />
                 </button>
@@ -195,13 +195,13 @@ const RoomDashboard: React.FC<RoomDashboardProps> = ({
         <div className="rounded-2xl p-5 bg-gradient-to-br from-[#1f2126] to-[#141518] shadow-lg border border-white/5">
           <div className="flex items-center gap-2 mb-4">
             <FiBell className="text-xl text-yellow-500" />
-            <h3 className="text-lg font-bold">Notices</h3>
+            <h3 className="text-lg font-bold">{t('rooms:dashboard.notices')}</h3>
           </div>
 
           {notifications.length === 0 ? (
             <div className="text-center py-8 text-gray-400">
               <FiAlertCircle className="text-3xl mx-auto mb-2 opacity-50" />
-              <p className="text-sm">No recent notices</p>
+              <p className="text-sm">{t('rooms:dashboard.noNotices')}</p>
             </div>
           ) : (
             <div className="space-y-2">
@@ -234,13 +234,13 @@ const RoomDashboard: React.FC<RoomDashboardProps> = ({
         <div className="rounded-2xl p-5 bg-gradient-to-br from-[#1f2126] to-[#141518] shadow-lg border border-white/5">
           <div className="flex items-center gap-2 mb-4">
             <FiClock className="text-xl text-blue-500" />
-            <h3 className="text-lg font-bold">Upcoming Matches</h3>
+            <h3 className="text-lg font-bold">{t('rooms:dashboard.upcomingMatches')}</h3>
           </div>
 
           {upcomingMatches.length === 0 ? (
             <div className="text-center py-8 text-gray-400">
               <GiSoccerBall className="text-3xl mx-auto mb-2 opacity-50" />
-              <p className="text-sm">No upcoming matches</p>
+              <p className="text-sm">{t('rooms:dashboard.noUpcomingMatches')}</p>
             </div>
           ) : (
             <div className="space-y-3">
@@ -307,7 +307,7 @@ const RoomDashboard: React.FC<RoomDashboardProps> = ({
           <div className="rounded-2xl p-5 bg-gradient-to-br from-[#1f2126] to-[#141518] shadow-lg border border-white/5">
             <div className="flex items-center gap-2 mb-4">
               <FiTarget className="text-xl text-purple-500" />
-              <h3 className="text-lg font-bold">Last Result</h3>
+              <h3 className="text-lg font-bold">{t('rooms:dashboard.lastResult')}</h3>
             </div>
 
             <div className="p-4 bg-white/5 rounded-xl border border-white/5">
@@ -374,13 +374,13 @@ const RoomDashboard: React.FC<RoomDashboardProps> = ({
         <div className="rounded-2xl p-5 bg-gradient-to-br from-yellow-900/20 to-[#141518] shadow-lg border border-yellow-500/20">
           <div className="flex items-center gap-2 mb-4">
             <GiTrophy className="text-xl text-yellow-500" />
-            <h3 className="text-lg font-bold">Room Leader</h3>
+            <h3 className="text-lg font-bold">{t('rooms:dashboard.roomLeader')}</h3>
           </div>
 
           {!leader ? (
             <div className="text-center py-8 text-gray-400">
               <FiAward className="text-3xl mx-auto mb-2 opacity-50" />
-              <p className="text-sm">No bets placed yet</p>
+              <p className="text-sm">{t('rooms:dashboard.noBetsYet')}</p>
             </div>
           ) : (
             <div className="text-center">
@@ -419,7 +419,7 @@ const RoomDashboard: React.FC<RoomDashboardProps> = ({
               {/* Estadísticas */}
               <div className="grid grid-cols-2 gap-3 mt-4">
                 <div className="p-3 bg-white/5 rounded-xl">
-                  <p className="text-xs text-gray-400">Bets</p>
+                  <p className="text-xs text-gray-400">{t('rooms:dashboard.bets')}</p>
                   <p className="text-lg font-bold">{leader.total_apuestas}</p>
                 </div>
                 <div className="p-3 bg-white/5 rounded-xl">
@@ -435,16 +435,16 @@ const RoomDashboard: React.FC<RoomDashboardProps> = ({
         <div className="rounded-2xl p-5 bg-gradient-to-br from-[#1f2126] to-[#141518] shadow-lg border border-white/5">
           <div className="flex items-center gap-2 mb-4">
             <FiTrendingUp className="text-xl text-green-500" />
-            <h3 className="text-lg font-bold">Stats</h3>
+            <h3 className="text-lg font-bold">{t('rooms:dashboard.stats')}</h3>
           </div>
 
           <div className="space-y-3">
             <div className="flex items-center justify-between p-3 bg-white/5 rounded-xl">
-              <span className="text-sm text-gray-400">Upcoming Matches</span>
+              <span className="text-sm text-gray-400">{t('rooms:dashboard.upcomingMatches')}</span>
               <span className="text-lg font-bold">{upcomingMatches.length}</span>
             </div>
             <div className="flex items-center justify-between p-3 bg-white/5 rounded-xl">
-              <span className="text-sm text-gray-400">Participants</span>
+              <span className="text-sm text-gray-400">{t('rooms:dashboard.participants')}</span>
               <span className="text-lg font-bold">{memberCount}</span>
             </div>
           </div>

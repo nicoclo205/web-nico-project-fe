@@ -30,7 +30,7 @@ export const RoomChat: React.FC<RoomChatProps> = ({ roomId, token, currentUserId
     <div className="flex flex-col h-[450px] rounded-2xl bg-gradient-to-br from-[#1f2126] to-[#141518] shadow-lg border border-white/5 overflow-hidden">
       {/* Header */}
       <div className="flex items-center justify-between p-3 border-b border-white/10">
-        <h3 className="text-base font-bold text-white">Room Chat</h3>
+        <h3 className="text-base font-bold text-white">{t('rooms:chat.title')}</h3>
         <div className="flex items-center gap-2">
           {isConnected ? (
             <>

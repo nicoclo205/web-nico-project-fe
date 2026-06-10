@@ -20,6 +20,7 @@
   "statistics": "Statistics",
   "leaderboard": "Leaderboard",
   "chat": {
+    "title": "Room Chat",
     "placeholder": "Type a message...",
     "send": "Send",
     "connecting": "Connecting...",
@@ -33,12 +34,18 @@
     "title": "Room Bets",
     "yourBet": "Your Bet",
     "noBets": "No bets available right now",
+    "noMatches": "No matches available to bet on",
     "betPlaced": "Bet placed successfully!",
     "editBet": "Edit Bet",
     "placeBet": "Place Bet",
     "updateBet": "Update Bet",
+    "processing": "Processing...",
     "betOn": "Bet on",
     "points": "pts",
+    "scorePrediction": "Score Prediction",
+    "betsClosed": "Bets closed",
+    "closesIn": "Closes in: {{time}}",
+    "closed": "Closed",
     "status": {
       "won": "Won",
       "lost": "Lost",
@@ -54,7 +61,8 @@
     },
     "errors": {
       "load": "Failed to load bets",
-      "place": "Failed to place bet",
+      "place": "Failed to process the bet",
+      "delete": "Failed to delete the bet",
       "update": "Failed to update bet"
     },
     "homeWin": "Home Win",
@@ -167,8 +175,13 @@
   "ranking": {
     "title": "Ranking",
     "noData": "No ranking data yet",
-    "points": "pts",
-    "position": "#{{pos}}",
+    "points": "Points",
+    "bets": "Bets",
+    "winRate": "Win Rate",
+    "user": "User",
+    "total": "Total",
+    "lost": "Lost",
+    "refreshTitle": "Refresh ranking",
     "error": "Failed to load ranking"
   },
   "config": {
@@ -205,12 +218,25 @@
     "roomCode": "Room Code",
     "copyCode": "Copy Code",
     "copyCodeDesc": "Share this code so others can join",
+    "copyCodeTitle": "Copy code",
     "createdAt": "Created",
     "members": "Members",
     "maxMembers": "Max Members",
     "notifications": "Notifications",
     "noNotifications": "No new notifications",
     "editRoom": "Edit Room",
+    "notices": "Notices",
+    "noNotices": "No recent notices",
+    "upcomingMatches": "Upcoming Matches",
+    "noUpcomingMatches": "No upcoming matches",
+    "lastResult": "Last Result",
+    "roomLeader": "Room Leader",
+    "noBetsYet": "No bets placed yet",
+    "bets": "Bets",
+    "stats": "Stats",
+    "participants": "Participants",
+    "today": "Today",
+    "tomorrow": "Tomorrow",
     "errors": {
       "load": "Failed to load room info",
       "copy": "Failed to copy code"
@@ -222,6 +248,7 @@
     "refresh": "Refresh",
     "noPredictions": "No predictions",
     "noGroup": "No predictions in this group yet.",
-    "error": "Could not load group predictions."
+    "error": "Could not load group predictions.",
+    "loadError": "Failed to load predictions"
   }
 }

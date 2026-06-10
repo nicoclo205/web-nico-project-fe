@@ -39,7 +39,7 @@ const RoomBets: React.FC<RoomBetsProps> = ({ roomId }) => {
         const distance = matchTime - now;
 
         if (distance < 0) {
-          newCountdowns[match.id_partido] = 'Closed';
+          newCountdowns[match.id_partido] = t('rooms:bets.closed');
         } else {
           const days = Math.floor(distance / (1000 * 60 * 60 * 24));
           const hours = Math.floor((distance % (1000 * 60 * 60 * 24)) / (1000 * 60 * 60));
@@ -103,7 +103,7 @@ const RoomBets: React.FC<RoomBetsProps> = ({ roomId }) => {
       fetchUpcomingMatches(roomId);
       alert(editingBet ? t('rooms:bets.betPlaced') : t('rooms:bets.betPlaced'));
     } else {
-      setBetError(result.error || 'Failed to process the bet');
+      setBetError(result.error || t('rooms:bets.errors.place'));
     }
 
     setSubmitting(false);
@@ -121,7 +121,7 @@ const RoomBets: React.FC<RoomBetsProps> = ({ roomId }) => {
       fetchUpcomingMatches(roomId);
       alert('Bet deleted successfully');
     } else {
-      alert(result.error || 'Failed to delete the bet');
+      alert(result.error || t('rooms:bets.errors.delete'));
     }
   };
 
@@ -207,7 +207,7 @@ const RoomBets: React.FC<RoomBetsProps> = ({ roomId }) => {
         </h3>
 
         {upcomingMatches.length === 0 ? (
-          <p className="text-gray-400 text-center py-8">No matches available to bet on</p>
+          <p className="text-gray-400 text-center py-8">{t('rooms:bets.noMatches')}</p>
         ) : (
           <div className="grid grid-cols-1 md:grid-cols-2 gap-4">
             {upcomingMatches.map((match) => {
@@ -295,7 +295,7 @@ const RoomBets: React.FC<RoomBetsProps> = ({ roomId }) => {
                       bettingClosed ? 'bg-red-500/20 text-red-400' : 'bg-blue-500/20 text-blue-400'
                     }`}>
                       <FiClock />
-                      {bettingClosed ? 'Bets closed' : `Closes in: ${countdown}`}
+                      {bettingClosed ? t('rooms:bets.betsClosed') : t('rooms:bets.closesIn', { time: countdown })}
                     </div>
                   </div>
 
@@ -480,7 +480,7 @@ const RoomBets: React.FC<RoomBetsProps> = ({ roomId }) => {
 
             {/* Score Prediction */}
             <div className="mb-6">
-              <label className="block text-sm font-medium text-gray-300 mb-3">Score Prediction</label>
+              <label className="block text-sm font-medium text-gray-300 mb-3">{t('rooms:bets.scorePrediction')}</label>
               <div className="flex items-center justify-center gap-4">
                 <div className="flex-1">
                   <label className="block text-xs text-gray-400 mb-2 text-center">{selectedMatch.equipo_local_nombre}</label>
@@ -524,7 +524,7 @@ const RoomBets: React.FC<RoomBetsProps> = ({ roomId }) => {
                 disabled={submitting}
                 className="btn-primary flex-1"
               >
-                {submitting ? 'Processing...' : editingBet ? 'Update Bet' : 'Place Bet'}
+                {submitting ? t('rooms:bets.processing') : editingBet ? t('rooms:bets.updateBet') : t('rooms:bets.placeBet')}
               </button>
             </div>
           </div>

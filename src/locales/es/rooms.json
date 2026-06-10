@@ -20,6 +20,7 @@
   "statistics": "Estadísticas",
   "leaderboard": "Tabla de Posiciones",
   "chat": {
+    "title": "Chat de la Sala",
     "placeholder": "Escribe un mensaje...",
     "send": "Enviar",
     "connecting": "Conectando...",
@@ -33,12 +34,18 @@
     "title": "Apuestas de la Sala",
     "yourBet": "Tu Apuesta",
     "noBets": "No hay apuestas disponibles ahora",
+    "noMatches": "No hay partidos disponibles para apostar",
     "betPlaced": "¡Apuesta realizada!",
     "editBet": "Editar Apuesta",
-    "placeBet": "Hacer Apuesta",
+    "placeBet": "Apostar",
     "updateBet": "Actualizar Apuesta",
+    "processing": "Procesando...",
     "betOn": "Apostar en",
     "points": "pts",
+    "scorePrediction": "Predicción de Marcador",
+    "betsClosed": "Apuestas cerradas",
+    "closesIn": "Cierra en: {{time}}",
+    "closed": "Cerrado",
     "status": {
       "won": "Ganada",
       "lost": "Perdida",
@@ -54,7 +61,8 @@
     },
     "errors": {
       "load": "Error al cargar apuestas",
-      "place": "Error al realizar apuesta",
+      "place": "Error al procesar la apuesta",
+      "delete": "Error al eliminar la apuesta",
       "update": "Error al actualizar apuesta"
     },
     "homeWin": "Victoria Local",
@@ -167,8 +175,13 @@
   "ranking": {
     "title": "Ranking",
     "noData": "Aún no hay datos de ranking",
-    "points": "pts",
-    "position": "#{{pos}}",
+    "points": "Puntos",
+    "bets": "Apuestas",
+    "winRate": "% Victorias",
+    "user": "Usuario",
+    "total": "Total",
+    "lost": "Perdidas",
+    "refreshTitle": "Actualizar ranking",
     "error": "Error al cargar el ranking"
   },
   "config": {
@@ -205,15 +218,28 @@
     "roomCode": "Código de Sala",
     "copyCode": "Copiar Código",
     "copyCodeDesc": "Comparte este código para que otros se unan",
+    "copyCodeTitle": "Copiar código",
     "createdAt": "Creada",
     "members": "Miembros",
     "maxMembers": "Máximo de Miembros",
     "notifications": "Notificaciones",
     "noNotifications": "Sin notificaciones nuevas",
     "editRoom": "Editar Sala",
+    "notices": "Avisos",
+    "noNotices": "Sin avisos recientes",
+    "upcomingMatches": "Próximos Partidos",
+    "noUpcomingMatches": "Sin próximos partidos",
+    "lastResult": "Último Resultado",
+    "roomLeader": "Líder de la Sala",
+    "noBetsYet": "Aún no hay apuestas",
+    "bets": "Apuestas",
+    "stats": "Estadísticas",
+    "participants": "Participantes",
+    "today": "Hoy",
+    "tomorrow": "Mañana",
     "errors": {
-      "load": "Error al cargar info de la sala",
-      "copy": "Error al copiar código"
+      "load": "Error al cargar la sala",
+      "copy": "Error al copiar el código"
     }
   },
   "predictions": {
@@ -222,6 +248,7 @@
     "refresh": "Actualizar",
     "noPredictions": "Sin predicciones",
     "noGroup": "Aún no hay predicciones en este grupo.",
-    "error": "No se pudieron cargar las predicciones del grupo."
+    "error": "No se pudieron cargar las predicciones.",
+    "loadError": "Error al cargar las predicciones"
   }
 }

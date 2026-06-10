@@ -87,7 +87,7 @@ const RoomRanking: React.FC<RoomRankingProps> = ({ roomId }) => {
           onClick={handleRefresh}
           disabled={loading}
           className="btn-secondary btn-icon"
-          title="Refresh ranking"
+          title={t('rooms:ranking.refreshTitle')}
         >
           <FiRefreshCw className={loading ? 'animate-spin' : ''} />
         </button>
@@ -99,7 +99,7 @@ const RoomRanking: React.FC<RoomRankingProps> = ({ roomId }) => {
           <h3 className="text-base font-bold mb-3">🏆 Top 3</h3>
           <div className="grid grid-cols-1 sm:grid-cols-3 gap-3">
             {rankingData.ranking.slice(0, 3).map((user) => {
-              const userName = user.usuario.nombre_usuario || 'User';
+              const userName = user.usuario.nombre_usuario || t('common:user');
               const initial = userName.charAt(0).toUpperCase();
 
               return (
@@ -151,16 +151,16 @@ const RoomRanking: React.FC<RoomRankingProps> = ({ roomId }) => {
                   {/* Stats */}
                   <div className="space-y-1 text-center">
                     <div>
-                      <p className="text-gray-400 text-xs">Points</p>
+                      <p className="text-gray-400 text-xs">{t('rooms:ranking.points')}</p>
                       <p className="text-2xl font-bold text-green-400">{user.puntos}</p>
                     </div>
                     <div className="grid grid-cols-2 gap-1 text-xs">
                       <div>
-                        <p className="text-gray-400">Bets</p>
+                        <p className="text-gray-400">{t('rooms:ranking.bets')}</p>
                         <p className="font-semibold">{user.total_apuestas}</p>
                       </div>
                       <div>
-                        <p className="text-gray-400">Win Rate</p>
+                        <p className="text-gray-400">{t('rooms:ranking.winRate')}</p>
                         <p className={`font-semibold ${getEffectivenessColor(user.efectividad)}`}>
                           {user.efectividad.toFixed(0)}%
                         </p>
@@ -188,9 +188,9 @@ const RoomRanking: React.FC<RoomRankingProps> = ({ roomId }) => {
             {/* Table Header - Hidden on mobile */}
             <div className="hidden md:grid grid-cols-12 gap-2 lg:gap-4 px-2 lg:px-4 py-2 text-xs font-semibold text-gray-400 border-b border-white/10">
               <div className="col-span-1">#</div>
-              <div className="col-span-4">User</div>
-              <div className="col-span-2 text-center">Points</div>
-              <div className="col-span-2 text-center">Bets</div>
+              <div className="col-span-4">{t('rooms:ranking.user')}</div>
+              <div className="col-span-2 text-center">{t('rooms:ranking.points')}</div>
+              <div className="col-span-2 text-center">{t('rooms:ranking.bets')}</div>
               <div className="col-span-1 text-center">W</div>
               <div className="col-span-1 text-center">L</div>
               <div className="col-span-1 text-center">%</div>
@@ -198,7 +198,7 @@ const RoomRanking: React.FC<RoomRankingProps> = ({ roomId }) => {
 
             {/* Ranking Rows */}
             {rankingData.ranking.map((user) => {
-              const userName = user.usuario.nombre_usuario || 'User';
+              const userName = user.usuario.nombre_usuario || t('common:user');
               const initial = userName.charAt(0).toUpperCase();
 
               return (
@@ -305,7 +305,7 @@ const RoomRanking: React.FC<RoomRankingProps> = ({ roomId }) => {
 
                       {/* Points */}
                       <div className="text-right">
-                        <p className="text-xs text-gray-400">Points</p>
+                        <p className="text-xs text-gray-400">{t('rooms:ranking.points')}</p>
                         <p className="text-xl font-bold text-green-400">{user.puntos}</p>
                       </div>
                     </div>
@@ -313,7 +313,7 @@ const RoomRanking: React.FC<RoomRankingProps> = ({ roomId }) => {
                     {/* Stats Grid */}
                     <div className="grid grid-cols-4 gap-2 text-center text-xs">
                       <div>
-                        <p className="text-gray-400">Total</p>
+                        <p className="text-gray-400">{t('rooms:ranking.total')}</p>
                         <p className="font-semibold">{user.total_apuestas}</p>
                       </div>
                       <div>
@@ -321,11 +321,11 @@ const RoomRanking: React.FC<RoomRankingProps> = ({ roomId }) => {
                         <p className="font-semibold text-green-400">{user.apuestas_ganadas}</p>
                       </div>
                       <div>
-                        <p className="text-gray-400">Lost</p>
+                        <p className="text-gray-400">{t('rooms:ranking.lost')}</p>
                         <p className="font-semibold text-red-400">{user.apuestas_perdidas}</p>
                       </div>
                       <div>
-                        <p className="text-gray-400">Win Rate</p>
+                        <p className="text-gray-400">{t('rooms:ranking.winRate')}</p>
                         <p className={`font-semibold ${getEffectivenessColor(user.efectividad)}`}>
                           {user.efectividad.toFixed(0)}%
                         </p>
