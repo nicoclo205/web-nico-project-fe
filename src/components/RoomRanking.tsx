@@ -363,4 +363,3 @@ const RoomRanking: React.FC<RoomRankingProps> = ({ roomId }) => {
 };
 
 export default RoomRanking;
-                                                                     

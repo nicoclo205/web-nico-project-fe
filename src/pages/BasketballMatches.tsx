@@ -373,4 +373,4 @@ const BasketballMatches: React.FC = () => {
 	);
 };
 
-export default BasketballMatches;                                                                                       
+export default BasketballMatches;

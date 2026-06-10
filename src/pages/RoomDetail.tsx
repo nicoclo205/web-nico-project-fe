@@ -389,4 +389,3 @@ const RoomDetail: React.FC = () => {
 };
 
 export default RoomDetail;
-                                       

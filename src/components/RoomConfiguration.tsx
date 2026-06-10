@@ -460,4 +460,3 @@ const RoomConfiguration: React.FC<RoomConfigurationProps> = ({ roomId }) => {
 };
 
 export default RoomConfiguration;
-                                                                                                              

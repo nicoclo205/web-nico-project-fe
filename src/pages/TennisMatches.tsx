@@ -382,4 +382,4 @@ const TennisMatches: React.FC = () => {
 	);
 };
 
-export default TennisMatches;                                                                                
+export default TennisMatches;

@@ -249,4 +249,3 @@ const GroupPredictions: React.FC<GroupPredictionsProps> = ({ roomId }) => {
 };
 
 export default GroupPredictions;
-  
