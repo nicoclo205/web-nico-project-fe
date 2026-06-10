@@ -56,7 +56,7 @@ function Start() {
                             <NavigationMenuLink 
                             className={navigationMenuTriggerStyle({ variant: "transparent" })}
                                         onClick={handleLogin}>
-                                                Iniciar sesión
+                                                Log In
                             </NavigationMenuLink>
                                         
                         </NavigationMenuItem>
@@ -94,7 +94,7 @@ function Start() {
                         className="w-full md:w-auto min-w-[200px]" 
                         onClick={handleLogin}
                     >
-                        Iniciar sesión
+                        Log In
                     </Button>
                     
                     <Button 

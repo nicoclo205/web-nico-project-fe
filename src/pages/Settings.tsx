@@ -36,7 +36,7 @@ const Settings = () => {
     const [errorMsg, setErrorMsg] = useState('');
     const [userAvatar, setUserAvatar] = useState<string | null>(null);
 
-    const userName = user?.nombre_usuario || user?.username || "Usuario";
+    const userName = user?.nombre_usuario || user?.username || "User";
 
     useEffect(() => {
         fetchUserData();
@@ -57,7 +57,7 @@ const Settings = () => {
 
         } catch (error) {
             console.error('Error fetching user data:', error);
-            setErrorMsg('Error al cargar los datos del usuario');
+            setErrorMsg('Failed to load user data');
         }
     };
 
@@ -88,18 +88,18 @@ const Settings = () => {
                 celular: userData.celular,
                 foto_perfil: userData.foto_perfil
             });
-            setSuccessMsg('¡Configuración guardada correctamente!');
+            setSuccessMsg('Settings saved successfully!');
             setUserAvatar(userData.foto_perfil);
         } catch (error) {
             console.error('Error updating settings:', error);
-            setErrorMsg('Error al guardar la configuración.');
+            setErrorMsg('Failed to save settings.');
         } finally {
             setIsSaving(false);
         }
     };
 
     const handleDeleteAccount = async () => {
-        if (!window.confirm('¿Estás seguro de que quieres eliminar tu cuenta? Esta acción no se puede deshacer.')) {
+        if (!window.confirm('Are you sure you want to delete your account? This action cannot be undone.')) {
             return;
         }
 
@@ -113,7 +113,7 @@ const Settings = () => {
             navigate('/start');
         } catch (error) {
             console.error('Error deleting account:', error);
-            setErrorMsg('Error al eliminar la cuenta.');
+            setErrorMsg('Failed to delete account.');
             setIsDeleting(false);
         }
     };
@@ -151,7 +151,7 @@ const Settings = () => {
                     <div>
                         <h1 className="text-lg md:text-2xl lg:text-3xl font-bold tracking-tight text-white flex items-center gap-2 md:gap-3">
                             <span className="text-3xl md:text-4xl">⚙️</span>
-                            <span className="hidden sm:inline">Configuración</span>
+                            <span className="hidden sm:inline">Settings</span>
                             <span className="sm:hidden">Config</span>
                         </h1>
                     </div>
@@ -174,8 +174,8 @@ const Settings = () => {
                             onClick={handleLogout}
                             className="btn-danger text-xs md:text-sm px-3 md:px-4"
                         >
-                            <span className="hidden sm:inline">Cerrar sesión</span>
-                            <span className="sm:hidden">Salir</span>
+                            <span className="hidden sm:inline">Log Out</span>
+                            <span className="sm:hidden">Out</span>
                         </button>
                     </div>
                 </header>
@@ -205,30 +205,30 @@ const Settings = () => {
                                 <div className="w-10 h-10 rounded-xl bg-blue-500/20 flex items-center justify-center">
                                     <FiUser className="text-blue-400 text-xl" />
                                 </div>
-                                <h2 className="text-lg md:text-xl font-bold">Información Personal</h2>
+                                <h2 className="text-lg md:text-xl font-bold">Personal Info</h2>
                             </div>
 
                             <div className="grid grid-cols-1 md:grid-cols-2 gap-4">
                                 <div>
-                                    <label className="block text-sm font-medium text-gray-400 mb-2">Nombre</label>
+                                    <label className="block text-sm font-medium text-gray-400 mb-2">First Name</label>
                                     <input
                                         type="text"
                                         name="nombre"
                                         value={userData.nombre || ''}
                                         onChange={handleChange}
-                                        placeholder="Tu nombre"
+                                        placeholder="Your first name"
                                         className="w-full bg-white/5 border border-white/10 rounded-xl px-4 py-3 text-white placeholder-gray-500 focus:outline-none focus:ring-2 focus:ring-green-500 focus:border-transparent transition-all"
                                     />
                                 </div>
 
                                 <div>
-                                    <label className="block text-sm font-medium text-gray-400 mb-2">Apellido</label>
+                                    <label className="block text-sm font-medium text-gray-400 mb-2">Last Name</label>
                                     <input
                                         type="text"
                                         name="apellido"
                                         value={userData.apellido || ''}
                                         onChange={handleChange}
-                                        placeholder="Tu apellido"
+                                        placeholder="Your last name"
                                         className="w-full bg-white/5 border border-white/10 rounded-xl px-4 py-3 text-white placeholder-gray-500 focus:outline-none focus:ring-2 focus:ring-green-500 focus:border-transparent transition-all"
                                     />
                                 </div>
@@ -236,7 +236,7 @@ const Settings = () => {
                                 <div className="md:col-span-2">
                                     <label className="block text-sm font-medium text-gray-400 mb-2 flex items-center gap-2">
                                         <FiPhone className="text-gray-500" />
-                                        Número de Teléfono
+                                        Phone Number
                                     </label>
                                     <input
                                         type="text"
@@ -251,7 +251,7 @@ const Settings = () => {
                                 <div className="md:col-span-2">
                                     <label className="block text-sm font-medium text-gray-400 mb-2 flex items-center gap-2">
                                         <FiMail className="text-gray-500" />
-                                        Correo Electrónico
+                                        Email
                                     </label>
                                     <input
                                         type="email"
@@ -259,13 +259,13 @@ const Settings = () => {
                                         value={userData.correo || ''}
                                         disabled
                                         className="w-full bg-white/5 border border-white/10 rounded-xl px-4 py-3 text-gray-400 cursor-not-allowed opacity-60"
-                                        title="El correo electrónico no puede ser modificado"
+                                        title="Email cannot be changed"
                                     />
                                     <p className="text-xs text-gray-500 mt-1.5 flex items-center gap-1">
                                         <svg className="w-3 h-3" fill="currentColor" viewBox="0 0 20 20">
                                             <path fillRule="evenodd" d="M18 10a8 8 0 11-16 0 8 8 0 0116 0zm-7-4a1 1 0 11-2 0 1 1 0 012 0zM9 9a1 1 0 000 2v3a1 1 0 001 1h1a1 1 0 100-2v-3a1 1 0 00-1-1H9z" clipRule="evenodd" />
                                         </svg>
-                                        El correo electrónico no puede ser modificado
+                                        Email cannot be changed
                                     </p>
                                 </div>
                             </div>
@@ -278,8 +278,8 @@ const Settings = () => {
                                     <FiImage className="text-purple-400 text-xl" />
                                 </div>
                                 <div>
-                                    <h2 className="text-lg md:text-xl font-bold">Elige tu Avatar</h2>
-                                    <p className="text-sm text-gray-400">Selecciona un avatar para tu perfil</p>
+                                    <h2 className="text-lg md:text-xl font-bold">Choose Your Avatar</h2>
+                                    <p className="text-sm text-gray-400">Pick an avatar for your profile</p>
                                 </div>
                             </div>
 
@@ -312,7 +312,7 @@ const Settings = () => {
                                 <div className="mt-4 p-3 bg-green-500/10 border border-green-500/30 rounded-xl">
                                     <p className="text-sm text-green-400 flex items-center gap-2">
                                         <FiCheck />
-                                        Avatar seleccionado
+                                        Avatar selected
                                     </p>
                                 </div>
                             )}
@@ -328,12 +328,12 @@ const Settings = () => {
                                 {isSaving ? (
                                     <>
                                         <div className="animate-spin rounded-full h-5 w-5 border-b-2 border-white"></div>
-                                        Guardando...
+                                        Saving...
                                     </>
                                 ) : (
                                     <>
                                         <FiSave className="text-xl" />
-                                        Guardar Cambios
+                                        Save Changes
                                     </>
                                 )}
                             </button>
@@ -344,7 +344,7 @@ const Settings = () => {
                     <aside className="w-full lg:w-80 flex flex-col gap-4 md:gap-6 flex-shrink-0">
                         {/* Profile Preview Card */}
                         <div className="bg-[#181b21] rounded-xl md:rounded-2xl p-4 md:p-6 border border-white/5 shadow-sm">
-                            <h3 className="text-base md:text-lg font-bold text-white mb-4">Vista Previa</h3>
+                            <h3 className="text-base md:text-lg font-bold text-white mb-4">Preview</h3>
                             <div className="flex flex-col items-center text-center">
                                 <div className="w-24 h-24 md:w-28 md:h-28 rounded-full bg-gradient-to-br from-green-500 to-blue-500 p-1 mb-4">
                                     {userData.foto_perfil ? (
@@ -379,9 +379,9 @@ const Settings = () => {
 
                         {/* Danger Zone Card */}
                         <div className="bg-gradient-to-br from-red-900/20 to-[#0f1115] rounded-xl md:rounded-2xl p-4 md:p-6 border border-red-500/20 shadow-sm">
-                            <h3 className="text-base md:text-lg font-bold text-red-400 mb-2">Zona de Peligro</h3>
+                            <h3 className="text-base md:text-lg font-bold text-red-400 mb-2">Danger Zone</h3>
                             <p className="text-xs md:text-sm text-gray-400 mb-4">
-                                Una vez eliminada tu cuenta, no hay vuelta atrás. Por favor, asegúrate.
+                                Once your account is deleted, there's no going back. Please be sure.
                             </p>
                             <button
                                 onClick={handleDeleteAccount}
@@ -391,12 +391,12 @@ const Settings = () => {
                                 {isDeleting ? (
                                     <>
                                         <div className="animate-spin rounded-full h-4 w-4 border-b-2 border-red-400"></div>
-                                        Eliminando...
+                                        Deleting...
                                     </>
                                 ) : (
                                     <>
                                         <FiTrash2 />
-                                        Eliminar Cuenta
+                                        Delete Account
                                     </>
                                 )}
                             </button>

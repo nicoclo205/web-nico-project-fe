@@ -165,7 +165,7 @@ function Auth() {
           <div className={`w-full h-full transition-transform duration-1000 ease-in-out ${isLoginView ? 'translate-x-1/2' : '-translate-x-1/2'}`}>
             <img 
               src="imagen_prueba.jpeg" 
-              alt="Imagen de autenticación" 
+              alt="Authentication image" 
               className="w-full h-full rounded-3xl object-cover"
             />
           </div>
@@ -175,7 +175,7 @@ function Auth() {
         <div className="hidden md:block lg:hidden w-full h-64 mb-4 overflow-hidden rounded-3xl">
           <img 
             src="imagen_prueba.jpeg" 
-            alt="Imagen de autenticación" 
+            alt="Authentication image" 
             className="w-full h-full rounded-3xl object-cover md:object-top"
           />
         </div>

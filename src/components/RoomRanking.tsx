@@ -63,7 +63,7 @@ const RoomRanking: React.FC<RoomRankingProps> = ({ roomId }) => {
   if (!rankingData) {
     return (
       <div className="text-center text-gray-400 py-8">
-        No hay datos de ranking disponibles
+        No ranking data available
       </div>
     );
   }
@@ -78,14 +78,14 @@ const RoomRanking: React.FC<RoomRankingProps> = ({ roomId }) => {
             Ranking
           </h2>
           <p className="text-gray-400 text-sm mt-1">
-            {rankingData.total_participantes} participante{rankingData.total_participantes !== 1 ? 's' : ''}
+            {rankingData.total_participantes} participant{rankingData.total_participantes !== 1 ? 's' : ''}
           </p>
         </div>
         <button
           onClick={handleRefresh}
           disabled={loading}
           className="btn-secondary btn-icon"
-          title="Actualizar ranking"
+          title="Refresh ranking"
         >
           <FiRefreshCw className={loading ? 'animate-spin' : ''} />
         </button>
@@ -97,7 +97,7 @@ const RoomRanking: React.FC<RoomRankingProps> = ({ roomId }) => {
           <h3 className="text-base font-bold mb-3">🏆 Top 3</h3>
           <div className="grid grid-cols-1 sm:grid-cols-3 gap-3">
             {rankingData.ranking.slice(0, 3).map((user) => {
-              const userName = user.usuario.nombre_usuario || 'Usuario';
+              const userName = user.usuario.nombre_usuario || 'User';
               const initial = userName.charAt(0).toUpperCase();
 
               return (
@@ -149,16 +149,16 @@ const RoomRanking: React.FC<RoomRankingProps> = ({ roomId }) => {
                   {/* Stats */}
                   <div className="space-y-1 text-center">
                     <div>
-                      <p className="text-gray-400 text-xs">Puntos</p>
+                      <p className="text-gray-400 text-xs">Points</p>
                       <p className="text-2xl font-bold text-green-400">{user.puntos}</p>
                     </div>
                     <div className="grid grid-cols-2 gap-1 text-xs">
                       <div>
-                        <p className="text-gray-400">Apuestas</p>
+                        <p className="text-gray-400">Bets</p>
                         <p className="font-semibold">{user.total_apuestas}</p>
                       </div>
                       <div>
-                        <p className="text-gray-400">Efectividad</p>
+                        <p className="text-gray-400">Win Rate</p>
                         <p className={`font-semibold ${getEffectivenessColor(user.efectividad)}`}>
                           {user.efectividad.toFixed(0)}%
                         </p>
@@ -176,27 +176,27 @@ const RoomRanking: React.FC<RoomRankingProps> = ({ roomId }) => {
       <div className="rounded-3xl p-4 md:p-6 bg-gradient-to-br from-[#1f2126] to-[#141518] shadow-xl border border-white/5">
         <h3 className="text-base md:text-lg font-bold mb-4 flex items-center gap-2">
           <FiTrendingUp className="text-blue-500" />
-          Clasificación Completa
+          Full Rankings
         </h3>
 
         {rankingData.ranking.length === 0 ? (
-          <p className="text-gray-400 text-center py-8">No hay datos de ranking</p>
+          <p className="text-gray-400 text-center py-8">No ranking data yet</p>
         ) : (
           <div className="space-y-2">
             {/* Table Header - Hidden on mobile */}
             <div className="hidden md:grid grid-cols-12 gap-2 lg:gap-4 px-2 lg:px-4 py-2 text-xs font-semibold text-gray-400 border-b border-white/10">
               <div className="col-span-1">#</div>
-              <div className="col-span-4">Usuario</div>
-              <div className="col-span-2 text-center">Puntos</div>
-              <div className="col-span-2 text-center">Apuestas</div>
-              <div className="col-span-1 text-center">G</div>
-              <div className="col-span-1 text-center">P</div>
+              <div className="col-span-4">User</div>
+              <div className="col-span-2 text-center">Points</div>
+              <div className="col-span-2 text-center">Bets</div>
+              <div className="col-span-1 text-center">W</div>
+              <div className="col-span-1 text-center">L</div>
               <div className="col-span-1 text-center">%</div>
             </div>
 
             {/* Ranking Rows */}
             {rankingData.ranking.map((user) => {
-              const userName = user.usuario.nombre_usuario || 'Usuario';
+              const userName = user.usuario.nombre_usuario || 'User';
               const initial = userName.charAt(0).toUpperCase();
 
               return (
@@ -303,7 +303,7 @@ const RoomRanking: React.FC<RoomRankingProps> = ({ roomId }) => {
 
                       {/* Points */}
                       <div className="text-right">
-                        <p className="text-xs text-gray-400">Puntos</p>
+                        <p className="text-xs text-gray-400">Points</p>
                         <p className="text-xl font-bold text-green-400">{user.puntos}</p>
                       </div>
                     </div>
@@ -315,15 +315,15 @@ const RoomRanking: React.FC<RoomRankingProps> = ({ roomId }) => {
                         <p className="font-semibold">{user.total_apuestas}</p>
                       </div>
                       <div>
-                        <p className="text-gray-400">Ganadas</p>
+                        <p className="text-gray-400">Won</p>
                         <p className="font-semibold text-green-400">{user.apuestas_ganadas}</p>
                       </div>
                       <div>
-                        <p className="text-gray-400">Perdidas</p>
+                        <p className="text-gray-400">Lost</p>
                         <p className="font-semibold text-red-400">{user.apuestas_perdidas}</p>
                       </div>
                       <div>
-                        <p className="text-gray-400">Efectividad</p>
+                        <p className="text-gray-400">Win Rate</p>
                         <p className={`font-semibold ${getEffectivenessColor(user.efectividad)}`}>
                           {user.efectividad.toFixed(0)}%
                         </p>
@@ -342,19 +342,19 @@ const RoomRanking: React.FC<RoomRankingProps> = ({ roomId }) => {
         <div className="grid grid-cols-2 md:grid-cols-4 gap-4 text-xs">
           <div className="flex items-center gap-2">
             <FiTarget className="text-green-500" />
-            <span className="text-gray-400">G = Ganadas</span>
+            <span className="text-gray-400">W = Won</span>
           </div>
           <div className="flex items-center gap-2">
             <FiTarget className="text-red-500" />
-            <span className="text-gray-400">P = Perdidas</span>
+            <span className="text-gray-400">L = Lost</span>
           </div>
           <div className="flex items-center gap-2">
             <FiPercent className="text-blue-500" />
-            <span className="text-gray-400">% = Efectividad</span>
+            <span className="text-gray-400">% = Win Rate</span>
           </div>
           <div className="flex items-center gap-2">
             <FiAward className="text-yellow-500" />
-            <span className="text-gray-400">Top 3 destacados</span>
+            <span className="text-gray-400">Top 3 highlighted</span>
           </div>
         </div>
       </div>
@@ -363,3 +363,4 @@ const RoomRanking: React.FC<RoomRankingProps> = ({ roomId }) => {
 };
 
 export default RoomRanking;
+                                                                     

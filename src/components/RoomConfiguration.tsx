@@ -79,7 +79,7 @@ const RoomConfiguration: React.FC<RoomConfigurationProps> = ({ roomId }) => {
         setActivatedMatches(matchesData);
       }
     } catch (err: any) {
-      setError('Error al cargar la configuración');
+      setError('Failed to load configuration');
     } finally {
       setLoading(false);
     }
@@ -135,15 +135,15 @@ const RoomConfiguration: React.FC<RoomConfigurationProps> = ({ roomId }) => {
         loadAvailableLeagues();
       } else {
         const errorData = await res.json();
-        alert(errorData.error || 'Error al agregar liga');
+        alert(errorData.error || 'Failed to add league');
       }
     } catch (err) {
-      alert('Error al agregar liga');
+      alert('Failed to add league');
     }
   };
 
   const handleRemoveLeague = async (salaLigaId: number) => {
-    if (!window.confirm('¿Eliminar esta liga de la sala?')) return;
+    if (!window.confirm('Remove this league from the room?')) return;
 
     try {
       const token = localStorage.getItem('authToken');
@@ -155,10 +155,10 @@ const RoomConfiguration: React.FC<RoomConfigurationProps> = ({ roomId }) => {
       if (res.ok) {
         loadActivatedConfig();
       } else {
-        alert('Error al eliminar liga');
+        alert('Failed to remove league');
       }
     } catch (err) {
-      alert('Error al eliminar liga');
+      alert('Failed to remove league');
     }
   };
 
@@ -182,15 +182,15 @@ const RoomConfiguration: React.FC<RoomConfigurationProps> = ({ roomId }) => {
         loadAvailableMatches();
       } else {
         const errorData = await res.json();
-        alert(errorData.error || 'Error al agregar partido');
+        alert(errorData.error || 'Failed to add match');
       }
     } catch (err) {
-      alert('Error al agregar partido');
+      alert('Failed to add match');
     }
   };
 
   const handleRemoveMatch = async (salaPartidoId: number) => {
-    if (!window.confirm('¿Eliminar este partido de la sala?')) return;
+    if (!window.confirm('Remove this match from the room?')) return;
 
     try {
       const token = localStorage.getItem('authToken');
@@ -202,10 +202,10 @@ const RoomConfiguration: React.FC<RoomConfigurationProps> = ({ roomId }) => {
       if (res.ok) {
         loadActivatedConfig();
       } else {
-        alert('Error al eliminar partido');
+        alert('Failed to remove match');
       }
     } catch (err) {
-      alert('Error al eliminar partido');
+      alert('Failed to remove match');
     }
   };
 
@@ -230,9 +230,9 @@ const RoomConfiguration: React.FC<RoomConfigurationProps> = ({ roomId }) => {
       {/* Header */}
       <div className="flex items-center justify-between">
         <div>
-          <h2 className="text-2xl font-bold text-white">Configuración de Apuestas</h2>
+          <h2 className="text-2xl font-bold text-white">Betting Configuration</h2>
           <p className="text-gray-400 text-sm mt-1">
-            Selecciona las ligas/torneos o partidos individuales que estarán disponibles para apostar
+            Select the leagues/tournaments or individual matches available for betting
           </p>
         </div>
       </div>
@@ -249,7 +249,7 @@ const RoomConfiguration: React.FC<RoomConfigurationProps> = ({ roomId }) => {
         <div className="flex items-center justify-between mb-4">
           <h3 className="text-xl font-bold flex items-center gap-2">
             <GiSoccerBall className="text-green-500" />
-            Ligas/Torneos Habilitados
+            Enabled Leagues & Tournaments
           </h3>
           <button
             onClick={() => {
@@ -259,13 +259,13 @@ const RoomConfiguration: React.FC<RoomConfigurationProps> = ({ roomId }) => {
             }}
             className="btn-primary btn-icon"
           >
-            <FiPlus /> Agregar Liga
+            <FiPlus /> Add League
           </button>
         </div>
 
         {activatedLeagues.length === 0 ? (
           <p className="text-gray-400 text-center py-8">
-            No hay ligas configuradas. Los usuarios podrán apostar en todos los partidos disponibles.
+            No leagues configured. Users can bet on all available matches.
           </p>
         ) : (
           <div className="grid grid-cols-1 md:grid-cols-2 gap-3">
@@ -302,7 +302,7 @@ const RoomConfiguration: React.FC<RoomConfigurationProps> = ({ roomId }) => {
         <div className="flex items-center justify-between mb-4">
           <h3 className="text-xl font-bold flex items-center gap-2">
             <FiCheck className="text-blue-500" />
-            Partidos Individuales Habilitados
+            Individual Matches Enabled
           </h3>
           <button
             onClick={() => {
@@ -312,13 +312,13 @@ const RoomConfiguration: React.FC<RoomConfigurationProps> = ({ roomId }) => {
             }}
             className="btn-info btn-icon"
           >
-            <FiPlus /> Agregar Partido
+            <FiPlus /> Add Match
           </button>
         </div>
 
         {activatedMatches.length === 0 ? (
           <p className="text-gray-400 text-center py-8">
-            No hay partidos individuales agregados manualmente
+            No individual matches added manually
           </p>
         ) : (
           <div className="space-y-3">
@@ -332,7 +332,7 @@ const RoomConfiguration: React.FC<RoomConfigurationProps> = ({ roomId }) => {
                     {partido.equipo_local} vs {partido.equipo_visitante}
                   </p>
                   <p className="text-xs text-gray-400">
-                    {partido.liga_nombre} • {new Date(partido.fecha_partido).toLocaleString('es-ES')}
+                    {partido.liga_nombre} • {new Date(partido.fecha_partido).toLocaleString('en-US')}
                   </p>
                 </div>
                 <button
@@ -352,7 +352,7 @@ const RoomConfiguration: React.FC<RoomConfigurationProps> = ({ roomId }) => {
         <div className="fixed inset-0 bg-black/70 flex items-center justify-center p-4 z-50" onClick={() => setShowLeagueModal(false)}>
           <div className="bg-[#1f2126] rounded-3xl p-6 max-w-2xl w-full max-h-[80vh] overflow-y-auto border border-white/10" onClick={(e) => e.stopPropagation()}>
             <div className="flex items-center justify-between mb-4">
-              <h3 className="text-xl font-bold">Agregar Liga/Torneo</h3>
+              <h3 className="text-xl font-bold">Add League / Tournament</h3>
               <button onClick={() => setShowLeagueModal(false)} className="btn-secondary btn-icon">
                 <FiX />
               </button>
@@ -360,7 +360,7 @@ const RoomConfiguration: React.FC<RoomConfigurationProps> = ({ roomId }) => {
 
             <input
               type="text"
-              placeholder="Buscar liga..."
+              placeholder="Search league..."
               value={searchTerm}
               onChange={(e) => setSearchTerm(e.target.value)}
               className="w-full bg-white/10 border border-white/20 rounded-xl px-4 py-3 mb-4 focus:outline-none focus:ring-2 focus:ring-green-500"
@@ -396,7 +396,7 @@ const RoomConfiguration: React.FC<RoomConfigurationProps> = ({ roomId }) => {
               ))}
 
               {filteredLeagues.length === 0 && (
-                <p className="text-center text-gray-400 py-8">No hay ligas disponibles</p>
+                <p className="text-center text-gray-400 py-8">No leagues available</p>
               )}
             </div>
           </div>
@@ -408,7 +408,7 @@ const RoomConfiguration: React.FC<RoomConfigurationProps> = ({ roomId }) => {
         <div className="fixed inset-0 bg-black/70 flex items-center justify-center p-4 z-50" onClick={() => setShowMatchModal(false)}>
           <div className="bg-[#1f2126] rounded-3xl p-6 max-w-2xl w-full max-h-[80vh] overflow-y-auto border border-white/10" onClick={(e) => e.stopPropagation()}>
             <div className="flex items-center justify-between mb-4">
-              <h3 className="text-xl font-bold">Agregar Partido Individual</h3>
+              <h3 className="text-xl font-bold">Add Individual Match</h3>
               <button onClick={() => setShowMatchModal(false)} className="btn-secondary btn-icon">
                 <FiX />
               </button>
@@ -416,7 +416,7 @@ const RoomConfiguration: React.FC<RoomConfigurationProps> = ({ roomId }) => {
 
             <input
               type="text"
-              placeholder="Buscar partido..."
+              placeholder="Search match..."
               value={searchTerm}
               onChange={(e) => setSearchTerm(e.target.value)}
               className="w-full bg-white/10 border border-white/20 rounded-xl px-4 py-3 mb-4 focus:outline-none focus:ring-2 focus:ring-green-500"
@@ -433,7 +433,7 @@ const RoomConfiguration: React.FC<RoomConfigurationProps> = ({ roomId }) => {
                       {partido.equipo_local_nombre} vs {partido.equipo_visitante_nombre}
                     </p>
                     <p className="text-xs text-gray-400">
-                      {partido.liga_nombre} • {new Date(partido.fecha).toLocaleString('es-ES')}
+                      {partido.liga_nombre} • {new Date(partido.fecha).toLocaleString('en-US')}
                     </p>
                   </div>
                   <button
@@ -449,7 +449,7 @@ const RoomConfiguration: React.FC<RoomConfigurationProps> = ({ roomId }) => {
               ))}
 
               {filteredMatches.length === 0 && (
-                <p className="text-center text-gray-400 py-8">No hay partidos disponibles</p>
+                <p className="text-center text-gray-400 py-8">No matches available</p>
               )}
             </div>
           </div>
@@ -460,3 +460,4 @@ const RoomConfiguration: React.FC<RoomConfigurationProps> = ({ roomId }) => {
 };
 
 export default RoomConfiguration;
+                                                                                                              

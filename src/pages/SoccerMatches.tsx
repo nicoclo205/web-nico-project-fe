@@ -83,7 +83,7 @@ const SoccerMatches: React.FC = () => {
 	const [showMatchModal, setShowMatchModal] = useState(false);
 	const [showStatsModal, setShowStatsModal] = useState(false);
 
-	const userName = user?.nombre_usuario || user?.username || "Usuario";
+	const userName = user?.nombre_usuario || user?.username || "User";
 
 	useEffect(() => {
 		const fetchUserAvatar = async () => {
@@ -149,11 +149,11 @@ const SoccerMatches: React.FC = () => {
 
 				setLeagues(uniqueLeagues);
 			} else {
-				setError(response.error || 'Error al cargar las ligas');
+				setError(response.error || 'Failed to load leagues');
 				console.error('Error fetching leagues:', response.error);
 			}
 		} catch (err: any) {
-			setError(err.message || 'Error al cargar las ligas');
+			setError(err.message || 'Failed to load leagues');
 			console.error('Error fetching leagues:', err);
 		} finally {
 			setLoading(false);
@@ -191,12 +191,12 @@ const SoccerMatches: React.FC = () => {
 					id_partido: backendMatch.id_partido,
 					equipo_local: {
 						id_equipo: backendMatch.equipo_local,
-						nombre: backendMatch.equipo_local_nombre || 'Equipo Local',
+						nombre: backendMatch.equipo_local_nombre || 'Home Team',
 						logo: backendMatch.equipo_local_logo
 					},
 					equipo_visitante: {
 						id_equipo: backendMatch.equipo_visitante,
-						nombre: backendMatch.equipo_visitante_nombre || 'Equipo Visitante',
+						nombre: backendMatch.equipo_visitante_nombre || 'Away Team',
 						logo: backendMatch.equipo_visitante_logo
 					},
 					goles_local: backendMatch.goles_local ?? undefined,
@@ -221,12 +221,12 @@ const SoccerMatches: React.FC = () => {
 
 				setMatches(transformedMatches);
 			} else {
-				setError(response.error || 'Error al cargar los partidos');
+				setError(response.error || 'Failed to load matches');
 				console.error('Error fetching matches:', response.error);
 				setMatches([]);
 			}
 		} catch (err: any) {
-			setError(err.message || 'Error al cargar los partidos');
+			setError(err.message || 'Failed to load matches');
 			console.error('Error fetching matches:', err);
 			setMatches([]);
 		} finally {
@@ -350,8 +350,8 @@ const SoccerMatches: React.FC = () => {
 					<div>
 						<h1 className="text-lg md:text-2xl lg:text-3xl font-bold tracking-tight text-white flex items-center gap-2 md:gap-3">
 							<span className="text-3xl md:text-4xl">⚽</span>
-							<span className="hidden sm:inline">Partidos de Fútbol</span>
-							<span className="sm:hidden">Fútbol</span>
+							<span className="hidden sm:inline">Soccer Matches</span>
+							<span className="sm:hidden">Soccer</span>
 						</h1>
 					</div>
 					<div className="flex items-center space-x-2 md:space-x-4">
@@ -376,8 +376,8 @@ const SoccerMatches: React.FC = () => {
 							onClick={handleLogout}
 							className="btn-danger text-xs md:text-sm px-3 md:px-4"
 						>
-							<span className="hidden sm:inline">Cerrar sesión</span>
-							<span className="sm:hidden">Salir</span>
+							<span className="hidden sm:inline">Log Out</span>
+							<span className="sm:hidden">Out</span>
 						</button>
 					</div>
 				</header>
@@ -397,7 +397,7 @@ const SoccerMatches: React.FC = () => {
 
 				{/* League Selector */}
 				<div className="mb-6">
-					<h2 className="text-base md:text-lg font-semibold mb-4">Selecciona una Liga</h2>
+					<h2 className="text-base md:text-lg font-semibold mb-4">Select a League</h2>
 					<div className="flex gap-3 overflow-x-auto pb-2">
 						<button
 							onClick={() => setSelectedLeague('all')}
@@ -408,7 +408,7 @@ const SoccerMatches: React.FC = () => {
 							}`}
 						>
 							<span className="text-2xl md:text-3xl mb-1">🌍</span>
-							<span className="text-xs md:text-sm font-normal text-center">Todas</span>
+							<span className="text-xs md:text-sm font-normal text-center">All</span>
 						</button>
 
 						{leagues.map((league) => (
@@ -450,7 +450,7 @@ const SoccerMatches: React.FC = () => {
 						onClick={() => setActiveTab('upcoming')}
 						className={activeTab === 'upcoming' ? 'flex-1 btn-tab-active' : 'flex-1 btn-tab-inactive'}
 					>
-						Próximos
+						Upcoming
 					</button>
 					<button
 						onClick={() => setActiveTab('finished')}
@@ -466,7 +466,7 @@ const SoccerMatches: React.FC = () => {
 						<FiSearch className="text-gray-400 mr-2 md:mr-3" />
 						<input
 							type="text"
-							placeholder="Buscar equipos..."
+							placeholder="Search teams..."
 							value={searchTerm}
 							onChange={(e) => setSearchTerm(e.target.value)}
 							className="bg-transparent outline-none w-full text-sm md:text-base"
@@ -476,7 +476,7 @@ const SoccerMatches: React.FC = () => {
 						onClick={() => setShowFilters(!showFilters)}
 						className={`btn-icon ${showFilters ? 'btn-primary' : 'btn-secondary'}`}
 					>
-						<FiFilter /> Filtros
+						<FiFilter /> Filters
 					</button>
 				</div>
 
@@ -486,34 +486,34 @@ const SoccerMatches: React.FC = () => {
 						<div className="grid grid-cols-1 md:grid-cols-2 gap-4">
 							{/* Filter by Estado */}
 							<div>
-								<label className="block text-sm font-medium text-gray-300 mb-2">Estado del Partido</label>
+								<label className="block text-sm font-medium text-gray-300 mb-2">Match Status</label>
 								<select
 									value={filterEstado}
 									onChange={(e) => setFilterEstado(e.target.value)}
 									className="w-full bg-white/10 border border-white/20 rounded-lg px-3 py-2 text-sm focus:outline-none focus:ring-2 focus:ring-green-500"
 								>
-									<option value="all" className=' bg-slate-800'>Todos</option>
-									<option value="programado" className=' bg-slate-800'>Programados</option>
-									<option value="en curso" className='  bg-slate-800'>En Curso</option>
-									<option value="finalizado" className='  bg-slate-800'>Finalizados</option>
-									<option value="pospuesto" className='  bg-slate-800'>Pospuestos</option>
-									<option value="suspendido" className='  bg-slate-800'>Suspendidos</option>
-									<option value="cancelado" className='  bg-slate-800'>Cancelados</option>
+									<option value="all" className=' bg-slate-800'>All</option>
+									<option value="programado" className=' bg-slate-800'>Scheduled</option>
+									<option value="en curso" className='  bg-slate-800'>Live</option>
+									<option value="finalizado" className='  bg-slate-800'>Finished</option>
+									<option value="pospuesto" className='  bg-slate-800'>Postponed</option>
+									<option value="suspendido" className='  bg-slate-800'>Suspended</option>
+									<option value="cancelado" className='  bg-slate-800'>Cancelled</option>
 								</select>
 							</div>
 
 							{/* Filter by Fecha */}
 							<div>
-								<label className="block text-sm font-medium text-gray-300 mb-2">Período</label>
+								<label className="block text-sm font-medium text-gray-300 mb-2">Period</label>
 								<select
 									value={filterFecha}
 									onChange={(e) => setFilterFecha(e.target.value)}
 									className="w-full bg-white/10 border border-white/20 rounded-lg px-3 py-2 text-sm focus:outline-none focus:ring-2 focus:ring-green-500"
 								>
-									<option value="all" className='  bg-slate-800'>Todas las fechas</option>
-									<option value="today" className='  bg-slate-800'>Hoy</option>
-									<option value="week" className='  bg-slate-800'>Esta semana</option>
-									<option value="month" className='  bg-slate-800'>Este mes</option>
+									<option value="all" className='  bg-slate-800'>All dates</option>
+									<option value="today" className='  bg-slate-800'>Today</option>
+									<option value="week" className='  bg-slate-800'>This week</option>
+									<option value="month" className='  bg-slate-800'>This month</option>
 								</select>
 							</div>
 						</div>
@@ -527,7 +527,7 @@ const SoccerMatches: React.FC = () => {
 								}}
 								className="btn-secondary"
 							>
-								Limpiar filtros
+								Clear filters
 							</button>
 						</div>
 					</div>
@@ -545,7 +545,7 @@ const SoccerMatches: React.FC = () => {
 								<div className="text-center py-12 bg-gradient-to-br from-[#1f2126] to-[#141518] rounded-3xl border border-white/5">
 									<span className="text-6xl mb-4 block">🔍</span>
 									<p className="text-gray-400 text-lg">
-										{activeTab === 'upcoming' ? 'No hay partidos próximos' : 'No hay partidos finalizados'}
+										{activeTab === 'upcoming' ? 'No upcoming matches' : 'No finished matches'}
 									</p>
 								</div>
 							) : (
@@ -577,11 +577,11 @@ const SoccerMatches: React.FC = () => {
 											match.estado === 'pospuesto' ? 'bg-yellow-500' :
 											match.estado === 'suspendido' ? 'bg-orange-500' : 'bg-red-700'
 										}`}>
-											{match.estado === 'programado' ? 'Programado' :
-											 match.estado === 'en curso' ? 'En vivo' :
-											 match.estado === 'finalizado' ? 'Finalizado' :
-											 match.estado === 'pospuesto' ? 'Pospuesto' :
-											 match.estado === 'suspendido' ? 'Suspendido' : 'Cancelado'}
+											{match.estado === 'programado' ? 'Scheduled' :
+											 match.estado === 'en curso' ? 'Live' :
+											 match.estado === 'finalizado' ? 'Finished' :
+											 match.estado === 'pospuesto' ? 'Postponed' :
+											 match.estado === 'suspendido' ? 'Suspended' : 'Cancelled'}
 										</span>
 									</div>
 
@@ -624,7 +624,7 @@ const SoccerMatches: React.FC = () => {
 														<span>{match.goles_visitante ?? 0}</span>
 													</div>
 													<div className="text-xs text-gray-500">
-														{new Date(match.fecha).toLocaleDateString('es-ES', {
+														{new Date(match.fecha).toLocaleDateString('en-US', {
 															day: '2-digit',
 															month: 'short',
 															year: 'numeric'
@@ -634,13 +634,13 @@ const SoccerMatches: React.FC = () => {
 											) : (
 												<div className="text-gray-400">
 													<div className="text-base md:text-lg font-medium">
-														{new Date(match.fecha).toLocaleTimeString('es-ES', {
+														{new Date(match.fecha).toLocaleTimeString('en-US', {
 															hour: '2-digit',
 															minute: '2-digit',
 														})}
 													</div>
 													<div className="text-xs text-gray-500">
-														{new Date(match.fecha).toLocaleDateString('es-ES', {
+														{new Date(match.fecha).toLocaleDateString('en-US', {
 															day: '2-digit',
 															month: 'short',
 															year: 'numeric'
@@ -697,7 +697,7 @@ const SoccerMatches: React.FC = () => {
 								onClick={() => setDisplayCount(prev => prev + 10)}
 								className="btn-primary btn-icon px-6 py-3"
 							>
-								Ver más partidos
+								Load more matches
 								<svg xmlns="http://www.w3.org/2000/svg" className="h-5 w-5" viewBox="0 0 20 20" fill="currentColor">
 									<path fillRule="evenodd" d="M5.293 7.293a1 1 0 011.414 0L10 10.586l3.293-3.293a1 1 0 111.414 1.414l-4 4a1 1 0 01-1.414 0l-4-4a1 1 0 010-1.414z" clipRule="evenodd" />
 								</svg>
@@ -713,10 +713,10 @@ const SoccerMatches: React.FC = () => {
 
 				{/* Statistics Card */}
 				<div className="bg-[#181b21] rounded-xl md:rounded-2xl p-4 md:p-6 border border-white/5 shadow-sm">
-					<h3 className="text-base md:text-lg font-bold text-white mb-3 md:mb-4">Estadísticas</h3>
+					<h3 className="text-base md:text-lg font-bold text-white mb-3 md:mb-4">Statistics</h3>
 					<div className="space-y-2 md:space-y-3">
 						<div className="flex items-center justify-between p-2.5 md:p-3 rounded-lg bg-[#0f1115] border border-white/5">
-							<span className="text-xs md:text-sm font-medium text-gray-400">Partidos Hoy</span>
+							<span className="text-xs md:text-sm font-medium text-gray-400">Matches Today</span>
 							<span className="text-base md:text-lg font-bold text-green-500">
 								{filteredMatches.filter(m => {
 									const today = new Date().toDateString();
@@ -725,13 +725,13 @@ const SoccerMatches: React.FC = () => {
 							</span>
 						</div>
 						<div className="flex items-center justify-between p-2.5 md:p-3 rounded-lg bg-[#0f1115] border border-white/5">
-							<span className="text-xs md:text-sm font-medium text-gray-400">Próximos Partidos</span>
+							<span className="text-xs md:text-sm font-medium text-gray-400">Upcoming Matches</span>
 							<span className="text-base md:text-lg font-bold text-blue-500">
 								{matches.filter(m => m.estado === 'programado').length}
 							</span>
 						</div>
 						<div className="flex items-center justify-between p-2.5 md:p-3 rounded-lg bg-[#0f1115] border border-white/5">
-							<span className="text-xs md:text-sm font-medium text-gray-400">En Vivo</span>
+							<span className="text-xs md:text-sm font-medium text-gray-400">Live</span>
 							<span className="text-base md:text-lg font-bold text-red-600 animate-pulse">
 								{matches.filter(m => m.estado === 'en curso').length}
 							</span>
@@ -742,22 +742,22 @@ const SoccerMatches: React.FC = () => {
 				{/* Quick Links Card */}
 				<div className="bg-gradient-to-br from-[#181b21] to-[#0f1115] rounded-xl md:rounded-2xl p-4 md:p-6 border border-white/5 relative overflow-hidden flex-1 min-h-[200px] md:min-h-[250px] flex flex-col justify-center">
 					<div className="absolute -top-10 -right-10 w-32 h-32 bg-green-500 opacity-10 blur-3xl rounded-full"></div>
-					<h3 className="text-base md:text-lg font-bold text-white mb-2 relative z-10">Accesos Rápidos</h3>
+					<h3 className="text-base md:text-lg font-bold text-white mb-2 relative z-10">Quick Links</h3>
 					<p className="text-xs md:text-sm text-gray-400 relative z-10 leading-relaxed mb-4 md:mb-6">
-						Navega rápidamente a otras secciones de la aplicación.
+						Quickly navigate to other sections of the app.
 					</p>
 					<div className="space-y-2 relative z-10">
 						<button
 							onClick={() => navigate('/homepage')}
 							className="w-full text-left px-3 md:px-4 py-2.5 md:py-3 bg-white/5 hover:bg-white/10 rounded-lg md:rounded-xl transition border border-white/5"
 						>
-							<span className="text-xs md:text-sm">🏠 Inicio</span>
+							<span className="text-xs md:text-sm">🏠 Home</span>
 						</button>
 						<button
 							onClick={() => navigate('/rooms')}
 							className="w-full text-left px-3 md:px-4 py-2.5 md:py-3 bg-white/5 hover:bg-white/10 rounded-lg md:rounded-xl transition border border-white/5"
 						>
-							<span className="text-xs md:text-sm">🎮 Salas</span>
+							<span className="text-xs md:text-sm">🎮 Rooms</span>
 						</button>
 					</div>
 					</div>
@@ -774,7 +774,7 @@ const SoccerMatches: React.FC = () => {
 						{/* Header */}
 						<div className="flex items-center justify-between mb-6">
 							<h2 className="text-2xl md:text-3xl font-bold bg-gradient-to-r from-green-400 to-blue-500 bg-clip-text text-transparent">
-								Información del Partido
+								Match Details
 							</h2>
 							<button onClick={() => setShowMatchModal(false)} className="text-gray-400 hover:text-white transition-colors">
 								<svg className="w-6 h-6" fill="none" stroke="currentColor" viewBox="0 0 24 24">
@@ -796,11 +796,11 @@ const SoccerMatches: React.FC = () => {
 								selectedMatch.estado === 'pospuesto' ? 'bg-yellow-500' :
 								selectedMatch.estado === 'suspendido' ? 'bg-orange-500' : 'bg-red-700'
 							}`}>
-								{selectedMatch.estado === 'programado' ? 'Programado' :
-								 selectedMatch.estado === 'en curso' ? 'En vivo' :
-								 selectedMatch.estado === 'finalizado' ? 'Finalizado' :
-								 selectedMatch.estado === 'pospuesto' ? 'Pospuesto' :
-								 selectedMatch.estado === 'suspendido' ? 'Suspendido' : 'Cancelado'}
+								{selectedMatch.estado === 'programado' ? 'Scheduled' :
+								 selectedMatch.estado === 'en curso' ? 'Live' :
+								 selectedMatch.estado === 'finalizado' ? 'Finished' :
+								 selectedMatch.estado === 'pospuesto' ? 'Postponed' :
+								 selectedMatch.estado === 'suspendido' ? 'Suspended' : 'Cancelled'}
 							</span>
 						</div>
 
@@ -828,7 +828,7 @@ const SoccerMatches: React.FC = () => {
 									) : (
 										<div className="text-gray-400">
 											<div className="text-2xl md:text-3xl font-bold">
-												{new Date(selectedMatch.fecha).toLocaleTimeString('es-ES', {
+												{new Date(selectedMatch.fecha).toLocaleTimeString('en-US', {
 													hour: '2-digit',
 													minute: '2-digit',
 												})}
@@ -853,14 +853,14 @@ const SoccerMatches: React.FC = () => {
 						<div className="space-y-3 mb-6">
 							{/* Date & Time */}
 							<div className="flex items-center justify-between p-4 bg-white/5 rounded-xl">
-								<span className="text-gray-400 text-sm">📅 Fecha y Hora</span>
+								<span className="text-gray-400 text-sm">📅 Date & Time</span>
 								<span className="font-semibold">
-									{new Date(selectedMatch.fecha).toLocaleDateString('es-ES', {
+									{new Date(selectedMatch.fecha).toLocaleDateString('en-US', {
 										weekday: 'long',
 										day: '2-digit',
 										month: 'long',
 										year: 'numeric'
-									})} - {new Date(selectedMatch.fecha).toLocaleTimeString('es-ES', {
+									})} - {new Date(selectedMatch.fecha).toLocaleTimeString('en-US', {
 										hour: '2-digit',
 										minute: '2-digit',
 									})}
@@ -869,7 +869,7 @@ const SoccerMatches: React.FC = () => {
 
 							{/* Stadium */}
 							<div className="flex items-center justify-between p-4 bg-white/5 rounded-xl">
-								<span className="text-gray-400 text-sm">🏟️ Estadio</span>
+								<span className="text-gray-400 text-sm">🏟️ Venue</span>
 								<span className="font-semibold text-right">
 									{selectedMatch.venue_nombre ? (
 										<>
@@ -877,7 +877,7 @@ const SoccerMatches: React.FC = () => {
 											{selectedMatch.venue_ciudad && `, ${selectedMatch.venue_ciudad}`}
 										</>
 									) : (
-										<span className="text-gray-500">No disponible</span>
+										<span className="text-gray-500">Not available</span>
 									)}
 								</span>
 							</div>

@@ -7,7 +7,7 @@
 export const errorToString = (error: any): string => {
   // Si no hay respuesta, probablemente sea un error de red
   if (!error.response) {
-    return 'Error de conexión. Verifica tu internet e intenta nuevamente.';
+    return 'Connection error. Check your internet and try again.';
   }
 
   console.log("Error response data:", error.response.data);
@@ -59,10 +59,10 @@ export const errorToString = (error: any): string => {
     }
     
     // Mensaje con código de estado HTTP
-    return `Error ${error.response.status}: No se pudo completar la operación`;
+    return `Error ${error.response.status}: Could not complete the operation`;
   } catch (conversionError) {
     // Si ocurre algún error al procesar el error
     console.error('Error al procesar el mensaje de error:', conversionError);
-    return "Ocurrió un error inesperado. Intente nuevamente.";
+    return "An unexpected error occurred. Please try again.";
   }
 };

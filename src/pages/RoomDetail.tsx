@@ -40,7 +40,7 @@ const RoomDetail: React.FC = () => {
 	const [activeTab, setActiveTab] = useState<TabType>('info');
 	const [userAvatar, setUserAvatar] = useState<string | null>(null);
 
-	const userName = user?.nombre_usuario || user?.username || "Usuario";
+	const userName = user?.nombre_usuario || user?.username || "User";
 	const currentUserId = user?.id_usuario || user?.id;
 	const [roomId, setRoomId] = useState<number | null>(null);
 	const [localError, setLocalError] = useState<string | null>(null);
@@ -77,7 +77,7 @@ const RoomDetail: React.FC = () => {
 				setRoomId(id);
 				setLocalError(null);
 			} else {
-				setLocalError('Código de sala inválido');
+				setLocalError('Invalid room code');
 			}
 		}
 	}, [roomHash]);
@@ -102,7 +102,7 @@ const RoomDetail: React.FC = () => {
 	const handleCopyCode = () => {
 		if (selectedRoom?.codigo_sala) {
 			navigator.clipboard.writeText(selectedRoom.codigo_sala);
-			alert('Código copiado al portapapeles!');
+			alert('Code copied to clipboard!');
 		}
 	};
 
@@ -113,7 +113,7 @@ const RoomDetail: React.FC = () => {
 			setShowEditModal(false);
 			loadRoomData();
 		} else {
-			alert(result.error || 'Error al actualizar la sala');
+			alert(result.error || 'Failed to update the room');
 		}
 	};
 
@@ -133,7 +133,7 @@ const RoomDetail: React.FC = () => {
 				<span className="text-6xl mb-4">⚠️</span>
 				<h1 className="text-2xl font-bold mb-4">{displayError}</h1>
 				<button onClick={() => navigate('/rooms')} className="btn-primary">
-					Volver a Salas
+					Back to Rooms
 				</button>
 			</div>
 		);
@@ -142,9 +142,9 @@ const RoomDetail: React.FC = () => {
 	if (!selectedRoom) {
 		return (
 			<div className="flex flex-col items-center justify-center h-screen bg-[#0e0f11] text-white">
-				<h1 className="text-2xl font-bold mb-4">Sala no encontrada</h1>
+				<h1 className="text-2xl font-bold mb-4">Room not found</h1>
 				<button onClick={() => navigate('/rooms')} className="btn-primary">
-					Volver a Salas
+					Back to Rooms
 				</button>
 			</div>
 		);
@@ -244,7 +244,7 @@ const RoomDetail: React.FC = () => {
 						className={activeTab === 'info' ? 'flex-1 min-w-[100px] flex items-center justify-center gap-2 btn-tab-active' : 'flex-1 min-w-[100px] flex items-center justify-center gap-2 btn-tab-inactive'}
 					>
 						<FiUsers className="text-lg" />
-						<span className="hidden sm:inline">Información</span>
+						<span className="hidden sm:inline">Info</span>
 						<span className="sm:hidden">Info</span>
 					</button>
 					<button
@@ -252,7 +252,7 @@ const RoomDetail: React.FC = () => {
 						className={activeTab === 'bets' ? 'flex-1 min-w-[100px] flex items-center justify-center gap-2 btn-tab-active' : 'flex-1 min-w-[100px] flex items-center justify-center gap-2 btn-tab-inactive'}
 					>
 						<FiTarget className="text-lg" />
-						Apuestas
+						Bets
 					</button>
 					<button
 						onClick={() => setActiveTab('ranking')}
@@ -266,7 +266,7 @@ const RoomDetail: React.FC = () => {
 						className={activeTab === 'predictions' ? 'flex-1 min-w-[100px] flex items-center justify-center gap-2 btn-tab-active' : 'flex-1 min-w-[100px] flex items-center justify-center gap-2 btn-tab-inactive'}
 					>
 						<FiUsers className="text-lg" />
-						<span className="hidden sm:inline">Predicciones</span>
+						<span className="hidden sm:inline">Predictions</span>
 						<span className="sm:hidden">Pred.</span>
 					</button>
 					<button
@@ -282,7 +282,7 @@ const RoomDetail: React.FC = () => {
 							className={activeTab === 'config' ? 'flex-1 min-w-[100px] flex items-center justify-center gap-2 btn-tab-active' : 'flex-1 min-w-[100px] flex items-center justify-center gap-2 btn-tab-inactive'}
 						>
 							<FiSettings className="text-lg" />
-							<span className="hidden sm:inline">Configuración</span>
+							<span className="hidden sm:inline">Settings</span>
 							<span className="sm:hidden">Config</span>
 						</button>
 					)}
@@ -331,11 +331,11 @@ const RoomDetail: React.FC = () => {
 			{showEditModal && (
 				<div className="fixed inset-0 bg-black/70 flex items-center justify-center p-4 z-50" onClick={() => setShowEditModal(false)}>
 					<div className="bg-[#1f2126] rounded-3xl p-6 md:p-8 max-w-md w-full border border-white/10" onClick={(e) => e.stopPropagation()}>
-						<h2 className="text-2xl font-bold mb-6">Editar Sala</h2>
+						<h2 className="text-2xl font-bold mb-6">Edit Room</h2>
 
 						<div className="space-y-4">
 							<div>
-								<label className="block text-sm font-medium text-gray-300 mb-2">Nombre de la Sala *</label>
+								<label className="block text-sm font-medium text-gray-300 mb-2">Room Name *</label>
 								<input
 									type="text"
 									value={editForm.nombre}
@@ -345,7 +345,7 @@ const RoomDetail: React.FC = () => {
 							</div>
 
 							<div>
-								<label className="block text-sm font-medium text-gray-300 mb-2">Descripción</label>
+								<label className="block text-sm font-medium text-gray-300 mb-2">Description</label>
 								<textarea
 									value={editForm.descripcion}
 									onChange={(e) => setEditForm({ ...editForm, descripcion: e.target.value })}
@@ -355,7 +355,7 @@ const RoomDetail: React.FC = () => {
 							</div>
 
 							<div>
-								<label className="block text-sm font-medium text-gray-300 mb-2">Máximo de Miembros</label>
+								<label className="block text-sm font-medium text-gray-300 mb-2">Max Members</label>
 								<input
 									type="number"
 									min="2"
@@ -372,13 +372,13 @@ const RoomDetail: React.FC = () => {
 								onClick={() => setShowEditModal(false)}
 								className="btn-secondary flex-1"
 							>
-								Cancelar
+								Cancel
 							</button>
 							<button
 								onClick={handleEditRoom}
 								className="btn-primary flex-1"
 							>
-								Guardar Cambios
+								Save Changes
 							</button>
 						</div>
 					</div>
@@ -389,3 +389,4 @@ const RoomDetail: React.FC = () => {
 };
 
 export default RoomDetail;
+                                       

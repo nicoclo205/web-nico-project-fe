@@ -37,7 +37,7 @@ const RoomBets: React.FC<RoomBetsProps> = ({ roomId }) => {
         const distance = matchTime - now;
 
         if (distance < 0) {
-          newCountdowns[match.id_partido] = 'Cerrado';
+          newCountdowns[match.id_partido] = 'Closed';
         } else {
           const days = Math.floor(distance / (1000 * 60 * 60 * 24));
           const hours = Math.floor((distance % (1000 * 60 * 60 * 24)) / (1000 * 60 * 60));
@@ -99,16 +99,16 @@ const RoomBets: React.FC<RoomBetsProps> = ({ roomId }) => {
       setShowBetModal(false);
       fetchUserBets(roomId);
       fetchUpcomingMatches(roomId);
-      alert(editingBet ? '¡Apuesta actualizada exitosamente!' : '¡Apuesta creada exitosamente!');
+      alert(editingBet ? 'Bet updated successfully!' : 'Bet placed successfully!');
     } else {
-      setBetError(result.error || 'Error al procesar la apuesta');
+      setBetError(result.error || 'Failed to process the bet');
     }
 
     setSubmitting(false);
   };
 
   const handleDeleteBet = async (bet: Bet) => {
-    if (!window.confirm('¿Estás seguro de que quieres eliminar esta apuesta?')) {
+    if (!window.confirm('Are you sure you want to delete this bet?')) {
       return;
     }
 
@@ -117,9 +117,9 @@ const RoomBets: React.FC<RoomBetsProps> = ({ roomId }) => {
     if (result.success) {
       fetchUserBets(roomId);
       fetchUpcomingMatches(roomId);
-      alert('Apuesta eliminada exitosamente');
+      alert('Bet deleted successfully');
     } else {
-      alert(result.error || 'Error al eliminar la apuesta');
+      alert(result.error || 'Failed to delete the bet');
     }
   };
 
@@ -153,13 +153,13 @@ const RoomBets: React.FC<RoomBetsProps> = ({ roomId }) => {
   const getStatusText = (estado: string) => {
     switch (estado) {
       case 'ganada':
-        return 'Ganada';
+        return 'Won';
       case 'perdida':
-        return 'Perdida';
+        return 'Lost';
       case 'pendiente':
-        return 'Pendiente';
+        return 'Pending';
       case 'cancelada':
-        return 'Cancelada';
+        return 'Cancelled';
       default:
         return estado;
     }
@@ -201,11 +201,11 @@ const RoomBets: React.FC<RoomBetsProps> = ({ roomId }) => {
       <div className="rounded-3xl p-6 bg-gradient-to-br from-[#1f2126] to-[#141518] shadow-xl border border-white/5">
         <h3 className="text-xl font-bold mb-4 flex items-center gap-2">
           <GiSoccerBall className="text-green-500" />
-          Partidos Disponibles para Apostar
+          Available Matches
         </h3>
 
         {upcomingMatches.length === 0 ? (
-          <p className="text-gray-400 text-center py-8">No hay partidos disponibles para apostar</p>
+          <p className="text-gray-400 text-center py-8">No matches available to bet on</p>
         ) : (
           <div className="grid grid-cols-1 md:grid-cols-2 gap-4">
             {upcomingMatches.map((match) => {
@@ -224,11 +224,11 @@ const RoomBets: React.FC<RoomBetsProps> = ({ roomId }) => {
                   <div className="flex items-center justify-between mb-3">
                     <span className="text-xs text-gray-400 flex items-center gap-1">
                       <FiCalendar className="text-xs" />
-                      {new Date(match.fecha).toLocaleDateString('es-ES')}
+                      {new Date(match.fecha).toLocaleDateString('en-US')}
                     </span>
                     <span className="text-xs text-gray-400 flex items-center gap-1">
                       <FiClock className="text-xs" />
-                      {new Date(match.fecha).toLocaleTimeString('es-ES', { hour: '2-digit', minute: '2-digit' })}
+                      {new Date(match.fecha).toLocaleTimeString('en-US', { hour: '2-digit', minute: '2-digit' })}
                     </span>
                   </div>
 
@@ -293,7 +293,7 @@ const RoomBets: React.FC<RoomBetsProps> = ({ roomId }) => {
                       bettingClosed ? 'bg-red-500/20 text-red-400' : 'bg-blue-500/20 text-blue-400'
                     }`}>
                       <FiClock />
-                      {bettingClosed ? 'Apuestas cerradas' : `Cierra en: ${countdown}`}
+                      {bettingClosed ? 'Bets closed' : `Closes in: ${countdown}`}
                     </div>
                   </div>
 
@@ -301,7 +301,7 @@ const RoomBets: React.FC<RoomBetsProps> = ({ roomId }) => {
                   {userBet && (
                     <div className="mb-3 p-3 bg-green-500/10 border border-green-500/30 rounded-lg">
                       <div className="flex items-center justify-between mb-2">
-                        <span className="text-xs text-gray-400">Tu predicción:</span>
+                        <span className="text-xs text-gray-400">Your prediction:</span>
                         <span className="text-lg font-bold text-green-400">
                           {userBet.prediccion_local} - {userBet.prediccion_visitante}
                         </span>
@@ -322,14 +322,14 @@ const RoomBets: React.FC<RoomBetsProps> = ({ roomId }) => {
                                 className="btn-info btn-sm flex items-center gap-1"
                               >
                                 <FiEdit2 className="text-xs" />
-                                Editar
+                                Edit
                               </button>
                               <button
                                 onClick={() => handleDeleteBet(userBet)}
                                 className="btn-danger btn-sm flex items-center gap-1"
                               >
                                 <FiTrash2 className="text-xs" />
-                                Eliminar
+                                Delete
                               </button>
                             </>
                           )}
@@ -340,7 +340,7 @@ const RoomBets: React.FC<RoomBetsProps> = ({ roomId }) => {
                           disabled={bettingClosed}
                           className={`btn-sm ${bettingClosed ? 'btn-secondary opacity-50 cursor-not-allowed' : 'btn-primary'}`}
                         >
-                          Apostar
+                          Place Bet
                         </button>
                       )}
                     </div>
@@ -357,7 +357,7 @@ const RoomBets: React.FC<RoomBetsProps> = ({ roomId }) => {
         <div className="rounded-3xl p-6 bg-gradient-to-br from-[#1f2126] to-[#141518] shadow-xl border border-white/5">
           <h3 className="text-xl font-bold mb-4 flex items-center gap-2">
             <FiTrendingUp className="text-blue-500" />
-            Historial de Apuestas
+            Bet History
           </h3>
 
           <div className="space-y-3">
@@ -378,7 +378,7 @@ const RoomBets: React.FC<RoomBetsProps> = ({ roomId }) => {
 
                 <div className="flex items-center justify-between">
                   <div className="flex items-center gap-3">
-                    <span className="text-gray-400 text-sm">Tu predicción:</span>
+                    <span className="text-gray-400 text-sm">Your prediction:</span>
                     <span className="text-xl font-bold text-green-400">
                       {bet.prediccion_local} - {bet.prediccion_visitante}
                     </span>
@@ -386,7 +386,7 @@ const RoomBets: React.FC<RoomBetsProps> = ({ roomId }) => {
 
                   {bet.estado !== 'pendiente' && (
                     <div className="flex items-center gap-2">
-                      <span className="text-gray-400 text-sm">Puntos:</span>
+                      <span className="text-gray-400 text-sm">Points:</span>
                       <span className={`text-xl font-bold ${bet.puntos_ganados > 0 ? 'text-green-400' : 'text-gray-500'}`}>
                         {bet.puntos_ganados > 0 ? `+${bet.puntos_ganados}` : bet.puntos_ganados}
                       </span>
@@ -395,7 +395,7 @@ const RoomBets: React.FC<RoomBetsProps> = ({ roomId }) => {
                 </div>
 
                 <div className="mt-2 text-xs text-gray-500">
-                  Apuesta realizada: {new Date(bet.fecha_apuesta).toLocaleString('es-ES')}
+                  Bet placed: {new Date(bet.fecha_apuesta).toLocaleString('en-US')}
                 </div>
               </div>
             ))}
@@ -407,7 +407,7 @@ const RoomBets: React.FC<RoomBetsProps> = ({ roomId }) => {
       {showBetModal && selectedMatch && (
         <div className="fixed inset-0 bg-black/70 flex items-center justify-center p-4 z-50" onClick={() => setShowBetModal(false)}>
           <div className="bg-[#1f2126] rounded-3xl p-6 md:p-8 max-w-md w-full border border-white/10" onClick={(e) => e.stopPropagation()}>
-            <h2 className="text-2xl font-bold mb-6">{editingBet ? 'Editar Apuesta' : 'Crear Apuesta'}</h2>
+            <h2 className="text-2xl font-bold mb-6">{editingBet ? 'Edit Bet' : 'Place a Bet'}</h2>
 
             {/* Match Info */}
             <div className="mb-6 p-4 bg-white/5 rounded-xl border border-white/10">
@@ -465,7 +465,7 @@ const RoomBets: React.FC<RoomBetsProps> = ({ roomId }) => {
                 </div>
               </div>
               <div className="text-center text-xs text-gray-400">
-                {new Date(selectedMatch.fecha).toLocaleString('es-ES')}
+                {new Date(selectedMatch.fecha).toLocaleString('en-US')}
               </div>
             </div>
 
@@ -478,7 +478,7 @@ const RoomBets: React.FC<RoomBetsProps> = ({ roomId }) => {
 
             {/* Score Prediction */}
             <div className="mb-6">
-              <label className="block text-sm font-medium text-gray-300 mb-3">Predicción de Marcador</label>
+              <label className="block text-sm font-medium text-gray-300 mb-3">Score Prediction</label>
               <div className="flex items-center justify-center gap-4">
                 <div className="flex-1">
                   <label className="block text-xs text-gray-400 mb-2 text-center">{selectedMatch.equipo_local_nombre}</label>
@@ -515,14 +515,14 @@ const RoomBets: React.FC<RoomBetsProps> = ({ roomId }) => {
                 disabled={submitting}
                 className="btn-secondary flex-1"
               >
-                Cancelar
+                Cancel
               </button>
               <button
                 onClick={handleSubmitBet}
                 disabled={submitting}
                 className="btn-primary flex-1"
               >
-                {submitting ? 'Procesando...' : editingBet ? 'Actualizar Apuesta' : 'Crear Apuesta'}
+                {submitting ? 'Processing...' : editingBet ? 'Update Bet' : 'Place Bet'}
               </button>
             </div>
           </div>
@@ -533,3 +533,4 @@ const RoomBets: React.FC<RoomBetsProps> = ({ roomId }) => {
 };
 
 export default RoomBets;
+                                                                                                                                

@@ -246,7 +246,7 @@ const Navbar: React.FC = () => {
 							className="inline-flex items-center justify-center p-2 rounded-md text-gray-400 hover:text-white hover:bg-gray-700 focus:outline-none"
 						>
 							<span className="sr-only">
-								{t('common:openMenu', 'Abrir menú')}
+								{t('common:openMenu', 'Open menu')}
 							</span>
 							{isMenuOpen ? (
 								<span className="text-2xl">✖</span>

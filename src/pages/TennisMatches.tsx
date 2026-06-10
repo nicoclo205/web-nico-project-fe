@@ -79,7 +79,7 @@ const TennisMatches: React.FC = () => {
 			setCompetitions(uniqueCompetitions as Competition[]);
 		} catch (err) {
 			console.error('Error fetching tennis matches:', err);
-			setError('Error al cargar los partidos de tenis');
+			setError('Failed to load tennis matches');
 		} finally {
 			setLoading(false);
 		}
@@ -87,10 +87,10 @@ const TennisMatches: React.FC = () => {
 
 	const getStatusBadge = (status: string) => {
 		const statusConfig = {
-			programado: { text: 'Programado', className: 'bg-blue-500' },
-			'en curso': { text: 'En Vivo', className: 'bg-red-500 animate-pulse' },
-			finalizado: { text: 'Finalizado', className: 'bg-gray-500' },
-			cancelado: { text: 'Cancelado', className: 'bg-red-700' },
+			programado: { text: 'Scheduled', className: 'bg-blue-500' },
+			'en curso': { text: 'Live', className: 'bg-red-500 animate-pulse' },
+			finalizado: { text: 'Finished', className: 'bg-gray-500' },
+			cancelado: { text: 'Cancelled', className: 'bg-red-700' },
 		};
 
 		const config =
@@ -120,7 +120,7 @@ const TennisMatches: React.FC = () => {
 	});
 
 	const groupedMatches = filteredMatches.reduce((groups: any, match) => {
-		const date = new Date(match.fecha_partido).toLocaleDateString('es-ES');
+		const date = new Date(match.fecha_partido).toLocaleDateString('en-US');
 		if (!groups[date]) {
 			groups[date] = [];
 		}
@@ -154,7 +154,7 @@ const TennisMatches: React.FC = () => {
 							onClick={fetchTennisMatches}
 							className="mt-4 px-4 py-2 bg-yellow-600 text-white rounded-lg hover:bg-yellow-700"
 						>
-							Reintentar
+							Retry
 						</button>
 					</div>
 				</div>
@@ -169,10 +169,10 @@ const TennisMatches: React.FC = () => {
 				<div className="mb-8">
 					<div className="flex items-center gap-3 mb-4">
 						<span className="text-5xl">🎾</span>
-						<h1 className="text-3xl font-bold text-white">Partidos de Tenis</h1>
+						<h1 className="text-3xl font-bold text-white">Tennis Matches</h1>
 					</div>
 					<p className="text-gray-400">
-						Consulta los próximos partidos y resultados de los principales torneos de tenis
+						Check out upcoming matches and results from the top tennis tournaments
 					</p>
 				</div>
 
@@ -188,7 +188,7 @@ const TennisMatches: React.FC = () => {
 									: 'text-gray-400 hover:text-white'
 							}`}
 						>
-							Próximos Partidos
+							Upcoming Matches
 						</button>
 						<button
 							onClick={() => setActiveTab('finished')}
@@ -198,7 +198,7 @@ const TennisMatches: React.FC = () => {
 									: 'text-gray-400 hover:text-white'
 							}`}
 						>
-							Partidos Finalizados
+							Finished Matches
 						</button>
 					</div>
 
@@ -213,7 +213,7 @@ const TennisMatches: React.FC = () => {
 										: 'bg-gray-800 text-gray-400 hover:text-white'
 								}`}
 							>
-								Todos los Torneos
+								All Tournaments
 							</button>
 							{competitions.map((comp) => (
 								<button
@@ -240,9 +240,7 @@ const TennisMatches: React.FC = () => {
 						<div className="text-center py-12 bg-gray-800 rounded-lg">
 							<span className="text-6xl mb-4 block">🔍</span>
 							<p className="text-gray-400 text-lg">
-								No hay partidos{' '}
-								{activeTab === 'upcoming' ? 'programados' : 'finalizados'} en
-								este momento
+								No {activeTab === 'upcoming' ? 'upcoming' : 'finished'} matches right now
 							</p>
 						</div>
 					) : (
@@ -295,7 +293,7 @@ const TennisMatches: React.FC = () => {
 														{/* Player 1 */}
 														<div className="flex items-center gap-3 flex-1 justify-end">
 															<span className="text-white font-medium text-lg">
-																{match.deportista_local?.nombre || match.equipo_local?.nombre || 'Por definir'}
+																{match.deportista_local?.nombre || match.equipo_local?.nombre || 'TBD'}
 															</span>
 															{(match.deportista_local?.foto || match.equipo_local?.logo) && (
 																<div className="w-12 h-12 rounded-full overflow-hidden bg-gray-700">
@@ -324,14 +322,14 @@ const TennisMatches: React.FC = () => {
 																	<div className="text-lg font-medium">
 																		{new Date(
 																			match.fecha_partido
-																		).toLocaleTimeString('es-ES', {
+																		).toLocaleTimeString('en-US', {
 																			hour: '2-digit',
 																			minute: '2-digit',
 																		})}
 																	</div>
 																	{match.estado === 'en curso' && (
 																		<span className="text-xs text-red-500">
-																			EN VIVO
+																			LIVE
 																		</span>
 																	)}
 																</div>
@@ -350,7 +348,7 @@ const TennisMatches: React.FC = () => {
 																</div>
 															)}
 															<span className="text-white font-medium text-lg">
-																{match.deportista_visitante?.nombre || match.equipo_visitante?.nombre || 'Por definir'}
+																{match.deportista_visitante?.nombre || match.equipo_visitante?.nombre || 'TBD'}
 															</span>
 														</div>
 													</div>
@@ -368,7 +366,7 @@ const TennisMatches: React.FC = () => {
 												{/* Action Button */}
 												{match.estado === 'programado' && (
 													<button className="px-4 py-2 bg-yellow-600 text-white rounded-lg hover:bg-yellow-700 transition-colors">
-														Apostar
+														Bet
 													</button>
 												)}
 											</div>
@@ -384,4 +382,4 @@ const TennisMatches: React.FC = () => {
 	);
 };
 
-export default TennisMatches;
+export default TennisMatches;                                                                                

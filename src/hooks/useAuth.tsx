@@ -67,7 +67,7 @@ export const AuthProvider = ({ children }: { children: ReactNode }) => {
 
       return { success: true };
     } catch (err: any) {
-      const errorMessage = err.message || 'Error al iniciar sesión';
+      const errorMessage = err.message || 'Failed to log in';
       setError(errorMessage);
       setMensajeErr(errorMessage);
       setErrorState(true);

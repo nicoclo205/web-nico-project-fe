@@ -63,7 +63,7 @@ const MatchStatisticsModal: React.FC<MatchStatisticsModalProps> = ({
       setStatistics(response.data);
     } else {
       console.error('Error al cargar estadísticas:', response.error);
-      setError(response.error || 'No se pudieron cargar las estadísticas');
+      setError(response.error || 'Could not load match stats');
     }
 
     setLoading(false);
@@ -161,7 +161,7 @@ const MatchStatisticsModal: React.FC<MatchStatisticsModalProps> = ({
           <div className="sticky top-0 z-10 bg-gradient-to-br from-[#1f2126] to-[#16181d] p-6 rounded-t-3xl border-b border-white/10">
             <div className="flex justify-between items-center mb-4">
               <h2 className="text-2xl md:text-3xl font-bold bg-gradient-to-r from-green-400 to-blue-500 bg-clip-text text-transparent">
-                Estadísticas del Partido
+                Match Statistics
               </h2>
               <button
                 onClick={onClose}
@@ -210,14 +210,14 @@ const MatchStatisticsModal: React.FC<MatchStatisticsModalProps> = ({
             {error && (
               <div className="bg-yellow-500/10 border border-yellow-500/30 rounded-xl p-4 text-center">
                 <p className="text-yellow-400 font-medium">{error}</p>
-                <p className="text-sm text-gray-400 mt-2">Las estadísticas aún no están disponibles para este partido</p>
+                <p className="text-sm text-gray-400 mt-2">Stats are not yet available for this match</p>
               </div>
             )}
 
             {!loading && !error && statistics.length > 0 && finalHomeStats && finalAwayStats && (
               <div className="space-y-1">
                 <StatRow
-                  label="Posesión"
+                  label="Possession"
                   homeValue={finalHomeStats.posesion}
                   awayValue={finalAwayStats.posesion}
                   isPercentage={true}
@@ -225,28 +225,28 @@ const MatchStatisticsModal: React.FC<MatchStatisticsModalProps> = ({
                 />
 
                 <StatRow
-                  label="Tiros Totales"
+                  label="Total Shots"
                   homeValue={finalHomeStats.tiros_total}
                   awayValue={finalAwayStats.tiros_total}
                   index={1}
                 />
 
                 <StatRow
-                  label="Tiros a Puerta"
+                  label="Shots on Target"
                   homeValue={finalHomeStats.tiros_a_puerta}
                   awayValue={finalAwayStats.tiros_a_puerta}
                   index={2}
                 />
 
                 <StatRow
-                  label="Tiros Fuera"
+                  label="Shots Off Target"
                   homeValue={finalHomeStats.tiros_fuera}
                   awayValue={finalAwayStats.tiros_fuera}
                   index={3}
                 />
 
                 <StatRow
-                  label="Tiros Bloqueados"
+                  label="Blocked Shots"
                   homeValue={finalHomeStats.tiros_bloqueados}
                   awayValue={finalAwayStats.tiros_bloqueados}
                   index={4}
@@ -267,14 +267,14 @@ const MatchStatisticsModal: React.FC<MatchStatisticsModalProps> = ({
                 />
 
                 <StatRow
-                  label="Faltas"
+                  label="Fouls"
                   homeValue={finalHomeStats.faltas}
                   awayValue={finalAwayStats.faltas}
                   index={7}
                 />
 
                 <StatRow
-                  label="Tarjetas Amarillas"
+                  label="Yellow Cards"
                   homeValue={finalHomeStats.tarjetas_amarillas}
                   awayValue={finalAwayStats.tarjetas_amarillas}
                   index={8}
@@ -283,7 +283,7 @@ const MatchStatisticsModal: React.FC<MatchStatisticsModalProps> = ({
                 {((finalHomeStats.tarjetas_rojas && finalHomeStats.tarjetas_rojas > 0) ||
                   (finalAwayStats.tarjetas_rojas && finalAwayStats.tarjetas_rojas > 0)) && (
                   <StatRow
-                    label="Tarjetas Rojas"
+                    label="Red Cards"
                     homeValue={finalHomeStats.tarjetas_rojas}
                     awayValue={finalAwayStats.tarjetas_rojas}
                     index={9}
@@ -294,7 +294,7 @@ const MatchStatisticsModal: React.FC<MatchStatisticsModalProps> = ({
 
             {!loading && !error && statistics.length === 0 && (
               <div className="text-center py-8 text-gray-400">
-                <p>No hay estadísticas disponibles para este partido</p>
+                <p>No stats available for this match</p>
               </div>
             )}
           </div>

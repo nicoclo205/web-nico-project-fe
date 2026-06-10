@@ -70,7 +70,7 @@ const GroupPredictions: React.FC<GroupPredictionsProps> = ({ roomId }) => {
         `${API_BASE_URL}/api/apuestas-futbol/por_sala/?sala_id=${roomId}`,
         { headers: { Authorization: `Token ${token}` } }
       );
-      if (!res.ok) throw new Error('Error al cargar predicciones');
+      if (!res.ok) throw new Error('Failed to load predictions');
       const data: Prediction[] = await res.json();
 
       // Group by match
@@ -105,7 +105,7 @@ const GroupPredictions: React.FC<GroupPredictionsProps> = ({ roomId }) => {
 
       setMatchGroups([...upcoming, ...finished]);
     } catch (err) {
-      setError('No se pudieron cargar las predicciones del grupo.');
+      setError('Could not load group predictions.');
     } finally {
       setLoading(false);
     }
@@ -117,9 +117,9 @@ const GroupPredictions: React.FC<GroupPredictionsProps> = ({ roomId }) => {
 
   const formatDate = (iso: string) => {
     const d = new Date(iso);
-    return d.toLocaleDateString('es-CO', {
+    return d.toLocaleDateString('en-US', {
       weekday: 'short', day: 'numeric', month: 'short',
-    }) + ' · ' + d.toLocaleTimeString('es-CO', { hour: '2-digit', minute: '2-digit' });
+    }) + ' · ' + d.toLocaleTimeString('en-US', { hour: '2-digit', minute: '2-digit' });
   };
 
   const getBetStyle = (estado: string) => {
@@ -131,7 +131,7 @@ const GroupPredictions: React.FC<GroupPredictionsProps> = ({ roomId }) => {
   if (loading) {
     return (
       <div className="flex items-center justify-center py-16 text-gray-400">
-        <FiRefreshCw className="animate-spin mr-2" /> Cargando predicciones...
+        <FiRefreshCw className="animate-spin mr-2" /> Loading predictions...
       </div>
     );
   }
@@ -141,7 +141,7 @@ const GroupPredictions: React.FC<GroupPredictionsProps> = ({ roomId }) => {
       <div className="flex flex-col items-center justify-center py-16 text-red-400 gap-3">
         <p>{error}</p>
         <button onClick={fetchPredictions} className="btn-primary text-sm px-4 py-2">
-          Reintentar
+          Try Again
         </button>
       </div>
     );
@@ -151,7 +151,7 @@ const GroupPredictions: React.FC<GroupPredictionsProps> = ({ roomId }) => {
     return (
       <div className="flex flex-col items-center justify-center py-16 text-gray-400 gap-2">
         <FiUsers size={40} />
-        <p>Aún no hay predicciones en este grupo.</p>
+        <p>No predictions in this group yet.</p>
       </div>
     );
   }
@@ -161,13 +161,13 @@ const GroupPredictions: React.FC<GroupPredictionsProps> = ({ roomId }) => {
       {/* Header */}
       <div className="flex items-center justify-between mb-2">
         <span className="text-sm text-gray-400">
-          {matchGroups.length} partido(s) con predicciones
+          {matchGroups.length} match{matchGroups.length !== 1 ? 'es' : ''} with predictions
         </span>
         <button
           onClick={fetchPredictions}
           className="flex items-center gap-1 text-xs text-gray-400 hover:text-white transition-colors"
         >
-          <FiRefreshCw size={13} /> Actualizar
+          <FiRefreshCw size={13} /> Refresh
         </button>
       </div>
 
@@ -184,7 +184,7 @@ const GroupPredictions: React.FC<GroupPredictionsProps> = ({ roomId }) => {
                 <div className="flex items-center gap-1">
                   {isLive && (
                     <span className="text-xs bg-red-500 text-white px-2 py-0.5 rounded-full animate-pulse">
-                      En vivo
+                      Live
                     </span>
                   )}
                   {isFinished
@@ -222,7 +222,7 @@ const GroupPredictions: React.FC<GroupPredictionsProps> = ({ roomId }) => {
             {/* Predictions list */}
             <div className="divide-y divide-white/5">
               {match.predictions.length === 0 ? (
-                <p className="text-xs text-gray-500 text-center py-3">Sin predicciones</p>
+                <p className="text-xs text-gray-500 text-center py-3">No predictions</p>
               ) : (
                 match.predictions.map((p) => (
                   <div key={p.id_apuesta} className="flex items-center justify-between px-4 py-2.5">
@@ -249,3 +249,4 @@ const GroupPredictions: React.FC<GroupPredictionsProps> = ({ roomId }) => {
 };
 
 export default GroupPredictions;
+  

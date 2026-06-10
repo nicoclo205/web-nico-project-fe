@@ -95,7 +95,7 @@ class AuthService {
       const { token } = response.data;
 
       if (!token) {
-        throw new Error('No se recibió token del servidor');
+        throw new Error('No token received from server');
       }
 
       // Fetch user data with the token
@@ -121,7 +121,7 @@ class AuthService {
         error.response?.data?.detail ||
         error.response?.data?.message ||
         error.message ||
-        'Error al iniciar sesión';
+        'Failed to log in';
 
       throw new Error(errorMessage);
     }

@@ -56,7 +56,7 @@ class ChatService {
 
     this.socket.onerror = (error) => {
       console.error('WebSocket error:', error);
-      this.callbacks.onError?.('Error de conexión');
+      this.callbacks.onError?.('Connection error');
     };
 
     this.socket.onclose = () => {

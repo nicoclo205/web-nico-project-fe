@@ -44,7 +44,7 @@ const Rooms: React.FC = () => {
 	// Join room state
 	const [joinCode, setJoinCode] = useState('');
 
-	const userName = user?.nombre_usuario || user?.username || "Usuario";
+	const userName = user?.nombre_usuario || user?.username || "User";
 	const currentUserId = user?.id_usuario || user?.id;
 
 	useEffect(() => {
@@ -125,21 +125,21 @@ const Rooms: React.FC = () => {
 
 	const handleCreateRoom = async () => {
 		if (!newRoom.nombre.trim()) {
-			alert('Por favor ingresa un nombre para la sala');
+			alert('Please enter a name for the room');
 			return;
 		}
 
 		// Validar según el modo de sala
 		if (newRoom.modo_sala === 'ligas' || newRoom.modo_sala === 'mixto') {
 			if (selectedLeagues.length === 0) {
-				alert('Por favor selecciona al menos una competición');
+				alert('Please select at least one competition');
 				return;
 			}
 		}
 
 		if (newRoom.modo_sala === 'partidos_individuales' || newRoom.modo_sala === 'mixto') {
 			if (selectedMatches.length === 0) {
-				alert('Por favor selecciona al menos un partido');
+				alert('Please select at least one match');
 				return;
 			}
 		}
@@ -180,13 +180,13 @@ const Rooms: React.FC = () => {
 			setSelectedMatches([]);
 			reload();
 		} else {
-			alert(result.error || 'Error al crear la sala');
+			alert(result.error || 'Failed to create the room');
 		}
 	};
 
 	const handleJoinRoom = async () => {
 		if (!joinCode.trim()) {
-			alert('Por favor ingresa el código de la sala');
+			alert('Please enter the room code');
 			return;
 		}
 
@@ -198,7 +198,7 @@ const Rooms: React.FC = () => {
 			setJoinCode('');
 			reload();
 		} else {
-			alert(result.error || 'Error al unirse a la sala');
+			alert(result.error || 'Failed to join the room');
 		}
 	};
 
@@ -244,8 +244,8 @@ const Rooms: React.FC = () => {
 					<div>
 						<h1 className="text-lg md:text-2xl lg:text-3xl font-bold tracking-tight text-white flex items-center gap-2 md:gap-3">
 							<span className="text-3xl md:text-4xl">🎮</span>
-							<span className="hidden sm:inline">Salas de Apuestas</span>
-							<span className="sm:hidden">Salas</span>
+							<span className="hidden sm:inline">Betting Rooms</span>
+							<span className="sm:hidden">Rooms</span>
 						</h1>
 					</div>
 					<div className="flex items-center space-x-2 md:space-x-4">
@@ -270,8 +270,8 @@ const Rooms: React.FC = () => {
 							onClick={handleLogout}
 							className="btn-danger text-xs md:text-sm px-3 md:px-4"
 						>
-							<span className="hidden sm:inline">Cerrar sesión</span>
-							<span className="sm:hidden">Salir</span>
+							<span className="hidden sm:inline">Log Out</span>
+							<span className="sm:hidden">Out</span>
 						</button>
 					</div>
 				</header>
@@ -296,14 +296,14 @@ const Rooms: React.FC = () => {
 						className="btn-primary btn-icon"
 					>
 						<FiPlus className="text-xl" />
-						<span>Crear Sala</span>
+						<span>Create Room</span>
 					</button>
 					<button
 						onClick={() => setShowJoinModal(true)}
 						className="btn-info btn-icon"
 					>
 						<FiUsers className="text-xl" />
-						<span>Unirse con Código</span>
+						<span>Join with Code</span>
 					</button>
 				</div>
 
@@ -312,7 +312,7 @@ const Rooms: React.FC = () => {
 					<FiSearch className="text-gray-400 mr-2 md:mr-3" />
 					<input
 						type="text"
-						placeholder="Buscar salas..."
+						placeholder="Search rooms..."
 						value={searchTerm}
 						onChange={(e) => setSearchTerm(e.target.value)}
 						className="bg-transparent outline-none w-full text-sm md:text-base"
@@ -329,8 +329,8 @@ const Rooms: React.FC = () => {
 						{filteredRooms.length === 0 ? (
 							<div className="col-span-full text-center py-12 bg-gradient-to-br from-[#1f2126] to-[#141518] rounded-3xl border border-white/5">
 								<span className="text-6xl mb-4 block">🔍</span>
-								<p className="text-gray-400 text-lg">No tienes salas</p>
-								<p className="text-gray-500 text-sm mt-2">Crea una sala o únete con un código</p>
+								<p className="text-gray-400 text-lg">You don't have any rooms</p>
+								<p className="text-gray-500 text-sm mt-2">Create a room or join one with a code</p>
 							</div>
 						) : (
 							filteredRooms.map((room) => {
@@ -364,16 +364,16 @@ const Rooms: React.FC = () => {
 										<div className="flex items-center justify-between text-sm text-gray-400 mb-4">
 											<div className="flex items-center gap-2">
 												<FiUsers />
-												<span>{memberCount} / {maxMembers} miembros</span>
+												<span>{memberCount} / {maxMembers} members</span>
 											</div>
 											<div className="text-xs">
-												{new Date(room.fecha_creacion).toLocaleDateString('es-ES')}
+												{new Date(room.fecha_creacion).toLocaleDateString('en-US')}
 											</div>
 										</div>
 
 										{/* Room Code */}
 										<div className="mb-4 p-3 bg-white/5 rounded-xl">
-											<p className="text-xs text-gray-400 mb-1">Código de sala</p>
+											<p className="text-xs text-gray-400 mb-1">Room Code</p>
 											<p className="text-lg font-mono font-bold text-green-400">{room.codigo_sala}</p>
 										</div>
 
@@ -399,14 +399,14 @@ const Rooms: React.FC = () => {
 
 						{/* Statistics Card */}
 						<div className="bg-[#181b21] rounded-xl md:rounded-2xl p-4 md:p-6 border border-white/5 shadow-sm">
-							<h3 className="text-base md:text-lg font-bold text-white mb-3 md:mb-4">Estadísticas</h3>
+							<h3 className="text-base md:text-lg font-bold text-white mb-3 md:mb-4">Statistics</h3>
 							<div className="space-y-2 md:space-y-3">
 								<div className="flex items-center justify-between p-2.5 md:p-3 rounded-lg bg-[#0f1115] border border-white/5">
-									<span className="text-xs md:text-sm font-medium text-gray-400">Total Salas</span>
+									<span className="text-xs md:text-sm font-medium text-gray-400">Total Rooms</span>
 									<span className="text-base md:text-lg font-bold text-green-500">{rooms.length}</span>
 								</div>
 								<div className="flex items-center justify-between p-2.5 md:p-3 rounded-lg bg-[#0f1115] border border-white/5">
-									<span className="text-xs md:text-sm font-medium text-gray-400">Mis Salas</span>
+									<span className="text-xs md:text-sm font-medium text-gray-400">My Rooms</span>
 									<span className="text-base md:text-lg font-bold text-blue-500">
 										{rooms.filter(r =>
 											r.id_usuario === currentUserId ||
@@ -420,22 +420,22 @@ const Rooms: React.FC = () => {
 						{/* Quick Links Card */}
 						<div className="bg-gradient-to-br from-[#181b21] to-[#0f1115] rounded-xl md:rounded-2xl p-4 md:p-6 border border-white/5 relative overflow-hidden flex-1 min-h-[200px] md:min-h-[250px] flex flex-col justify-center">
 							<div className="absolute -top-10 -right-10 w-32 h-32 bg-green-500 opacity-10 blur-3xl rounded-full"></div>
-							<h3 className="text-base md:text-lg font-bold text-white mb-2 relative z-10">Accesos Rápidos</h3>
+							<h3 className="text-base md:text-lg font-bold text-white mb-2 relative z-10">Quick Links</h3>
 							<p className="text-xs md:text-sm text-gray-400 relative z-10 leading-relaxed mb-4 md:mb-6">
-								Navega rápidamente a otras secciones de la aplicación.
+								Quickly navigate to other sections of the app.
 							</p>
 							<div className="space-y-2 relative z-10">
 								<button
 									onClick={() => navigate('/homepage')}
 									className="w-full text-left px-3 md:px-4 py-2.5 md:py-3 bg-white/5 hover:bg-white/10 rounded-lg md:rounded-xl transition border border-white/5"
 								>
-									<span className="text-xs md:text-sm">🏠 Inicio</span>
+									<span className="text-xs md:text-sm">🏠 Home</span>
 								</button>
 								<button
 									onClick={() => navigate('/soccer-matches')}
 									className="w-full text-left px-3 md:px-4 py-2.5 md:py-3 bg-white/5 hover:bg-white/10 rounded-lg md:rounded-xl transition border border-white/5"
 								>
-									<span className="text-xs md:text-sm">⚽ Partidos</span>
+									<span className="text-xs md:text-sm">⚽ Matches</span>
 								</button>
 							</div>
 						</div>
@@ -451,7 +451,7 @@ const Rooms: React.FC = () => {
 					<div className="bg-gradient-to-br from-[#1f2126] to-[#16181d] rounded-3xl p-6 md:p-8 max-w-2xl w-full border border-white/10 shadow-2xl max-h-[90vh] flex flex-col" onClick={(e) => e.stopPropagation()}>
 						<div className="flex items-center justify-between mb-6 flex-shrink-0">
 							<h2 className="text-2xl md:text-3xl font-bold bg-gradient-to-r from-green-400 to-blue-500 bg-clip-text text-transparent">
-								Crear Nueva Sala
+								Create New Room
 							</h2>
 							<button
 								onClick={() => setShowCreateModal(false)}
@@ -465,45 +465,45 @@ const Rooms: React.FC = () => {
 
 						<div className="space-y-4 overflow-y-auto flex-1 pr-2">
 							<div>
-								<label className="block text-sm font-medium text-gray-300 mb-2">Nombre de la Sala *</label>
+								<label className="block text-sm font-medium text-gray-300 mb-2">Room Name *</label>
 								<input
 									type="text"
 									value={newRoom.nombre}
 									onChange={(e) => setNewRoom({ ...newRoom, nombre: e.target.value })}
 									className="w-full bg-white/10 border border-white/20 rounded-xl px-4 py-3 focus:outline-none focus:ring-2 focus:ring-green-500"
-									placeholder="Mi sala de apuestas"
+									placeholder="My betting room"
 								/>
 							</div>
 
 							<div>
-								<label className="block text-sm font-medium text-gray-300 mb-2">Descripción</label>
+								<label className="block text-sm font-medium text-gray-300 mb-2">Description</label>
 								<textarea
 									value={newRoom.descripcion}
 									onChange={(e) => setNewRoom({ ...newRoom, descripcion: e.target.value })}
 									className="w-full bg-white/10 border border-white/20 rounded-xl px-4 py-3 focus:outline-none focus:ring-2 focus:ring-green-500 resize-none"
-									placeholder="Descripción de la sala..."
+									placeholder="Room description..."
 									rows={3}
 								/>
 							</div>
 
 							<div>
-								<label className="block text-sm font-medium text-gray-300 mb-2">Máximo de Miembros</label>
+								<label className="block text-sm font-medium text-gray-300 mb-2">Max Members</label>
 								<select
 									value={newRoom.max_miembros}
 									onChange={(e) => setNewRoom({ ...newRoom, max_miembros: parseInt(e.target.value) })}
 									className="w-full bg-white/10 border border-white/20 rounded-xl px-4 py-3 focus:outline-none focus:ring-2 focus:ring-green-500"
 								>
-									<option value={5} className="bg-[#1f2126]">5 miembros</option>
-									<option value={10} className="bg-[#1f2126]">10 miembros</option>
-									<option value={15} className="bg-[#1f2126]">15 miembros</option>
-									<option value={20} className="bg-[#1f2126]">20 miembros</option>
-									<option value={30} className="bg-[#1f2126]">30 miembros</option>
-									<option value={50} className="bg-[#1f2126]">50 miembros</option>
+									<option value={5} className="bg-[#1f2126]">5 members</option>
+									<option value={10} className="bg-[#1f2126]">10 members</option>
+									<option value={15} className="bg-[#1f2126]">15 members</option>
+									<option value={20} className="bg-[#1f2126]">20 members</option>
+									<option value={30} className="bg-[#1f2126]">30 members</option>
+									<option value={50} className="bg-[#1f2126]">50 members</option>
 								</select>
 							</div>
 
 							<div>
-								<label className="block text-sm font-medium text-gray-300 mb-3">Avatar de la Sala *</label>
+								<label className="block text-sm font-medium text-gray-300 mb-3">Room Avatar *</label>
 								<div className="grid grid-cols-2 sm:grid-cols-4 gap-3">
 									{ROOM_AVATARS.map((avatar) => (
 										<button
@@ -534,7 +534,7 @@ const Rooms: React.FC = () => {
 							</div>
 
 							<div>
-								<label className="block text-sm font-medium text-gray-300 mb-3">Modo de Sala *</label>
+								<label className="block text-sm font-medium text-gray-300 mb-3">Room Mode *</label>
 								<select
 									value={newRoom.modo_sala}
 									onChange={(e) => {
@@ -545,17 +545,17 @@ const Rooms: React.FC = () => {
 									}}
 									className="w-full bg-white/10 border border-white/20 rounded-xl px-4 py-3 focus:outline-none focus:ring-2 focus:ring-green-500"
 								>
-									<option value="ligas" className="bg-[#1f2126]">Ligas/Torneos - Todos los partidos de las ligas seleccionadas</option>
-									<option value="partidos_individuales" className="bg-[#1f2126]">Partidos Individuales - Solo partidos específicos</option>
-									<option value="mixto" className="bg-[#1f2126]">Mixto - Ligas + Partidos Individuales</option>
+									<option value="ligas" className="bg-[#1f2126]">Leagues/Tournaments - All matches from selected leagues</option>
+									<option value="partidos_individuales" className="bg-[#1f2126]">Individual Matches - Specific matches only</option>
+									<option value="mixto" className="bg-[#1f2126]">Mixed - Leagues + Individual Matches</option>
 								</select>
 								<p className="text-xs text-gray-400 mt-2 flex items-center gap-1">
 									<svg className="w-4 h-4" fill="currentColor" viewBox="0 0 20 20">
 										<path fillRule="evenodd" d="M18 10a8 8 0 11-16 0 8 8 0 0116 0zm-7-4a1 1 0 11-2 0 1 1 0 012 0zM9 9a1 1 0 000 2v3a1 1 0 001 1h1a1 1 0 100-2v-3a1 1 0 00-1-1H9z" clipRule="evenodd" />
 									</svg>
-									{newRoom.modo_sala === 'ligas' && 'Solo verás partidos de las ligas seleccionadas'}
-									{newRoom.modo_sala === 'partidos_individuales' && 'Solo verás los partidos que agregues manualmente'}
-									{newRoom.modo_sala === 'mixto' && 'Verás partidos de ligas y partidos individuales agregados'}
+									{newRoom.modo_sala === 'ligas' && 'You will only see matches from the selected leagues'}
+									{newRoom.modo_sala === 'partidos_individuales' && 'You will only see matches you add manually'}
+									{newRoom.modo_sala === 'mixto' && 'You will see matches from leagues and individually added matches'}
 								</p>
 							</div>
 
@@ -563,8 +563,8 @@ const Rooms: React.FC = () => {
 								<div>
 									<label className="block text-sm font-medium text-gray-300 mb-3 flex items-center gap-2">
 										<span className="text-green-400">🏆</span>
-										Competiciones {newRoom.modo_sala === 'ligas' ? '*' : '(Opcional)'}
-										<span className="text-xs text-gray-500">({selectedLeagues.length} seleccionadas)</span>
+										Competitions {newRoom.modo_sala === 'ligas' ? '*' : '(Opcional)'}
+										<span className="text-xs text-gray-500">({selectedLeagues.length} selected)</span>
 									</label>
 									<div className="max-h-64 overflow-y-auto bg-white/5 rounded-xl p-3 border border-white/10">
 										<div className="grid grid-cols-1 sm:grid-cols-2 gap-2">
@@ -611,8 +611,8 @@ const Rooms: React.FC = () => {
 								<div>
 									<label className="block text-sm font-medium text-gray-300 mb-3 flex items-center gap-2">
 										<span className="text-green-400">⚽</span>
-										Partidos Individuales {newRoom.modo_sala === 'partidos_individuales' ? '*' : '(Opcional)'}
-										<span className="text-xs text-gray-500">({selectedMatches.length} seleccionados)</span>
+										Individual Matches {newRoom.modo_sala === 'partidos_individuales' ? '*' : '(Opcional)'}
+										<span className="text-xs text-gray-500">({selectedMatches.length} selected)</span>
 									</label>
 									<div className="max-h-64 overflow-y-auto bg-white/5 rounded-xl p-3 border border-white/10">
 										<div className="space-y-2">
@@ -653,7 +653,7 @@ const Rooms: React.FC = () => {
 														</div>
 													</div>
 													<div className="text-xs text-gray-400 whitespace-nowrap">
-														{new Date(match.fecha).toLocaleDateString('es-ES', { day: '2-digit', month: 'short' })}
+														{new Date(match.fecha).toLocaleDateString('en-US', { day: '2-digit', month: 'short' })}
 													</div>
 												</label>
 											))}
@@ -663,13 +663,13 @@ const Rooms: React.FC = () => {
 										<svg className="w-4 h-4" fill="currentColor" viewBox="0 0 20 20">
 											<path fillRule="evenodd" d="M18 10a8 8 0 11-16 0 8 8 0 0116 0zm-7-4a1 1 0 11-2 0 1 1 0 012 0zM9 9a1 1 0 000 2v3a1 1 0 001 1h1a1 1 0 100-2v-3a1 1 0 00-1-1H9z" clipRule="evenodd" />
 										</svg>
-										Mostrando los próximos 20 partidos. Puedes agregar más desde la configuración de la sala.
+										Showing the next 20 matches. You can add more from the room settings.
 									</p>
 								</div>
 							)}
 
 							<p className="text-xs text-gray-400">
-								Se generará automáticamente un código único para tu sala que podrás compartir con tus amigos.
+								A unique code will be automatically generated for your room to share with your friends.
 							</p>
 						</div>
 
@@ -695,11 +695,11 @@ const Rooms: React.FC = () => {
 			{showJoinModal && (
 				<div className="fixed inset-0 bg-black/70 flex items-center justify-center p-4 z-50" onClick={() => setShowJoinModal(false)}>
 					<div className="bg-[#1f2126] rounded-3xl p-6 md:p-8 max-w-md w-full border border-white/10" onClick={(e) => e.stopPropagation()}>
-						<h2 className="text-2xl font-bold mb-6">Unirse a una Sala</h2>
+						<h2 className="text-2xl font-bold mb-6">Join a Room</h2>
 
 						<div className="space-y-4">
 							<div>
-								<label className="block text-sm font-medium text-gray-300 mb-2">Código de Sala</label>
+								<label className="block text-sm font-medium text-gray-300 mb-2">Room Code</label>
 								<input
 									type="text"
 									value={joinCode}
@@ -711,7 +711,7 @@ const Rooms: React.FC = () => {
 							</div>
 
 							<p className="text-xs text-gray-400 text-center">
-								Ingresa el código de 8 caracteres que te proporcionó el creador de la sala
+								Enter the 8-character code provided by the room creator
 							</p>
 						</div>
 
