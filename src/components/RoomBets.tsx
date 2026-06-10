@@ -303,7 +303,7 @@ const RoomBets: React.FC<RoomBetsProps> = ({ roomId }) => {
                   {userBet && (
                     <div className="mb-3 p-3 bg-green-500/10 border border-green-500/30 rounded-lg">
                       <div className="flex items-center justify-between mb-2">
-                        <span className="text-xs text-gray-400">Your prediction:</span>
+                        <span className="text-xs text-gray-400">{t('rooms:bets.yourPrediction')}</span>
                         <span className="text-lg font-bold text-green-400">
                           {userBet.prediccion_local} - {userBet.prediccion_visitante}
                         </span>
@@ -380,7 +380,7 @@ const RoomBets: React.FC<RoomBetsProps> = ({ roomId }) => {
 
                 <div className="flex items-center justify-between">
                   <div className="flex items-center gap-3">
-                    <span className="text-gray-400 text-sm">Your prediction:</span>
+                    <span className="text-gray-400 text-sm">{t('rooms:bets.yourPrediction')}</span>
                     <span className="text-xl font-bold text-green-400">
                       {bet.prediccion_local} - {bet.prediccion_visitante}
                     </span>
@@ -388,7 +388,7 @@ const RoomBets: React.FC<RoomBetsProps> = ({ roomId }) => {
 
                   {bet.estado !== 'pendiente' && (
                     <div className="flex items-center gap-2">
-                      <span className="text-gray-400 text-sm">Points:</span>
+                      <span className="text-gray-400 text-sm">{t('rooms:bets.points')}</span>
                       <span className={`text-xl font-bold ${bet.puntos_ganados > 0 ? 'text-green-400' : 'text-gray-500'}`}>
                         {bet.puntos_ganados > 0 ? `+${bet.puntos_ganados}` : bet.puntos_ganados}
                       </span>
@@ -409,7 +409,7 @@ const RoomBets: React.FC<RoomBetsProps> = ({ roomId }) => {
       {showBetModal && selectedMatch && (
         <div className="fixed inset-0 bg-black/70 flex items-center justify-center p-4 z-50" onClick={() => setShowBetModal(false)}>
           <div className="bg-[#1f2126] rounded-3xl p-6 md:p-8 max-w-md w-full border border-white/10" onClick={(e) => e.stopPropagation()}>
-            <h2 className="text-2xl font-bold mb-6">{editingBet ? 'Edit Bet' : 'Place a Bet'}</h2>
+            <h2 className="text-2xl font-bold mb-6">{editingBet ? t('rooms:bets.editBetTitle') : t('rooms:bets.placeBetTitle')}</h2>
 
             {/* Match Info */}
             <div className="mb-6 p-4 bg-white/5 rounded-xl border border-white/10">
