@@ -1,7 +1,6 @@
 import React, { useEffect, useState, useCallback } from 'react';
 import { FiRefreshCw, FiClock, FiCheckCircle, FiUsers } from 'react-icons/fi';
 import { API_BASE_URL } from '../config/api';
-import { useAuth } from '../hooks/useAuth';
 
 interface Prediction {
   id_apuesta: number;
@@ -57,7 +56,7 @@ const TeamLogo: React.FC<{ src: string | null; alt: string }> = ({ src, alt }) =
 };
 
 const GroupPredictions: React.FC<GroupPredictionsProps> = ({ roomId }) => {
-  const { token } = useAuth();
+  const token = localStorage.getItem('authToken');
   const [matchGroups, setMatchGroups] = useState<MatchGroup[]>([]);
   const [loading, setLoading] = useState(false);
   const [error, setError] = useState<string | null>(null);
