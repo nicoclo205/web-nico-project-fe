@@ -217,7 +217,7 @@ const HomePage = () => {
           </main>
 
           {/* Right Sidebar */}
-          <aside className="w-full lg:w-80 flex flex-col gap-4 md:gap-6 flex-shrink-0">
+          <aside className="w-full lg:w-80 flex flex-col gap-4 md:gap-6 flex-shrink-0 order-first lg:order-last">
 
             {/* My Rooms Section */}
             {userRooms.length > 0 && (
