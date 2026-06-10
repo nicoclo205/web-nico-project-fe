@@ -96,7 +96,7 @@ const RoomRanking: React.FC<RoomRankingProps> = ({ roomId }) => {
       {/* Top 3 Podium - Más Compacto */}
       {rankingData.ranking.length > 0 && (
         <div className="rounded-2xl p-4 bg-gradient-to-br from-[#1f2126] to-[#141518] shadow-xl border border-white/5">
-          <h3 className="text-base font-bold mb-3">🏆 Top 3</h3>
+          <h3 className="text-base font-bold mb-3">{t('rooms:ranking.top3')}</h3>
           <div className="grid grid-cols-1 sm:grid-cols-3 gap-3">
             {rankingData.ranking.slice(0, 3).map((user) => {
               const userName = user.usuario.nombre_usuario || t('common:user');
@@ -317,7 +317,7 @@ const RoomRanking: React.FC<RoomRankingProps> = ({ roomId }) => {
                         <p className="font-semibold">{user.total_apuestas}</p>
                       </div>
                       <div>
-                        <p className="text-gray-400">Won</p>
+                        <p className="text-gray-400">{t('rooms:ranking.won')}</p>
                         <p className="font-semibold text-green-400">{user.apuestas_ganadas}</p>
                       </div>
                       <div>
@@ -344,19 +344,19 @@ const RoomRanking: React.FC<RoomRankingProps> = ({ roomId }) => {
         <div className="grid grid-cols-2 md:grid-cols-4 gap-4 text-xs">
           <div className="flex items-center gap-2">
             <FiTarget className="text-green-500" />
-            <span className="text-gray-400">W = Won</span>
+            <span className="text-gray-400">{t('rooms:ranking.legendWon')}</span>
           </div>
           <div className="flex items-center gap-2">
             <FiTarget className="text-red-500" />
-            <span className="text-gray-400">L = Lost</span>
+            <span className="text-gray-400">{t('rooms:ranking.legendLost')}</span>
           </div>
           <div className="flex items-center gap-2">
             <FiPercent className="text-blue-500" />
-            <span className="text-gray-400">% = Win Rate</span>
+            <span className="text-gray-400">{t('rooms:ranking.legendWinRate')}</span>
           </div>
           <div className="flex items-center gap-2">
             <FiAward className="text-yellow-500" />
-            <span className="text-gray-400">Top 3 highlighted</span>
+            <span className="text-gray-400">{t('rooms:ranking.legendTop3')}</span>
           </div>
         </div>
       </div>

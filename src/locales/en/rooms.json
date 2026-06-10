@@ -41,7 +41,7 @@
     "updateBet": "Update Bet",
     "processing": "Processing...",
     "betOn": "Bet on",
-    "points": "pts",
+    "points": "Points:",
     "scorePrediction": "Score Prediction",
     "betsClosed": "Bets closed",
     "closesIn": "Closes in: {{time}}",
@@ -70,7 +70,10 @@
     "awayWin": "Away Win",
     "prediction": "Prediction",
     "result": "Result",
-    "yourPrediction": "Your prediction"
+    "yourPrediction": "Your prediction:",
+    "editBetTitle": "Edit Bet",
+    "placeBetTitle": "Place a Bet",
+    "top3": "🏆 Top 3"
   },
   "matches": "Matches",
   "rules": "Rules",
@@ -182,7 +185,13 @@
     "total": "Total",
     "lost": "Lost",
     "refreshTitle": "Refresh ranking",
-    "error": "Failed to load ranking"
+    "error": "Failed to load ranking",
+    "top3": "🏆 Top 3",
+    "won": "Won",
+    "legendWon": "W = Won",
+    "legendLost": "L = Lost",
+    "legendWinRate": "% = Win Rate",
+    "legendTop3": "Top 3 highlighted"
   },
   "config": {
     "title": "Betting Configuration",

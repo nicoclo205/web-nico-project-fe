@@ -41,7 +41,7 @@
     "updateBet": "Actualizar Apuesta",
     "processing": "Procesando...",
     "betOn": "Apostar en",
-    "points": "pts",
+    "points": "Puntos:",
     "scorePrediction": "Predicción de Marcador",
     "betsClosed": "Apuestas cerradas",
     "closesIn": "Cierra en: {{time}}",
@@ -70,7 +70,9 @@
     "awayWin": "Victoria Visitante",
     "prediction": "Predicción",
     "result": "Resultado",
-    "yourPrediction": "Tu predicción"
+    "yourPrediction": "Tu predicción:",
+    "editBetTitle": "Editar Apuesta",
+    "placeBetTitle": "Hacer una Apuesta"
   },
   "matches": "Partidos",
   "rules": "Reglas",
@@ -182,7 +184,13 @@
     "total": "Total",
     "lost": "Perdidas",
     "refreshTitle": "Actualizar ranking",
-    "error": "Error al cargar el ranking"
+    "error": "Error al cargar el ranking",
+    "top3": "🏆 Top 3",
+    "won": "Ganadas",
+    "legendWon": "G = Ganadas",
+    "legendLost": "P = Perdidas",
+    "legendWinRate": "% = % Victorias",
+    "legendTop3": "Top 3 resaltado"
   },
   "config": {
     "title": "Configuración de Apuestas",
