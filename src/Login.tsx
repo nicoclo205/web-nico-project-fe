@@ -139,6 +139,19 @@ function Auth() {
     const result = await register(userData);
 
     if (result?.success) {
+      // If registered via invite link, auto-join the room
+      if (inviteToken) {
+        try {
+          await fetch(`${API_BASE_URL}/api/invitations/accept/`, {
+            method: 'POST',
+            headers: { 'Content-Type': 'application/json' },
+            body: JSON.stringify({ token: inviteToken, email: email }),
+          });
+        } catch {
+          // Non-blocking — registration still succeeded
+        }
+      }
+
       // Limpiar los campos del formulario
       setName("");
       setLastName("");
