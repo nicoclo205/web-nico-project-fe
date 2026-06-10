@@ -421,11 +421,19 @@ const SoccerMatches: React.FC = () => {
 										: 'bg-white/10 hover:bg-gray-500'
 								}`}
 							>
-								{league.logo_url ? (
+								{league.nombre.toLowerCase().includes('world cup') ? (
+									<img
+										src="/wc2026-logo.png"
+										alt={league.nombre}
+										className="w-8 h-8 md:w-10 md:h-10 object-contain mb-1"
+										onError={(e) => { e.currentTarget.style.display = 'none'; }}
+									/>
+								) : league.logo_url ? (
 									<img
 										src={league.logo_url}
 										alt={league.nombre}
 										className="w-8 h-8 md:w-10 md:h-10 object-contain mb-1"
+										onError={(e) => { e.currentTarget.style.display = 'none'; }}
 									/>
 								) : (
 									<span className="text-2xl md:text-3xl mb-1">🏆</span>
