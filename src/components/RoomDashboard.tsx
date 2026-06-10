@@ -78,7 +78,7 @@ const RoomDashboard: React.FC<RoomDashboardProps> = ({
     setInviteStatus('sending');
     setInviteError('');
     try {
-      const token = localStorage.getItem('auth_token');
+      const token = localStorage.getItem('authToken');
       const res = await fetch(`${API_BASE_URL}/api/salas/${roomId}/invite/`, {
         method: 'POST',
         headers: {
