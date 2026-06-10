@@ -1,8 +1,26 @@
 {
   "football": "Soccer",
-  "basketball": "Basketball",
+  "basketball": {
+    "title": "Basketball Matches",
+    "subtitle": "Check out upcoming matches and results from the top basketball leagues",
+    "allLeagues": "All Leagues",
+    "upcomingTab": "Upcoming Matches",
+    "finishedTab": "Finished Matches",
+    "noUpcoming": "No upcoming matches right now",
+    "noFinished": "No finished matches right now",
+    "error": "Failed to load basketball matches"
+  },
   "baseball": "Baseball",
-  "tennis": "Tennis",
+  "tennis": {
+    "title": "Tennis Matches",
+    "subtitle": "Check out upcoming matches and results from the top tennis tournaments",
+    "allTournaments": "All Tournaments",
+    "upcomingTab": "Upcoming Matches",
+    "finishedTab": "Finished Matches",
+    "noUpcoming": "No upcoming matches right now",
+    "noFinished": "No finished matches right now",
+    "error": "Failed to load tennis matches"
+  },
   "volleyball": "Volleyball",
   "formula1": "Formula 1",
   "activeMatches": "{{count}} active match",
@@ -14,7 +32,58 @@
     "scheduled": "Scheduled",
     "live": "Live",
     "finished": "Finished",
-    "cancelled": "Cancelled"
+    "cancelled": "Cancelled",
+    "postponed": "Postponed",
+    "suspended": "Suspended"
+  },
+  "soccer": {
+    "title": "Soccer Matches",
+    "subtitle": "Check upcoming matches and results from major competitions",
+    "allLeagues": "All Leagues",
+    "allTournaments": "All Tournaments",
+    "upcomingTab": "Upcoming",
+    "finishedTab": "Finished",
+    "searchTeams": "Search teams...",
+    "filters": "Filters",
+    "matchStatus": "Match Status",
+    "period": "Period",
+    "clearFilters": "Clear filters",
+    "allDates": "All dates",
+    "today": "Today",
+    "thisWeek": "This week",
+    "thisMonth": "This month",
+    "loadMore": "Load more matches",
+    "noUpcoming": "No upcoming matches right now",
+    "noFinished": "No finished matches right now",
+    "noLive": "No live matches right now",
+    "status": {
+      "all": "All",
+      "scheduled": "Scheduled",
+      "live": "Live",
+      "finished": "Finished",
+      "postponed": "Postponed",
+      "suspended": "Suspended",
+      "cancelled": "Cancelled"
+    },
+    "stats": "Statistics",
+    "matchesToday": "Matches Today",
+    "upcoming": "Upcoming Matches",
+    "quickLinks": "Quick Links",
+    "modal": {
+      "title": "Match Details",
+      "dateTime": "📅 Date & Time",
+      "venue": "🏟️ Venue",
+      "notAvailable": "Not available",
+      "close": "Close"
+    },
+    "errors": {
+      "leagues": "Failed to load leagues",
+      "matches": "Failed to load matches"
+    },
+    "homeTeam": "Home Team",
+    "awayTeam": "Away Team",
+    "selectLeague": "Select a League",
+    "all": "All"
   },
   "soccerMatches": {
     "title": "Soccer Matches",

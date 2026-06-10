@@ -1,11 +1,29 @@
 {
   "football": "Fútbol",
-  "basketball": "Baloncesto",
+  "basketball": {
+    "title": "Partidos de Baloncesto",
+    "subtitle": "Consulta los próximos partidos y resultados de las principales ligas",
+    "allLeagues": "Todas las Ligas",
+    "upcomingTab": "Próximos Partidos",
+    "finishedTab": "Partidos Finalizados",
+    "noUpcoming": "No hay próximos partidos ahora",
+    "noFinished": "No hay partidos finalizados ahora",
+    "error": "Error al cargar los partidos de baloncesto"
+  },
   "baseball": "Béisbol",
-  "tennis": "Tenis",
+  "tennis": {
+    "title": "Partidos de Tenis",
+    "subtitle": "Consulta los próximos partidos y resultados de los principales torneos",
+    "allTournaments": "Todos los Torneos",
+    "upcomingTab": "Próximos Partidos",
+    "finishedTab": "Partidos Finalizados",
+    "noUpcoming": "No hay próximos partidos ahora",
+    "noFinished": "No hay partidos finalizados ahora",
+    "error": "Error al cargar los partidos de tenis"
+  },
   "volleyball": "Voleibol",
   "formula1": "Fórmula 1",
-  "activeMatches": "{{count}} partidos activos",
+  "activeMatches": "{{count}} partido activo",
   "activeMatches_plural": "{{count}} partidos activos",
   "upcomingMatches": "Próximos partidos",
   "liveMatches": "En vivo",
@@ -14,7 +32,58 @@
     "scheduled": "Programado",
     "live": "En vivo",
     "finished": "Finalizado",
-    "cancelled": "Cancelado"
+    "cancelled": "Cancelado",
+    "postponed": "Pospuesto",
+    "suspended": "Suspendido"
+  },
+  "soccer": {
+    "title": "Partidos de Fútbol",
+    "subtitle": "Consulta los próximos partidos y resultados de las principales competiciones",
+    "allLeagues": "Todas las Ligas",
+    "allTournaments": "Todos los Torneos",
+    "upcomingTab": "Próximos",
+    "finishedTab": "Finalizados",
+    "searchTeams": "Buscar equipos...",
+    "filters": "Filtros",
+    "matchStatus": "Estado del Partido",
+    "period": "Período",
+    "clearFilters": "Limpiar filtros",
+    "allDates": "Todas las fechas",
+    "today": "Hoy",
+    "thisWeek": "Esta semana",
+    "thisMonth": "Este mes",
+    "loadMore": "Ver más partidos",
+    "noUpcoming": "No hay próximos partidos ahora",
+    "noFinished": "No hay partidos finalizados ahora",
+    "noLive": "No hay partidos en vivo ahora",
+    "status": {
+      "all": "Todos",
+      "scheduled": "Programados",
+      "live": "En Curso",
+      "finished": "Finalizados",
+      "postponed": "Pospuestos",
+      "suspended": "Suspendidos",
+      "cancelled": "Cancelados"
+    },
+    "stats": "Estadísticas",
+    "matchesToday": "Partidos Hoy",
+    "upcoming": "Próximos Partidos",
+    "quickLinks": "Accesos Rápidos",
+    "modal": {
+      "title": "Información del Partido",
+      "dateTime": "📅 Fecha y Hora",
+      "venue": "🏟️ Estadio",
+      "notAvailable": "No disponible",
+      "close": "Cerrar"
+    },
+    "errors": {
+      "leagues": "Error al cargar las ligas",
+      "matches": "Error al cargar los partidos"
+    },
+    "homeTeam": "Equipo Local",
+    "awayTeam": "Equipo Visitante",
+    "selectLeague": "Selecciona una Liga",
+    "all": "Todas"
   },
   "soccerMatches": {
     "title": "Partidos de Fútbol",

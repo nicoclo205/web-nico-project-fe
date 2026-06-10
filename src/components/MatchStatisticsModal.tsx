@@ -1,3 +1,4 @@
+import { useTranslation } from 'react-i18next';
 import React, { useEffect, useState } from 'react';
 import { FiX } from 'react-icons/fi';
 import { apiService } from '../services/apiService';
@@ -40,6 +41,7 @@ const MatchStatisticsModal: React.FC<MatchStatisticsModalProps> = ({
   logoLocal,
   logoVisitante,
 }) => {
+  const { t } = useTranslation(['common']);
   const [statistics, setStatistics] = useState<MatchStatistic[]>([]);
   const [loading, setLoading] = useState(true);
   const [error, setError] = useState<string | null>(null);
@@ -63,7 +65,7 @@ const MatchStatisticsModal: React.FC<MatchStatisticsModalProps> = ({
       setStatistics(response.data);
     } else {
       console.error('Error al cargar estadísticas:', response.error);
-      setError(response.error || 'Could not load match stats');
+      setError(response.error || t('common:statsError', 'Could not load match stats'));
     }
 
     setLoading(false);
@@ -210,7 +212,7 @@ const MatchStatisticsModal: React.FC<MatchStatisticsModalProps> = ({
             {error && (
               <div className="bg-yellow-500/10 border border-yellow-500/30 rounded-xl p-4 text-center">
                 <p className="text-yellow-400 font-medium">{error}</p>
-                <p className="text-sm text-gray-400 mt-2">Stats are not yet available for this match</p>
+                <p className="text-sm text-gray-400 mt-2">{t('common:statsNotYet', t('common:statsNotYet', 'Stats are not yet available for this match'))}</p>
               </div>
             )}
 
@@ -294,7 +296,7 @@ const MatchStatisticsModal: React.FC<MatchStatisticsModalProps> = ({
 
             {!loading && !error && statistics.length === 0 && (
               <div className="text-center py-8 text-gray-400">
-                <p>No stats available for this match</p>
+                <p>{t('common:statsNone', t('common:statsNone', 'No stats available for this match'))}</p>
               </div>
             )}
           </div>

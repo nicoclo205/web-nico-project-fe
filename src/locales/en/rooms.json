@@ -1,10 +1,11 @@
 {
-  "title": "Rooms",
+  "title": "Betting Rooms",
   "myRooms": "My Rooms",
   "popularRooms": "Popular Rooms",
   "createRoom": "Create Room",
-  "joinRoom": "Join Room",
+  "joinRoom": "Join a Room",
   "roomCode": "Room Code",
+  "roomCodePlaceholder": "Enter room code",
   "members": "{{count}} member",
   "members_plural": "{{count}} members",
   "status": "Status",
@@ -18,8 +19,51 @@
   "settings": "Settings",
   "statistics": "Statistics",
   "leaderboard": "Leaderboard",
-  "chat": "Chat",
-  "bets": "Bets",
+  "chat": {
+    "placeholder": "Type a message...",
+    "send": "Send",
+    "connecting": "Connecting...",
+    "connected": "Connected",
+    "disconnected": "Disconnected",
+    "reconnecting": "Reconnecting...",
+    "error": "Connection error",
+    "noMessages": "No messages yet. Say hi! 👋"
+  },
+  "bets": {
+    "title": "Room Bets",
+    "yourBet": "Your Bet",
+    "noBets": "No bets available right now",
+    "betPlaced": "Bet placed successfully!",
+    "editBet": "Edit Bet",
+    "placeBet": "Place Bet",
+    "updateBet": "Update Bet",
+    "betOn": "Bet on",
+    "points": "pts",
+    "status": {
+      "won": "Won",
+      "lost": "Lost",
+      "pending": "Pending",
+      "cancelled": "Cancelled"
+    },
+    "matchStatus": {
+      "scheduled": "Scheduled",
+      "live": "Live",
+      "finished": "Finished",
+      "postponed": "Postponed",
+      "cancelled": "Cancelled"
+    },
+    "errors": {
+      "load": "Failed to load bets",
+      "place": "Failed to place bet",
+      "update": "Failed to update bet"
+    },
+    "homeWin": "Home Win",
+    "draw": "Draw",
+    "awayWin": "Away Win",
+    "prediction": "Prediction",
+    "result": "Result",
+    "yourPrediction": "Your prediction"
+  },
   "matches": "Matches",
   "rules": "Rules",
   "prizes": "Prizes",
@@ -40,7 +84,8 @@
   "createSuccess": "Room created successfully",
   "leaveSuccess": "Left room successfully",
   "deleteSuccess": "Room deleted successfully",
-  "noRooms": "No rooms found",
+  "noRooms": "You don't have any rooms",
+  "noRoomsSubtitle": "Create a room or join one with a code",
   "noMembers": "No members yet",
   "noBets": "No bets yet",
   "noMatches": "No matches available",
@@ -63,10 +108,120 @@
   "lastActivity": "Last activity: {{time}}",
   "roomStats": {
     "totalBets": "Total Bets",
-    "totalMembers": "Total Members", 
+    "totalMembers": "Total Members",
     "activeBets": "Active Bets",
     "completedBets": "Completed Bets",
     "averageScore": "Average Score",
-    "topPlayer": "Top Player"
+    "topPlayer": "Top Player",
+    "totalRooms": "Total Rooms"
+  },
+  "quickLinks": "Quick Links",
+  "tabs": {
+    "info": "Info",
+    "bets": "Bets",
+    "ranking": "Ranking",
+    "predictions": "Predictions",
+    "chat": "Chat",
+    "settings": "Settings",
+    "pred": "Pred."
+  },
+  "editRoom": {
+    "title": "Edit Room",
+    "name": "Room Name *",
+    "description": "Description",
+    "maxMembers": "Max Members",
+    "cancel": "Cancel",
+    "save": "Save Changes"
+  },
+  "createModal": {
+    "title": "Create Room",
+    "name": "Room Name *",
+    "namePlaceholder": "My awesome room",
+    "description": "Description (optional)",
+    "descPlaceholder": "Describe your room...",
+    "maxMembers": "Max Members",
+    "chooseAvatar": "Choose an Avatar",
+    "roomMode": "Room Mode",
+    "competition": "Competition",
+    "match": "Match",
+    "selectCompetition": "Select a competition...",
+    "selectMatch": "Select a match...",
+    "footer": "Other members can join using the room code",
+    "modeOptions": {
+      "all": "All Matches",
+      "allDesc": "Bet on all available matches",
+      "league": "By League",
+      "leagueDesc": "Restricted to a specific competition",
+      "match": "Single Match",
+      "matchDesc": "A single match bet room"
+    },
+    "members": {
+      "2": "2 members",
+      "5": "5 members",
+      "10": "10 members",
+      "20": "20 members",
+      "50": "50 members",
+      "100": "100 members"
+    }
+  },
+  "ranking": {
+    "title": "Ranking",
+    "noData": "No ranking data yet",
+    "points": "pts",
+    "position": "#{{pos}}",
+    "error": "Failed to load ranking"
+  },
+  "config": {
+    "title": "Betting Configuration",
+    "subtitle": "Select the leagues/tournaments or individual matches available for betting",
+    "enabledLeagues": "Enabled Leagues & Tournaments",
+    "addLeague": "Add League",
+    "noLeagues": "No leagues configured. Users can bet on all available matches.",
+    "enabledMatches": "Individual Matches Enabled",
+    "addMatch": "Add Match",
+    "noMatches": "No individual matches added manually",
+    "leagueModal": {
+      "title": "Add League / Tournament",
+      "search": "Search league...",
+      "empty": "No leagues available"
+    },
+    "matchModal": {
+      "title": "Add Individual Match",
+      "search": "Search match...",
+      "empty": "No matches available"
+    },
+    "removeLeague": "Remove this league from the room?",
+    "removeMatch": "Remove this match from the room?",
+    "errors": {
+      "removeLeague": "Failed to remove league",
+      "removeMatch": "Failed to remove match",
+      "addLeague": "Failed to add league",
+      "addMatch": "Failed to add match",
+      "load": "Failed to load configuration"
+    }
+  },
+  "dashboard": {
+    "roomInfo": "Room Info",
+    "roomCode": "Room Code",
+    "copyCode": "Copy Code",
+    "copyCodeDesc": "Share this code so others can join",
+    "createdAt": "Created",
+    "members": "Members",
+    "maxMembers": "Max Members",
+    "notifications": "Notifications",
+    "noNotifications": "No new notifications",
+    "editRoom": "Edit Room",
+    "errors": {
+      "load": "Failed to load room info",
+      "copy": "Failed to copy code"
+    }
+  },
+  "predictions": {
+    "matchCount": "{{count}} match with predictions",
+    "matchCount_plural": "{{count}} matches with predictions",
+    "refresh": "Refresh",
+    "noPredictions": "No predictions",
+    "noGroup": "No predictions in this group yet.",
+    "error": "Could not load group predictions."
   }
 }

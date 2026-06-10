@@ -1,0 +1,27 @@
+{
+  "title": "Settings",
+  "personalInfo": "Personal Info",
+  "phoneNumber": "Phone Number",
+  "email": "Email",
+  "emailTooltip": "Email cannot be changed",
+  "firstName": "First Name",
+  "firstNamePlaceholder": "Your first name",
+  "lastName": "Last Name",
+  "lastNamePlaceholder": "Your last name",
+  "chooseAvatar": "Choose Your Avatar",
+  "avatarSelected": "Avatar selected",
+  "saving": "Saving...",
+  "saveChanges": "Save Changes",
+  "preview": "Preview",
+  "dangerZone": "Danger Zone",
+  "dangerText": "Deleting your account is permanent and cannot be undone.",
+  "deleteAccount": "Delete Account",
+  "deleteConfirm": "Are you sure you want to delete your account? This action cannot be undone.",
+  "savedSuccess": "Settings saved successfully!",
+  "language": "Language",
+  "errors": {
+    "load": "Failed to load user data",
+    "save": "Failed to save settings",
+    "delete": "Failed to delete account"
+  }
+}

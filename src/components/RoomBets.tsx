@@ -1,3 +1,4 @@
+import { useTranslation } from 'react-i18next';
 import React, { useEffect, useState } from 'react';
 import { FiCalendar, FiClock, FiTrendingUp, FiCheckCircle, FiXCircle, FiClock as FiPending, FiEdit2, FiTrash2 } from 'react-icons/fi';
 import { GiSoccerBall } from 'react-icons/gi';
@@ -9,6 +10,7 @@ interface RoomBetsProps {
 }
 
 const RoomBets: React.FC<RoomBetsProps> = ({ roomId }) => {
+  const { t } = useTranslation(['rooms', 'common']);
   const { userBets, upcomingMatches, loading, error, fetchUserBets, fetchUpcomingMatches, createBet, updateBet, deleteBet } = useBets();
   const [showBetModal, setShowBetModal] = useState(false);
   const [selectedMatch, setSelectedMatch] = useState<Match | null>(null);
@@ -99,7 +101,7 @@ const RoomBets: React.FC<RoomBetsProps> = ({ roomId }) => {
       setShowBetModal(false);
       fetchUserBets(roomId);
       fetchUpcomingMatches(roomId);
-      alert(editingBet ? 'Bet updated successfully!' : 'Bet placed successfully!');
+      alert(editingBet ? t('rooms:bets.betPlaced') : t('rooms:bets.betPlaced'));
     } else {
       setBetError(result.error || 'Failed to process the bet');
     }
@@ -153,13 +155,13 @@ const RoomBets: React.FC<RoomBetsProps> = ({ roomId }) => {
   const getStatusText = (estado: string) => {
     switch (estado) {
       case 'ganada':
-        return 'Won';
+        return t('rooms:bets.status.won');
       case 'perdida':
-        return 'Lost';
+        return t('rooms:bets.status.lost');
       case 'pendiente':
-        return 'Pending';
+        return t('rooms:bets.status.pending');
       case 'cancelada':
-        return 'Cancelled';
+        return t('rooms:bets.status.cancelled');
       default:
         return estado;
     }

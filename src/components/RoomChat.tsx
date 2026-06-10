@@ -1,4 +1,5 @@
 // src/components/RoomChat.tsx
+import { useTranslation } from 'react-i18next';
 import React, { useState } from 'react';
 import { useChat } from '../hooks/useChat';
 import { FiSend } from 'react-icons/fi';
@@ -10,6 +11,7 @@ interface RoomChatProps {
 }
 
 export const RoomChat: React.FC<RoomChatProps> = ({ roomId, token, currentUserId }) => {
+  const { t } = useTranslation('rooms');
   const [inputMessage, setInputMessage] = useState('');
   const { messages, isConnected, error, sendMessage, messagesEndRef } = useChat({
     roomId,
@@ -33,12 +35,12 @@ export const RoomChat: React.FC<RoomChatProps> = ({ roomId, token, currentUserId
           {isConnected ? (
             <>
               <div className="w-2 h-2 bg-green-500 rounded-full animate-pulse" />
-              <span className="text-xs text-green-400">Connected</span>
+              <span className="text-xs text-green-400">{t('rooms:chat.connected')}</span>
             </>
           ) : (
             <>
               <div className="w-4 h-4 border-2 border-gray-400 border-t-transparent rounded-full animate-spin" />
-              <span className="text-xs text-gray-400">Connecting...</span>
+              <span className="text-xs text-gray-400">{t('rooms:chat.connecting')}</span>
             </>
           )}
         </div>
@@ -129,7 +131,7 @@ export const RoomChat: React.FC<RoomChatProps> = ({ roomId, token, currentUserId
             type="text"
             value={inputMessage}
             onChange={(e) => setInputMessage(e.target.value)}
-            placeholder="Type a message..."
+            placeholder={t('rooms:chat.placeholder')}
             className="flex-1 px-3 py-1.5 text-sm bg-white/10 border border-white/20 rounded-lg text-white placeholder-gray-400 focus:outline-none focus:ring-2 focus:ring-green-500 disabled:opacity-50 disabled:cursor-not-allowed"
             disabled={!isConnected}
           />

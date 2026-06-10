@@ -1,3 +1,4 @@
+import { useTranslation } from 'react-i18next';
 import React, { useEffect, useState } from 'react';
 import { useNavigate } from 'react-router-dom';
 import Layout from '../components/Layout';
@@ -31,6 +32,7 @@ interface BasketballMatch {
 }
 
 const BasketballMatches: React.FC = () => {
+	const { t } = useTranslation(['sports', 'common']);
 	const navigate = useNavigate();
 	const [matches, setMatches] = useState<BasketballMatch[]>([]);
 	const [loading, setLoading] = useState(true);
@@ -71,7 +73,7 @@ const BasketballMatches: React.FC = () => {
 			setCompetitions(uniqueCompetitions as Competition[]);
 		} catch (err) {
 			console.error('Error fetching basketball matches:', err);
-			setError('Failed to load basketball matches');
+			setError(t('sports:basketball.error'));
 		} finally {
 			setLoading(false);
 		}
@@ -161,10 +163,10 @@ const BasketballMatches: React.FC = () => {
 				<div className="mb-8">
 					<div className="flex items-center gap-3 mb-4">
 						<span className="text-5xl">🏀</span>
-						<h1 className="text-3xl font-bold text-white">Basketball Matches</h1>
+						<h1 className="text-3xl font-bold text-white">{t('sports:basketball.title')}</h1>
 					</div>
 					<p className="text-gray-400">
-						Check out upcoming matches and results from the top basketball leagues
+						{t('sports:basketball.subtitle')}
 					</p>
 				</div>
 
@@ -232,7 +234,7 @@ const BasketballMatches: React.FC = () => {
 						<div className="text-center py-12 bg-gray-800 rounded-lg">
 							<span className="text-6xl mb-4 block">🔍</span>
 							<p className="text-gray-400 text-lg">
-								No {activeTab === 'upcoming' ? 'upcoming' : 'finished'} matches right now
+								{activeTab === 'upcoming' ? t('sports:basketball.noUpcoming') : t('sports:basketball.noFinished')}
 							</p>
 						</div>
 					) : (

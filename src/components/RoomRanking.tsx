@@ -1,3 +1,4 @@
+import { useTranslation } from 'react-i18next';
 import React, { useEffect } from 'react';
 import { FiAward, FiTrendingUp, FiTarget, FiPercent, FiRefreshCw } from 'react-icons/fi';
 import { useRanking } from '../hooks/useRanking';
@@ -7,6 +8,7 @@ interface RoomRankingProps {
 }
 
 const RoomRanking: React.FC<RoomRankingProps> = ({ roomId }) => {
+  const { t } = useTranslation('rooms');
   const { rankingData, loading, error, fetchRoomRanking, refreshRanking } = useRanking();
 
   useEffect(() => {
@@ -180,7 +182,7 @@ const RoomRanking: React.FC<RoomRankingProps> = ({ roomId }) => {
         </h3>
 
         {rankingData.ranking.length === 0 ? (
-          <p className="text-gray-400 text-center py-8">No ranking data yet</p>
+          <p className="text-gray-400 text-center py-8">{t('rooms:ranking.noData')}</p>
         ) : (
           <div className="space-y-2">
             {/* Table Header - Hidden on mobile */}

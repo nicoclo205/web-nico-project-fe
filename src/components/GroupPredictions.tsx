@@ -1,3 +1,4 @@
+import { useTranslation } from 'react-i18next';
 import React, { useEffect, useState, useCallback } from 'react';
 import { FiRefreshCw, FiClock, FiCheckCircle, FiUsers } from 'react-icons/fi';
 import { API_BASE_URL } from '../config/api';
@@ -56,6 +57,7 @@ const TeamLogo: React.FC<{ src: string | null; alt: string }> = ({ src, alt }) =
 };
 
 const GroupPredictions: React.FC<GroupPredictionsProps> = ({ roomId }) => {
+  const { t } = useTranslation('rooms');
   const token = localStorage.getItem('authToken');
   const [matchGroups, setMatchGroups] = useState<MatchGroup[]>([]);
   const [loading, setLoading] = useState(false);
@@ -105,7 +107,7 @@ const GroupPredictions: React.FC<GroupPredictionsProps> = ({ roomId }) => {
 
       setMatchGroups([...upcoming, ...finished]);
     } catch (err) {
-      setError('Could not load group predictions.');
+      setError(t('rooms:predictions.error'));
     } finally {
       setLoading(false);
     }
@@ -151,7 +153,7 @@ const GroupPredictions: React.FC<GroupPredictionsProps> = ({ roomId }) => {
     return (
       <div className="flex flex-col items-center justify-center py-16 text-gray-400 gap-2">
         <FiUsers size={40} />
-        <p>No predictions in this group yet.</p>
+        <p>t('rooms:predictions.noGroup')</p>
       </div>
     );
   }
@@ -161,7 +163,7 @@ const GroupPredictions: React.FC<GroupPredictionsProps> = ({ roomId }) => {
       {/* Header */}
       <div className="flex items-center justify-between mb-2">
         <span className="text-sm text-gray-400">
-          {matchGroups.length} match{matchGroups.length !== 1 ? 'es' : ''} with predictions
+          {t('rooms:predictions.matchCount', { count: matchGroups.length })}
         </span>
         <button
           onClick={fetchPredictions}
@@ -222,7 +224,7 @@ const GroupPredictions: React.FC<GroupPredictionsProps> = ({ roomId }) => {
             {/* Predictions list */}
             <div className="divide-y divide-white/5">
               {match.predictions.length === 0 ? (
-                <p className="text-xs text-gray-500 text-center py-3">No predictions</p>
+                <p className="text-xs text-gray-500 text-center py-3">{t('rooms:predictions.noPredictions')}</p>
               ) : (
                 match.predictions.map((p) => (
                   <div key={p.id_apuesta} className="flex items-center justify-between px-4 py-2.5">

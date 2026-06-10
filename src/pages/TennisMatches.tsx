@@ -1,3 +1,4 @@
+import { useTranslation } from 'react-i18next';
 import React, { useEffect, useState } from 'react';
 import { useNavigate } from 'react-router-dom';
 import Layout from '../components/Layout';
@@ -39,6 +40,7 @@ interface TennisMatch {
 }
 
 const TennisMatches: React.FC = () => {
+	const { t } = useTranslation(['sports', 'common']);
 	const navigate = useNavigate();
 	const [matches, setMatches] = useState<TennisMatch[]>([]);
 	const [loading, setLoading] = useState(true);
@@ -79,7 +81,7 @@ const TennisMatches: React.FC = () => {
 			setCompetitions(uniqueCompetitions as Competition[]);
 		} catch (err) {
 			console.error('Error fetching tennis matches:', err);
-			setError('Failed to load tennis matches');
+			setError(t('sports:tennis.error'));
 		} finally {
 			setLoading(false);
 		}
@@ -169,10 +171,10 @@ const TennisMatches: React.FC = () => {
 				<div className="mb-8">
 					<div className="flex items-center gap-3 mb-4">
 						<span className="text-5xl">🎾</span>
-						<h1 className="text-3xl font-bold text-white">Tennis Matches</h1>
+						<h1 className="text-3xl font-bold text-white">{t('sports:tennis.title')}</h1>
 					</div>
 					<p className="text-gray-400">
-						Check out upcoming matches and results from the top tennis tournaments
+						{t('sports:tennis.subtitle')}
 					</p>
 				</div>
 
@@ -240,7 +242,7 @@ const TennisMatches: React.FC = () => {
 						<div className="text-center py-12 bg-gray-800 rounded-lg">
 							<span className="text-6xl mb-4 block">🔍</span>
 							<p className="text-gray-400 text-lg">
-								No {activeTab === 'upcoming' ? 'upcoming' : 'finished'} matches right now
+								{activeTab === 'upcoming' ? t('sports:tennis.noUpcoming') : t('sports:tennis.noFinished')}
 							</p>
 						</div>
 					) : (
@@ -293,7 +295,7 @@ const TennisMatches: React.FC = () => {
 														{/* Player 1 */}
 														<div className="flex items-center gap-3 flex-1 justify-end">
 															<span className="text-white font-medium text-lg">
-																{match.deportista_local?.nombre || match.equipo_local?.nombre || 'TBD'}
+																{match.deportista_local?.nombre || match.equipo_local?.nombre || t('common:tbd')}
 															</span>
 															{(match.deportista_local?.foto || match.equipo_local?.logo) && (
 																<div className="w-12 h-12 rounded-full overflow-hidden bg-gray-700">
@@ -348,7 +350,7 @@ const TennisMatches: React.FC = () => {
 																</div>
 															)}
 															<span className="text-white font-medium text-lg">
-																{match.deportista_visitante?.nombre || match.equipo_visitante?.nombre || 'TBD'}
+																{match.deportista_visitante?.nombre || match.equipo_visitante?.nombre || t('common:tbd')}
 															</span>
 														</div>
 													</div>

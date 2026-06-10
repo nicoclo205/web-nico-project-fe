@@ -1,0 +1,27 @@
+{
+  "title": "Configuración",
+  "personalInfo": "Información Personal",
+  "phoneNumber": "Número de Teléfono",
+  "email": "Correo Electrónico",
+  "emailTooltip": "El correo no se puede cambiar",
+  "firstName": "Nombre",
+  "firstNamePlaceholder": "Tu nombre",
+  "lastName": "Apellido",
+  "lastNamePlaceholder": "Tu apellido",
+  "chooseAvatar": "Elige tu Avatar",
+  "avatarSelected": "Avatar seleccionado",
+  "saving": "Guardando...",
+  "saveChanges": "Guardar Cambios",
+  "preview": "Vista Previa",
+  "dangerZone": "Zona de Peligro",
+  "dangerText": "Eliminar tu cuenta es permanente y no se puede deshacer.",
+  "deleteAccount": "Eliminar Cuenta",
+  "deleteConfirm": "¿Estás seguro de que quieres eliminar tu cuenta? Esta acción no se puede deshacer.",
+  "savedSuccess": "¡Configuración guardada correctamente!",
+  "language": "Idioma",
+  "errors": {
+    "load": "Error al cargar los datos del usuario",
+    "save": "Error al guardar la configuración",
+    "delete": "Error al eliminar la cuenta"
+  }
+}

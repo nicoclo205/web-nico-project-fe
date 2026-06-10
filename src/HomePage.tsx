@@ -1,4 +1,5 @@
 import { FaHome } from "react-icons/fa";
+import { useTranslation } from 'react-i18next';
 import { API_BASE_URL } from './config/api';
 import { GiSoccerField } from "react-icons/gi";
 import { MdMeetingRoom, MdSportsTennis, MdSportsBasketball } from "react-icons/md";
@@ -11,6 +12,7 @@ import { useRoom } from "./hooks/useRoom";
 import { registerRoomHash } from "./utils/roomHash";
 
 const HomePage = () => {
+	const { t } = useTranslation(['home', 'common']);
   const { user, logout } = useAuth();
   const navigate = useNavigate();
   const [userAvatar, setUserAvatar] = useState<string | null>(null);
@@ -47,7 +49,7 @@ const HomePage = () => {
   };
 
   // Get user name from auth context
-  const userName = user?.nombre_usuario || user?.username || "User";
+  const userName = user?.nombre_usuario || user?.username || t('common:user');
   const currentUserId = user?.id_usuario || user?.id;
 
   // Filter rooms where user is a member (creator or joined)
@@ -111,8 +113,8 @@ const HomePage = () => {
               onClick={handleLogout}
               className="btn-danger text-xs md:text-sm px-3 md:px-4"
             >
-              <span className="hidden sm:inline">Log Out</span>
-              <span className="sm:hidden">Out</span>
+              <span className="hidden sm:inline">{t('common:logout')}</span>
+              <span className="sm:hidden">{t('common:out')}</span>
             </button>
           </div>
         </header>
@@ -183,7 +185,7 @@ const HomePage = () => {
               <div className="group relative rounded-2xl p-6 bg-[#0f1115]/50 border border-white/5 overflow-hidden">
                 <div className="relative z-10 opacity-75">
                   <div className="flex justify-between items-start mb-1">
-                    <h3 className="text-xl font-bold text-gray-300">Tennis</h3>
+                    <h3 className="text-xl font-bold text-gray-300">{t('sports:tennis')}</h3>
                     <span className="bg-gray-800 text-gray-400 text-xs px-2 py-1 rounded font-medium uppercase tracking-wider">Coming Soon</span>
                   </div>
                   <p className="text-sm text-gray-500 font-medium mb-4">In development</p>
@@ -200,7 +202,7 @@ const HomePage = () => {
               <div className="group relative rounded-2xl p-6 bg-[#0f1115]/50 border border-white/5 overflow-hidden">
                 <div className="relative z-10 opacity-75">
                   <div className="flex justify-between items-start mb-1">
-                    <h3 className="text-xl font-bold text-gray-300">Basketball</h3>
+                    <h3 className="text-xl font-bold text-gray-300">{t('sports:basketball')}</h3>
                     <span className="bg-gray-800 text-gray-400 text-xs px-2 py-1 rounded font-medium uppercase tracking-wider">Coming Soon</span>
                   </div>
                   <p className="text-sm text-gray-500 font-medium mb-4">In development</p>

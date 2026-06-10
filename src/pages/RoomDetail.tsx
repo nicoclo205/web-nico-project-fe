@@ -1,3 +1,4 @@
+import { useTranslation } from 'react-i18next';
 import React, { useEffect, useState } from 'react';
 import { useNavigate, useParams } from 'react-router-dom';
 import { FaHome, FaArrowLeft } from "react-icons/fa";
@@ -18,6 +19,7 @@ import GroupPredictions from '../components/GroupPredictions';
 type TabType = 'info' | 'bets' | 'ranking' | 'predictions' | 'chat' | 'config';
 
 const RoomDetail: React.FC = () => {
+	const { t } = useTranslation(['rooms', 'common']);
 	const navigate = useNavigate();
 	const { roomHash } = useParams<{ roomHash: string }>();
 	const { user} = useAuth();
@@ -40,7 +42,7 @@ const RoomDetail: React.FC = () => {
 	const [activeTab, setActiveTab] = useState<TabType>('info');
 	const [userAvatar, setUserAvatar] = useState<string | null>(null);
 
-	const userName = user?.nombre_usuario || user?.username || "User";
+	const userName = user?.nombre_usuario || user?.username || t('common:user');
 	const currentUserId = user?.id_usuario || user?.id;
 	const [roomId, setRoomId] = useState<number | null>(null);
 	const [localError, setLocalError] = useState<string | null>(null);
@@ -77,7 +79,7 @@ const RoomDetail: React.FC = () => {
 				setRoomId(id);
 				setLocalError(null);
 			} else {
-				setLocalError('Invalid room code');
+				setLocalError(t('rooms:invalidCode'));
 			}
 		}
 	}, [roomHash]);
@@ -102,7 +104,7 @@ const RoomDetail: React.FC = () => {
 	const handleCopyCode = () => {
 		if (selectedRoom?.codigo_sala) {
 			navigator.clipboard.writeText(selectedRoom.codigo_sala);
-			alert('Code copied to clipboard!');
+			alert(t('common:codeCopied'));
 		}
 	};
 
@@ -113,7 +115,7 @@ const RoomDetail: React.FC = () => {
 			setShowEditModal(false);
 			loadRoomData();
 		} else {
-			alert(result.error || 'Failed to update the room');
+			alert(result.error || t('rooms:editRoom.error', 'Failed to update the room'));
 		}
 	};
 
@@ -142,7 +144,7 @@ const RoomDetail: React.FC = () => {
 	if (!selectedRoom) {
 		return (
 			<div className="flex flex-col items-center justify-center h-screen bg-[#0e0f11] text-white">
-				<h1 className="text-2xl font-bold mb-4">Room not found</h1>
+				<h1 className="text-2xl font-bold mb-4">{t('common:roomNotFound')}</h1>
 				<button onClick={() => navigate('/rooms')} className="btn-primary">
 					Back to Rooms
 				</button>
@@ -244,8 +246,8 @@ const RoomDetail: React.FC = () => {
 						className={activeTab === 'info' ? 'flex-1 min-w-[100px] flex items-center justify-center gap-2 btn-tab-active' : 'flex-1 min-w-[100px] flex items-center justify-center gap-2 btn-tab-inactive'}
 					>
 						<FiUsers className="text-lg" />
-						<span className="hidden sm:inline">Info</span>
-						<span className="sm:hidden">Info</span>
+						<span className="hidden sm:inline">{t('rooms:tabs.info')}</span>
+						<span className="sm:hidden">{t('rooms:tabs.info')}</span>
 					</button>
 					<button
 						onClick={() => setActiveTab('bets')}
@@ -266,8 +268,8 @@ const RoomDetail: React.FC = () => {
 						className={activeTab === 'predictions' ? 'flex-1 min-w-[100px] flex items-center justify-center gap-2 btn-tab-active' : 'flex-1 min-w-[100px] flex items-center justify-center gap-2 btn-tab-inactive'}
 					>
 						<FiUsers className="text-lg" />
-						<span className="hidden sm:inline">Predictions</span>
-						<span className="sm:hidden">Pred.</span>
+						<span className="hidden sm:inline">{t('rooms:tabs.predictions')}</span>
+						<span className="sm:hidden">{t('rooms:tabs.pred')}</span>
 					</button>
 					<button
 						onClick={() => setActiveTab('chat')}
@@ -282,8 +284,8 @@ const RoomDetail: React.FC = () => {
 							className={activeTab === 'config' ? 'flex-1 min-w-[100px] flex items-center justify-center gap-2 btn-tab-active' : 'flex-1 min-w-[100px] flex items-center justify-center gap-2 btn-tab-inactive'}
 						>
 							<FiSettings className="text-lg" />
-							<span className="hidden sm:inline">Settings</span>
-							<span className="sm:hidden">Config</span>
+							<span className="hidden sm:inline">{t('rooms:tabs.settings')}</span>
+							<span className="sm:hidden">{t('rooms:tabs.settings')}</span>
 						</button>
 					)}
 				</div>
@@ -331,11 +333,11 @@ const RoomDetail: React.FC = () => {
 			{showEditModal && (
 				<div className="fixed inset-0 bg-black/70 flex items-center justify-center p-4 z-50" onClick={() => setShowEditModal(false)}>
 					<div className="bg-[#1f2126] rounded-3xl p-6 md:p-8 max-w-md w-full border border-white/10" onClick={(e) => e.stopPropagation()}>
-						<h2 className="text-2xl font-bold mb-6">Edit Room</h2>
+						<h2 className="text-2xl font-bold mb-6">{t('rooms:editRoom.title')}</h2>
 
 						<div className="space-y-4">
 							<div>
-								<label className="block text-sm font-medium text-gray-300 mb-2">Room Name *</label>
+								<label className="block text-sm font-medium text-gray-300 mb-2">{t('rooms:editRoom.name')}</label>
 								<input
 									type="text"
 									value={editForm.nombre}
@@ -345,7 +347,7 @@ const RoomDetail: React.FC = () => {
 							</div>
 
 							<div>
-								<label className="block text-sm font-medium text-gray-300 mb-2">Description</label>
+								<label className="block text-sm font-medium text-gray-300 mb-2">{t('rooms:editRoom.description')}</label>
 								<textarea
 									value={editForm.descripcion}
 									onChange={(e) => setEditForm({ ...editForm, descripcion: e.target.value })}
@@ -355,7 +357,7 @@ const RoomDetail: React.FC = () => {
 							</div>
 
 							<div>
-								<label className="block text-sm font-medium text-gray-300 mb-2">Max Members</label>
+								<label className="block text-sm font-medium text-gray-300 mb-2">{t('rooms:editRoom.maxMembers')}</label>
 								<input
 									type="number"
 									min="2"

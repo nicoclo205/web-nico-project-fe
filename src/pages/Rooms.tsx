@@ -1,3 +1,4 @@
+import { useTranslation } from 'react-i18next';
 import React, { useState, useEffect } from 'react';
 import { useNavigate } from 'react-router-dom';
 import { FaHome } from "react-icons/fa";
@@ -12,6 +13,7 @@ import { registerRoomHash } from '../utils/roomHash';
 import { ROOM_AVATARS, DEFAULT_ROOM_AVATAR } from '../constants/roomAvatars';
 
 const Rooms: React.FC = () => {
+	const { t } = useTranslation(['rooms', 'common']);
 	const navigate = useNavigate();
 	const { user, logout } = useAuth();
 	const {
@@ -44,7 +46,7 @@ const Rooms: React.FC = () => {
 	// Join room state
 	const [joinCode, setJoinCode] = useState('');
 
-	const userName = user?.nombre_usuario || user?.username || "User";
+	const userName = user?.nombre_usuario || user?.username || t('common:user');
 	const currentUserId = user?.id_usuario || user?.id;
 
 	useEffect(() => {
@@ -244,8 +246,8 @@ const Rooms: React.FC = () => {
 					<div>
 						<h1 className="text-lg md:text-2xl lg:text-3xl font-bold tracking-tight text-white flex items-center gap-2 md:gap-3">
 							<span className="text-3xl md:text-4xl">🎮</span>
-							<span className="hidden sm:inline">Betting Rooms</span>
-							<span className="sm:hidden">Rooms</span>
+							<span className="hidden sm:inline">{t('rooms:title')}</span>
+							<span className="sm:hidden">{t('common:rooms')}</span>
 						</h1>
 					</div>
 					<div className="flex items-center space-x-2 md:space-x-4">
@@ -270,8 +272,8 @@ const Rooms: React.FC = () => {
 							onClick={handleLogout}
 							className="btn-danger text-xs md:text-sm px-3 md:px-4"
 						>
-							<span className="hidden sm:inline">Log Out</span>
-							<span className="sm:hidden">Out</span>
+							<span className="hidden sm:inline">{t('common:logout')}</span>
+							<span className="sm:hidden">{t('common:out')}</span>
 						</button>
 					</div>
 				</header>
@@ -296,14 +298,14 @@ const Rooms: React.FC = () => {
 						className="btn-primary btn-icon"
 					>
 						<FiPlus className="text-xl" />
-						<span>Create Room</span>
+						<span>{t('rooms:createRoom')}</span>
 					</button>
 					<button
 						onClick={() => setShowJoinModal(true)}
 						className="btn-info btn-icon"
 					>
 						<FiUsers className="text-xl" />
-						<span>Join with Code</span>
+						<span>{t('rooms:joinWithCode')}</span>
 					</button>
 				</div>
 
@@ -312,7 +314,7 @@ const Rooms: React.FC = () => {
 					<FiSearch className="text-gray-400 mr-2 md:mr-3" />
 					<input
 						type="text"
-						placeholder="Search rooms..."
+						placeholder={t('rooms:searchRooms')}
 						value={searchTerm}
 						onChange={(e) => setSearchTerm(e.target.value)}
 						className="bg-transparent outline-none w-full text-sm md:text-base"
@@ -329,8 +331,8 @@ const Rooms: React.FC = () => {
 						{filteredRooms.length === 0 ? (
 							<div className="col-span-full text-center py-12 bg-gradient-to-br from-[#1f2126] to-[#141518] rounded-3xl border border-white/5">
 								<span className="text-6xl mb-4 block">🔍</span>
-								<p className="text-gray-400 text-lg">You don't have any rooms</p>
-								<p className="text-gray-500 text-sm mt-2">Create a room or join one with a code</p>
+								<p className="text-gray-400 text-lg">{t('rooms:noRooms')}</p>
+								<p className="text-gray-500 text-sm mt-2">{t('rooms:noRoomsSubtitle')}</p>
 							</div>
 						) : (
 							filteredRooms.map((room) => {
@@ -373,7 +375,7 @@ const Rooms: React.FC = () => {
 
 										{/* Room Code */}
 										<div className="mb-4 p-3 bg-white/5 rounded-xl">
-											<p className="text-xs text-gray-400 mb-1">Room Code</p>
+											<p className="text-xs text-gray-400 mb-1">{t('rooms:roomCode')}</p>
 											<p className="text-lg font-mono font-bold text-green-400">{room.codigo_sala}</p>
 										</div>
 
@@ -399,14 +401,14 @@ const Rooms: React.FC = () => {
 
 						{/* Statistics Card */}
 						<div className="bg-[#181b21] rounded-xl md:rounded-2xl p-4 md:p-6 border border-white/5 shadow-sm">
-							<h3 className="text-base md:text-lg font-bold text-white mb-3 md:mb-4">Statistics</h3>
+							<h3 className="text-base md:text-lg font-bold text-white mb-3 md:mb-4">{t('rooms:statistics')}</h3>
 							<div className="space-y-2 md:space-y-3">
 								<div className="flex items-center justify-between p-2.5 md:p-3 rounded-lg bg-[#0f1115] border border-white/5">
-									<span className="text-xs md:text-sm font-medium text-gray-400">Total Rooms</span>
+									<span className="text-xs md:text-sm font-medium text-gray-400">{t('rooms:roomStats.totalRooms')}</span>
 									<span className="text-base md:text-lg font-bold text-green-500">{rooms.length}</span>
 								</div>
 								<div className="flex items-center justify-between p-2.5 md:p-3 rounded-lg bg-[#0f1115] border border-white/5">
-									<span className="text-xs md:text-sm font-medium text-gray-400">My Rooms</span>
+									<span className="text-xs md:text-sm font-medium text-gray-400">{t('rooms:myRooms')}</span>
 									<span className="text-base md:text-lg font-bold text-blue-500">
 										{rooms.filter(r =>
 											r.id_usuario === currentUserId ||
@@ -420,7 +422,7 @@ const Rooms: React.FC = () => {
 						{/* Quick Links Card */}
 						<div className="bg-gradient-to-br from-[#181b21] to-[#0f1115] rounded-xl md:rounded-2xl p-4 md:p-6 border border-white/5 relative overflow-hidden flex-1 min-h-[200px] md:min-h-[250px] flex flex-col justify-center">
 							<div className="absolute -top-10 -right-10 w-32 h-32 bg-green-500 opacity-10 blur-3xl rounded-full"></div>
-							<h3 className="text-base md:text-lg font-bold text-white mb-2 relative z-10">Quick Links</h3>
+							<h3 className="text-base md:text-lg font-bold text-white mb-2 relative z-10">{t('rooms:quickLinks')}</h3>
 							<p className="text-xs md:text-sm text-gray-400 relative z-10 leading-relaxed mb-4 md:mb-6">
 								Quickly navigate to other sections of the app.
 							</p>
@@ -695,11 +697,11 @@ const Rooms: React.FC = () => {
 			{showJoinModal && (
 				<div className="fixed inset-0 bg-black/70 flex items-center justify-center p-4 z-50" onClick={() => setShowJoinModal(false)}>
 					<div className="bg-[#1f2126] rounded-3xl p-6 md:p-8 max-w-md w-full border border-white/10" onClick={(e) => e.stopPropagation()}>
-						<h2 className="text-2xl font-bold mb-6">Join a Room</h2>
+						<h2 className="text-2xl font-bold mb-6">{t('rooms:joinRoom')}</h2>
 
 						<div className="space-y-4">
 							<div>
-								<label className="block text-sm font-medium text-gray-300 mb-2">Room Code</label>
+								<label className="block text-sm font-medium text-gray-300 mb-2">{t('rooms:roomCode')}</label>
 								<input
 									type="text"
 									value={joinCode}

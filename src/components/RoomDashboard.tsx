@@ -1,3 +1,4 @@
+import { useTranslation } from 'react-i18next';
 import React, { useEffect, useState } from 'react';
 import { FiUsers, FiCopy, FiTrendingUp, FiClock, FiTarget, FiBell, FiCalendar, FiAward, FiAlertCircle } from 'react-icons/fi';
 import { GiSoccerBall, GiTrophy } from 'react-icons/gi';
@@ -54,6 +55,7 @@ const RoomDashboard: React.FC<RoomDashboardProps> = ({
   maxMembers,
   onCopyCode,
 }) => {
+  const { t } = useTranslation(['rooms', 'common']);
   const [upcomingMatches, setUpcomingMatches] = useState<Match[]>([]);
   const [lastResult, setLastResult] = useState<Match | null>(null);
   const [leader, setLeader] = useState<RankingUser | null>(null);
@@ -151,14 +153,14 @@ const RoomDashboard: React.FC<RoomDashboardProps> = ({
             <div className="flex items-center gap-2 min-w-[120px]">
               <FiUsers className="text-xl text-green-500" />
               <div>
-                <p className="text-xs text-gray-400">Members</p>
+                <p className="text-xs text-gray-400">{t('rooms:dashboard.members')}</p>
                 <p className="text-lg font-bold">{memberCount}/{maxMembers}</p>
               </div>
             </div>
 
             {/* Código de Sala */}
             <div className="flex-1 min-w-[200px]">
-              <p className="text-xs text-gray-400 mb-1">Room Code</p>
+              <p className="text-xs text-gray-400 mb-1">{t('rooms:dashboard.roomCode')}</p>
               <div className="flex items-center gap-2">
                 <div className="flex-1 px-3 py-1.5 bg-white/5 rounded-lg border border-white/10">
                   <p className="text-sm font-mono font-bold text-green-400 text-center tracking-wider">

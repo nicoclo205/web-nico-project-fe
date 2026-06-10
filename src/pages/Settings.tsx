@@ -1,9 +1,11 @@
+import { useTranslation } from 'react-i18next';
 import { useState, useEffect } from 'react';
 import { useNavigate } from 'react-router-dom';
 import { FaHome } from "react-icons/fa";
 import { GiSoccerField } from "react-icons/gi";
 import { MdMeetingRoom, MdSettings } from "react-icons/md";
 import { FiUser, FiPhone, FiImage, FiTrash2, FiSave, FiCheck, FiMail } from "react-icons/fi";
+import LanguageSelectorEnhanced from '../components/LanguageSelectorEnhanced';
 import { useAuth } from '../hooks/useAuth';
 import api from '../services/api';
 
@@ -20,6 +22,7 @@ const avatarPaths = [
 ];
 
 const Settings = () => {
+	const { t } = useTranslation(['settings', 'common']);
     const navigate = useNavigate();
     const { user, logout } = useAuth();
     const [userData, setUserData] = useState({
@@ -36,7 +39,7 @@ const Settings = () => {
     const [errorMsg, setErrorMsg] = useState('');
     const [userAvatar, setUserAvatar] = useState<string | null>(null);
 
-    const userName = user?.nombre_usuario || user?.username || "User";
+    const userName = user?.nombre_usuario || user?.username || t('common:user');
 
     useEffect(() => {
         fetchUserData();
@@ -57,7 +60,7 @@ const Settings = () => {
 
         } catch (error) {
             console.error('Error fetching user data:', error);
-            setErrorMsg('Failed to load user data');
+            setErrorMsg(t('settings:errors.load'));
         }
     };
 
@@ -88,7 +91,7 @@ const Settings = () => {
                 celular: userData.celular,
                 foto_perfil: userData.foto_perfil
             });
-            setSuccessMsg('Settings saved successfully!');
+            setSuccessMsg(t('settings:savedSuccess'));
             setUserAvatar(userData.foto_perfil);
         } catch (error) {
             console.error('Error updating settings:', error);
@@ -99,7 +102,7 @@ const Settings = () => {
     };
 
     const handleDeleteAccount = async () => {
-        if (!window.confirm('Are you sure you want to delete your account? This action cannot be undone.')) {
+        if (!window.confirm(t('settings:deleteConfirm'))) {
             return;
         }
 
@@ -151,7 +154,7 @@ const Settings = () => {
                     <div>
                         <h1 className="text-lg md:text-2xl lg:text-3xl font-bold tracking-tight text-white flex items-center gap-2 md:gap-3">
                             <span className="text-3xl md:text-4xl">⚙️</span>
-                            <span className="hidden sm:inline">Settings</span>
+                            <span className="hidden sm:inline">{t('settings:title')}</span>
                             <span className="sm:hidden">Config</span>
                         </h1>
                     </div>
@@ -174,8 +177,8 @@ const Settings = () => {
                             onClick={handleLogout}
                             className="btn-danger text-xs md:text-sm px-3 md:px-4"
                         >
-                            <span className="hidden sm:inline">Log Out</span>
-                            <span className="sm:hidden">Out</span>
+                            <span className="hidden sm:inline">{t('common:logout')}</span>
+                            <span className="sm:hidden">{t('common:out')}</span>
                         </button>
                     </div>
                 </header>
@@ -205,30 +208,30 @@ const Settings = () => {
                                 <div className="w-10 h-10 rounded-xl bg-blue-500/20 flex items-center justify-center">
                                     <FiUser className="text-blue-400 text-xl" />
                                 </div>
-                                <h2 className="text-lg md:text-xl font-bold">Personal Info</h2>
+                                <h2 className="text-lg md:text-xl font-bold">{t('settings:personalInfo')}</h2>
                             </div>
 
                             <div className="grid grid-cols-1 md:grid-cols-2 gap-4">
                                 <div>
-                                    <label className="block text-sm font-medium text-gray-400 mb-2">First Name</label>
+                                    <label className="block text-sm font-medium text-gray-400 mb-2">{t('settings:firstName')}</label>
                                     <input
                                         type="text"
                                         name="nombre"
                                         value={userData.nombre || ''}
                                         onChange={handleChange}
-                                        placeholder="Your first name"
+                                        placeholder={t('settings:firstNamePlaceholder')}
                                         className="w-full bg-white/5 border border-white/10 rounded-xl px-4 py-3 text-white placeholder-gray-500 focus:outline-none focus:ring-2 focus:ring-green-500 focus:border-transparent transition-all"
                                     />
                                 </div>
 
                                 <div>
-                                    <label className="block text-sm font-medium text-gray-400 mb-2">Last Name</label>
+                                    <label className="block text-sm font-medium text-gray-400 mb-2">{t('settings:lastName')}</label>
                                     <input
                                         type="text"
                                         name="apellido"
                                         value={userData.apellido || ''}
                                         onChange={handleChange}
-                                        placeholder="Your last name"
+                                        placeholder={t('settings:lastNamePlaceholder')}
                                         className="w-full bg-white/5 border border-white/10 rounded-xl px-4 py-3 text-white placeholder-gray-500 focus:outline-none focus:ring-2 focus:ring-green-500 focus:border-transparent transition-all"
                                     />
                                 </div>
@@ -259,7 +262,7 @@ const Settings = () => {
                                         value={userData.correo || ''}
                                         disabled
                                         className="w-full bg-white/5 border border-white/10 rounded-xl px-4 py-3 text-gray-400 cursor-not-allowed opacity-60"
-                                        title="Email cannot be changed"
+                                        title={t('settings:emailTooltip')}
                                     />
                                     <p className="text-xs text-gray-500 mt-1.5 flex items-center gap-1">
                                         <svg className="w-3 h-3" fill="currentColor" viewBox="0 0 20 20">
@@ -278,7 +281,7 @@ const Settings = () => {
                                     <FiImage className="text-purple-400 text-xl" />
                                 </div>
                                 <div>
-                                    <h2 className="text-lg md:text-xl font-bold">Choose Your Avatar</h2>
+                                    <h2 className="text-lg md:text-xl font-bold">{t('settings:chooseAvatar')}</h2>
                                     <p className="text-sm text-gray-400">Pick an avatar for your profile</p>
                                 </div>
                             </div>
@@ -344,7 +347,7 @@ const Settings = () => {
                     <aside className="w-full lg:w-80 flex flex-col gap-4 md:gap-6 flex-shrink-0">
                         {/* Profile Preview Card */}
                         <div className="bg-[#181b21] rounded-xl md:rounded-2xl p-4 md:p-6 border border-white/5 shadow-sm">
-                            <h3 className="text-base md:text-lg font-bold text-white mb-4">Preview</h3>
+                            <h3 className="text-base md:text-lg font-bold text-white mb-4">{t('settings:preview')}</h3>
                             <div className="flex flex-col items-center text-center">
                                 <div className="w-24 h-24 md:w-28 md:h-28 rounded-full bg-gradient-to-br from-green-500 to-blue-500 p-1 mb-4">
                                     {userData.foto_perfil ? (
@@ -377,9 +380,15 @@ const Settings = () => {
                             </div>
                         </div>
 
-                        {/* Danger Zone Card */}
+                        {/* Language Card */}
+                    <div className="rounded-3xl p-6 bg-gradient-to-br from-[#1f2126] to-[#141518] shadow-xl border border-white/5">
+                        <h3 className="text-base md:text-lg font-bold text-white mb-4">{t('settings:language')}</h3>
+                        <LanguageSelectorEnhanced />
+                    </div>
+
+                    {/* Danger Zone Card */}
                         <div className="bg-gradient-to-br from-red-900/20 to-[#0f1115] rounded-xl md:rounded-2xl p-4 md:p-6 border border-red-500/20 shadow-sm">
-                            <h3 className="text-base md:text-lg font-bold text-red-400 mb-2">Danger Zone</h3>
+                            <h3 className="text-base md:text-lg font-bold text-red-400 mb-2">{t('settings:dangerZone')}</h3>
                             <p className="text-xs md:text-sm text-gray-400 mb-4">
                                 Once your account is deleted, there's no going back. Please be sure.
                             </p>

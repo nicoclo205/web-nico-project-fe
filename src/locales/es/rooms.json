@@ -1,10 +1,11 @@
 {
-  "title": "Salas",
+  "title": "Salas de Apuestas",
   "myRooms": "Mis Salas",
   "popularRooms": "Salas Populares",
   "createRoom": "Crear Sala",
-  "joinRoom": "Unirse a Sala",
+  "joinRoom": "Unirse a una Sala",
   "roomCode": "Código de Sala",
+  "roomCodePlaceholder": "Ingresa el código de sala",
   "members": "{{count}} miembro",
   "members_plural": "{{count}} miembros",
   "status": "Estado",
@@ -18,8 +19,51 @@
   "settings": "Configuración",
   "statistics": "Estadísticas",
   "leaderboard": "Tabla de Posiciones",
-  "chat": "Chat",
-  "bets": "Apuestas",
+  "chat": {
+    "placeholder": "Escribe un mensaje...",
+    "send": "Enviar",
+    "connecting": "Conectando...",
+    "connected": "Conectado",
+    "disconnected": "Desconectado",
+    "reconnecting": "Reconectando...",
+    "error": "Error de conexión",
+    "noMessages": "No hay mensajes aún. ¡Di hola! 👋"
+  },
+  "bets": {
+    "title": "Apuestas de la Sala",
+    "yourBet": "Tu Apuesta",
+    "noBets": "No hay apuestas disponibles ahora",
+    "betPlaced": "¡Apuesta realizada!",
+    "editBet": "Editar Apuesta",
+    "placeBet": "Hacer Apuesta",
+    "updateBet": "Actualizar Apuesta",
+    "betOn": "Apostar en",
+    "points": "pts",
+    "status": {
+      "won": "Ganada",
+      "lost": "Perdida",
+      "pending": "Pendiente",
+      "cancelled": "Cancelada"
+    },
+    "matchStatus": {
+      "scheduled": "Programado",
+      "live": "En Vivo",
+      "finished": "Finalizado",
+      "postponed": "Pospuesto",
+      "cancelled": "Cancelado"
+    },
+    "errors": {
+      "load": "Error al cargar apuestas",
+      "place": "Error al realizar apuesta",
+      "update": "Error al actualizar apuesta"
+    },
+    "homeWin": "Victoria Local",
+    "draw": "Empate",
+    "awayWin": "Victoria Visitante",
+    "prediction": "Predicción",
+    "result": "Resultado",
+    "yourPrediction": "Tu predicción"
+  },
   "matches": "Partidos",
   "rules": "Reglas",
   "prizes": "Premios",
@@ -40,7 +84,8 @@
   "createSuccess": "Sala creada exitosamente",
   "leaveSuccess": "Saliste de la sala exitosamente",
   "deleteSuccess": "Sala eliminada exitosamente",
-  "noRooms": "No se encontraron salas",
+  "noRooms": "No tienes salas",
+  "noRoomsSubtitle": "Crea una sala o únete con un código",
   "noMembers": "Aún no hay miembros",
   "noBets": "Aún no hay apuestas",
   "noMatches": "No hay partidos disponibles",
@@ -67,6 +112,116 @@
     "activeBets": "Apuestas Activas",
     "completedBets": "Apuestas Completadas",
     "averageScore": "Puntuación Promedio",
-    "topPlayer": "Mejor Jugador"
+    "topPlayer": "Mejor Jugador",
+    "totalRooms": "Total Salas"
+  },
+  "quickLinks": "Accesos Rápidos",
+  "tabs": {
+    "info": "Información",
+    "bets": "Apuestas",
+    "ranking": "Ranking",
+    "predictions": "Predicciones",
+    "chat": "Chat",
+    "settings": "Configuración",
+    "pred": "Pred."
+  },
+  "editRoom": {
+    "title": "Editar Sala",
+    "name": "Nombre de la Sala *",
+    "description": "Descripción",
+    "maxMembers": "Máximo de Miembros",
+    "cancel": "Cancelar",
+    "save": "Guardar Cambios"
+  },
+  "createModal": {
+    "title": "Crear Sala",
+    "name": "Nombre de la Sala *",
+    "namePlaceholder": "Mi sala genial",
+    "description": "Descripción (opcional)",
+    "descPlaceholder": "Describe tu sala...",
+    "maxMembers": "Máximo de Miembros",
+    "chooseAvatar": "Elige un Avatar",
+    "roomMode": "Modo de Sala",
+    "competition": "Competición",
+    "match": "Partido",
+    "selectCompetition": "Selecciona una competición...",
+    "selectMatch": "Selecciona un partido...",
+    "footer": "Los demás miembros pueden unirse usando el código de sala",
+    "modeOptions": {
+      "all": "Todos los Partidos",
+      "allDesc": "Apuesta en todos los partidos disponibles",
+      "league": "Por Liga",
+      "leagueDesc": "Restringido a una competición específica",
+      "match": "Partido Único",
+      "matchDesc": "Sala de apuesta para un único partido"
+    },
+    "members": {
+      "2": "2 miembros",
+      "5": "5 miembros",
+      "10": "10 miembros",
+      "20": "20 miembros",
+      "50": "50 miembros",
+      "100": "100 miembros"
+    }
+  },
+  "ranking": {
+    "title": "Ranking",
+    "noData": "Aún no hay datos de ranking",
+    "points": "pts",
+    "position": "#{{pos}}",
+    "error": "Error al cargar el ranking"
+  },
+  "config": {
+    "title": "Configuración de Apuestas",
+    "subtitle": "Selecciona las ligas/torneos o partidos individuales disponibles para apostar",
+    "enabledLeagues": "Ligas & Torneos Habilitados",
+    "addLeague": "Agregar Liga",
+    "noLeagues": "Sin ligas configuradas. Los usuarios pueden apostar en todos los partidos disponibles.",
+    "enabledMatches": "Partidos Individuales Habilitados",
+    "addMatch": "Agregar Partido",
+    "noMatches": "No hay partidos individuales agregados manualmente",
+    "leagueModal": {
+      "title": "Agregar Liga / Torneo",
+      "search": "Buscar liga...",
+      "empty": "No hay ligas disponibles"
+    },
+    "matchModal": {
+      "title": "Agregar Partido Individual",
+      "search": "Buscar partido...",
+      "empty": "No hay partidos disponibles"
+    },
+    "removeLeague": "¿Eliminar esta liga de la sala?",
+    "removeMatch": "¿Eliminar este partido de la sala?",
+    "errors": {
+      "removeLeague": "Error al eliminar liga",
+      "removeMatch": "Error al eliminar partido",
+      "addLeague": "Error al agregar liga",
+      "addMatch": "Error al agregar partido",
+      "load": "Error al cargar la configuración"
+    }
+  },
+  "dashboard": {
+    "roomInfo": "Info de la Sala",
+    "roomCode": "Código de Sala",
+    "copyCode": "Copiar Código",
+    "copyCodeDesc": "Comparte este código para que otros se unan",
+    "createdAt": "Creada",
+    "members": "Miembros",
+    "maxMembers": "Máximo de Miembros",
+    "notifications": "Notificaciones",
+    "noNotifications": "Sin notificaciones nuevas",
+    "editRoom": "Editar Sala",
+    "errors": {
+      "load": "Error al cargar info de la sala",
+      "copy": "Error al copiar código"
+    }
+  },
+  "predictions": {
+    "matchCount": "{{count}} partido con predicciones",
+    "matchCount_plural": "{{count}} partidos con predicciones",
+    "refresh": "Actualizar",
+    "noPredictions": "Sin predicciones",
+    "noGroup": "Aún no hay predicciones en este grupo.",
+    "error": "No se pudieron cargar las predicciones del grupo."
   }
 }

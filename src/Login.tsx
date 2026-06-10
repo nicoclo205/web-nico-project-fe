@@ -5,6 +5,7 @@ import { useLocation, useNavigate } from 'react-router-dom';
 import BackButton from "./components/BackButton";
 import MensajeError from "./components/mensajeError";
 import SuccessMessage from "./components/SuccessMessage";
+import LanguageSelectorEnhanced from './components/LanguageSelectorEnhanced';
 import { useAuth } from "./hooks/useAuth";
 import './index.css';
 
@@ -159,13 +160,17 @@ function Auth() {
       </div>
 
       <div className="w-full lg:w-[85vw] lg:h-[85vh] rounded-3xl bg-myGray flex flex-col lg:flex-row p-2 sm:p-4 overflow-hidden relative">
+        {/* Language selector */}
+        <div className="absolute top-4 right-4 z-20">
+          <LanguageSelectorEnhanced />
+        </div>
         
         {/* Image Container - Fixed position, but image moves inside it */}
         <div className="hidden lg:block lg:w-1/2 h-full absolute left-1/2 transform -translate-x-1/2 top-0 overflow-visible transition-none pointer-events-none py-2 px-1.5">
           <div className={`w-full h-full transition-transform duration-1000 ease-in-out ${isLoginView ? 'translate-x-1/2' : '-translate-x-1/2'}`}>
             <img 
               src="imagen_prueba.jpeg" 
-              alt="Authentication image" 
+              alt={t('auth:authImage', 'Authentication image')} 
               className="w-full h-full rounded-3xl object-cover"
             />
           </div>
@@ -175,7 +180,7 @@ function Auth() {
         <div className="hidden md:block lg:hidden w-full h-64 mb-4 overflow-hidden rounded-3xl">
           <img 
             src="imagen_prueba.jpeg" 
-            alt="Authentication image" 
+            alt={t('auth:authImage', 'Authentication image')} 
             className="w-full h-full rounded-3xl object-cover md:object-top"
           />
         </div>
