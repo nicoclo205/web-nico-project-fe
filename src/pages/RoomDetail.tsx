@@ -13,8 +13,9 @@ import RoomRanking from '../components/RoomRanking';
 import { RoomChat } from '../components/RoomChat';
 import RoomConfiguration from '../components/RoomConfiguration';
 import RoomDashboard from '../components/RoomDashboard';
+import GroupPredictions from '../components/GroupPredictions';
 
-type TabType = 'info' | 'bets' | 'ranking' | 'chat' | 'config';
+type TabType = 'info' | 'bets' | 'ranking' | 'predictions' | 'chat' | 'config';
 
 const RoomDetail: React.FC = () => {
 	const navigate = useNavigate();
@@ -261,6 +262,14 @@ const RoomDetail: React.FC = () => {
 						Ranking
 					</button>
 					<button
+						onClick={() => setActiveTab('predictions')}
+						className={activeTab === 'predictions' ? 'flex-1 min-w-[100px] flex items-center justify-center gap-2 btn-tab-active' : 'flex-1 min-w-[100px] flex items-center justify-center gap-2 btn-tab-inactive'}
+					>
+						<FiUsers className="text-lg" />
+						<span className="hidden sm:inline">Predicciones</span>
+						<span className="sm:hidden">Pred.</span>
+					</button>
+					<button
 						onClick={() => setActiveTab('chat')}
 						className={activeTab === 'chat' ? 'flex-1 min-w-[100px] flex items-center justify-center gap-2 btn-tab-active' : 'flex-1 min-w-[100px] flex items-center justify-center gap-2 btn-tab-inactive'}
 					>
@@ -298,6 +307,10 @@ const RoomDetail: React.FC = () => {
 
 				{activeTab === 'ranking' && roomId && (
 					<RoomRanking roomId={roomId} />
+				)}
+
+				{activeTab === 'predictions' && roomId && (
+					<GroupPredictions roomId={roomId} />
 				)}
 
 				{activeTab === 'chat' && roomId && (
