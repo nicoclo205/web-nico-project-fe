@@ -1,9 +1,9 @@
 import './App.css';
 import { BrowserRouter, Routes, Route, Navigate } from 'react-router-dom';
-import Login from './Login';
-import HomePage from './HomePage';
-import Start from './Start';
-import About from './About';
+import Login from './pages/Login';
+import HomePage from './pages/HomePage';
+import Start from './pages/Start';
+import About from './pages/About';
 import SoccerMatches from './pages/SoccerMatches';
 import TennisMatches from './pages/TennisMatches';
 import BasketballMatches from './pages/BasketballMatches';

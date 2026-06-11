@@ -1,14 +1,14 @@
 import { useTranslation } from 'react-i18next';
-import { API_BASE_URL } from './config/api';
+import { API_BASE_URL } from '../config/api';
 import { GiSoccerField } from "react-icons/gi";
 import { MdMeetingRoom, MdSportsTennis, MdSportsBasketball } from "react-icons/md";
 import { IoIosChatbubbles, IoMdTrophy, IoMdNotifications } from "react-icons/io";
-import AppShell from "./components/AppShell";
-import { useAuth } from "./hooks/useAuth";
+import AppShell from "../components/AppShell";
+import { useAuth } from "../hooks/useAuth";
 import { useNavigate } from "react-router-dom";
 import { useState, useEffect } from "react";
-import { useRoom } from "./hooks/useRoom";
-import { registerRoomHash } from "./utils/roomHash";
+import { useRoom } from "../hooks/useRoom";
+import { registerRoomHash } from "../utils/roomHash";
 
 const HomePage = () => {
 	const { t } = useTranslation(['home', 'common', 'sports']);
@@ -239,11 +239,11 @@ const HomePage = () => {
                             </p>
                             <div className="flex items-center gap-2 mt-0.5">
                               <p className="text-xs text-gray-500">
-                                {memberCount} {memberCount === 1 ? 'member' : 'members'}
+                                {t('rooms:members', { count: memberCount })}
                               </p>
                               <span className="text-gray-600">•</span>
                               <p className="text-xs text-gray-500 truncate">
-                                Admin: {adminName}
+                                {t('common:admin')}: {adminName}
                               </p>
                             </div>
                           </div>
@@ -268,7 +268,7 @@ const HomePage = () => {
               <div className="absolute -top-10 -right-10 w-32 h-32 bg-green-500 opacity-10 blur-3xl rounded-full"></div>
               <h3 className="text-base md:text-lg font-bold text-white mb-2 relative z-10">{t('home:comingSoon')}</h3>
               <p className="text-xs md:text-sm text-gray-400 relative z-10 leading-relaxed mb-4 md:mb-6">
-                This section is coming soon — chats, notifications, and more social features are on the way!
+                {t('home:comingSoonDesc')}
               </p>
               <div className="flex justify-center gap-3 relative z-10">
                 <div className="w-10 h-10 rounded-full bg-gray-800 flex items-center justify-center text-gray-500 shadow-sm border border-white/5">

@@ -82,10 +82,10 @@ const BasketballMatches: React.FC = () => {
 
 	const getStatusBadge = (status: string) => {
 		const statusConfig = {
-			programado: { text: 'Scheduled', className: 'bg-blue-500' },
-			'en curso': { text: 'Live', className: 'bg-red-500 animate-pulse' },
-			finalizado: { text: 'Finished', className: 'bg-gray-500' },
-			cancelado: { text: 'Cancelled', className: 'bg-red-700' },
+			programado: { text: t('common:scheduled'), className: 'bg-blue-500' },
+			'en curso': { text: t('common:live'), className: 'bg-red-500 animate-pulse' },
+			finalizado: { text: t('common:finished'), className: 'bg-gray-500' },
+			cancelado: { text: t('common:cancelled'), className: 'bg-red-700' },
 		};
 
 		const config =
@@ -149,7 +149,7 @@ const BasketballMatches: React.FC = () => {
 							onClick={fetchBasketballMatches}
 							className="mt-4 px-4 py-2 bg-orange-600 text-white rounded-lg hover:bg-orange-700"
 						>
-							Retry
+							{t('common:retry')}
 						</button>
 					</div>
 				</div>
@@ -184,7 +184,7 @@ const BasketballMatches: React.FC = () => {
 									: 'text-gray-400 hover:text-white'
 							}`}
 						>
-							Upcoming Matches
+							{t('sports:basketballPage.upcomingTab')}
 						</button>
 						<button
 							onClick={() => setActiveTab('finished')}
@@ -194,7 +194,7 @@ const BasketballMatches: React.FC = () => {
 									: 'text-gray-400 hover:text-white'
 							}`}
 						>
-							Finished Matches
+							{t('sports:basketballPage.finishedTab')}
 						</button>
 					</div>
 
@@ -209,7 +209,7 @@ const BasketballMatches: React.FC = () => {
 										: 'bg-gray-800 text-gray-400 hover:text-white'
 								}`}
 							>
-								All Leagues
+								{t('sports:basketballPage.allLeagues')}
 							</button>
 							{competitions.map((comp) => (
 								<button
@@ -361,7 +361,7 @@ const BasketballMatches: React.FC = () => {
 												{/* Action Button */}
 												{match.estado === 'programado' && (
 													<button className="px-4 py-2 bg-orange-600 text-white rounded-lg hover:bg-orange-700 transition-colors">
-														Bet
+														{t('common:bet')}
 													</button>
 												)}
 											</div>

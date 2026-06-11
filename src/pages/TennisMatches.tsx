@@ -90,10 +90,10 @@ const TennisMatches: React.FC = () => {
 
 	const getStatusBadge = (status: string) => {
 		const statusConfig = {
-			programado: { text: 'Scheduled', className: 'bg-blue-500' },
-			'en curso': { text: 'Live', className: 'bg-red-500 animate-pulse' },
-			finalizado: { text: 'Finished', className: 'bg-gray-500' },
-			cancelado: { text: 'Cancelled', className: 'bg-red-700' },
+			programado: { text: t('common:scheduled'), className: 'bg-blue-500' },
+			'en curso': { text: t('common:live'), className: 'bg-red-500 animate-pulse' },
+			finalizado: { text: t('common:finished'), className: 'bg-gray-500' },
+			cancelado: { text: t('common:cancelled'), className: 'bg-red-700' },
 		};
 
 		const config =
@@ -157,7 +157,7 @@ const TennisMatches: React.FC = () => {
 							onClick={fetchTennisMatches}
 							className="mt-4 px-4 py-2 bg-yellow-600 text-white rounded-lg hover:bg-yellow-700"
 						>
-							Retry
+							{t('common:retry')}
 						</button>
 					</div>
 				</div>
@@ -192,7 +192,7 @@ const TennisMatches: React.FC = () => {
 									: 'text-gray-400 hover:text-white'
 							}`}
 						>
-							Upcoming Matches
+							{t('sports:tennisPage.upcomingTab')}
 						</button>
 						<button
 							onClick={() => setActiveTab('finished')}
@@ -202,7 +202,7 @@ const TennisMatches: React.FC = () => {
 									: 'text-gray-400 hover:text-white'
 							}`}
 						>
-							Finished Matches
+							{t('sports:tennisPage.finishedTab')}
 						</button>
 					</div>
 
@@ -217,7 +217,7 @@ const TennisMatches: React.FC = () => {
 										: 'bg-gray-800 text-gray-400 hover:text-white'
 								}`}
 							>
-								All Tournaments
+								{t('sports:tennisPage.allTournaments')}
 							</button>
 							{competitions.map((comp) => (
 								<button
@@ -370,7 +370,7 @@ const TennisMatches: React.FC = () => {
 												{/* Action Button */}
 												{match.estado === 'programado' && (
 													<button className="px-4 py-2 bg-yellow-600 text-white rounded-lg hover:bg-yellow-700 transition-colors">
-														Bet
+														{t('common:bet')}
 													</button>
 												)}
 											</div>

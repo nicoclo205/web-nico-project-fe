@@ -107,5 +107,17 @@
     "all": "Todas"
   },
   "basketball": "Baloncesto",
-  "tennis": "Tenis"
+  "tennis": "Tenis",
+  "stats": {
+    "possession": "Posesión",
+    "totalShots": "Tiros totales",
+    "shotsOnTarget": "Tiros a puerta",
+    "shotsOffTarget": "Tiros desviados",
+    "blockedShots": "Tiros bloqueados",
+    "corners": "Córners",
+    "offsides": "Fueras de juego",
+    "fouls": "Faltas",
+    "yellowCards": "Tarjetas amarillas",
+    "redCards": "Tarjetas rojas"
+  }
 }

@@ -1,10 +1,12 @@
 import { useEffect, useState } from 'react';
 import { useSearchParams, useNavigate } from 'react-router-dom';
 import { useEmailVerification } from '../hooks/useEmailVerification';
+import { useTranslation } from 'react-i18next';
 import { CheckCircle, XCircle, Lock, Eye, EyeOff } from 'lucide-react';
 import Spinner from '../components/Spinner';
 
 export const ResetPassword = () => {
+  const { t } = useTranslation(['auth']);
   const [searchParams] = useSearchParams();
   const navigate = useNavigate();
   const { resetPassword, validateResetToken, loading, error, success } = useEmailVerification();
@@ -40,17 +42,17 @@ export const ResetPassword = () => {
 
     // Validation
     if (newPassword.length < 6) {
-      setValidationError('Password must be at least 6 characters long');
+      setValidationError(t('auth:reset.tooShort'));
       return;
     }
 
     if (newPassword !== confirmPassword) {
-      setValidationError('Passwords do not match');
+      setValidationError(t('auth:reset.noMatch'));
       return;
     }
 
     if (!token) {
-      setValidationError('Invalid reset token');
+      setValidationError(t('auth:reset.invalidToken'));
       return;
     }
 
@@ -70,8 +72,8 @@ export const ResetPassword = () => {
       <div className="min-h-screen flex items-center justify-center bg-app p-4">
         <div className="bg-surface border border-white/5 p-8 rounded-2xl shadow-lg text-center max-w-md w-full">
           <Spinner size="lg" className="mx-auto mb-4" />
-          <h2 className="text-2xl font-bold text-white mb-2">Validating Token...</h2>
-          <p className="text-gray-400">Please wait while we validate your reset link.</p>
+          <h2 className="text-2xl font-bold text-white mb-2">{t('auth:reset.validating')}</h2>
+          <p className="text-gray-400">{t('auth:reset.validatingWait')}</p>
         </div>
       </div>
     );
@@ -82,15 +84,15 @@ export const ResetPassword = () => {
       <div className="min-h-screen flex items-center justify-center bg-app p-4">
         <div className="bg-surface border border-white/5 p-8 rounded-2xl shadow-lg text-center max-w-md w-full">
           <CheckCircle className="w-16 h-16 text-green-500 mx-auto mb-4" />
-          <h2 className="text-2xl font-bold text-white mb-2">Password Reset Successful!</h2>
+          <h2 className="text-2xl font-bold text-white mb-2">{t('auth:reset.successTitle')}</h2>
           <p className="text-gray-400 mb-6">
-            Your password has been successfully reset. You can now log in with your new password.
+            {t('auth:reset.successDesc')}
           </p>
           <button
             onClick={handleGoToLogin}
             className="btn-primary w-full py-3"
           >
-            Go to Login
+            {t('auth:goToLogin')}
           </button>
         </div>
       </div>
@@ -102,15 +104,15 @@ export const ResetPassword = () => {
       <div className="min-h-screen flex items-center justify-center bg-app p-4">
         <div className="bg-surface border border-white/5 p-8 rounded-2xl shadow-lg text-center max-w-md w-full">
           <XCircle className="w-16 h-16 text-red-500 mx-auto mb-4" />
-          <h2 className="text-2xl font-bold text-white mb-2">Invalid or Expired Link</h2>
+          <h2 className="text-2xl font-bold text-white mb-2">{t('auth:reset.invalidTitle')}</h2>
           <p className="text-gray-400 mb-6">
-            {error || 'This password reset link is invalid or has expired. Please request a new one.'}
+            {error || t('auth:reset.invalidDesc')}
           </p>
           <button
             onClick={handleGoToLogin}
             className="btn-primary w-full py-3"
           >
-            Go to Login
+            {t('auth:goToLogin')}
           </button>
         </div>
       </div>
@@ -122,16 +124,16 @@ export const ResetPassword = () => {
       <div className="bg-surface border border-white/5 p-8 rounded-2xl shadow-lg max-w-md w-full">
         <div className="text-center mb-6">
           <Lock className="w-16 h-16 text-green-500 mx-auto mb-4" />
-          <h2 className="text-2xl font-bold text-white mb-2">Reset Your Password</h2>
+          <h2 className="text-2xl font-bold text-white mb-2">{t('auth:reset.title')}</h2>
           {userEmail && (
-            <p className="text-gray-400 text-sm">for {userEmail}</p>
+            <p className="text-gray-400 text-sm">{t('auth:reset.for', { email: userEmail })}</p>
           )}
         </div>
 
         <form onSubmit={handleSubmit} className="space-y-4">
           <div>
             <label htmlFor="newPassword" className="block text-sm font-medium text-gray-300 mb-2">
-              New Password
+              {t('auth:reset.newPassword')}
             </label>
             <div className="relative">
               <input
@@ -140,7 +142,7 @@ export const ResetPassword = () => {
                 value={newPassword}
                 onChange={(e) => setNewPassword(e.target.value)}
                 className="w-full px-4 py-3 bg-surface-deep border border-white/10 rounded-lg text-white placeholder-gray-500 focus:outline-none focus:ring-2 focus:ring-green-500"
-                placeholder="Enter new password"
+                placeholder={t('auth:reset.newPasswordPlaceholder')}
                 required
                 minLength={6}
               />
@@ -156,7 +158,7 @@ export const ResetPassword = () => {
 
           <div>
             <label htmlFor="confirmPassword" className="block text-sm font-medium text-gray-300 mb-2">
-              Confirm Password
+              {t('auth:reset.confirmPassword')}
             </label>
             <input
               type={showPassword ? 'text' : 'password'}
@@ -164,7 +166,7 @@ export const ResetPassword = () => {
               value={confirmPassword}
               onChange={(e) => setConfirmPassword(e.target.value)}
               className="w-full px-4 py-3 bg-surface-deep border border-white/10 rounded-lg text-white placeholder-gray-500 focus:outline-none focus:ring-2 focus:ring-green-500"
-              placeholder="Confirm new password"
+              placeholder={t('auth:reset.confirmPasswordPlaceholder')}
               required
               minLength={6}
             />
@@ -184,10 +186,10 @@ export const ResetPassword = () => {
             {loading ? (
               <>
                 <Spinner size="sm" color="border-white" className="mr-2" />
-                Resetting Password...
+                {t('auth:reset.submitting')}
               </>
             ) : (
-              'Reset Password'
+              t('auth:reset.submit')
             )}
           </button>
 
@@ -196,7 +198,7 @@ export const ResetPassword = () => {
             onClick={handleGoToLogin}
             className="w-full text-green-500 hover:text-green-400 font-medium py-2 transition duration-200"
           >
-            Back to Login
+            {t('auth:backToLogin')}
           </button>
         </form>
       </div>

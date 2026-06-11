@@ -23,5 +23,6 @@
     "load": "Failed to load user data",
     "save": "Failed to save settings",
     "delete": "Failed to delete account"
-  }
+  },
+  "deleting": "Deleting..."
 }

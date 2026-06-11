@@ -316,7 +316,7 @@ const Settings = () => {
                                 ) : (
                                     <>
                                         <FiSave className="text-xl" />
-                                        Save Changes
+                                        {t('settings:saveChanges')}
                                     </>
                                 )}
                             </button>
@@ -370,7 +370,7 @@ const Settings = () => {
                         <div className="bg-gradient-to-br from-red-900/20 to-surface-deep rounded-xl md:rounded-2xl p-4 md:p-6 border border-red-500/20 shadow-sm">
                             <h3 className="text-base md:text-lg font-bold text-red-400 mb-2">{t('settings:dangerZone')}</h3>
                             <p className="text-xs md:text-sm text-gray-400 mb-4">
-                                Once your account is deleted, there's no going back. Please be sure.
+                                {t('settings:dangerText')}
                             </p>
                             <button
                                 onClick={handleDeleteAccount}
@@ -380,12 +380,12 @@ const Settings = () => {
                                 {isDeleting ? (
                                     <>
                                         <Spinner size="sm" color="border-red-400" />
-                                        Deleting...
+                                        {t('settings:deleting')}
                                     </>
                                 ) : (
                                     <>
                                         <FiTrash2 />
-                                        Delete Account
+                                        {t('settings:deleteAccount')}
                                     </>
                                 )}
                             </button>

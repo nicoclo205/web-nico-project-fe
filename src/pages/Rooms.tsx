@@ -346,7 +346,7 @@ const Rooms: React.FC = () => {
 										<div className="flex items-center justify-between text-sm text-gray-400 mb-4">
 											<div className="flex items-center gap-2">
 												<FiUsers />
-												<span>{memberCount} / {maxMembers} members</span>
+												<span>{memberCount} / {maxMembers} {t('rooms:membersLabel')}</span>
 											</div>
 											<div className="text-xs">
 												{new Date(room.fecha_creacion).toLocaleDateString('en-US')}
@@ -453,7 +453,7 @@ const Rooms: React.FC = () => {
 									value={newRoom.nombre}
 									onChange={(e) => setNewRoom({ ...newRoom, nombre: e.target.value })}
 									className="w-full bg-white/10 border border-white/20 rounded-xl px-4 py-3 focus:outline-none focus:ring-2 focus:ring-green-500"
-									placeholder="My betting room"
+									placeholder={t('rooms:namePlaceholder')}
 								/>
 							</div>
 
@@ -463,7 +463,7 @@ const Rooms: React.FC = () => {
 									value={newRoom.descripcion}
 									onChange={(e) => setNewRoom({ ...newRoom, descripcion: e.target.value })}
 									className="w-full bg-white/10 border border-white/20 rounded-xl px-4 py-3 focus:outline-none focus:ring-2 focus:ring-green-500 resize-none"
-									placeholder="Room description..."
+									placeholder={t('rooms:descriptionPlaceholder')}
 									rows={3}
 								/>
 							</div>
@@ -475,12 +475,12 @@ const Rooms: React.FC = () => {
 									onChange={(e) => setNewRoom({ ...newRoom, max_miembros: parseInt(e.target.value) })}
 									className="w-full bg-white/10 border border-white/20 rounded-xl px-4 py-3 focus:outline-none focus:ring-2 focus:ring-green-500"
 								>
-									<option value={5} className="bg-panel">5 members</option>
-									<option value={10} className="bg-panel">10 members</option>
-									<option value={15} className="bg-panel">15 members</option>
-									<option value={20} className="bg-panel">20 members</option>
-									<option value={30} className="bg-panel">30 members</option>
-									<option value={50} className="bg-panel">50 members</option>
+									<option value={5} className="bg-panel">5 {t('rooms:membersLabel')}</option>
+									<option value={10} className="bg-panel">10 {t('rooms:membersLabel')}</option>
+									<option value={15} className="bg-panel">15 {t('rooms:membersLabel')}</option>
+									<option value={20} className="bg-panel">20 {t('rooms:membersLabel')}</option>
+									<option value={30} className="bg-panel">30 {t('rooms:membersLabel')}</option>
+									<option value={50} className="bg-panel">50 {t('rooms:membersLabel')}</option>
 								</select>
 							</div>
 
@@ -711,7 +711,7 @@ const Rooms: React.FC = () => {
 								onClick={handleJoinRoom}
 								className="btn-info flex-1"
 							>
-								Unirse
+								{t('rooms:joinRoom')}
 							</button>
 						</div>
 					</div>

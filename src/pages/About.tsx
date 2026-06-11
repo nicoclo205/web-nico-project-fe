@@ -5,7 +5,7 @@ import { FaHome } from "react-icons/fa";
 import { GiSoccerField } from "react-icons/gi";
 import { MdMeetingRoom } from "react-icons/md";
 import { FiSettings, FiInfo, FiMail, FiCode } from "react-icons/fi";
-import LanguageSelectorEnhanced from './components/LanguageSelectorEnhanced';
+import LanguageSelectorEnhanced from '../components/LanguageSelectorEnhanced';
 
 const About: React.FC = () => {
   const navigate = useNavigate();

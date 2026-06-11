@@ -841,7 +841,7 @@ const SoccerMatches: React.FC = () => {
 								onClick={() => setShowMatchModal(false)}
 								className="w-full bg-white/10 hover:bg-white/20 text-white font-semibold py-3 rounded-xl transition-all"
 							>
-								Cerrar
+								{t('common:close')}
 							</button>
 						</div>
 					</div>

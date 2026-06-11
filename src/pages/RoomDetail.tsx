@@ -137,7 +137,7 @@ const RoomDetail: React.FC = () => {
 				<span className="text-6xl mb-4">⚠️</span>
 				<h1 className="text-2xl font-bold mb-4">{displayError}</h1>
 				<button onClick={() => navigate('/rooms')} className="btn-primary">
-					Back to Rooms
+					{t('common:backToRooms')}
 				</button>
 			</div>
 		);
@@ -148,7 +148,7 @@ const RoomDetail: React.FC = () => {
 			<div className="flex flex-col items-center justify-center h-screen bg-app text-white">
 				<h1 className="text-2xl font-bold mb-4">{t('common:roomNotFound')}</h1>
 				<button onClick={() => navigate('/rooms')} className="btn-primary">
-					Back to Rooms
+					{t('common:backToRooms')}
 				</button>
 			</div>
 		);
@@ -188,7 +188,7 @@ const RoomDetail: React.FC = () => {
 									<h1 className="text-xl md:text-2xl lg:text-3xl font-bold">{selectedRoom.nombre}</h1>
 									{isOwner && (
 										<span className="px-3 py-1 text-xs font-semibold rounded-full bg-green-600">
-											Admin
+											{t('common:admin')}
 										</span>
 									)}
 								</div>
@@ -361,13 +361,13 @@ const RoomDetail: React.FC = () => {
 								onClick={() => setShowEditModal(false)}
 								className="btn-secondary flex-1"
 							>
-								Cancel
+								{t('common:cancel')}
 							</button>
 							<button
 								onClick={handleEditRoom}
 								className="btn-primary flex-1"
 							>
-								Save Changes
+								{t('common:saveChanges')}
 							</button>
 						</div>
 					</div>
