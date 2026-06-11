@@ -1,6 +1,6 @@
 import { useNavigate, useLocation } from 'react-router-dom';
 import type { IconType } from 'react-icons';
-import { FaHome } from 'react-icons/fa';
+import { FaHome, FaTrophy } from 'react-icons/fa';
 import { GiSoccerField } from 'react-icons/gi';
 import { MdMeetingRoom } from 'react-icons/md';
 import { FiSettings, FiInfo } from 'react-icons/fi';
@@ -23,6 +23,11 @@ const NAV_ITEMS: NavItem[] = [
 		path: '/soccer-matches',
 		isActive: (p) =>
 			p === '/soccer-matches' || p === '/tennis-matches' || p === '/basketball-matches' || p === '/f1-races',
+	},
+	{
+		icon: FaTrophy,
+		path: '/world-cup',
+		isActive: (p) => p === '/world-cup',
 	},
 	{
 		icon: MdMeetingRoom,

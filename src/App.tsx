@@ -5,6 +5,7 @@ import HomePage from './pages/HomePage';
 import Start from './pages/Start';
 import About from './pages/About';
 import SoccerMatches from './pages/SoccerMatches';
+import WorldCupBoard from './pages/WorldCupBoard';
 import TennisMatches from './pages/TennisMatches';
 import BasketballMatches from './pages/BasketballMatches';
 import Rooms from './pages/Rooms';
@@ -82,6 +83,13 @@ function App() {
 					element={
 						<ProtectedRoute>
 							<SoccerMatches />
+						</ProtectedRoute>}
+				/>
+				<Route
+					path="/world-cup"
+					element={
+						<ProtectedRoute>
+							<WorldCupBoard />
 						</ProtectedRoute>}
 				/>
 				<Route

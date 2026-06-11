@@ -5,6 +5,7 @@ import { useTranslation } from 'react-i18next';
 const TITLES: { match: (p: string) => boolean; key: string }[] = [
 	{ match: (p) => p === '/homepage', key: 'titles.home' },
 	{ match: (p) => p === '/soccer-matches', key: 'titles.soccer' },
+	{ match: (p) => p === '/world-cup', key: 'titles.soccer' },
 	{ match: (p) => p === '/tennis-matches', key: 'titles.tennis' },
 	{ match: (p) => p === '/basketball-matches', key: 'titles.basketball' },
 	{ match: (p) => p === '/f1-races', key: 'titles.f1' },
