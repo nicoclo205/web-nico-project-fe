@@ -4,7 +4,7 @@ import { API_BASE_URL } from './config/api';
 import { GiSoccerField } from "react-icons/gi";
 import { MdMeetingRoom, MdSportsTennis, MdSportsBasketball } from "react-icons/md";
 import { FiSettings, FiInfo } from "react-icons/fi";
-import { IoIosChatbubbles, IoMdTrophy } from "react-icons/io";
+import { IoIosChatbubbles, IoMdTrophy, IoMdNotifications } from "react-icons/io";
 import NotificationBell from "./components/NotificationBell";
 import { useAuth } from "./hooks/useAuth";
 import { useNavigate } from "react-router-dom";
