@@ -259,7 +259,8 @@
     "errors": {
       "load": "Error al cargar la sala",
       "copy": "Error al copiar el código"
-    }
+    },
+    "membersList": "Miembros de la sala"
   },
   "predictions": {
     "matchCount": "{{count}} partido con predicciones",

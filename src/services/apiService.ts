@@ -35,6 +35,8 @@ export interface RoomMember {
   id_usuario: number;
   nombre_usuario?: string;
   usuario_nombre?: string;
+  nombre?: string;
+  apellido?: string;
   foto_perfil?: string;
   rol: 'admin' | 'participante';
   fecha_union: string;

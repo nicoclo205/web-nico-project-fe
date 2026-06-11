@@ -5,6 +5,16 @@ import { GiSoccerBall, GiTrophy } from 'react-icons/gi';
 import { API_BASE_URL } from '../config/api';
 import Spinner from './Spinner';
 
+interface RoomMemberInfo {
+  id_usuario: number;
+  usuario_nombre?: string;
+  nombre_usuario?: string;
+  nombre?: string;
+  apellido?: string;
+  foto_perfil?: string;
+  rol?: string;
+}
+
 interface RoomDashboardProps {
   roomId: number;
   roomCode: string;
@@ -13,6 +23,7 @@ interface RoomDashboardProps {
   maxMembers: number;
   onCopyCode: () => void;
   isAdmin?: boolean;
+  members?: RoomMemberInfo[];
 }
 
 interface Match {
@@ -57,6 +68,7 @@ const RoomDashboard: React.FC<RoomDashboardProps> = ({
   maxMembers,
   onCopyCode,
   isAdmin = false,
+  members = [],
 }) => {
   const { t } = useTranslation(['rooms', 'common']);
   const [upcomingMatches, setUpcomingMatches] = useState<Match[]>([]);
@@ -263,6 +275,53 @@ const RoomDashboard: React.FC<RoomDashboardProps> = ({
             {inviteStatus === 'error' && inviteError && (
               <p className="mt-2 text-xs text-red-400">{inviteError}</p>
             )}
+          </div>
+        )}
+
+        {/* Listado de miembros */}
+        {members.length > 0 && (
+          <div className="rounded-2xl p-4 bg-gradient-to-br from-panel to-panel-dark shadow-lg border border-white/5">
+            <div className="flex items-center gap-2 mb-3">
+              <FiUsers className="text-lg text-green-400" />
+              <h3 className="text-sm font-semibold text-gray-300">
+                {t('rooms:dashboard.membersList')} ({members.length})
+              </h3>
+            </div>
+            <div className="space-y-1.5">
+              {members.map((m) => {
+                const username = m.usuario_nombre || m.nombre_usuario || '';
+                const fullName = [m.nombre, m.apellido].filter(Boolean).join(' ');
+                return (
+                  <div
+                    key={m.id_usuario}
+                    className="flex items-center gap-3 p-2 rounded-lg bg-white/5 border border-white/5"
+                  >
+                    {m.foto_perfil ? (
+                      <img
+                        src={m.foto_perfil}
+                        alt={username}
+                        className="w-8 h-8 rounded-full object-cover border border-white/10 flex-shrink-0"
+                      />
+                    ) : (
+                      <div className="w-8 h-8 rounded-full bg-gray-600 flex items-center justify-center text-xs text-white font-bold flex-shrink-0">
+                        {(fullName || username).charAt(0).toUpperCase()}
+                      </div>
+                    )}
+                    <div className="flex-1 min-w-0">
+                      <p className="text-sm text-white truncate">
+                        {fullName || username}
+                      </p>
+                      <p className="text-xs text-gray-500 truncate">@{username}</p>
+                    </div>
+                    {m.rol === 'admin' && (
+                      <span className="text-[10px] uppercase tracking-wide bg-amber-500/20 text-amber-300 px-1.5 py-0.5 rounded flex-shrink-0">
+                        Admin
+                      </span>
+                    )}
+                  </div>
+                );
+              })}
+            </div>
           </div>
         )}
 

@@ -260,7 +260,8 @@
     "errors": {
       "load": "Failed to load room info",
       "copy": "Failed to copy code"
-    }
+    },
+    "membersList": "Room members"
   },
   "predictions": {
     "matchCount": "{{count}} match with predictions",
