@@ -109,6 +109,13 @@ const RoomBets: React.FC<RoomBetsProps> = ({ roomId }) => {
     setSubmitting(false);
   };
 
+  const handleFeelLucky = () => {
+    setBetForm({
+      prediccion_local: Math.floor(Math.random() * 7),
+      prediccion_visitante: Math.floor(Math.random() * 7),
+    });
+  };
+
   const handleDeleteBet = async (bet: Bet) => {
     if (!window.confirm('Are you sure you want to delete this bet?')) {
       return;
@@ -508,6 +515,17 @@ const RoomBets: React.FC<RoomBetsProps> = ({ roomId }) => {
                   />
                 </div>
               </div>
+            </div>
+
+            {/* Feel Lucky */}
+            <div className="flex justify-center mb-4">
+              <button
+                onClick={handleFeelLucky}
+                disabled={submitting}
+                className="text-sm text-gray-400 hover:text-yellow-400 transition-colors flex items-center gap-1.5 px-4 py-1.5 rounded-full border border-white/10 hover:border-yellow-400/40 hover:bg-yellow-400/5"
+              >
+                {t('rooms:bets.feelLucky')}
+              </button>
             </div>
 
             {/* Action Buttons */}
