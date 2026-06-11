@@ -2,6 +2,7 @@ import { useTranslation } from 'react-i18next';
 import React, { useEffect, useState } from 'react';
 import { FiX } from 'react-icons/fi';
 import { apiService } from '../services/apiService';
+import Spinner from './Spinner';
 
 interface MatchStatistic {
   id_estadistica: number;
@@ -158,9 +159,9 @@ const MatchStatisticsModal: React.FC<MatchStatisticsModalProps> = ({
       `}</style>
 
       <div className="fixed inset-0 z-50 flex items-center justify-center p-4 bg-black/70 backdrop-blur-sm">
-        <div className="bg-gradient-to-br from-[#1f2126] to-[#16181d] rounded-3xl shadow-2xl max-w-2xl w-full max-h-[90vh] overflow-y-auto border border-white/10">
+        <div className="bg-gradient-to-br from-panel to-panel-mid rounded-3xl shadow-2xl max-w-2xl w-full max-h-[90vh] overflow-y-auto border border-white/10">
           {/* Header */}
-          <div className="sticky top-0 z-10 bg-gradient-to-br from-[#1f2126] to-[#16181d] p-6 rounded-t-3xl border-b border-white/10">
+          <div className="sticky top-0 z-10 bg-gradient-to-br from-panel to-panel-mid p-6 rounded-t-3xl border-b border-white/10">
             <div className="flex justify-between items-center mb-4">
               <h2 className="text-2xl md:text-3xl font-bold bg-gradient-to-r from-green-400 to-blue-500 bg-clip-text text-transparent">
                 Match Statistics
@@ -205,7 +206,7 @@ const MatchStatisticsModal: React.FC<MatchStatisticsModalProps> = ({
           <div className="p-6">
             {loading && (
               <div className="flex justify-center items-center py-12">
-                <div className="animate-spin rounded-full h-12 w-12 border-b-2 border-green-500"></div>
+                <Spinner />
               </div>
             )}
 

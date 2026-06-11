@@ -3,6 +3,7 @@ import React, { useEffect, useState } from 'react';
 import { useNavigate } from 'react-router-dom';
 import AppShell from '../components/AppShell';
 import api from '../services/api';
+import Spinner from '../components/Spinner';
 
 interface Player {
 	id_deportista: number;
@@ -140,7 +141,7 @@ const TennisMatches: React.FC = () => {
 		return (
 			<AppShell>
 				<div className="flex-1 flex justify-center items-center">
-					<div className="animate-spin rounded-full h-12 w-12 border-b-2 border-yellow-500"></div>
+					<Spinner color="border-yellow-500" />
 				</div>
 			</AppShell>
 		);

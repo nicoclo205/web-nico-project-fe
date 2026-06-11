@@ -2,6 +2,7 @@ import { useTranslation } from 'react-i18next';
 import React, { useEffect } from 'react';
 import { FiAward, FiTrendingUp, FiTarget, FiPercent, FiRefreshCw } from 'react-icons/fi';
 import { useRanking } from '../hooks/useRanking';
+import Spinner from './Spinner';
 
 interface RoomRankingProps {
   roomId: number;
@@ -49,7 +50,7 @@ const RoomRanking: React.FC<RoomRankingProps> = ({ roomId }) => {
   if (loading && !rankingData) {
     return (
       <div className="flex justify-center items-center p-8">
-        <div className="animate-spin rounded-full h-12 w-12 border-b-2 border-green-500"></div>
+        <Spinner />
       </div>
     );
   }
@@ -95,7 +96,7 @@ const RoomRanking: React.FC<RoomRankingProps> = ({ roomId }) => {
 
       {/* Top 3 Podium - Más Compacto */}
       {rankingData.ranking.length > 0 && (
-        <div className="rounded-2xl p-4 bg-gradient-to-br from-[#1f2126] to-[#141518] shadow-xl border border-white/5">
+        <div className="rounded-2xl p-4 bg-gradient-to-br from-panel to-panel-dark shadow-xl border border-white/5">
           <h3 className="text-base font-bold mb-3">{t('rooms:ranking.top3')}</h3>
           <div className="grid grid-cols-1 sm:grid-cols-3 gap-3">
             {rankingData.ranking.slice(0, 3).map((user) => {
@@ -175,7 +176,7 @@ const RoomRanking: React.FC<RoomRankingProps> = ({ roomId }) => {
       )}
 
       {/* Full Ranking Table */}
-      <div className="rounded-3xl p-4 md:p-6 bg-gradient-to-br from-[#1f2126] to-[#141518] shadow-xl border border-white/5">
+      <div className="rounded-3xl p-4 md:p-6 bg-gradient-to-br from-panel to-panel-dark shadow-xl border border-white/5">
         <h3 className="text-base md:text-lg font-bold mb-4 flex items-center gap-2">
           <FiTrendingUp className="text-blue-500" />
           Full Rankings
@@ -340,7 +341,7 @@ const RoomRanking: React.FC<RoomRankingProps> = ({ roomId }) => {
       </div>
 
       {/* Stats Legend */}
-      <div className="rounded-3xl p-4 bg-gradient-to-br from-[#1f2126] to-[#141518] shadow-xl border border-white/5">
+      <div className="rounded-3xl p-4 bg-gradient-to-br from-panel to-panel-dark shadow-xl border border-white/5">
         <div className="grid grid-cols-2 md:grid-cols-4 gap-4 text-xs">
           <div className="flex items-center gap-2">
             <FiTarget className="text-green-500" />

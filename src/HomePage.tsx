@@ -65,7 +65,7 @@ const HomePage = () => {
       <div className="flex-1 flex flex-col h-screen overflow-hidden">
 
         {/* Header */}
-        <header className="h-16 md:h-20 flex items-center justify-between px-4 md:px-8 lg:px-12 bg-[#0e0f11]/95 backdrop-blur-sm z-10 sticky top-0">
+        <header className="h-16 md:h-20 flex items-center justify-between px-4 md:px-8 lg:px-12 bg-app/95 backdrop-blur-sm z-10 sticky top-0">
           <h1 className="text-lg md:text-2xl lg:text-3xl font-bold tracking-tight text-white">
             <span className="hidden md:inline">{t('home:welcomeFriendlyBet')}</span>
             <span className="md:hidden">{t('home:hey')}</span>
@@ -115,7 +115,7 @@ const HomePage = () => {
               {/* Soccer Matches Card */}
               <div
                 onClick={() => navigate('/soccer-matches')}
-                className="group relative rounded-2xl p-6 bg-[#1f232b] border border-white/5 hover:border-green-500/50 transition-all duration-300 shadow-sm hover:shadow-lg cursor-pointer overflow-hidden"
+                className="group relative rounded-2xl p-6 bg-surface-hover border border-white/5 hover:border-green-500/50 transition-all duration-300 shadow-sm hover:shadow-lg cursor-pointer overflow-hidden"
               >
                 <div className="absolute top-0 right-0 p-4 opacity-10 group-hover:opacity-20 transition-opacity">
                   <GiSoccerField className="text-8xl text-green-500 transform rotate-12" />
@@ -137,7 +137,7 @@ const HomePage = () => {
               {/* Rooms Card */}
               <div
                 onClick={() => navigate('/rooms')}
-                className="group relative rounded-2xl p-6 bg-[#1f232b] border border-white/5 hover:border-green-500/50 transition-all duration-300 shadow-sm hover:shadow-lg cursor-pointer overflow-hidden"
+                className="group relative rounded-2xl p-6 bg-surface-hover border border-white/5 hover:border-green-500/50 transition-all duration-300 shadow-sm hover:shadow-lg cursor-pointer overflow-hidden"
               >
                 <div className="absolute top-0 right-0 p-4 opacity-10 group-hover:opacity-20 transition-opacity">
                   <MdMeetingRoom className="text-8xl text-yellow-500 transform -rotate-12" />
@@ -162,7 +162,7 @@ const HomePage = () => {
               </div>
 
               {/* Tennis Card */}
-              <div className="group relative rounded-2xl p-6 bg-[#0f1115]/50 border border-white/5 overflow-hidden">
+              <div className="group relative rounded-2xl p-6 bg-surface-deep/50 border border-white/5 overflow-hidden">
                 <div className="relative z-10 opacity-75">
                   <div className="flex justify-between items-start mb-1">
                     <h3 className="text-xl font-bold text-gray-300">{t('sports:tennis')}</h3>
@@ -179,7 +179,7 @@ const HomePage = () => {
               </div>
 
               {/* Basketball Card */}
-              <div className="group relative rounded-2xl p-6 bg-[#0f1115]/50 border border-white/5 overflow-hidden">
+              <div className="group relative rounded-2xl p-6 bg-surface-deep/50 border border-white/5 overflow-hidden">
                 <div className="relative z-10 opacity-75">
                   <div className="flex justify-between items-start mb-1">
                     <h3 className="text-xl font-bold text-gray-300">{t('sports:basketball')}</h3>
@@ -203,7 +203,7 @@ const HomePage = () => {
 
             {/* My Rooms Section */}
             {userRooms.length > 0 && (
-              <div className="bg-[#181b21] rounded-xl md:rounded-2xl p-4 md:p-6 border border-white/5 shadow-sm">
+              <div className="bg-surface rounded-xl md:rounded-2xl p-4 md:p-6 border border-white/5 shadow-sm">
                 <h3 className="text-base md:text-lg font-bold text-white mb-3 md:mb-4">{t('home:myRoomsSection')}</h3>
                 <div className="space-y-2">
                   {userRooms.map((room) => {
@@ -222,7 +222,7 @@ const HomePage = () => {
                       <button
                         key={room.id_sala}
                         onClick={() => navigate(`/room/${roomHash}`)}
-                        className="w-full text-left p-2.5 md:p-3 rounded-lg bg-[#0f1115] border border-white/5 hover:border-green-500/50 hover:bg-green-500/10 transition-all duration-200 group"
+                        className="w-full text-left p-2.5 md:p-3 rounded-lg bg-surface-deep border border-white/5 hover:border-green-500/50 hover:bg-green-500/10 transition-all duration-200 group"
                       >
                         <div className="flex items-center justify-between gap-3">
                           {/* Room Avatar */}
@@ -264,7 +264,7 @@ const HomePage = () => {
             )}
 
             {/* Coming Soon Card */}
-            <div className="bg-gradient-to-br from-[#181b21] to-[#0f1115] rounded-xl md:rounded-2xl p-4 md:p-6 border border-white/5 relative overflow-hidden flex-1 min-h-[200px] md:min-h-[250px] flex flex-col justify-center text-center">
+            <div className="bg-gradient-to-br from-surface to-surface-deep rounded-xl md:rounded-2xl p-4 md:p-6 border border-white/5 relative overflow-hidden flex-1 min-h-[200px] md:min-h-[250px] flex flex-col justify-center text-center">
               <div className="absolute -top-10 -right-10 w-32 h-32 bg-green-500 opacity-10 blur-3xl rounded-full"></div>
               <h3 className="text-base md:text-lg font-bold text-white mb-2 relative z-10">{t('home:comingSoon')}</h3>
               <p className="text-xs md:text-sm text-gray-400 relative z-10 leading-relaxed mb-4 md:mb-6">

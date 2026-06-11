@@ -21,6 +21,16 @@ module.exports = {
         'myGray': '#2B2B2B',
         'myYellow': '#F2C94C',
         'myBlue': '#1D4ED8',
+        // App theme tokens (UI standardization)
+        'app': '#0e0f11',          // page background
+        'sidebar': '#121316',      // nav sidebar
+        'surface': '#181b21',      // cards
+        'surface-deep': '#0f1115', // inner/nested cards
+        'surface-alt': '#1a1d21',  // alternate card bg
+        'surface-hover': '#1f232b',// hover state bg
+        'panel': '#1f2126',        // gradient panel start
+        'panel-dark': '#141518',   // gradient panel end
+        'panel-mid': '#16181d',    // modal gradient end
         border: "hsl(var(--border))",
         input: "hsl(var(--input))",
         ring: "hsl(var(--ring))",

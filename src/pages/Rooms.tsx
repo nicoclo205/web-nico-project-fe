@@ -9,6 +9,7 @@ import { useRoom } from '../hooks/useRoom';
 import { CreateRoomData, apiService } from '../services/apiService';
 import { registerRoomHash } from '../utils/roomHash';
 import { ROOM_AVATARS, DEFAULT_ROOM_AVATAR } from '../constants/roomAvatars';
+import Spinner from '../components/Spinner';
 
 const Rooms: React.FC = () => {
 	const { t } = useTranslation(['rooms', 'common']);
@@ -221,7 +222,7 @@ const Rooms: React.FC = () => {
 			<div className="flex-1 flex flex-col h-screen overflow-hidden">
 
 				{/* Header */}
-				<header className="h-16 md:h-20 flex items-center justify-between px-4 md:px-8 lg:px-12 bg-[#0e0f11]/95 backdrop-blur-sm z-10 sticky top-0">
+				<header className="h-16 md:h-20 flex items-center justify-between px-4 md:px-8 lg:px-12 bg-app/95 backdrop-blur-sm z-10 sticky top-0">
 					<div>
 						<h1 className="text-lg md:text-2xl lg:text-3xl font-bold tracking-tight text-white flex items-center gap-2 md:gap-3">
 							<span className="text-3xl md:text-4xl">🎮</span>
@@ -303,12 +304,12 @@ const Rooms: React.FC = () => {
 				{/* Rooms Grid */}
 				{loading ? (
 					<div className="flex justify-center items-center py-12">
-						<div className="animate-spin rounded-full h-12 w-12 border-b-2 border-green-500"></div>
+						<Spinner />
 					</div>
 				) : (
 					<div className="grid grid-cols-1 md:grid-cols-2 gap-4 md:gap-6">
 						{filteredRooms.length === 0 ? (
-							<div className="col-span-full text-center py-12 bg-gradient-to-br from-[#1f2126] to-[#141518] rounded-3xl border border-white/5">
+							<div className="col-span-full text-center py-12 bg-gradient-to-br from-panel to-panel-dark rounded-3xl border border-white/5">
 								<span className="text-6xl mb-4 block">🔍</span>
 								<p className="text-gray-400 text-lg">{t('rooms:noRooms')}</p>
 								<p className="text-gray-500 text-sm mt-2">{t('rooms:noRoomsSubtitle')}</p>
@@ -323,7 +324,7 @@ const Rooms: React.FC = () => {
 								return (
 									<div
 										key={room.id_sala}
-										className="rounded-3xl p-4 md:p-6 bg-gradient-to-br from-[#1f2126] to-[#141518] shadow-xl border border-white/5 transition-all hover:scale-[1.02] cursor-pointer"
+										className="rounded-3xl p-4 md:p-6 bg-gradient-to-br from-panel to-panel-dark shadow-xl border border-white/5 transition-all hover:scale-[1.02] cursor-pointer"
 										onClick={() => navigate(`/room/${roomHash}`)}
 									>
 										{/* Room Header */}
@@ -379,14 +380,14 @@ const Rooms: React.FC = () => {
 					<aside className="w-full lg:w-80 flex flex-col gap-4 md:gap-6 flex-shrink-0">
 
 						{/* Statistics Card */}
-						<div className="bg-[#181b21] rounded-xl md:rounded-2xl p-4 md:p-6 border border-white/5 shadow-sm">
+						<div className="bg-surface rounded-xl md:rounded-2xl p-4 md:p-6 border border-white/5 shadow-sm">
 							<h3 className="text-base md:text-lg font-bold text-white mb-3 md:mb-4">{t('rooms:statistics')}</h3>
 							<div className="space-y-2 md:space-y-3">
-								<div className="flex items-center justify-between p-2.5 md:p-3 rounded-lg bg-[#0f1115] border border-white/5">
+								<div className="flex items-center justify-between p-2.5 md:p-3 rounded-lg bg-surface-deep border border-white/5">
 									<span className="text-xs md:text-sm font-medium text-gray-400">{t('rooms:roomStats.totalRooms')}</span>
 									<span className="text-base md:text-lg font-bold text-green-500">{rooms.length}</span>
 								</div>
-								<div className="flex items-center justify-between p-2.5 md:p-3 rounded-lg bg-[#0f1115] border border-white/5">
+								<div className="flex items-center justify-between p-2.5 md:p-3 rounded-lg bg-surface-deep border border-white/5">
 									<span className="text-xs md:text-sm font-medium text-gray-400">{t('rooms:myRooms')}</span>
 									<span className="text-base md:text-lg font-bold text-blue-500">
 										{rooms.filter(r =>
@@ -399,7 +400,7 @@ const Rooms: React.FC = () => {
 						</div>
 
 						{/* Quick Links Card */}
-						<div className="bg-gradient-to-br from-[#181b21] to-[#0f1115] rounded-xl md:rounded-2xl p-4 md:p-6 border border-white/5 relative overflow-hidden flex-1 min-h-[200px] md:min-h-[250px] flex flex-col justify-center">
+						<div className="bg-gradient-to-br from-surface to-surface-deep rounded-xl md:rounded-2xl p-4 md:p-6 border border-white/5 relative overflow-hidden flex-1 min-h-[200px] md:min-h-[250px] flex flex-col justify-center">
 							<div className="absolute -top-10 -right-10 w-32 h-32 bg-green-500 opacity-10 blur-3xl rounded-full"></div>
 							<h3 className="text-base md:text-lg font-bold text-white mb-2 relative z-10">{t('rooms:quickLinks')}</h3>
 							<p className="text-xs md:text-sm text-gray-400 relative z-10 leading-relaxed mb-4 md:mb-6">
@@ -429,7 +430,7 @@ const Rooms: React.FC = () => {
 			{/* Create Room Modal */}
 			{showCreateModal && (
 				<div className="fixed inset-0 bg-black/70 backdrop-blur-sm flex items-center justify-center p-4 z-50" onClick={() => setShowCreateModal(false)}>
-					<div className="bg-gradient-to-br from-[#1f2126] to-[#16181d] rounded-3xl p-6 md:p-8 max-w-2xl w-full border border-white/10 shadow-2xl max-h-[90vh] flex flex-col" onClick={(e) => e.stopPropagation()}>
+					<div className="bg-gradient-to-br from-panel to-panel-mid rounded-3xl p-6 md:p-8 max-w-2xl w-full border border-white/10 shadow-2xl max-h-[90vh] flex flex-col" onClick={(e) => e.stopPropagation()}>
 						<div className="flex items-center justify-between mb-6 flex-shrink-0">
 							<h2 className="text-2xl md:text-3xl font-bold bg-gradient-to-r from-green-400 to-blue-500 bg-clip-text text-transparent">
 								Create New Room
@@ -474,12 +475,12 @@ const Rooms: React.FC = () => {
 									onChange={(e) => setNewRoom({ ...newRoom, max_miembros: parseInt(e.target.value) })}
 									className="w-full bg-white/10 border border-white/20 rounded-xl px-4 py-3 focus:outline-none focus:ring-2 focus:ring-green-500"
 								>
-									<option value={5} className="bg-[#1f2126]">5 members</option>
-									<option value={10} className="bg-[#1f2126]">10 members</option>
-									<option value={15} className="bg-[#1f2126]">15 members</option>
-									<option value={20} className="bg-[#1f2126]">20 members</option>
-									<option value={30} className="bg-[#1f2126]">30 members</option>
-									<option value={50} className="bg-[#1f2126]">50 members</option>
+									<option value={5} className="bg-panel">5 members</option>
+									<option value={10} className="bg-panel">10 members</option>
+									<option value={15} className="bg-panel">15 members</option>
+									<option value={20} className="bg-panel">20 members</option>
+									<option value={30} className="bg-panel">30 members</option>
+									<option value={50} className="bg-panel">50 members</option>
 								</select>
 							</div>
 
@@ -526,9 +527,9 @@ const Rooms: React.FC = () => {
 									}}
 									className="w-full bg-white/10 border border-white/20 rounded-xl px-4 py-3 focus:outline-none focus:ring-2 focus:ring-green-500"
 								>
-									<option value="ligas" className="bg-[#1f2126]">Leagues/Tournaments - All matches from selected leagues</option>
-									<option value="partidos_individuales" className="bg-[#1f2126]">Individual Matches - Specific matches only</option>
-									<option value="mixto" className="bg-[#1f2126]">Mixed - Leagues + Individual Matches</option>
+									<option value="ligas" className="bg-panel">Leagues/Tournaments - All matches from selected leagues</option>
+									<option value="partidos_individuales" className="bg-panel">Individual Matches - Specific matches only</option>
+									<option value="mixto" className="bg-panel">Mixed - Leagues + Individual Matches</option>
 								</select>
 								<p className="text-xs text-gray-400 mt-2 flex items-center gap-1">
 									<svg className="w-4 h-4" fill="currentColor" viewBox="0 0 20 20">
@@ -675,7 +676,7 @@ const Rooms: React.FC = () => {
 			{/* Join Room Modal */}
 			{showJoinModal && (
 				<div className="fixed inset-0 bg-black/70 flex items-center justify-center p-4 z-50" onClick={() => setShowJoinModal(false)}>
-					<div className="bg-[#1f2126] rounded-3xl p-6 md:p-8 max-w-md w-full border border-white/10" onClick={(e) => e.stopPropagation()}>
+					<div className="bg-panel rounded-3xl p-6 md:p-8 max-w-md w-full border border-white/10" onClick={(e) => e.stopPropagation()}>
 						<h2 className="text-2xl font-bold mb-6">{t('rooms:joinRoom')}</h2>
 
 						<div className="space-y-4">

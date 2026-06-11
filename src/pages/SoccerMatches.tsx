@@ -7,6 +7,7 @@ import AppShell from '../components/AppShell';
 import { API_BASE_URL } from '../config/api';
 import { apiService } from '../services/apiService';
 import MatchStatisticsModal from '../components/MatchStatisticsModal';
+import Spinner from '../components/Spinner';
 
 // Backend response interfaces (basadas en el serializer del backend)
 interface BackendMatch {
@@ -297,7 +298,7 @@ const SoccerMatches: React.FC = () => {
 			<div className="flex-1 flex flex-col h-screen overflow-hidden">
 
 				{/* Header */}
-				<header className="h-16 md:h-20 flex items-center justify-between px-4 md:px-8 lg:px-12 bg-[#0e0f11]/95 backdrop-blur-sm z-10 sticky top-0">
+				<header className="h-16 md:h-20 flex items-center justify-between px-4 md:px-8 lg:px-12 bg-app/95 backdrop-blur-sm z-10 sticky top-0">
 					<div>
 						<h1 className="text-lg md:text-2xl lg:text-3xl font-bold tracking-tight text-white flex items-center gap-2 md:gap-3">
 							<span className="text-3xl md:text-4xl">⚽</span>
@@ -487,13 +488,13 @@ const SoccerMatches: React.FC = () => {
 				{/* Matches Grid */}
 				{loading ? (
 					<div className="flex justify-center items-center py-12">
-						<div className="animate-spin rounded-full h-12 w-12 border-b-2 border-green-500"></div>
+						<Spinner />
 					</div>
 				) : (
 					<>
 						<div className="grid grid-cols-1 gap-4 md:gap-6">
 							{displayedMatches.length === 0 ? (
-								<div className="text-center py-12 bg-gradient-to-br from-[#1f2126] to-[#141518] rounded-3xl border border-white/5">
+								<div className="text-center py-12 bg-gradient-to-br from-panel to-panel-dark rounded-3xl border border-white/5">
 									<span className="text-6xl mb-4 block">🔍</span>
 									<p className="text-gray-400 text-lg">
 										{activeTab === 'upcoming' ? 'No upcoming matches' : 'No finished matches'}
@@ -504,7 +505,7 @@ const SoccerMatches: React.FC = () => {
 								<div
 									key={match.id_partido}
 									onClick={() => handleMatchClick(match)}
-									className="rounded-3xl p-4 md:p-6 bg-gradient-to-br from-[#1f2126] to-[#141518] shadow-xl border border-white/5 transition-all cursor-pointer hover:scale-[1.02] hover:border-green-500/50"
+									className="rounded-3xl p-4 md:p-6 bg-gradient-to-br from-panel to-panel-dark shadow-xl border border-white/5 transition-all cursor-pointer hover:scale-[1.02] hover:border-green-500/50"
 								>
 									{/* Match Header */}
 									<div className="flex flex-col sm:flex-row justify-between items-start sm:items-center mb-4 gap-2">
@@ -663,10 +664,10 @@ const SoccerMatches: React.FC = () => {
 					<aside className="w-full lg:w-80 flex flex-col gap-4 md:gap-6 flex-shrink-0">
 
 				{/* Statistics Card */}
-				<div className="bg-[#181b21] rounded-xl md:rounded-2xl p-4 md:p-6 border border-white/5 shadow-sm">
+				<div className="bg-surface rounded-xl md:rounded-2xl p-4 md:p-6 border border-white/5 shadow-sm">
 					<h3 className="text-base md:text-lg font-bold text-white mb-3 md:mb-4">{t('sports:soccerPage.stats')}</h3>
 					<div className="space-y-2 md:space-y-3">
-						<div className="flex items-center justify-between p-2.5 md:p-3 rounded-lg bg-[#0f1115] border border-white/5">
+						<div className="flex items-center justify-between p-2.5 md:p-3 rounded-lg bg-surface-deep border border-white/5">
 							<span className="text-xs md:text-sm font-medium text-gray-400">{t('sports:soccerPage.matchesToday')}</span>
 							<span className="text-base md:text-lg font-bold text-green-500">
 								{filteredMatches.filter(m => {
@@ -675,13 +676,13 @@ const SoccerMatches: React.FC = () => {
 								}).length}
 							</span>
 						</div>
-						<div className="flex items-center justify-between p-2.5 md:p-3 rounded-lg bg-[#0f1115] border border-white/5">
+						<div className="flex items-center justify-between p-2.5 md:p-3 rounded-lg bg-surface-deep border border-white/5">
 							<span className="text-xs md:text-sm font-medium text-gray-400">{t('sports:soccerPage.upcoming')}</span>
 							<span className="text-base md:text-lg font-bold text-blue-500">
 								{matches.filter(m => m.estado === 'programado').length}
 							</span>
 						</div>
-						<div className="flex items-center justify-between p-2.5 md:p-3 rounded-lg bg-[#0f1115] border border-white/5">
+						<div className="flex items-center justify-between p-2.5 md:p-3 rounded-lg bg-surface-deep border border-white/5">
 							<span className="text-xs md:text-sm font-medium text-gray-400">{t('common:live')}</span>
 							<span className="text-base md:text-lg font-bold text-red-600 animate-pulse">
 								{matches.filter(m => m.estado === 'en curso').length}
@@ -691,7 +692,7 @@ const SoccerMatches: React.FC = () => {
 				</div>
 
 				{/* Quick Links Card */}
-				<div className="bg-gradient-to-br from-[#181b21] to-[#0f1115] rounded-xl md:rounded-2xl p-4 md:p-6 border border-white/5 relative overflow-hidden flex-1 min-h-[200px] md:min-h-[250px] flex flex-col justify-center">
+				<div className="bg-gradient-to-br from-surface to-surface-deep rounded-xl md:rounded-2xl p-4 md:p-6 border border-white/5 relative overflow-hidden flex-1 min-h-[200px] md:min-h-[250px] flex flex-col justify-center">
 					<div className="absolute -top-10 -right-10 w-32 h-32 bg-green-500 opacity-10 blur-3xl rounded-full"></div>
 					<h3 className="text-base md:text-lg font-bold text-white mb-2 relative z-10">{t('sports:soccerPage.quickLinks')}</h3>
 					<p className="text-xs md:text-sm text-gray-400 relative z-10 leading-relaxed mb-4 md:mb-6">
@@ -721,7 +722,7 @@ const SoccerMatches: React.FC = () => {
 			{/* Match Details Modal */}
 			{showMatchModal && selectedMatch && (
 				<div className="fixed inset-0 bg-black/70 backdrop-blur-sm flex items-center justify-center p-4 z-50" onClick={() => setShowMatchModal(false)}>
-					<div className="bg-gradient-to-br from-[#1f2126] to-[#16181d] rounded-3xl p-6 md:p-8 max-w-2xl w-full border border-white/10 shadow-2xl" onClick={(e) => e.stopPropagation()}>
+					<div className="bg-gradient-to-br from-panel to-panel-mid rounded-3xl p-6 md:p-8 max-w-2xl w-full border border-white/10 shadow-2xl" onClick={(e) => e.stopPropagation()}>
 						{/* Header */}
 						<div className="flex items-center justify-between mb-6">
 							<h2 className="text-2xl md:text-3xl font-bold bg-gradient-to-r from-green-400 to-blue-500 bg-clip-text text-transparent">
