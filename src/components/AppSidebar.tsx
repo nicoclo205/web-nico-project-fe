@@ -22,7 +22,7 @@ const NAV_ITEMS: NavItem[] = [
 		icon: GiSoccerField,
 		path: '/soccer-matches',
 		isActive: (p) =>
-			p === '/soccer-matches' || p === '/tennis-matches' || p === '/basketball-matches',
+			p === '/soccer-matches' || p === '/tennis-matches' || p === '/basketball-matches' || p === '/f1-races',
 	},
 	{
 		icon: MdMeetingRoom,

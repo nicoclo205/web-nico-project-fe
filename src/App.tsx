@@ -14,12 +14,15 @@ import { VerifyEmail } from './pages/VerifyEmail';
 import { ResetPassword } from './pages/ResetPassword';
 import { ForgotPasswordPage } from './pages/ForgotPasswordPage';
 import NotFound from './pages/NotFound';
+import F1Races from './pages/F1Races';
+import PageTitle from './components/PageTitle';
 import { ProtectedRoute } from './components/ProtectedRoute';
 import { PublicOnlyRoute } from './components/PublicOnlyRoute';
 
 function App() {
 	return (
 		<BrowserRouter>
+			<PageTitle />
 			<Routes>
 				{/* Public only Routes */}
 				<Route
@@ -92,6 +95,13 @@ function App() {
 					element={
 						<ProtectedRoute>
 							<BasketballMatches />
+						</ProtectedRoute>}
+				/>
+				<Route
+					path="/f1-races"
+					element={
+						<ProtectedRoute>
+							<F1Races />
 						</ProtectedRoute>}
 				/>
 

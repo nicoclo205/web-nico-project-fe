@@ -56,5 +56,21 @@
   "about": "Acerca de",
   "notFoundTitle": "Página no encontrada",
   "notFoundDesc": "La página que buscas no existe o ha sido movida.",
-  "goHome": "Ir al inicio"
+  "goHome": "Ir al inicio",
+  "startsIn": "Comienza en {{time}}",
+  "startingSoon": "Comienza pronto",
+  "titles": {
+    "home": "Inicio",
+    "soccer": "Fútbol",
+    "tennis": "Tenis",
+    "basketball": "Baloncesto",
+    "f1": "Fórmula 1",
+    "rooms": "Salas",
+    "roomDetail": "Sala",
+    "settings": "Configuración",
+    "about": "Acerca de",
+    "login": "Iniciar sesión",
+    "start": "Bienvenido",
+    "account": "Cuenta"
+  }
 }

@@ -4,6 +4,7 @@ import { useNavigate } from 'react-router-dom';
 import { FiUser, FiPhone, FiImage, FiTrash2, FiSave, FiCheck, FiMail } from "react-icons/fi";
 import LanguageSelectorEnhanced from '../components/LanguageSelectorEnhanced';
 import AppShell from '../components/AppShell';
+import ConfirmDialog from '../components/ConfirmDialog';
 import { useAuth } from '../hooks/useAuth';
 import api from '../services/api';
 import Spinner from '../components/Spinner';
@@ -33,6 +34,7 @@ const Settings = () => {
         id_usuario: null
     });
     const [isDeleting, setIsDeleting] = useState(false);
+    const [showDeleteConfirm, setShowDeleteConfirm] = useState(false);
     const [isSaving, setIsSaving] = useState(false);
     const [successMsg, setSuccessMsg] = useState('');
     const [errorMsg, setErrorMsg] = useState('');
@@ -101,10 +103,6 @@ const Settings = () => {
     };
 
     const handleDeleteAccount = async () => {
-        if (!window.confirm(t('settings:deleteConfirm'))) {
-            return;
-        }
-
         setIsDeleting(true);
         try {
             if (!userData.id_usuario) return;
@@ -373,7 +371,7 @@ const Settings = () => {
                                 {t('settings:dangerText')}
                             </p>
                             <button
-                                onClick={handleDeleteAccount}
+                                onClick={() => setShowDeleteConfirm(true)}
                                 disabled={isDeleting}
                                 className="w-full py-2.5 md:py-3 px-4 bg-red-600/20 hover:bg-red-600/40 text-red-400 border border-red-600/50 rounded-xl font-medium transition-all flex items-center justify-center gap-2"
                             >
@@ -393,6 +391,19 @@ const Settings = () => {
                     </aside>
                 </div>
             </div>
+
+            <ConfirmDialog
+                open={showDeleteConfirm}
+                title={t('settings:deleteAccount')}
+                message={t('settings:deleteConfirm')}
+                confirmLabel={t('settings:deleteAccount')}
+                danger
+                onConfirm={() => {
+                    setShowDeleteConfirm(false);
+                    handleDeleteAccount();
+                }}
+                onCancel={() => setShowDeleteConfirm(false)}
+            />
         </AppShell>
     );
 };

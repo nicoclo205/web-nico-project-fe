@@ -10,6 +10,7 @@ import { CreateRoomData, apiService } from '../services/apiService';
 import { registerRoomHash } from '../utils/roomHash';
 import { ROOM_AVATARS, DEFAULT_ROOM_AVATAR } from '../constants/roomAvatars';
 import Spinner from '../components/Spinner';
+import EmptyState from '../components/EmptyState';
 
 const Rooms: React.FC = () => {
 	const { t } = useTranslation(['rooms', 'common']);
@@ -309,10 +310,13 @@ const Rooms: React.FC = () => {
 				) : (
 					<div className="grid grid-cols-1 md:grid-cols-2 gap-4 md:gap-6">
 						{filteredRooms.length === 0 ? (
-							<div className="col-span-full text-center py-12 bg-gradient-to-br from-panel to-panel-dark rounded-3xl border border-white/5">
-								<span className="text-6xl mb-4 block">🔍</span>
-								<p className="text-gray-400 text-lg">{t('rooms:noRooms')}</p>
-								<p className="text-gray-500 text-sm mt-2">{t('rooms:noRoomsSubtitle')}</p>
+							<div className="col-span-full">
+								<EmptyState
+									title={t('rooms:noRooms')}
+									description={t('rooms:noRoomsSubtitle')}
+									actionLabel={t('rooms:createRoom')}
+									onAction={() => setShowCreateModal(true)}
+								/>
 							</div>
 						) : (
 							filteredRooms.map((room) => {

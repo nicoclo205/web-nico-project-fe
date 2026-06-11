@@ -4,6 +4,7 @@ import { useNavigate, useSearchParams } from 'react-router-dom';
 import AppShell from '../components/AppShell';
 import api from '../services/api';
 import Spinner from '../components/Spinner';
+import EmptyState from '../components/EmptyState';
 
 interface Player {
 	id_deportista: number;
@@ -250,12 +251,9 @@ const TennisMatches: React.FC = () => {
 				{/* Matches List */}
 				<div className="space-y-6">
 					{Object.keys(groupedMatches).length === 0 ? (
-						<div className="text-center py-12 bg-gray-800 rounded-lg">
-							<span className="text-6xl mb-4 block">🔍</span>
-							<p className="text-gray-400 text-lg">
-								{activeTab === 'upcoming' ? t('sports:tennisPage.noUpcoming') : t('sports:tennisPage.noFinished')}
-							</p>
-						</div>
+						<EmptyState
+							title={activeTab === 'upcoming' ? t('sports:tennisPage.noUpcoming') : t('sports:tennisPage.noFinished')}
+						/>
 					) : (
 						Object.entries(groupedMatches).map(([date, dayMatches]) => (
 							<div

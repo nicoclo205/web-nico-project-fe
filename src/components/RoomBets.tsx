@@ -118,7 +118,7 @@ const RoomBets: React.FC<RoomBetsProps> = ({ roomId }) => {
   };
 
   const handleDeleteBet = async (bet: Bet) => {
-    if (!window.confirm('Are you sure you want to delete this bet?')) {
+    if (!window.confirm(t('rooms:deleteBetConfirm'))) {
       return;
     }
 

@@ -8,6 +8,7 @@ import { API_BASE_URL } from '../config/api';
 import { apiService } from '../services/apiService';
 import MatchStatisticsModal from '../components/MatchStatisticsModal';
 import Spinner from '../components/Spinner';
+import TimeUntil from '../components/TimeUntil';
 
 // Backend response interfaces (basadas en el serializer del backend)
 interface BackendMatch {
@@ -608,6 +609,9 @@ const SoccerMatches: React.FC = () => {
 															year: 'numeric'
 														})}
 													</div>
+													{match.estado === 'programado' && (
+														<TimeUntil date={match.fecha} className="mt-1" />
+													)}
 												</div>
 											)}
 										</div>

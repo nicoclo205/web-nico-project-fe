@@ -119,5 +119,14 @@
     "fouls": "Fouls",
     "yellowCards": "Yellow Cards",
     "redCards": "Red Cards"
+  },
+  "f1Page": {
+    "title": "Formula 1",
+    "subtitle": "Follow the Grands Prix and check the results",
+    "upcomingTab": "Upcoming Races",
+    "finishedTab": "Finished Races",
+    "noUpcoming": "No upcoming races",
+    "noFinished": "No finished races",
+    "error": "Could not load F1 races"
   }
 }

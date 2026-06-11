@@ -272,5 +272,6 @@
   },
   "namePlaceholder": "Mi sala de apuestas",
   "descriptionPlaceholder": "Descripción de la sala...",
-  "membersLabel": "miembros"
+  "membersLabel": "miembros",
+  "deleteBetConfirm": "¿Seguro que quieres eliminar esta apuesta?"
 }

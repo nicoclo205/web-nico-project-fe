@@ -119,5 +119,14 @@
     "fouls": "Faltas",
     "yellowCards": "Tarjetas amarillas",
     "redCards": "Tarjetas rojas"
+  },
+  "f1Page": {
+    "title": "Fórmula 1",
+    "subtitle": "Sigue los Grandes Premios y consulta los resultados",
+    "upcomingTab": "Próximas carreras",
+    "finishedTab": "Carreras finalizadas",
+    "noUpcoming": "No hay carreras próximas",
+    "noFinished": "No hay carreras finalizadas",
+    "error": "No se pudieron cargar las carreras de F1"
   }
 }
