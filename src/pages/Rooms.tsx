@@ -1,12 +1,9 @@
 import { useTranslation } from 'react-i18next';
 import React, { useState, useEffect } from 'react';
 import { useNavigate } from 'react-router-dom';
-import { FaHome } from "react-icons/fa";
-import { GiSoccerField } from "react-icons/gi";
-import { FiSearch, FiPlus, FiUsers, FiSettings, FiInfo } from "react-icons/fi";
-import { MdMeetingRoom } from "react-icons/md";
+import { FiSearch, FiPlus, FiUsers } from "react-icons/fi";
 import { useAuth } from '../hooks/useAuth';
-import NotificationBell from '../components/NotificationBell';
+import AppShell from '../components/AppShell';
 import { API_BASE_URL } from '../config/api';
 import { useRoom } from '../hooks/useRoom';
 import { CreateRoomData, apiService } from '../services/apiService';
@@ -219,31 +216,7 @@ const Rooms: React.FC = () => {
 	});
 
 	return (
-		<div className="flex flex-col lg:flex-row h-screen bg-[#0e0f11] text-white page-transition-enter">
-			{/* Sidebar */}
-			<aside className="lg:w-20 w-full flex lg:flex-col flex-row items-center justify-around lg:justify-start py-4 lg:py-6 lg:space-y-8 space-x-4 lg:space-x-0 bg-[#121316]">
-				<FaHome
-					onClick={() => navigate('/homepage')}
-					className="text-white w-12 h-12 p-3 rounded-2xl hover:bg-white/10 transition-all duration-200 ease-in-out cursor-pointer"
-				/>
-				<GiSoccerField
-					onClick={() => navigate('/soccer-matches')}
-					className="text-white w-12 h-12 p-3 rounded-2xl hover:bg-white/10 transition-all duration-200 ease-in-out cursor-pointer"
-				/>
-				<MdMeetingRoom
-					className="text-white w-12 h-12 p-3 rounded-2xl bg-green-600"
-				/>
-				<FiSettings
-					onClick={() => navigate('/settings')}
-					className="text-white w-12 h-12 p-3 rounded-2xl hover:bg-white/10 transition-all duration-200 ease-in-out cursor-pointer"
-				/>
-				<FiInfo
-					onClick={() => navigate('/about')}
-					className="text-white w-12 h-12 p-3 rounded-2xl hover:bg-white/10 transition-all duration-200 ease-in-out cursor-pointer"
-				/>
-				<NotificationBell />
-			</aside>
-
+		<AppShell>
 			{/* Main Content Wrapper */}
 			<div className="flex-1 flex flex-col h-screen overflow-hidden">
 
@@ -743,7 +716,7 @@ const Rooms: React.FC = () => {
 					</div>
 				</div>
 			)}
-		</div>
+		</AppShell>
 	);
 };
 

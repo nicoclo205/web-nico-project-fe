@@ -1,7 +1,7 @@
 import { useTranslation } from 'react-i18next';
 import React, { useEffect, useState } from 'react';
 import { useNavigate } from 'react-router-dom';
-import Layout from '../components/Layout';
+import AppShell from '../components/AppShell';
 import api from '../services/api';
 
 interface Team {
@@ -130,18 +130,18 @@ const BasketballMatches: React.FC = () => {
 
 	if (loading) {
 		return (
-			<Layout>
-				<div className="flex justify-center items-center min-h-screen">
+			<AppShell>
+				<div className="flex-1 flex justify-center items-center">
 					<div className="animate-spin rounded-full h-12 w-12 border-b-2 border-orange-500"></div>
 				</div>
-			</Layout>
+			</AppShell>
 		);
 	}
 
 	if (error) {
 		return (
-			<Layout>
-				<div className="flex justify-center items-center min-h-screen">
+			<AppShell>
+				<div className="flex-1 flex justify-center items-center">
 					<div className="text-red-500 text-center">
 						<p className="text-xl">{error}</p>
 						<button
@@ -152,12 +152,13 @@ const BasketballMatches: React.FC = () => {
 						</button>
 					</div>
 				</div>
-			</Layout>
+			</AppShell>
 		);
 	}
 
 	return (
-		<Layout>
+		<AppShell>
+			<main className="flex-1 overflow-y-auto">
 			<div className="max-w-7xl mx-auto px-4 py-8">
 				{/* Header */}
 				<div className="mb-8">
@@ -371,7 +372,8 @@ const BasketballMatches: React.FC = () => {
 					)}
 				</div>
 			</div>
-		</Layout>
+			</main>
+		</AppShell>
 	);
 };
 

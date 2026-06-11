@@ -1,11 +1,9 @@
-import { FaHome } from "react-icons/fa";
 import { useTranslation } from 'react-i18next';
 import { API_BASE_URL } from './config/api';
 import { GiSoccerField } from "react-icons/gi";
 import { MdMeetingRoom, MdSportsTennis, MdSportsBasketball } from "react-icons/md";
-import { FiSettings, FiInfo } from "react-icons/fi";
 import { IoIosChatbubbles, IoMdTrophy, IoMdNotifications } from "react-icons/io";
-import NotificationBell from "./components/NotificationBell";
+import AppShell from "./components/AppShell";
 import { useAuth } from "./hooks/useAuth";
 import { useNavigate } from "react-router-dom";
 import { useState, useEffect } from "react";
@@ -61,31 +59,7 @@ const HomePage = () => {
   });
 
   return (
-    <div className="flex flex-col lg:flex-row h-screen bg-[#0e0f11] text-white page-transition-enter">
-
-      {/* Sidebar */}
-      <aside className="lg:w-20 w-full flex lg:flex-col flex-row items-center justify-around lg:justify-start py-4 lg:py-6 lg:space-y-8 space-x-4 lg:space-x-0 bg-[#121316]">
-        <FaHome
-          className="text-white w-12 h-12 p-3 rounded-2xl bg-green-600"
-        />
-        <GiSoccerField
-          onClick={() => navigate('/soccer-matches')}
-          className="text-white w-12 h-12 p-3 rounded-2xl hover:bg-white/10 transition-all duration-200 ease-in-out cursor-pointer"
-        />
-        <MdMeetingRoom
-          onClick={() => navigate('/rooms')}
-          className="text-white w-12 h-12 p-3 rounded-2xl hover:bg-white/10 transition-all duration-200 ease-in-out cursor-pointer"
-        />
-        <FiSettings
-          onClick={() => navigate('/settings')}
-          className="text-white w-12 h-12 p-3 rounded-2xl hover:bg-white/10 transition-all duration-200 ease-in-out cursor-pointer"
-        />
-        <FiInfo
-          onClick={() => navigate('/about')}
-          className="text-white w-12 h-12 p-3 rounded-2xl hover:bg-white/10 transition-all duration-200 ease-in-out cursor-pointer"
-        />
-        <NotificationBell />
-      </aside>
+    <AppShell>
 
       {/* Main Content Wrapper */}
       <div className="flex-1 flex flex-col h-screen overflow-hidden">
@@ -313,7 +287,7 @@ const HomePage = () => {
 
         </div>
       </div>
-    </div>
+    </AppShell>
   );
 };
 
