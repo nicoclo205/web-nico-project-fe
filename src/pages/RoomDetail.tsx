@@ -1,6 +1,6 @@
 import { useTranslation } from 'react-i18next';
 import React, { useEffect, useState } from 'react';
-import { useNavigate, useParams } from 'react-router-dom';
+import { useNavigate, useParams, useLocation } from 'react-router-dom';
 import { FaHome, FaArrowLeft } from "react-icons/fa";
 import { GiSoccerField } from "react-icons/gi";
 import { MdMeetingRoom } from "react-icons/md";
@@ -23,6 +23,7 @@ const RoomDetail: React.FC = () => {
 	const { t } = useTranslation(['rooms', 'common']);
 	const navigate = useNavigate();
 	const { roomHash } = useParams<{ roomHash: string }>();
+	const location = useLocation();
 	const { user} = useAuth();
 	const {
 		selectedRoom,
@@ -40,7 +41,8 @@ const RoomDetail: React.FC = () => {
 		descripcion: '',
 		max_miembros: 10
 	});
-	const [activeTab, setActiveTab] = useState<TabType>('info');
+	const initialTab = (location.state as { tab?: TabType } | null)?.tab ?? 'info';
+	const [activeTab, setActiveTab] = useState<TabType>(initialTab);
 	const [userAvatar, setUserAvatar] = useState<string | null>(null);
 
 	const userName = user?.nombre_usuario || user?.username || t('common:user');

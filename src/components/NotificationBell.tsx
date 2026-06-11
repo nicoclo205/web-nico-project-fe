@@ -2,6 +2,7 @@ import React, { useState, useRef, useEffect } from 'react';
 import { useNavigate } from 'react-router-dom';
 import { IoMdNotifications } from 'react-icons/io';
 import { useNotifications } from '../hooks/useNotifications';
+import { encodeRoomId } from '../utils/roomHash';
 
 const timeAgo = (isoDate: string): string => {
   const diff = Date.now() - new Date(isoDate).getTime();
@@ -21,7 +22,6 @@ const NotificationBell: React.FC = () => {
 
   const unreadNotifications = allNotifications.filter(n => !n.leida);
 
-  // Close on outside click
   useEffect(() => {
     const handler = (e: MouseEvent) => {
       if (panelRef.current && !panelRef.current.contains(e.target as Node)) {
@@ -32,18 +32,17 @@ const NotificationBell: React.FC = () => {
     return () => document.removeEventListener('mousedown', handler);
   }, [open]);
 
-  const handleOpen = () => {
-    setOpen(v => !v);
-  };
+  const handleOpen = () => setOpen(v => !v);
 
-  const handleNotifClick = () => {
+  const handleNotifClick = (salaId: number, tipo: string) => {
     setOpen(false);
-    navigate('/rooms');
+    const hash = encodeRoomId(salaId);
+    const tab = tipo === 'nuevo_mensaje_chat' ? 'chat' : 'info';
+    navigate(`/room/${hash}`, { state: { tab } });
   };
 
   return (
     <div className="relative" ref={panelRef}>
-      {/* Bell button */}
       <button
         onClick={handleOpen}
         className={`relative text-white w-12 h-12 p-3 rounded-2xl flex items-center justify-center transition-all duration-200 ease-in-out ${
@@ -59,10 +58,8 @@ const NotificationBell: React.FC = () => {
         )}
       </button>
 
-      {/* Dropdown panel */}
       {open && (
         <div className="absolute left-14 top-0 z-50 w-80 bg-[#1a1d21] border border-white/10 rounded-2xl shadow-2xl overflow-hidden lg:left-14 -left-64">
-          {/* Header */}
           <div className="flex items-center justify-between px-4 py-3 border-b border-white/10">
             <span className="text-white font-semibold text-sm">Notifications</span>
             {unreadNotifications.length > 0 && (
@@ -75,7 +72,6 @@ const NotificationBell: React.FC = () => {
             )}
           </div>
 
-          {/* List */}
           <div className="max-h-96 overflow-y-auto">
             {unreadNotifications.length === 0 ? (
               <div className="py-10 text-center text-gray-500 text-sm">
@@ -86,12 +82,12 @@ const NotificationBell: React.FC = () => {
               unreadNotifications.map(notif => (
                 <button
                   key={`${notif.sala_id}-${notif.id}`}
-                  onClick={handleNotifClick}
+                  onClick={() => handleNotifClick(notif.sala_id, notif.tipo)}
                   className="w-full text-left px-4 py-3 border-b border-white/5 hover:bg-white/5 transition-colors flex items-start gap-3 bg-white/5"
                 >
                   <span className="text-xl flex-shrink-0 mt-0.5">{notif.icono}</span>
                   <div className="flex-1 min-w-0">
-                    <p className="text-sm leading-snug text-white">
+                    <p className="text-sm leading-snug text-white line-clamp-2">
                       {notif.mensaje}
                     </p>
                     <div className="flex items-center gap-2 mt-1">
