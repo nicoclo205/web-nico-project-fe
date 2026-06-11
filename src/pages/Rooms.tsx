@@ -6,6 +6,7 @@ import { GiSoccerField } from "react-icons/gi";
 import { FiSearch, FiPlus, FiUsers, FiSettings, FiInfo } from "react-icons/fi";
 import { MdMeetingRoom } from "react-icons/md";
 import { useAuth } from '../hooks/useAuth';
+import NotificationBell from '../components/NotificationBell';
 import { API_BASE_URL } from '../config/api';
 import { useRoom } from '../hooks/useRoom';
 import { CreateRoomData, apiService } from '../services/apiService';
@@ -240,6 +241,7 @@ const Rooms: React.FC = () => {
 					onClick={() => navigate('/about')}
 					className="text-white w-12 h-12 p-3 rounded-2xl hover:bg-white/10 transition-all duration-200 ease-in-out cursor-pointer"
 				/>
+				<NotificationBell />
 			</aside>
 
 			{/* Main Content Wrapper */}

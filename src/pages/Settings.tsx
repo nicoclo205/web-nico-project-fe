@@ -6,6 +6,7 @@ import { GiSoccerField } from "react-icons/gi";
 import { MdMeetingRoom, MdSettings } from "react-icons/md";
 import { FiUser, FiPhone, FiImage, FiTrash2, FiSave, FiCheck, FiMail, FiInfo } from "react-icons/fi";
 import LanguageSelectorEnhanced from '../components/LanguageSelectorEnhanced';
+import NotificationBell from '../components/NotificationBell';
 import { useAuth } from '../hooks/useAuth';
 import api from '../services/api';
 
@@ -149,6 +150,7 @@ const Settings = () => {
                     onClick={() => navigate('/about')}
                     className="text-white w-12 h-12 p-3 rounded-2xl hover:bg-white/10 transition-all duration-200 ease-in-out cursor-pointer"
                 />
+                <NotificationBell />
             </aside>
 
             {/* Main Content Wrapper */}
