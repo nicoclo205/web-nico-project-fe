@@ -10,6 +10,7 @@ const TITLES: { match: (p: string) => boolean; key: string }[] = [
 	{ match: (p) => p === '/f1-races', key: 'titles.f1' },
 	{ match: (p) => p === '/rooms', key: 'titles.rooms' },
 	{ match: (p) => p.startsWith('/room/'), key: 'titles.roomDetail' },
+	{ match: (p) => p === '/streak-pong', key: 'titles.streakPong' },
 	{ match: (p) => p === '/settings', key: 'titles.settings' },
 	{ match: (p) => p === '/about', key: 'titles.about' },
 	{ match: (p) => p === '/login', key: 'titles.login' },

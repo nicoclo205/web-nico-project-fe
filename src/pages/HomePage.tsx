@@ -1,6 +1,6 @@
 import { useTranslation } from 'react-i18next';
 import { API_BASE_URL } from '../config/api';
-import { GiSoccerField } from "react-icons/gi";
+import { GiSoccerField, GiSoccerBall } from "react-icons/gi";
 import { MdMeetingRoom, MdSportsTennis, MdSportsBasketball } from "react-icons/md";
 import { IoIosChatbubbles, IoMdTrophy, IoMdNotifications } from "react-icons/io";
 import AppShell from "../components/AppShell";
@@ -161,7 +161,29 @@ const HomePage = () => {
                 </div>
               </div>
 
-              {/* Tennis Card */}
+              {/* Streak Pong Mini-game Card */}
+            <div
+              onClick={() => navigate('/streak-pong')}
+              className="group relative rounded-2xl p-6 bg-surface-hover border border-white/5 hover:border-purple-500/50 transition-all duration-300 shadow-sm hover:shadow-lg cursor-pointer overflow-hidden"
+            >
+              <div className="absolute top-0 right-0 p-4 opacity-10 group-hover:opacity-20 transition-opacity">
+                <GiSoccerBall className="text-8xl text-purple-500 transform rotate-12" />
+              </div>
+              <div className="relative z-10">
+                <h3 className="text-xl font-bold text-white mb-1">{t('home:streakPong.title')}</h3>
+                <p className="text-sm text-purple-400 font-medium mb-4 flex items-center gap-1">
+                  {t('home:streakPong.tagline')}
+                </p>
+                <p className="text-gray-400 text-sm leading-relaxed mb-6">
+                  {t('home:streakPong.desc')}
+                </p>
+                <button className="w-full py-2.5 rounded-lg bg-gray-800 text-white font-medium text-sm hover:bg-purple-600 hover:text-white transition-colors">
+                  {t('home:streakPong.play')}
+                </button>
+              </div>
+            </div>
+
+            {/* Tennis Card */}
               <div className="group relative rounded-2xl p-6 bg-surface-deep/50 border border-white/5 overflow-hidden">
                 <div className="relative z-10 opacity-75">
                   <div className="flex justify-between items-start mb-1">

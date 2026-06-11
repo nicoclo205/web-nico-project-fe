@@ -15,6 +15,7 @@ import { ResetPassword } from './pages/ResetPassword';
 import { ForgotPasswordPage } from './pages/ForgotPasswordPage';
 import NotFound from './pages/NotFound';
 import F1Races from './pages/F1Races';
+import StreakPong from './pages/StreakPong';
 import PageTitle from './components/PageTitle';
 import { ProtectedRoute } from './components/ProtectedRoute';
 import { PublicOnlyRoute } from './components/PublicOnlyRoute';
@@ -125,6 +126,15 @@ function App() {
 					element={
 						<ProtectedRoute>
 							<Settings />
+						</ProtectedRoute>}
+				/>
+
+				{/* Mini-game */}
+				<Route
+					path="/streak-pong"
+					element={
+						<ProtectedRoute>
+							<StreakPong />
 						</ProtectedRoute>}
 				/>
 

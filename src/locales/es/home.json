@@ -48,5 +48,27 @@
   "inDevelopment": "En desarrollo",
   "myRoomsSection": "Mis Salas",
   "comingSoonTitle": "Próximamente",
-  "comingSoonDesc": "Esta sección llegará pronto: chats, notificaciones y más funciones sociales están en camino."
+  "comingSoonDesc": "Esta sección llegará pronto: chats, notificaciones y más funciones sociales están en camino.",
+  "streakPong": {
+    "title": "Streak Pong",
+    "tagline": "Tienta a la suerte ⚽",
+    "desc": "Defiende la portería de una selección del Mundial elegida al azar. Cada parada suma a tu racha: canjéala antes de encajar un gol o la perderás toda.",
+    "play": "Jugar ahora",
+    "kickOff": "Saque inicial",
+    "cashOut": "Canjear",
+    "scoreLabel": "Puntos",
+    "streakLabel": "Racha",
+    "bestLabel": "Récord",
+    "goalsAgainst": "Goles en contra",
+    "fullTime": "¡Final del partido!",
+    "finalScore": "Puntuación final",
+    "newBest": "¡Nuevo récord personal!",
+    "playAgain": "Jugar otra vez",
+    "hint": "Muévete con el ratón, táctil o ↑/↓ · Canjea con Espacio o el botón. Si encajas un gol, pierdes la racha sin canjear.",
+    "banked": "¡CANJEADO +{{points}}!",
+    "goalBonus": "¡GOL! +{{points}}",
+    "conceded": "¡GOL EN CONTRA!",
+    "playingFor": "Juegas con",
+    "cpu": "CPU"
+  }
 }
