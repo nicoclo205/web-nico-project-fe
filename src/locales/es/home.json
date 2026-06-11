@@ -70,5 +70,13 @@
     "conceded": "¡GOL EN CONTRA!",
     "playingFor": "Juegas con",
     "cpu": "CPU"
+  },
+  "welcome": {
+    "title": "¡Bienvenido a FriendlyBet, {{name}}!",
+    "intro": "Nos alegra tenerte aquí. FriendlyBet es una iniciativa independiente de un par de geeks, aficionados al deporte, que quisimos unir la tecnología con la pasión por el fútbol.",
+    "whatYouCanDo": "Aquí puedes crear salas con tus amigos, predecir los resultados de tus torneos favoritos —incluido el Mundial 2026— y competir por puntos en el ranking. Las apuestas son amistosas y por puntos: sin dinero de por medio.",
+    "freeAccess": "El acceso a la aplicación es sin costo por tiempo limitado.",
+    "thanks": "Agradecemos sinceramente tu apoyo y el uso apropiado de la plataforma. ¡Que disfrutes el juego!",
+    "cta": "¡Comenzar!"
   }
 }

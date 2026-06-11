@@ -70,5 +70,13 @@
     "conceded": "GOAL CONCEDED!",
     "playingFor": "You play for",
     "cpu": "CPU"
+  },
+  "welcome": {
+    "title": "Welcome to FriendlyBet, {{name}}!",
+    "intro": "We're glad to have you here. FriendlyBet is an independent initiative by a couple of geeks and sports fans who wanted to bring technology and the passion for football together.",
+    "whatYouCanDo": "Here you can create rooms with your friends, predict the results of your favorite tournaments — including the 2026 World Cup — and compete for points in the ranking. Bets are friendly and points-based: no real money involved.",
+    "freeAccess": "Access to the app is free of charge for a limited time.",
+    "thanks": "We sincerely appreciate your support and the appropriate use of the platform. Enjoy the game!",
+    "cta": "Let's go!"
   }
 }

@@ -4,6 +4,7 @@ import { GiSoccerField, GiSoccerBall } from "react-icons/gi";
 import { MdMeetingRoom, MdSportsTennis, MdSportsBasketball } from "react-icons/md";
 import { IoIosChatbubbles, IoMdTrophy, IoMdNotifications } from "react-icons/io";
 import AppShell from "../components/AppShell";
+import WelcomeModal from "../components/WelcomeModal";
 import { useAuth } from "../hooks/useAuth";
 import { useNavigate } from "react-router-dom";
 import { useState, useEffect } from "react";
@@ -16,6 +17,18 @@ const HomePage = () => {
   const navigate = useNavigate();
   const [userAvatar, setUserAvatar] = useState<string | null>(null);
   const { rooms } = useRoom();
+
+  // Modal de bienvenida: solo la primera vez que el usuario entra a la app
+  const [showWelcome, setShowWelcome] = useState(false);
+  useEffect(() => {
+    if (user && !localStorage.getItem(`fb_welcome_seen_${user.id}`)) {
+      setShowWelcome(true);
+    }
+  }, [user]);
+  const closeWelcome = () => {
+    if (user) localStorage.setItem(`fb_welcome_seen_${user.id}`, '1');
+    setShowWelcome(false);
+  };
 
   useEffect(() => {
     const fetchUserAvatar = async () => {
@@ -309,6 +322,7 @@ const HomePage = () => {
 
         </div>
       </div>
+      <WelcomeModal open={showWelcome} userName={userName} onClose={closeWelcome} />
     </AppShell>
   );
 };
