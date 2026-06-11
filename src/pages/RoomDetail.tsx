@@ -231,51 +231,36 @@ const RoomDetail: React.FC = () => {
 
 				{/* Tabs Navigation */}
 				<div className="flex space-x-2 bg-white/10 p-1 rounded-xl mb-6 overflow-x-auto">
-					<button
-						onClick={() => setActiveTab('info')}
-						className={activeTab === 'info' ? 'flex-1 min-w-[100px] flex items-center justify-center gap-2 btn-tab-active' : 'flex-1 min-w-[100px] flex items-center justify-center gap-2 btn-tab-inactive'}
-					>
-						<FiUsers className="text-lg" />
-						<span className="hidden sm:inline">{t('rooms:tabs.info')}</span>
-						<span className="sm:hidden">{t('rooms:tabs.info')}</span>
-					</button>
-					<button
-						onClick={() => setActiveTab('bets')}
-						className={activeTab === 'bets' ? 'flex-1 min-w-[100px] flex items-center justify-center gap-2 btn-tab-active' : 'flex-1 min-w-[100px] flex items-center justify-center gap-2 btn-tab-inactive'}
-					>
-						<FiTarget className="text-lg" />
-						Bets
-					</button>
-					<button
-						onClick={() => setActiveTab('ranking')}
-						className={activeTab === 'ranking' ? 'flex-1 min-w-[100px] flex items-center justify-center gap-2 btn-tab-active' : 'flex-1 min-w-[100px] flex items-center justify-center gap-2 btn-tab-inactive'}
-					>
-						<FiTrendingUp className="text-lg" />
-						Ranking
-					</button>
-					<button
-						onClick={() => setActiveTab('predictions')}
-						className={activeTab === 'predictions' ? 'flex-1 min-w-[100px] flex items-center justify-center gap-2 btn-tab-active' : 'flex-1 min-w-[100px] flex items-center justify-center gap-2 btn-tab-inactive'}
-					>
-						<FiUsers className="text-lg" />
-						<span className="hidden sm:inline">{t('rooms:tabs.predictions')}</span>
-						<span className="sm:hidden">{t('rooms:tabs.pred')}</span>
-					</button>
-					<button
-						onClick={() => setActiveTab('chat')}
-						className={activeTab === 'chat' ? 'flex-1 min-w-[100px] flex items-center justify-center gap-2 btn-tab-active' : 'flex-1 min-w-[100px] flex items-center justify-center gap-2 btn-tab-inactive'}
-					>
-						<FiMessageSquare className="text-lg" />
-						Chat
-					</button>
+					{([
+						{ key: 'info' as TabType, Icon: FiUsers, label: t('rooms:tabs.info') },
+						{ key: 'bets' as TabType, Icon: FiTarget, label: t('rooms:tabs.bets') },
+						{ key: 'ranking' as TabType, Icon: FiTrendingUp, label: t('rooms:tabs.ranking') },
+						{ key: 'predictions' as TabType, Icon: FiUsers, label: t('rooms:tabs.predictions') },
+						{ key: 'chat' as TabType, Icon: FiMessageSquare, label: t('rooms:tabs.chat') },
+					]).map(({ key, Icon, label }) => (
+						<button
+							key={key}
+							onClick={() => setActiveTab(key)}
+							aria-label={label}
+							className={`flex-1 sm:min-w-[100px] flex items-center justify-center gap-2 ${activeTab === key ? 'btn-tab-active' : 'btn-tab-inactive'}`}
+						>
+							<Icon className="text-lg flex-shrink-0" />
+							{/* PC: siempre visible. Movil: solo cuando el tab esta activo */}
+							<span className={`${activeTab === key ? 'inline' : 'hidden'} sm:inline whitespace-nowrap text-xs sm:text-sm`}>
+								{label}
+							</span>
+						</button>
+					))}
 					{selectedRoom && (typeof selectedRoom.id_usuario === 'number' ? selectedRoom.id_usuario === currentUserId : selectedRoom.id_usuario?.id_usuario === currentUserId) && (
 						<button
 							onClick={() => setActiveTab('config')}
-							className={activeTab === 'config' ? 'flex-1 min-w-[100px] flex items-center justify-center gap-2 btn-tab-active' : 'flex-1 min-w-[100px] flex items-center justify-center gap-2 btn-tab-inactive'}
+							aria-label={t('rooms:tabs.settings')}
+							className={`flex-1 sm:min-w-[100px] flex items-center justify-center gap-2 ${activeTab === 'config' ? 'btn-tab-active' : 'btn-tab-inactive'}`}
 						>
-							<FiSettings className="text-lg" />
-							<span className="hidden sm:inline">{t('rooms:tabs.settings')}</span>
-							<span className="sm:hidden">{t('rooms:tabs.settings')}</span>
+							<FiSettings className="text-lg flex-shrink-0" />
+							<span className={`${activeTab === 'config' ? 'inline' : 'hidden'} sm:inline whitespace-nowrap text-xs sm:text-sm`}>
+								{t('rooms:tabs.settings')}
+							</span>
 						</button>
 					)}
 				</div>
