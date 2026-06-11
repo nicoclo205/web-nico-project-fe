@@ -73,5 +73,13 @@
     "start": "Bienvenido",
     "account": "Cuenta",
     "streakPong": "Streak Pong"
+  },
+  "nav": {
+    "home": "Página de inicio",
+    "sports": "Partidos deportivos",
+    "worldcup": "Mundial 2026",
+    "rooms": "Salas de apuestas",
+    "settings": "Configuración",
+    "about": "Acerca de la app"
   }
 }

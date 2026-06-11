@@ -235,11 +235,11 @@ const HomePage = () => {
           </main>
 
           {/* Right Sidebar */}
-          <aside className="w-full lg:w-80 flex flex-col gap-4 md:gap-6 flex-shrink-0 order-first lg:order-last">
+          <aside className="w-full lg:w-80 flex flex-col gap-4 md:gap-6 flex-shrink-0 order-first">
 
             {/* My Rooms Section */}
             {userRooms.length > 0 && (
-              <div className="bg-surface rounded-xl md:rounded-2xl p-4 md:p-6 border border-white/5 shadow-sm">
+              <div className="bg-green-500/5 rounded-xl md:rounded-2xl p-4 md:p-6 border border-green-500/20 shadow-sm">
                 <h3 className="text-base md:text-lg font-bold text-white mb-3 md:mb-4">{t('home:myRoomsSection')}</h3>
                 <div className="space-y-2">
                   {userRooms.map((room) => {
@@ -258,7 +258,7 @@ const HomePage = () => {
                       <button
                         key={room.id_sala}
                         onClick={() => navigate(`/room/${roomHash}`)}
-                        className="w-full text-left p-2.5 md:p-3 rounded-lg bg-surface-deep border border-white/5 hover:border-green-500/50 hover:bg-green-500/10 transition-all duration-200 group"
+                        className="w-full text-left p-2.5 md:p-3 rounded-lg bg-green-500/10 border border-green-500/20 hover:border-green-500/50 hover:bg-green-500/20 transition-all duration-200 group"
                       >
                         <div className="flex items-center justify-between gap-3">
                           {/* Room Avatar */}

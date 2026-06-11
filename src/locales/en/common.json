@@ -72,5 +72,13 @@
     "start": "Welcome",
     "account": "Account",
     "streakPong": "Streak Pong"
+  },
+  "nav": {
+    "home": "Home page",
+    "sports": "Sports matches",
+    "worldcup": "World Cup 2026",
+    "rooms": "Betting rooms",
+    "settings": "Settings",
+    "about": "About the app"
   }
 }
