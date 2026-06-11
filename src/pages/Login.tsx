@@ -245,7 +245,7 @@ function Auth() {
 
       <div className="w-full lg:w-[85vw] lg:h-[85vh] rounded-3xl bg-myGray flex flex-col lg:flex-row p-2 sm:p-4 overflow-hidden relative">
         {/* Language selector */}
-        <div className="absolute top-4 right-4 z-20">
+        <div className="absolute top-2 right-2 sm:top-4 sm:right-4 z-20">
           <LanguageSelectorEnhanced />
         </div>
 
@@ -273,7 +273,7 @@ function Auth() {
         <div className="w-full lg:w-full h-full flex flex-col lg:flex-row justify-between overflow-hidden">
 
           {/* Login Form */}
-          <div className={`w-full lg:w-1/2 h-full flex flex-col justify-center items-center py-8 px-4 transition-all duration-500 lg:duration-300 ease-in-out
+          <div className={`w-full lg:w-1/2 h-full flex flex-col justify-center items-center pt-14 pb-8 sm:py-8 px-4 transition-all duration-500 lg:duration-300 ease-in-out
             ${isLoginView ? 'opacity-100 z-10 translate-x-0' : 'opacity-0 lg:opacity-0 translate-x-full sm:translate-x-full md:translate-x-full lg:translate-x-0 absolute lg:relative pointer-events-none'}`}>
             <div className="text-white text-xl sm:text-2xl mb-8 lg:mb-16 font-bold text-center">
               <h1>{t('auth:title')}</h1>
@@ -358,7 +358,7 @@ function Auth() {
           </div>
 
           {/* Register Form */}
-          <div className={`w-full lg:w-1/2 h-full flex flex-col justify-center items-center py-8 px-4 transition-all duration-500 lg:duration-300 ease-in-out
+          <div className={`w-full lg:w-1/2 h-full flex flex-col justify-center items-center pt-14 pb-8 sm:py-8 px-4 transition-all duration-500 lg:duration-300 ease-in-out
             ${!isLoginView ? 'opacity-100 z-10 translate-x-0' : 'opacity-0 lg:opacity-0 -translate-x-full sm:-translate-x-full md:-translate-x-full lg:translate-x-0 absolute lg:relative pointer-events-none'}`}>
             <div className="text-white text-xl sm:text-2xl mb-4 lg:mb-8 font-bold text-center">
               <h1>{t('auth:registerTitle')}</h1>

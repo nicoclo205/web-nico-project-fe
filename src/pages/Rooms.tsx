@@ -1,7 +1,7 @@
 import { useTranslation } from 'react-i18next';
 import React, { useState, useEffect } from 'react';
 import { useNavigate } from 'react-router-dom';
-import { FiSearch, FiPlus, FiUsers } from "react-icons/fi";
+import { FiSearch, FiPlus, FiUsers, FiLogOut } from "react-icons/fi";
 import { useAuth } from '../hooks/useAuth';
 import AppShell from '../components/AppShell';
 import { API_BASE_URL } from '../config/api';
@@ -254,7 +254,7 @@ const Rooms: React.FC = () => {
 							className="btn-danger text-xs md:text-sm px-3 md:px-4"
 						>
 							<span className="hidden sm:inline">{t('common:logout')}</span>
-							<span className="sm:hidden">{t('common:out')}</span>
+							<FiLogOut className="sm:hidden w-4 h-4" aria-label={t('common:logout')} />
 						</button>
 					</div>
 				</header>

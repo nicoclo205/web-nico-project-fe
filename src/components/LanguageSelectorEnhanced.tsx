@@ -25,7 +25,7 @@ const LanguageSelectorEnhanced: React.FC = () => {
     <div className="flex items-center space-x-2">
       <button
         onClick={() => changeLanguage('es')}
-        className={`px-3 py-1 rounded-lg transition-all ${
+        className={`px-2 py-0.5 text-xs sm:px-3 sm:py-1 sm:text-sm rounded-lg transition-all ${
           i18n.language === 'es'
             ? 'bg-blue-500 text-white shadow-lg scale-105'
             : 'bg-gray-200 text-gray-700 hover:bg-gray-300'
@@ -36,7 +36,7 @@ const LanguageSelectorEnhanced: React.FC = () => {
       </button>
       <button
         onClick={() => changeLanguage('en')}
-        className={`px-3 py-1 rounded-lg transition-all ${
+        className={`px-2 py-0.5 text-xs sm:px-3 sm:py-1 sm:text-sm rounded-lg transition-all ${
           i18n.language === 'en'
             ? 'bg-blue-500 text-white shadow-lg scale-105'
             : 'bg-gray-200 text-gray-700 hover:bg-gray-300'

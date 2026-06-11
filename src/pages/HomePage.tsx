@@ -1,6 +1,7 @@
 import { useTranslation } from 'react-i18next';
 import { API_BASE_URL } from '../config/api';
 import { GiSoccerField, GiSoccerBall } from "react-icons/gi";
+import { FiLogOut } from "react-icons/fi";
 import { MdMeetingRoom, MdSportsTennis, MdSportsBasketball } from "react-icons/md";
 import { IoIosChatbubbles, IoMdTrophy, IoMdNotifications } from "react-icons/io";
 import AppShell from "../components/AppShell";
@@ -107,7 +108,7 @@ const HomePage = () => {
               className="btn-danger text-xs md:text-sm px-3 md:px-4"
             >
               <span className="hidden sm:inline">{t('common:logout')}</span>
-              <span className="sm:hidden">{t('common:out')}</span>
+              <FiLogOut className="sm:hidden w-4 h-4" aria-label={t('common:logout')} />
             </button>
           </div>
         </header>

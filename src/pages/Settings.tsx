@@ -1,7 +1,7 @@
 import { useTranslation } from 'react-i18next';
 import { useState, useEffect } from 'react';
 import { useNavigate } from 'react-router-dom';
-import { FiUser, FiPhone, FiImage, FiTrash2, FiSave, FiCheck, FiMail } from "react-icons/fi";
+import { FiUser, FiPhone, FiImage, FiTrash2, FiSave, FiCheck, FiMail, FiLogOut } from "react-icons/fi";
 import LanguageSelectorEnhanced from '../components/LanguageSelectorEnhanced';
 import AppShell from '../components/AppShell';
 import ConfirmDialog from '../components/ConfirmDialog';
@@ -156,7 +156,7 @@ const Settings = () => {
                             className="btn-danger text-xs md:text-sm px-3 md:px-4"
                         >
                             <span className="hidden sm:inline">{t('common:logout')}</span>
-                            <span className="sm:hidden">{t('common:out')}</span>
+                            <FiLogOut className="sm:hidden w-4 h-4" aria-label={t('common:logout')} />
                         </button>
                     </div>
                 </header>
