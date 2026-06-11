@@ -52,5 +52,8 @@
   "codeCopied": "Code copied to clipboard!",
   "tryAgain": "Try Again",
   "noResults": "No results found",
-  "tbd": "TBD"
+  "tbd": "TBD",
+  "notFoundTitle": "Page not found",
+  "notFoundDesc": "The page you're looking for doesn't exist or has been moved.",
+  "goHome": "Go to Home"
 }

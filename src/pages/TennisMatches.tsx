@@ -1,8 +1,9 @@
 import { useTranslation } from 'react-i18next';
 import React, { useEffect, useState } from 'react';
-import { useNavigate } from 'react-router-dom';
+import { useNavigate, useSearchParams } from 'react-router-dom';
 import AppShell from '../components/AppShell';
 import api from '../services/api';
+import Spinner from '../components/Spinner';
 
 interface Player {
 	id_deportista: number;
@@ -42,11 +43,20 @@ interface TennisMatch {
 const TennisMatches: React.FC = () => {
 	const { t } = useTranslation(['sports', 'common']);
 	const navigate = useNavigate();
+	const [searchParams, setSearchParams] = useSearchParams();
+	const updateParam = (key: string, value: string) => {
+		const next = new URLSearchParams(searchParams);
+		next.set(key, value);
+		setSearchParams(next, { replace: true });
+	};
 	const [matches, setMatches] = useState<TennisMatch[]>([]);
 	const [loading, setLoading] = useState(true);
 	const [error, setError] = useState<string | null>(null);
-	const [activeTab, setActiveTab] = useState<'upcoming' | 'finished'>('upcoming');
-	const [selectedCompetition, setSelectedCompetition] = useState<string>('all');
+	// Tab + filter persisted in the URL (shareable / survives refresh and back-navigation)
+	const activeTab: 'upcoming' | 'finished' = searchParams.get('tab') === 'finished' ? 'finished' : 'upcoming';
+	const setActiveTab = (tab: 'upcoming' | 'finished') => updateParam('tab', tab);
+	const selectedCompetition = searchParams.get('competition') ?? 'all';
+	const setSelectedCompetition = (c: string) => updateParam('competition', c);
 	const [competitions, setCompetitions] = useState<Competition[]>([]);
 
 	useEffect(() => {
@@ -89,10 +99,10 @@ const TennisMatches: React.FC = () => {
 
 	const getStatusBadge = (status: string) => {
 		const statusConfig = {
-			programado: { text: 'Scheduled', className: 'bg-blue-500' },
-			'en curso': { text: 'Live', className: 'bg-red-500 animate-pulse' },
-			finalizado: { text: 'Finished', className: 'bg-gray-500' },
-			cancelado: { text: 'Cancelled', className: 'bg-red-700' },
+			programado: { text: t('common:scheduled'), className: 'bg-blue-500' },
+			'en curso': { text: t('common:live'), className: 'bg-red-500 animate-pulse' },
+			finalizado: { text: t('common:finished'), className: 'bg-gray-500' },
+			cancelado: { text: t('common:cancelled'), className: 'bg-red-700' },
 		};
 
 		const config =
@@ -140,7 +150,7 @@ const TennisMatches: React.FC = () => {
 		return (
 			<AppShell>
 				<div className="flex-1 flex justify-center items-center">
-					<div className="animate-spin rounded-full h-12 w-12 border-b-2 border-yellow-500"></div>
+					<Spinner color="border-yellow-500" />
 				</div>
 			</AppShell>
 		);
@@ -156,7 +166,7 @@ const TennisMatches: React.FC = () => {
 							onClick={fetchTennisMatches}
 							className="mt-4 px-4 py-2 bg-yellow-600 text-white rounded-lg hover:bg-yellow-700"
 						>
-							Retry
+							{t('common:retry')}
 						</button>
 					</div>
 				</div>
@@ -191,7 +201,7 @@ const TennisMatches: React.FC = () => {
 									: 'text-gray-400 hover:text-white'
 							}`}
 						>
-							Upcoming Matches
+							{t('sports:tennisPage.upcomingTab')}
 						</button>
 						<button
 							onClick={() => setActiveTab('finished')}
@@ -201,7 +211,7 @@ const TennisMatches: React.FC = () => {
 									: 'text-gray-400 hover:text-white'
 							}`}
 						>
-							Finished Matches
+							{t('sports:tennisPage.finishedTab')}
 						</button>
 					</div>
 
@@ -216,7 +226,7 @@ const TennisMatches: React.FC = () => {
 										: 'bg-gray-800 text-gray-400 hover:text-white'
 								}`}
 							>
-								All Tournaments
+								{t('sports:tennisPage.allTournaments')}
 							</button>
 							{competitions.map((comp) => (
 								<button
@@ -369,7 +379,7 @@ const TennisMatches: React.FC = () => {
 												{/* Action Button */}
 												{match.estado === 'programado' && (
 													<button className="px-4 py-2 bg-yellow-600 text-white rounded-lg hover:bg-yellow-700 transition-colors">
-														Bet
+														{t('common:bet')}
 													</button>
 												)}
 											</div>

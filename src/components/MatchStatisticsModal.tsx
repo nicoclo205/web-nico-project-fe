@@ -2,6 +2,7 @@ import { useTranslation } from 'react-i18next';
 import React, { useEffect, useState } from 'react';
 import { FiX } from 'react-icons/fi';
 import { apiService } from '../services/apiService';
+import Spinner from './Spinner';
 
 interface MatchStatistic {
   id_estadistica: number;
@@ -158,9 +159,9 @@ const MatchStatisticsModal: React.FC<MatchStatisticsModalProps> = ({
       `}</style>
 
       <div className="fixed inset-0 z-50 flex items-center justify-center p-4 bg-black/70 backdrop-blur-sm">
-        <div className="bg-gradient-to-br from-[#1f2126] to-[#16181d] rounded-3xl shadow-2xl max-w-2xl w-full max-h-[90vh] overflow-y-auto border border-white/10">
+        <div className="bg-gradient-to-br from-panel to-panel-mid rounded-3xl shadow-2xl max-w-2xl w-full max-h-[90vh] overflow-y-auto border border-white/10">
           {/* Header */}
-          <div className="sticky top-0 z-10 bg-gradient-to-br from-[#1f2126] to-[#16181d] p-6 rounded-t-3xl border-b border-white/10">
+          <div className="sticky top-0 z-10 bg-gradient-to-br from-panel to-panel-mid p-6 rounded-t-3xl border-b border-white/10">
             <div className="flex justify-between items-center mb-4">
               <h2 className="text-2xl md:text-3xl font-bold bg-gradient-to-r from-green-400 to-blue-500 bg-clip-text text-transparent">
                 Match Statistics
@@ -205,7 +206,7 @@ const MatchStatisticsModal: React.FC<MatchStatisticsModalProps> = ({
           <div className="p-6">
             {loading && (
               <div className="flex justify-center items-center py-12">
-                <div className="animate-spin rounded-full h-12 w-12 border-b-2 border-green-500"></div>
+                <Spinner />
               </div>
             )}
 
@@ -219,7 +220,7 @@ const MatchStatisticsModal: React.FC<MatchStatisticsModalProps> = ({
             {!loading && !error && statistics.length > 0 && finalHomeStats && finalAwayStats && (
               <div className="space-y-1">
                 <StatRow
-                  label="Possession"
+                  label={t('sports:stats.possession')}
                   homeValue={finalHomeStats.posesion}
                   awayValue={finalAwayStats.posesion}
                   isPercentage={true}
@@ -227,56 +228,56 @@ const MatchStatisticsModal: React.FC<MatchStatisticsModalProps> = ({
                 />
 
                 <StatRow
-                  label="Total Shots"
+                  label={t('sports:stats.totalShots')}
                   homeValue={finalHomeStats.tiros_total}
                   awayValue={finalAwayStats.tiros_total}
                   index={1}
                 />
 
                 <StatRow
-                  label="Shots on Target"
+                  label={t('sports:stats.shotsOnTarget')}
                   homeValue={finalHomeStats.tiros_a_puerta}
                   awayValue={finalAwayStats.tiros_a_puerta}
                   index={2}
                 />
 
                 <StatRow
-                  label="Shots Off Target"
+                  label={t('sports:stats.shotsOffTarget')}
                   homeValue={finalHomeStats.tiros_fuera}
                   awayValue={finalAwayStats.tiros_fuera}
                   index={3}
                 />
 
                 <StatRow
-                  label="Blocked Shots"
+                  label={t('sports:stats.blockedShots')}
                   homeValue={finalHomeStats.tiros_bloqueados}
                   awayValue={finalAwayStats.tiros_bloqueados}
                   index={4}
                 />
 
                 <StatRow
-                  label="Corners"
+                  label={t('sports:stats.corners')}
                   homeValue={finalHomeStats.corners}
                   awayValue={finalAwayStats.corners}
                   index={5}
                 />
 
                 <StatRow
-                  label="Offsides"
+                  label={t('sports:stats.offsides')}
                   homeValue={finalHomeStats.offsides}
                   awayValue={finalAwayStats.offsides}
                   index={6}
                 />
 
                 <StatRow
-                  label="Fouls"
+                  label={t('sports:stats.fouls')}
                   homeValue={finalHomeStats.faltas}
                   awayValue={finalAwayStats.faltas}
                   index={7}
                 />
 
                 <StatRow
-                  label="Yellow Cards"
+                  label={t('sports:stats.yellowCards')}
                   homeValue={finalHomeStats.tarjetas_amarillas}
                   awayValue={finalAwayStats.tarjetas_amarillas}
                   index={8}
@@ -285,7 +286,7 @@ const MatchStatisticsModal: React.FC<MatchStatisticsModalProps> = ({
                 {((finalHomeStats.tarjetas_rojas && finalHomeStats.tarjetas_rojas > 0) ||
                   (finalAwayStats.tarjetas_rojas && finalAwayStats.tarjetas_rojas > 0)) && (
                   <StatRow
-                    label="Red Cards"
+                    label={t('sports:stats.redCards')}
                     homeValue={finalHomeStats.tarjetas_rojas}
                     awayValue={finalAwayStats.tarjetas_rojas}
                     index={9}

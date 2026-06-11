@@ -1,20 +1,23 @@
+import { FaArrowLeft } from 'react-icons/fa';
 
 interface BackButtonProps {
-  onClick: () => void;
-  className?: string;
-  text?: string;
+	onClick: () => void;
+	className?: string;
 }
 
-function BackButton({ 
-  onClick, 
-  className = "w-10 h-10 flex justify-center items-center hover:text-myBlack hover:bg-slate-300 rounded-full transition-colors duration-300", 
-  text = "❮" 
-}: BackButtonProps) {
-  return (
-    <button onClick={onClick} className={className}>
-      {text}
-    </button>
-  );
+/**
+ * Standardized back button (UI standardization) — one arrow style everywhere.
+ */
+function BackButton({ onClick, className = '' }: BackButtonProps) {
+	return (
+		<button
+			onClick={onClick}
+			aria-label="Back"
+			className={`w-10 h-10 flex items-center justify-center rounded-full bg-white/10 hover:bg-white/20 text-white transition-colors duration-300 ${className}`}
+		>
+			<FaArrowLeft />
+		</button>
+	);
 }
 
 export default BackButton;

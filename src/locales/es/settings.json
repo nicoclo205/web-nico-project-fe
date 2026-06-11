@@ -23,5 +23,6 @@
     "load": "Error al cargar los datos del usuario",
     "save": "Error al guardar la configuración",
     "delete": "Error al eliminar la cuenta"
-  }
+  },
+  "deleting": "Eliminando..."
 }

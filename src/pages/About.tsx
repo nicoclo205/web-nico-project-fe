@@ -1,42 +1,14 @@
 import React from 'react';
-import { useNavigate } from 'react-router-dom';
 import { useTranslation } from 'react-i18next';
-import { FaHome } from "react-icons/fa";
-import { GiSoccerField } from "react-icons/gi";
-import { MdMeetingRoom } from "react-icons/md";
-import { FiSettings, FiInfo, FiMail, FiCode } from "react-icons/fi";
-import LanguageSelectorEnhanced from './components/LanguageSelectorEnhanced';
+import { FiMail, FiCode } from "react-icons/fi";
+import LanguageSelectorEnhanced from '../components/LanguageSelectorEnhanced';
+import AppShell from '../components/AppShell';
 
 const About: React.FC = () => {
-  const navigate = useNavigate();
   const { t } = useTranslation(['about']);
 
   return (
-    <div className="flex flex-col lg:flex-row h-screen bg-[#0e0f11] text-white page-transition-enter">
-
-      {/* Sidebar */}
-      <aside className="lg:w-20 w-full flex lg:flex-col flex-row items-center justify-around lg:justify-start py-4 lg:py-6 lg:space-y-8 space-x-4 lg:space-x-0 bg-[#121316]">
-        <FaHome
-          onClick={() => navigate('/homepage')}
-          className="text-white w-12 h-12 p-3 rounded-2xl hover:bg-white/10 transition-all duration-200 ease-in-out cursor-pointer"
-        />
-        <GiSoccerField
-          onClick={() => navigate('/soccer-matches')}
-          className="text-white w-12 h-12 p-3 rounded-2xl hover:bg-white/10 transition-all duration-200 ease-in-out cursor-pointer"
-        />
-        <MdMeetingRoom
-          onClick={() => navigate('/rooms')}
-          className="text-white w-12 h-12 p-3 rounded-2xl hover:bg-white/10 transition-all duration-200 ease-in-out cursor-pointer"
-        />
-        <FiSettings
-          onClick={() => navigate('/settings')}
-          className="text-white w-12 h-12 p-3 rounded-2xl hover:bg-white/10 transition-all duration-200 ease-in-out cursor-pointer"
-        />
-        <FiInfo
-          className="text-white w-12 h-12 p-3 rounded-2xl bg-green-600"
-        />
-      </aside>
-
+    <AppShell>
       {/* Main Content */}
       <main className="flex-1 overflow-y-auto p-4 md:p-8">
 
@@ -68,7 +40,7 @@ const About: React.FC = () => {
           <div className="grid md:grid-cols-2 gap-6">
 
             {/* The Team */}
-            <div className="bg-[#1a1d21] border border-white/10 rounded-2xl p-6">
+            <div className="bg-surface-alt border border-white/10 rounded-2xl p-6">
               <h3 className="text-lg font-semibold text-white mb-5 flex items-center gap-2">
                 <span>👋</span> {t('sections.whoWeAre.title')}
               </h3>
@@ -94,7 +66,7 @@ const About: React.FC = () => {
             </div>
 
             {/* How to Play */}
-            <div className="bg-[#1a1d21] border border-white/10 rounded-2xl p-6">
+            <div className="bg-surface-alt border border-white/10 rounded-2xl p-6">
               <h3 className="text-lg font-semibold text-white mb-5 flex items-center gap-2">
                 <span>🎮</span> {t('sections.howItWorks.title')}
               </h3>
@@ -120,7 +92,7 @@ const About: React.FC = () => {
           </div>
 
           {/* Scoring System */}
-          <div className="bg-[#1a1d21] border border-white/10 rounded-2xl p-6">
+          <div className="bg-surface-alt border border-white/10 rounded-2xl p-6">
             <h3 className="text-lg font-semibold text-white mb-2 flex items-center gap-2">
               <span>🏆</span> {t('sections.scoring.title')}
             </h3>
@@ -161,7 +133,7 @@ const About: React.FC = () => {
           <div className="grid md:grid-cols-2 gap-6">
 
             {/* Tech Stack */}
-            <div className="bg-[#1a1d21] border border-white/10 rounded-2xl p-6">
+            <div className="bg-surface-alt border border-white/10 rounded-2xl p-6">
               <h3 className="text-lg font-semibold text-white mb-4 flex items-center gap-2">
                 <FiCode className="text-green-400" /> {t('sections.underTheHood.title')}
               </h3>
@@ -178,7 +150,7 @@ const About: React.FC = () => {
             </div>
 
             {/* Contact */}
-            <div className="bg-[#1a1d21] border border-white/10 rounded-2xl p-6">
+            <div className="bg-surface-alt border border-white/10 rounded-2xl p-6">
               <h3 className="text-lg font-semibold text-white mb-4 flex items-center gap-2">
                 <FiMail className="text-green-400" /> {t('sections.joinGame.title')}
               </h3>
@@ -202,7 +174,7 @@ const About: React.FC = () => {
 
         </div>
       </main>
-    </div>
+    </AppShell>
   );
 };
 

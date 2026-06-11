@@ -27,7 +27,7 @@ export const RoomChat: React.FC<RoomChatProps> = ({ roomId, token, currentUserId
   };
 
   return (
-    <div className="flex flex-col h-[450px] rounded-2xl bg-gradient-to-br from-[#1f2126] to-[#141518] shadow-lg border border-white/5 overflow-hidden">
+    <div className="flex flex-col h-[450px] rounded-2xl bg-gradient-to-br from-panel to-panel-dark shadow-lg border border-white/5 overflow-hidden">
       {/* Header */}
       <div className="flex items-center justify-between p-3 border-b border-white/10">
         <h3 className="text-base font-bold text-white">{t('rooms:chat.title')}</h3>
@@ -54,7 +54,7 @@ export const RoomChat: React.FC<RoomChatProps> = ({ roomId, token, currentUserId
       )}
 
       {/* Messages Area */}
-      <div className="flex-1 overflow-y-auto p-3 space-y-2 bg-[#0e0f11]">
+      <div className="flex-1 overflow-y-auto p-3 space-y-2 bg-app">
         {messages.length === 0 ? (
           <div className="flex items-center justify-center h-full">
             <p className="text-gray-400 text-sm">No messages yet. Be the first to say something!</p>

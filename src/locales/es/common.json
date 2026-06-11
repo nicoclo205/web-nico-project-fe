@@ -53,5 +53,8 @@
   "tryAgain": "Intentar de Nuevo",
   "noResults": "Sin resultados",
   "tbd": "Por definir",
-  "about": "Acerca de"
+  "about": "Acerca de",
+  "notFoundTitle": "Página no encontrada",
+  "notFoundDesc": "La página que buscas no existe o ha sido movida.",
+  "goHome": "Ir al inicio"
 }

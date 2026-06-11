@@ -1,9 +1,9 @@
 import './App.css';
 import { BrowserRouter, Routes, Route, Navigate } from 'react-router-dom';
-import Login from './Login';
-import HomePage from './HomePage';
-import Start from './Start';
-import About from './About';
+import Login from './pages/Login';
+import HomePage from './pages/HomePage';
+import Start from './pages/Start';
+import About from './pages/About';
 import SoccerMatches from './pages/SoccerMatches';
 import TennisMatches from './pages/TennisMatches';
 import BasketballMatches from './pages/BasketballMatches';
@@ -13,6 +13,7 @@ import Settings from './pages/Settings';
 import { VerifyEmail } from './pages/VerifyEmail';
 import { ResetPassword } from './pages/ResetPassword';
 import { ForgotPasswordPage } from './pages/ForgotPasswordPage';
+import NotFound from './pages/NotFound';
 import { ProtectedRoute } from './components/ProtectedRoute';
 import { PublicOnlyRoute } from './components/PublicOnlyRoute';
 
@@ -116,6 +117,9 @@ function App() {
 							<Settings />
 						</ProtectedRoute>}
 				/>
+
+				{/* 404 catch-all */}
+				<Route path="*" element={<NotFound />} />
 			</Routes>
 		</BrowserRouter>
 	);

@@ -2,13 +2,12 @@ import { Button } from "@/components/ui/button";
 import React, { useState } from "react";
 import { useTranslation } from 'react-i18next';
 import { useLocation, useNavigate } from 'react-router-dom';
-import BackButton from "./components/BackButton";
-import MensajeError from "./components/mensajeError";
-import SuccessMessage from "./components/SuccessMessage";
-import LanguageSelectorEnhanced from './components/LanguageSelectorEnhanced';
-import { useAuth } from "./hooks/useAuth";
-import { API_BASE_URL } from './config/api';
-import './index.css';
+import BackButton from "../components/BackButton";
+import AlertMessage from "../components/AlertMessage";
+import LanguageSelectorEnhanced from '../components/LanguageSelectorEnhanced';
+import { useAuth } from "../hooks/useAuth";
+import { API_BASE_URL } from '../config/api';
+import '../index.css';
 
 function Auth() {
   const navigate = useNavigate();
@@ -174,7 +173,7 @@ function Auth() {
   let componenteError;
 
   if (error){
-    componenteError = <MensajeError mensaje={mensajeErr} />;
+    componenteError = <AlertMessage variant="error" message={mensajeErr} />;
   } else {
     componenteError = null;
   }
@@ -226,8 +225,9 @@ function Auth() {
             <section className="w-full max-w-md flex flex-col items-center">
               {componenteError}
               {registrationSuccess && isLoginView && (
-                <SuccessMessage
-                  message="Registration successful! Please check your email to verify your account before logging in."
+                <AlertMessage
+                  variant="success"
+                  message={t('auth:registrationSuccess')}
                   showEmailIcon={true}
                 />
               )}

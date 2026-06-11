@@ -269,5 +269,8 @@
     "noGroup": "Aún no hay predicciones en este grupo.",
     "error": "No se pudieron cargar las predicciones.",
     "loadError": "Error al cargar las predicciones"
-  }
+  },
+  "namePlaceholder": "Mi sala de apuestas",
+  "descriptionPlaceholder": "Descripción de la sala...",
+  "membersLabel": "miembros"
 }
