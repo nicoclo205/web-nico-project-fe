@@ -51,8 +51,13 @@ function Auth() {
       .then(data => { if (data.valid) setInviteRoomName(data.room_name); })
       .catch(() => {});
   }, [inviteToken]);
-  const [registrationSuccess, setRegistrationSuccess] = useState<boolean>(false);
-  const [registeredEmail, setRegisteredEmail] = useState<string>("");
+  // Persistido en sessionStorage para que el aviso sobreviva recargas o remontajes
+  const [registrationSuccess, setRegistrationSuccess] = useState<boolean>(
+    () => sessionStorage.getItem('fb_reg_success') === '1'
+  );
+  const [registeredEmail, setRegisteredEmail] = useState<string>(
+    () => sessionStorage.getItem('fb_reg_email') || ""
+  );
 
   // Inicio de sesión estados
   const [loginUsername, setLoginUsername] = useState<string>("");
@@ -92,6 +97,9 @@ function Auth() {
     const result = await login(loginUsername, loginPassword);
 
     if (result?.success) {
+      // Limpiar el aviso de verificación una vez logra entrar
+      sessionStorage.removeItem('fb_reg_success');
+      sessionStorage.removeItem('fb_reg_email');
       navigate("/homepage");
     }
   };
@@ -180,6 +188,8 @@ function Auth() {
 
       // Guardar el correo para mostrarlo en el aviso de verificación
       setRegisteredEmail(email);
+      sessionStorage.setItem('fb_reg_success', '1');
+      sessionStorage.setItem('fb_reg_email', email);
 
       // Limpiar los campos del formulario
       setName("");

@@ -143,7 +143,7 @@ class AuthService {
         username: userData.nombre_usuario,
         password: userData.contrasena,
         email: userData.correo,
-      });
+      }, { timeout: 30000 });
 
       return response.data;
     } catch (error: any) {
