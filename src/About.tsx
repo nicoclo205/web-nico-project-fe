@@ -128,16 +128,21 @@ const About: React.FC = () => {
               {t('sections.scoring.description')}
             </p>
 
-            <div className="grid grid-cols-3 gap-4 mb-5">
+            <div className="grid grid-cols-2 md:grid-cols-4 gap-4 mb-5">
               <div className="text-center bg-green-900/20 border border-green-700/30 rounded-xl p-4">
-                <div className="text-3xl font-bold text-green-400 mb-1">3</div>
+                <div className="text-3xl font-bold text-green-400 mb-1">10</div>
                 <div className="text-white text-sm font-semibold mb-1">{t('sections.scoring.exactScoreLabel')}</div>
                 <div className="text-gray-400 text-xs leading-snug">{t('sections.scoring.exactScoreDesc')}</div>
               </div>
               <div className="text-center bg-yellow-900/20 border border-yellow-700/30 rounded-xl p-4">
-                <div className="text-3xl font-bold text-yellow-400 mb-1">1</div>
+                <div className="text-3xl font-bold text-yellow-400 mb-1">5</div>
                 <div className="text-white text-sm font-semibold mb-1">{t('sections.scoring.winnerLabel')}</div>
                 <div className="text-gray-400 text-xs leading-snug">{t('sections.scoring.winnerDesc')}</div>
+              </div>
+              <div className="text-center bg-blue-900/20 border border-blue-700/30 rounded-xl p-4">
+                <div className="text-3xl font-bold text-blue-400 mb-1">3</div>
+                <div className="text-white text-sm font-semibold mb-1">{t('sections.scoring.diffLabel')}</div>
+                <div className="text-gray-400 text-xs leading-snug">{t('sections.scoring.diffDesc')}</div>
               </div>
               <div className="text-center bg-red-900/20 border border-red-700/30 rounded-xl p-4">
                 <div className="text-3xl font-bold text-red-400 mb-1">0</div>
