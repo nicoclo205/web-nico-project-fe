@@ -1,7 +1,7 @@
 import React, { useState, useRef, useEffect } from 'react';
 import { useNavigate } from 'react-router-dom';
 import { IoMdNotifications } from 'react-icons/io';
-import { useNotifications, AppNotification } from '../hooks/useNotifications';
+import { useNotifications } from '../hooks/useNotifications';
 
 const timeAgo = (isoDate: string): string => {
   const diff = Date.now() - new Date(isoDate).getTime();
@@ -37,7 +37,7 @@ const NotificationBell: React.FC = () => {
     }
   };
 
-  const handleNotifClick = (notif: AppNotification) => {
+  const handleNotifClick = () => {
     setOpen(false);
     navigate(`/rooms`);
   };
@@ -87,7 +87,7 @@ const NotificationBell: React.FC = () => {
               allNotifications.map(notif => (
                 <button
                   key={`${notif.sala_id}-${notif.id}`}
-                  onClick={() => handleNotifClick(notif)}
+                  onClick={handleNotifClick}
                   className={`w-full text-left px-4 py-3 border-b border-white/5 hover:bg-white/5 transition-colors flex items-start gap-3 ${
                     !notif.leida ? 'bg-white/5' : ''
                   }`}
