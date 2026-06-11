@@ -3,7 +3,6 @@ import React, { useEffect, useState } from 'react';
 import { FiPlus, FiTrash2, FiX, FiCheck, FiAlertCircle } from 'react-icons/fi';
 import { GiSoccerBall } from 'react-icons/gi';
 import { API_BASE_URL } from '../config/api';
-import Spinner from './Spinner';
 
 interface RoomConfigurationProps {
   roomId: number;
@@ -223,7 +222,7 @@ const RoomConfiguration: React.FC<RoomConfigurationProps> = ({ roomId }) => {
   if (loading && activatedLeagues.length === 0) {
     return (
       <div className="flex justify-center items-center py-20">
-        <Spinner />
+        <div className="animate-spin rounded-full h-12 w-12 border-b-2 border-green-500"></div>
       </div>
     );
   }
@@ -248,7 +247,7 @@ const RoomConfiguration: React.FC<RoomConfigurationProps> = ({ roomId }) => {
       )}
 
       {/* Activated Leagues Section */}
-      <div className="rounded-3xl p-6 bg-gradient-to-br from-panel to-panel-dark shadow-xl border border-white/5">
+      <div className="rounded-3xl p-6 bg-gradient-to-br from-[#1f2126] to-[#141518] shadow-xl border border-white/5">
         <div className="flex items-center justify-between mb-4">
           <h3 className="text-xl font-bold flex items-center gap-2">
             <GiSoccerBall className="text-green-500" />
@@ -301,7 +300,7 @@ const RoomConfiguration: React.FC<RoomConfigurationProps> = ({ roomId }) => {
       </div>
 
       {/* Activated Individual Matches Section */}
-      <div className="rounded-3xl p-6 bg-gradient-to-br from-panel to-panel-dark shadow-xl border border-white/5">
+      <div className="rounded-3xl p-6 bg-gradient-to-br from-[#1f2126] to-[#141518] shadow-xl border border-white/5">
         <div className="flex items-center justify-between mb-4">
           <h3 className="text-xl font-bold flex items-center gap-2">
             <FiCheck className="text-blue-500" />
@@ -353,7 +352,7 @@ const RoomConfiguration: React.FC<RoomConfigurationProps> = ({ roomId }) => {
       {/* Add League Modal */}
       {showLeagueModal && (
         <div className="fixed inset-0 bg-black/70 flex items-center justify-center p-4 z-50" onClick={() => setShowLeagueModal(false)}>
-          <div className="bg-panel rounded-3xl p-6 max-w-2xl w-full max-h-[80vh] overflow-y-auto border border-white/10" onClick={(e) => e.stopPropagation()}>
+          <div className="bg-[#1f2126] rounded-3xl p-6 max-w-2xl w-full max-h-[80vh] overflow-y-auto border border-white/10" onClick={(e) => e.stopPropagation()}>
             <div className="flex items-center justify-between mb-4">
               <h3 className="text-xl font-bold">{t('rooms:config.leagueModal.title')}</h3>
               <button onClick={() => setShowLeagueModal(false)} className="btn-secondary btn-icon">
@@ -409,7 +408,7 @@ const RoomConfiguration: React.FC<RoomConfigurationProps> = ({ roomId }) => {
       {/* Add Match Modal */}
       {showMatchModal && (
         <div className="fixed inset-0 bg-black/70 flex items-center justify-center p-4 z-50" onClick={() => setShowMatchModal(false)}>
-          <div className="bg-panel rounded-3xl p-6 max-w-2xl w-full max-h-[80vh] overflow-y-auto border border-white/10" onClick={(e) => e.stopPropagation()}>
+          <div className="bg-[#1f2126] rounded-3xl p-6 max-w-2xl w-full max-h-[80vh] overflow-y-auto border border-white/10" onClick={(e) => e.stopPropagation()}>
             <div className="flex items-center justify-between mb-4">
               <h3 className="text-xl font-bold">{t('rooms:config.matchModal.title')}</h3>
               <button onClick={() => setShowMatchModal(false)} className="btn-secondary btn-icon">

@@ -270,8 +270,5 @@
     "noGroup": "No predictions in this group yet.",
     "error": "Could not load group predictions.",
     "loadError": "Failed to load predictions"
-  },
-  "namePlaceholder": "My betting room",
-  "descriptionPlaceholder": "Room description...",
-  "membersLabel": "members"
+  }
 }

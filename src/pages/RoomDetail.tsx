@@ -14,7 +14,6 @@ import { RoomChat } from '../components/RoomChat';
 import RoomConfiguration from '../components/RoomConfiguration';
 import RoomDashboard from '../components/RoomDashboard';
 import GroupPredictions from '../components/GroupPredictions';
-import Spinner from '../components/Spinner';
 
 type TabType = 'info' | 'bets' | 'ranking' | 'predictions' | 'chat' | 'config';
 
@@ -125,19 +124,19 @@ const RoomDetail: React.FC = () => {
 
 	if (loading) {
 		return (
-			<div className="flex justify-center items-center h-screen bg-app">
-				<Spinner size="lg" />
+			<div className="flex justify-center items-center h-screen bg-[#0e0f11]">
+				<div className="animate-spin rounded-full h-16 w-16 border-b-2 border-green-500"></div>
 			</div>
 		);
 	}
 
 	if (displayError) {
 		return (
-			<div className="flex flex-col items-center justify-center h-screen bg-app text-white">
+			<div className="flex flex-col items-center justify-center h-screen bg-[#0e0f11] text-white">
 				<span className="text-6xl mb-4">⚠️</span>
 				<h1 className="text-2xl font-bold mb-4">{displayError}</h1>
 				<button onClick={() => navigate('/rooms')} className="btn-primary">
-					{t('common:backToRooms')}
+					Back to Rooms
 				</button>
 			</div>
 		);
@@ -145,10 +144,10 @@ const RoomDetail: React.FC = () => {
 
 	if (!selectedRoom) {
 		return (
-			<div className="flex flex-col items-center justify-center h-screen bg-app text-white">
+			<div className="flex flex-col items-center justify-center h-screen bg-[#0e0f11] text-white">
 				<h1 className="text-2xl font-bold mb-4">{t('common:roomNotFound')}</h1>
 				<button onClick={() => navigate('/rooms')} className="btn-primary">
-					{t('common:backToRooms')}
+					Back to Rooms
 				</button>
 			</div>
 		);
@@ -188,7 +187,7 @@ const RoomDetail: React.FC = () => {
 									<h1 className="text-xl md:text-2xl lg:text-3xl font-bold">{selectedRoom.nombre}</h1>
 									{isOwner && (
 										<span className="px-3 py-1 text-xs font-semibold rounded-full bg-green-600">
-											{t('common:admin')}
+											Admin
 										</span>
 									)}
 								</div>
@@ -319,7 +318,7 @@ const RoomDetail: React.FC = () => {
 			{/* Edit Room Modal */}
 			{showEditModal && (
 				<div className="fixed inset-0 bg-black/70 flex items-center justify-center p-4 z-50" onClick={() => setShowEditModal(false)}>
-					<div className="bg-panel rounded-3xl p-6 md:p-8 max-w-md w-full border border-white/10" onClick={(e) => e.stopPropagation()}>
+					<div className="bg-[#1f2126] rounded-3xl p-6 md:p-8 max-w-md w-full border border-white/10" onClick={(e) => e.stopPropagation()}>
 						<h2 className="text-2xl font-bold mb-6">{t('rooms:editRoom.title')}</h2>
 
 						<div className="space-y-4">
@@ -361,13 +360,13 @@ const RoomDetail: React.FC = () => {
 								onClick={() => setShowEditModal(false)}
 								className="btn-secondary flex-1"
 							>
-								{t('common:cancel')}
+								Cancel
 							</button>
 							<button
 								onClick={handleEditRoom}
 								className="btn-primary flex-1"
 							>
-								{t('common:saveChanges')}
+								Save Changes
 							</button>
 						</div>
 					</div>

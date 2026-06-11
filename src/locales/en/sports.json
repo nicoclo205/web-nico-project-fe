@@ -107,17 +107,5 @@
     "all": "All"
   },
   "basketball": "Basketball",
-  "tennis": "Tennis",
-  "stats": {
-    "possession": "Possession",
-    "totalShots": "Total Shots",
-    "shotsOnTarget": "Shots on Target",
-    "shotsOffTarget": "Shots Off Target",
-    "blockedShots": "Blocked Shots",
-    "corners": "Corners",
-    "offsides": "Offsides",
-    "fouls": "Fouls",
-    "yellowCards": "Yellow Cards",
-    "redCards": "Red Cards"
-  }
+  "tennis": "Tennis"
 }

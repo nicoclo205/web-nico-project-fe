@@ -6,7 +6,6 @@ import LanguageSelectorEnhanced from '../components/LanguageSelectorEnhanced';
 import AppShell from '../components/AppShell';
 import { useAuth } from '../hooks/useAuth';
 import api from '../services/api';
-import Spinner from '../components/Spinner';
 
 // Avatar paths - all avatars in the public/avatars folder
 const avatarPaths = [
@@ -130,7 +129,7 @@ const Settings = () => {
             {/* Main Content Wrapper */}
             <div className="flex-1 flex flex-col h-screen overflow-hidden">
                 {/* Header */}
-                <header className="h-16 md:h-20 flex items-center justify-between px-4 md:px-8 lg:px-12 bg-app/95 backdrop-blur-sm z-10 sticky top-0">
+                <header className="h-16 md:h-20 flex items-center justify-between px-4 md:px-8 lg:px-12 bg-[#0e0f11]/95 backdrop-blur-sm z-10 sticky top-0">
                     <div>
                         <h1 className="text-lg md:text-2xl lg:text-3xl font-bold tracking-tight text-white flex items-center gap-2 md:gap-3">
                             <span className="text-3xl md:text-4xl">⚙️</span>
@@ -183,7 +182,7 @@ const Settings = () => {
                         )}
 
                         {/* Personal Info Card */}
-                        <div className="rounded-3xl p-4 md:p-6 bg-gradient-to-br from-panel to-panel-dark shadow-xl border border-white/5 mb-6">
+                        <div className="rounded-3xl p-4 md:p-6 bg-gradient-to-br from-[#1f2126] to-[#141518] shadow-xl border border-white/5 mb-6">
                             <div className="flex items-center gap-3 mb-6">
                                 <div className="w-10 h-10 rounded-xl bg-blue-500/20 flex items-center justify-center">
                                     <FiUser className="text-blue-400 text-xl" />
@@ -255,7 +254,7 @@ const Settings = () => {
                         </div>
 
                         {/* Avatar Selection Card */}
-                        <div className="rounded-3xl p-4 md:p-6 bg-gradient-to-br from-panel to-panel-dark shadow-xl border border-white/5 mb-6">
+                        <div className="rounded-3xl p-4 md:p-6 bg-gradient-to-br from-[#1f2126] to-[#141518] shadow-xl border border-white/5 mb-6">
                             <div className="flex items-center gap-3 mb-6">
                                 <div className="w-10 h-10 rounded-xl bg-purple-500/20 flex items-center justify-center">
                                     <FiImage className="text-purple-400 text-xl" />
@@ -310,13 +309,13 @@ const Settings = () => {
                             >
                                 {isSaving ? (
                                     <>
-                                        <Spinner size="sm" color="border-white" />
+                                        <div className="animate-spin rounded-full h-5 w-5 border-b-2 border-white"></div>
                                         Saving...
                                     </>
                                 ) : (
                                     <>
                                         <FiSave className="text-xl" />
-                                        {t('settings:saveChanges')}
+                                        Save Changes
                                     </>
                                 )}
                             </button>
@@ -326,7 +325,7 @@ const Settings = () => {
                     {/* Right Sidebar */}
                     <aside className="w-full lg:w-80 flex flex-col gap-4 md:gap-6 flex-shrink-0">
                         {/* Profile Preview Card */}
-                        <div className="bg-surface rounded-xl md:rounded-2xl p-4 md:p-6 border border-white/5 shadow-sm">
+                        <div className="bg-[#181b21] rounded-xl md:rounded-2xl p-4 md:p-6 border border-white/5 shadow-sm">
                             <h3 className="text-base md:text-lg font-bold text-white mb-4">{t('settings:preview')}</h3>
                             <div className="flex flex-col items-center text-center">
                                 <div className="w-24 h-24 md:w-28 md:h-28 rounded-full bg-gradient-to-br from-green-500 to-blue-500 p-1 mb-4">
@@ -334,10 +333,10 @@ const Settings = () => {
                                         <img
                                             src={userData.foto_perfil}
                                             alt="Avatar"
-                                            className="w-full h-full rounded-full object-cover bg-surface"
+                                            className="w-full h-full rounded-full object-cover bg-[#181b21]"
                                         />
                                     ) : (
-                                        <div className="w-full h-full rounded-full bg-surface flex items-center justify-center">
+                                        <div className="w-full h-full rounded-full bg-[#181b21] flex items-center justify-center">
                                             <span className="text-4xl font-bold text-gray-400">
                                                 {userName.charAt(0).toUpperCase()}
                                             </span>
@@ -361,16 +360,16 @@ const Settings = () => {
                         </div>
 
                         {/* Language Card */}
-                    <div className="rounded-3xl p-6 bg-gradient-to-br from-panel to-panel-dark shadow-xl border border-white/5">
+                    <div className="rounded-3xl p-6 bg-gradient-to-br from-[#1f2126] to-[#141518] shadow-xl border border-white/5">
                         <h3 className="text-base md:text-lg font-bold text-white mb-4">{t('settings:language')}</h3>
                         <LanguageSelectorEnhanced />
                     </div>
 
                     {/* Danger Zone Card */}
-                        <div className="bg-gradient-to-br from-red-900/20 to-surface-deep rounded-xl md:rounded-2xl p-4 md:p-6 border border-red-500/20 shadow-sm">
+                        <div className="bg-gradient-to-br from-red-900/20 to-[#0f1115] rounded-xl md:rounded-2xl p-4 md:p-6 border border-red-500/20 shadow-sm">
                             <h3 className="text-base md:text-lg font-bold text-red-400 mb-2">{t('settings:dangerZone')}</h3>
                             <p className="text-xs md:text-sm text-gray-400 mb-4">
-                                {t('settings:dangerText')}
+                                Once your account is deleted, there's no going back. Please be sure.
                             </p>
                             <button
                                 onClick={handleDeleteAccount}
@@ -379,13 +378,13 @@ const Settings = () => {
                             >
                                 {isDeleting ? (
                                     <>
-                                        <Spinner size="sm" color="border-red-400" />
-                                        {t('settings:deleting')}
+                                        <div className="animate-spin rounded-full h-4 w-4 border-b-2 border-red-400"></div>
+                                        Deleting...
                                     </>
                                 ) : (
                                     <>
                                         <FiTrash2 />
-                                        {t('settings:deleteAccount')}
+                                        Delete Account
                                     </>
                                 )}
                             </button>

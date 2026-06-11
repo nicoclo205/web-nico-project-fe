@@ -1,12 +1,12 @@
 import { useNavigate } from "react-router-dom";
-import { Button } from "../components/ui/button";
+import { Button } from "./components/ui/button";
 import {
   NavigationMenu,
   NavigationMenuItem,
   NavigationMenuLink,
   NavigationMenuList,
   navigationMenuTriggerStyle
-} from "../components/ui/navigation-menu";
+} from "./components/ui/navigation-menu";
 function Start() {
 
     const navigate = useNavigate();

@@ -3,7 +3,6 @@ import React, { useEffect, useState } from 'react';
 import { useNavigate } from 'react-router-dom';
 import AppShell from '../components/AppShell';
 import api from '../services/api';
-import Spinner from '../components/Spinner';
 
 interface Player {
 	id_deportista: number;
@@ -90,10 +89,10 @@ const TennisMatches: React.FC = () => {
 
 	const getStatusBadge = (status: string) => {
 		const statusConfig = {
-			programado: { text: t('common:scheduled'), className: 'bg-blue-500' },
-			'en curso': { text: t('common:live'), className: 'bg-red-500 animate-pulse' },
-			finalizado: { text: t('common:finished'), className: 'bg-gray-500' },
-			cancelado: { text: t('common:cancelled'), className: 'bg-red-700' },
+			programado: { text: 'Scheduled', className: 'bg-blue-500' },
+			'en curso': { text: 'Live', className: 'bg-red-500 animate-pulse' },
+			finalizado: { text: 'Finished', className: 'bg-gray-500' },
+			cancelado: { text: 'Cancelled', className: 'bg-red-700' },
 		};
 
 		const config =
@@ -141,7 +140,7 @@ const TennisMatches: React.FC = () => {
 		return (
 			<AppShell>
 				<div className="flex-1 flex justify-center items-center">
-					<Spinner color="border-yellow-500" />
+					<div className="animate-spin rounded-full h-12 w-12 border-b-2 border-yellow-500"></div>
 				</div>
 			</AppShell>
 		);
@@ -157,7 +156,7 @@ const TennisMatches: React.FC = () => {
 							onClick={fetchTennisMatches}
 							className="mt-4 px-4 py-2 bg-yellow-600 text-white rounded-lg hover:bg-yellow-700"
 						>
-							{t('common:retry')}
+							Retry
 						</button>
 					</div>
 				</div>
@@ -192,7 +191,7 @@ const TennisMatches: React.FC = () => {
 									: 'text-gray-400 hover:text-white'
 							}`}
 						>
-							{t('sports:tennisPage.upcomingTab')}
+							Upcoming Matches
 						</button>
 						<button
 							onClick={() => setActiveTab('finished')}
@@ -202,7 +201,7 @@ const TennisMatches: React.FC = () => {
 									: 'text-gray-400 hover:text-white'
 							}`}
 						>
-							{t('sports:tennisPage.finishedTab')}
+							Finished Matches
 						</button>
 					</div>
 
@@ -217,7 +216,7 @@ const TennisMatches: React.FC = () => {
 										: 'bg-gray-800 text-gray-400 hover:text-white'
 								}`}
 							>
-								{t('sports:tennisPage.allTournaments')}
+								All Tournaments
 							</button>
 							{competitions.map((comp) => (
 								<button
@@ -370,7 +369,7 @@ const TennisMatches: React.FC = () => {
 												{/* Action Button */}
 												{match.estado === 'programado' && (
 													<button className="px-4 py-2 bg-yellow-600 text-white rounded-lg hover:bg-yellow-700 transition-colors">
-														{t('common:bet')}
+														Bet
 													</button>
 												)}
 											</div>

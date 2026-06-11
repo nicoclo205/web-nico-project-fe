@@ -11,7 +11,7 @@ interface AppShellProps {
  */
 function AppShell({ children }: AppShellProps) {
 	return (
-		<div className="flex flex-col lg:flex-row h-screen bg-app text-white page-transition-enter">
+		<div className="flex flex-col lg:flex-row h-screen bg-[#0e0f11] text-white page-transition-enter">
 			<AppSidebar />
 			{children}
 		</div>

@@ -3,7 +3,6 @@ import React, { useEffect, useState } from 'react';
 import { FiCalendar, FiClock, FiTrendingUp, FiCheckCircle, FiXCircle, FiClock as FiPending, FiEdit2, FiTrash2 } from 'react-icons/fi';
 import { GiSoccerBall } from 'react-icons/gi';
 import { useBets, Match, Bet } from '../hooks/useBets';
-import Spinner from './Spinner';
 
 interface RoomBetsProps {
   roomId: number;
@@ -191,7 +190,7 @@ const RoomBets: React.FC<RoomBetsProps> = ({ roomId }) => {
   if (loading && !userBets.length && !upcomingMatches.length) {
     return (
       <div className="flex justify-center items-center p-8">
-        <Spinner />
+        <div className="animate-spin rounded-full h-12 w-12 border-b-2 border-green-500"></div>
       </div>
     );
   }
@@ -208,7 +207,7 @@ const RoomBets: React.FC<RoomBetsProps> = ({ roomId }) => {
       )}
 
       {/* Upcoming Matches Section */}
-      <div className="rounded-3xl p-6 bg-gradient-to-br from-panel to-panel-dark shadow-xl border border-white/5">
+      <div className="rounded-3xl p-6 bg-gradient-to-br from-[#1f2126] to-[#141518] shadow-xl border border-white/5">
         <h3 className="text-xl font-bold mb-4 flex items-center gap-2">
           <GiSoccerBall className="text-green-500" />
           Available Matches
@@ -364,7 +363,7 @@ const RoomBets: React.FC<RoomBetsProps> = ({ roomId }) => {
 
       {/* Bet History Section */}
       {completedBets.length > 0 && (
-        <div className="rounded-3xl p-6 bg-gradient-to-br from-panel to-panel-dark shadow-xl border border-white/5">
+        <div className="rounded-3xl p-6 bg-gradient-to-br from-[#1f2126] to-[#141518] shadow-xl border border-white/5">
           <h3 className="text-xl font-bold mb-4 flex items-center gap-2">
             <FiTrendingUp className="text-blue-500" />
             Bet History
@@ -416,7 +415,7 @@ const RoomBets: React.FC<RoomBetsProps> = ({ roomId }) => {
       {/* Bet Modal */}
       {showBetModal && selectedMatch && (
         <div className="fixed inset-0 bg-black/70 flex items-center justify-center p-4 z-50" onClick={() => setShowBetModal(false)}>
-          <div className="bg-panel rounded-3xl p-6 md:p-8 max-w-md w-full border border-white/10" onClick={(e) => e.stopPropagation()}>
+          <div className="bg-[#1f2126] rounded-3xl p-6 md:p-8 max-w-md w-full border border-white/10" onClick={(e) => e.stopPropagation()}>
             <h2 className="text-2xl font-bold mb-6">{editingBet ? t('rooms:bets.editBetTitle') : t('rooms:bets.placeBetTitle')}</h2>
 
             {/* Match Info */}

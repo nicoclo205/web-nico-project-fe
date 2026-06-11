@@ -3,7 +3,6 @@ import React, { useEffect, useState } from 'react';
 import { FiUsers, FiCopy, FiTrendingUp, FiClock, FiTarget, FiBell, FiCalendar, FiAward, FiAlertCircle, FiMail, FiSend } from 'react-icons/fi';
 import { GiSoccerBall, GiTrophy } from 'react-icons/gi';
 import { API_BASE_URL } from '../config/api';
-import Spinner from './Spinner';
 
 interface RoomDashboardProps {
   roomId: number;
@@ -178,7 +177,7 @@ const RoomDashboard: React.FC<RoomDashboardProps> = ({
   if (loading) {
     return (
       <div className="flex justify-center items-center py-20">
-        <Spinner />
+        <div className="animate-spin rounded-full h-12 w-12 border-b-2 border-green-500"></div>
       </div>
     );
   }
@@ -188,7 +187,7 @@ const RoomDashboard: React.FC<RoomDashboardProps> = ({
       {/* Columna Principal - 2/3 */}
       <div className="lg:col-span-2 space-y-4">
         {/* Header Compacto con Info Básica */}
-        <div className="rounded-2xl p-4 bg-gradient-to-br from-panel to-panel-dark shadow-lg border border-white/5">
+        <div className="rounded-2xl p-4 bg-gradient-to-br from-[#1f2126] to-[#141518] shadow-lg border border-white/5">
           <div className="flex flex-wrap items-center gap-4">
             {/* Miembros */}
             <div className="flex items-center gap-2 min-w-[120px]">
@@ -234,7 +233,7 @@ const RoomDashboard: React.FC<RoomDashboardProps> = ({
 
         {/* Invite Member (admin only) */}
         {isAdmin && (
-          <div className="rounded-2xl p-4 bg-gradient-to-br from-panel to-panel-dark shadow-lg border border-white/5">
+          <div className="rounded-2xl p-4 bg-gradient-to-br from-[#1f2126] to-[#141518] shadow-lg border border-white/5">
             <div className="flex items-center gap-2 mb-3">
               <FiMail className="text-lg text-blue-400" />
               <h3 className="text-sm font-semibold text-gray-300">{t('rooms:invite.title')}</h3>
@@ -267,7 +266,7 @@ const RoomDashboard: React.FC<RoomDashboardProps> = ({
         )}
 
         {/* Avisos Importantes */}
-        <div className="rounded-2xl p-5 bg-gradient-to-br from-panel to-panel-dark shadow-lg border border-white/5">
+        <div className="rounded-2xl p-5 bg-gradient-to-br from-[#1f2126] to-[#141518] shadow-lg border border-white/5">
           <div className="flex items-center gap-2 mb-4">
             <FiBell className="text-xl text-yellow-500" />
             <h3 className="text-lg font-bold">{t('rooms:dashboard.notices')}</h3>
@@ -306,7 +305,7 @@ const RoomDashboard: React.FC<RoomDashboardProps> = ({
         </div>
 
         {/* Próximos 3 Partidos */}
-        <div className="rounded-2xl p-5 bg-gradient-to-br from-panel to-panel-dark shadow-lg border border-white/5">
+        <div className="rounded-2xl p-5 bg-gradient-to-br from-[#1f2126] to-[#141518] shadow-lg border border-white/5">
           <div className="flex items-center gap-2 mb-4">
             <FiClock className="text-xl text-blue-500" />
             <h3 className="text-lg font-bold">{t('rooms:dashboard.upcomingMatches')}</h3>
@@ -379,7 +378,7 @@ const RoomDashboard: React.FC<RoomDashboardProps> = ({
 
         {/* Último Resultado */}
         {lastResult && (
-          <div className="rounded-2xl p-5 bg-gradient-to-br from-panel to-panel-dark shadow-lg border border-white/5">
+          <div className="rounded-2xl p-5 bg-gradient-to-br from-[#1f2126] to-[#141518] shadow-lg border border-white/5">
             <div className="flex items-center gap-2 mb-4">
               <FiTarget className="text-xl text-purple-500" />
               <h3 className="text-lg font-bold">{t('rooms:dashboard.lastResult')}</h3>
@@ -446,7 +445,7 @@ const RoomDashboard: React.FC<RoomDashboardProps> = ({
       {/* Columna Lateral - 1/3 */}
       <div className="lg:col-span-1 space-y-4">
         {/* Líder de la Sala */}
-        <div className="rounded-2xl p-5 bg-gradient-to-br from-yellow-900/20 to-panel-dark shadow-lg border border-yellow-500/20">
+        <div className="rounded-2xl p-5 bg-gradient-to-br from-yellow-900/20 to-[#141518] shadow-lg border border-yellow-500/20">
           <div className="flex items-center gap-2 mb-4">
             <GiTrophy className="text-xl text-yellow-500" />
             <h3 className="text-lg font-bold">{t('rooms:dashboard.roomLeader')}</h3>
@@ -461,7 +460,7 @@ const RoomDashboard: React.FC<RoomDashboardProps> = ({
             <div className="text-center">
               {/* Avatar */}
               <div className="relative inline-block mb-3">
-                <div className="absolute -top-2 -right-2 w-8 h-8 bg-yellow-500 rounded-full flex items-center justify-center border-2 border-panel-dark z-10">
+                <div className="absolute -top-2 -right-2 w-8 h-8 bg-yellow-500 rounded-full flex items-center justify-center border-2 border-[#141518] z-10">
                   <span className="text-sm">👑</span>
                 </div>
                 {leader.usuario.foto_perfil ? (
@@ -507,7 +506,7 @@ const RoomDashboard: React.FC<RoomDashboardProps> = ({
         </div>
 
         {/* Quick Stats */}
-        <div className="rounded-2xl p-5 bg-gradient-to-br from-panel to-panel-dark shadow-lg border border-white/5">
+        <div className="rounded-2xl p-5 bg-gradient-to-br from-[#1f2126] to-[#141518] shadow-lg border border-white/5">
           <div className="flex items-center gap-2 mb-4">
             <FiTrendingUp className="text-xl text-green-500" />
             <h3 className="text-lg font-bold">{t('rooms:dashboard.stats')}</h3>

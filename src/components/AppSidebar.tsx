@@ -42,7 +42,7 @@ function AppSidebar() {
 	const { pathname } = useLocation();
 
 	return (
-		<aside className="lg:w-20 w-full flex lg:flex-col flex-row items-center justify-around lg:justify-start py-4 lg:py-6 lg:space-y-8 space-x-4 lg:space-x-0 bg-sidebar">
+		<aside className="lg:w-20 w-full flex lg:flex-col flex-row items-center justify-around lg:justify-start py-4 lg:py-6 lg:space-y-8 space-x-4 lg:space-x-0 bg-[#121316]">
 			{NAV_ITEMS.map(({ icon: Icon, path, isActive }) =>
 				isActive(pathname) ? (
 					<Icon key={path} className={ACTIVE_CLASS} />
