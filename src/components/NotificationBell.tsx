@@ -19,6 +19,8 @@ const NotificationBell: React.FC = () => {
   const [open, setOpen] = useState(false);
   const panelRef = useRef<HTMLDivElement>(null);
 
+  const unreadNotifications = allNotifications.filter(n => !n.leida);
+
   // Close on outside click
   useEffect(() => {
     const handler = (e: MouseEvent) => {
@@ -32,14 +34,11 @@ const NotificationBell: React.FC = () => {
 
   const handleOpen = () => {
     setOpen(v => !v);
-    if (!open && totalUnread > 0) {
-      markAllSeen(); // mark all seen when panel opens
-    }
   };
 
   const handleNotifClick = () => {
     setOpen(false);
-    navigate(`/rooms`);
+    navigate('/rooms');
   };
 
   return (
@@ -66,7 +65,7 @@ const NotificationBell: React.FC = () => {
           {/* Header */}
           <div className="flex items-center justify-between px-4 py-3 border-b border-white/10">
             <span className="text-white font-semibold text-sm">Notifications</span>
-            {totalUnread > 0 && (
+            {unreadNotifications.length > 0 && (
               <button
                 onClick={() => markAllSeen()}
                 className="text-xs text-gray-400 hover:text-white transition-colors"
@@ -78,23 +77,21 @@ const NotificationBell: React.FC = () => {
 
           {/* List */}
           <div className="max-h-96 overflow-y-auto">
-            {allNotifications.length === 0 ? (
+            {unreadNotifications.length === 0 ? (
               <div className="py-10 text-center text-gray-500 text-sm">
                 <span className="text-3xl block mb-2">🔔</span>
-                No notifications yet
+                No new notifications
               </div>
             ) : (
-              allNotifications.map(notif => (
+              unreadNotifications.map(notif => (
                 <button
                   key={`${notif.sala_id}-${notif.id}`}
                   onClick={handleNotifClick}
-                  className={`w-full text-left px-4 py-3 border-b border-white/5 hover:bg-white/5 transition-colors flex items-start gap-3 ${
-                    !notif.leida ? 'bg-white/5' : ''
-                  }`}
+                  className="w-full text-left px-4 py-3 border-b border-white/5 hover:bg-white/5 transition-colors flex items-start gap-3 bg-white/5"
                 >
                   <span className="text-xl flex-shrink-0 mt-0.5">{notif.icono}</span>
                   <div className="flex-1 min-w-0">
-                    <p className={`text-sm leading-snug ${!notif.leida ? 'text-white' : 'text-gray-300'}`}>
+                    <p className="text-sm leading-snug text-white">
                       {notif.mensaje}
                     </p>
                     <div className="flex items-center gap-2 mt-1">
@@ -103,9 +100,7 @@ const NotificationBell: React.FC = () => {
                       <span className="text-xs text-gray-500 flex-shrink-0">{timeAgo(notif.fecha)}</span>
                     </div>
                   </div>
-                  {!notif.leida && (
-                    <span className="w-2 h-2 rounded-full bg-green-500 flex-shrink-0 mt-2" />
-                  )}
+                  <span className="w-2 h-2 rounded-full bg-green-500 flex-shrink-0 mt-2" />
                 </button>
               ))
             )}
