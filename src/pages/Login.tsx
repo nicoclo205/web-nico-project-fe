@@ -7,7 +7,7 @@ import AlertMessage from "../components/AlertMessage";
 import LanguageSelectorEnhanced from '../components/LanguageSelectorEnhanced';
 import { useAuth } from "../hooks/useAuth";
 import { API_BASE_URL } from '../config/api';
-import './index.css';
+import '../index.css';
 
 function Auth() {
   const navigate = useNavigate();
