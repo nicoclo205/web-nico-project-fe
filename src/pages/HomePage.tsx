@@ -241,7 +241,7 @@ const HomePage = () => {
 
             {/* My Rooms Section */}
             {userRooms.length > 0 && (
-              <div className="bg-green-500/5 rounded-xl md:rounded-2xl p-4 md:p-6 border border-green-500/20 shadow-sm">
+              <div className="flex-shrink-0 bg-green-500/5 rounded-xl md:rounded-2xl p-4 md:p-6 border border-green-500/20 shadow-sm">
                 <h3 className="text-base md:text-lg font-bold text-white mb-3 md:mb-4">{t('home:myRoomsSection')}</h3>
                 <div className="space-y-2">
                   {userRooms.map((room) => {
@@ -302,7 +302,7 @@ const HomePage = () => {
             )}
 
             {/* World Cup Game Card */}
-            <div className="bg-amber-500/5 rounded-xl md:rounded-2xl p-4 md:p-6 border border-amber-500/20 shadow-sm relative overflow-hidden">
+            <div className="flex-shrink-0 bg-amber-500/5 rounded-xl md:rounded-2xl p-4 md:p-6 border border-amber-500/20 shadow-sm relative overflow-hidden">
               <div className="absolute -top-5 -right-5 opacity-10 pointer-events-none">
                 <IoMdTrophy className="text-8xl text-amber-400" />
               </div>
