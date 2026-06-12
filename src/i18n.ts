@@ -11,6 +11,7 @@ import roomsES from './locales/es/rooms.json';
 import aboutES from './locales/es/about.json';
 import settingsES from './locales/es/settings.json';
 import legalES from './locales/es/legal.json';
+import donateES from './locales/es/donate.json';
 
 import commonEN from './locales/en/common.json';
 import authEN from './locales/en/auth.json';
@@ -20,6 +21,7 @@ import roomsEN from './locales/en/rooms.json';
 import aboutEN from './locales/en/about.json';
 import settingsEN from './locales/en/settings.json';
 import legalEN from './locales/en/legal.json';
+import donateEN from './locales/en/donate.json';
 
 const resources = {
   es: {
@@ -31,6 +33,7 @@ const resources = {
     about: aboutES,
     settings: settingsES,
     legal: legalES,
+    donate: donateES,
   },
   en: {
     common: commonEN,
@@ -41,6 +44,7 @@ const resources = {
     about: aboutEN,
     settings: settingsEN,
     legal: legalEN,
+    donate: donateEN,
   },
 };
 
@@ -51,7 +55,7 @@ i18n
     resources,
     fallbackLng: 'en',
     defaultNS: 'common',
-    ns: ['common', 'auth', 'home', 'sports', 'rooms', 'about', 'settings', 'legal'],
+    ns: ['common', 'auth', 'home', 'sports', 'rooms', 'about', 'settings', 'legal', 'donate'],
 
     detection: {
       order: ['localStorage', 'navigator', 'htmlTag'],

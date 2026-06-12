@@ -1,0 +1,12 @@
+{
+  "nav": "Apóyanos",
+  "title": "Apoya a FriendlyBet",
+  "intro": "FriendlyBet es y seguirá siendo gratuita. La construimos dos amigos en nuestro tiempo libre, y cada aporte voluntario nos ayuda a cubrir los costos de servidores y mantenimiento, a seguir mejorando la app y a desarrollar nuevos productos para la comunidad.",
+  "voluntary": "Tu donación es 100% voluntaria. La aplicación funciona igual para todos, dones o no.",
+  "scanHint": "Escanea el código QR desde la app de tu banco (pagos Bre-B, desde cualquier entidad financiera en Colombia) o usa nuestra llave:",
+  "keyLabel": "Llave Bre-B",
+  "copy": "Copiar",
+  "copied": "¡Copiada!",
+  "abroadPrefix": "¿Estás fuera de Colombia y quieres apoyarnos? Escríbenos a",
+  "thanks": "Cada aporte, por pequeño que sea, hace la diferencia. ¡Gracias por jugar con nosotros!"
+}
