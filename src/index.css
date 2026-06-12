@@ -198,3 +198,27 @@
 .scrollbar-hide::-webkit-scrollbar {
 	display: none;
 }
+
+/* Latido sutil del corazón de donaciones */
+@keyframes heartbeat {
+	0%, 30%, 70%, 100% {
+		transform: scale(1);
+	}
+	12% {
+		transform: scale(1.16);
+	}
+	24% {
+		transform: scale(1.04);
+	}
+	42% {
+		transform: scale(1.12);
+	}
+}
+.animate-heartbeat {
+	animation: heartbeat 1.8s ease-in-out infinite;
+}
+@media (prefers-reduced-motion: reduce) {
+	.animate-heartbeat {
+		animation: none;
+	}
+}

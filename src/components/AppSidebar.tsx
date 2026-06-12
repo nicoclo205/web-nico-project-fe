@@ -122,7 +122,7 @@ function AppSidebar() {
 						aria-label={t('donate:nav')}
 						className="focus:outline-none block"
 					>
-						<FaHeart className={`${BASE_CLASS} text-rose-400/80 hover:text-rose-300`} />
+						<FaHeart className={`${BASE_CLASS} animate-heartbeat text-rose-400/80 hover:text-rose-300`} />
 					</button>
 					<span
 						className="pointer-events-none absolute z-50 whitespace-nowrap rounded-lg bg-black/90 border border-white/10 text-white text-xs px-2.5 py-1.5 opacity-0 transition-opacity duration-150 group-hover:opacity-100 group-focus-within:opacity-100
