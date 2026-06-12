@@ -6,6 +6,7 @@ import { MdMeetingRoom, MdSportsTennis, MdSportsBasketball } from "react-icons/m
 import { IoIosChatbubbles, IoMdTrophy, IoMdNotifications } from "react-icons/io";
 import AppShell from "../components/AppShell";
 import WelcomeModal from "../components/WelcomeModal";
+import WorldCupGameModal from "../components/WorldCupGameModal";
 import { useAuth } from "../hooks/useAuth";
 import { useNavigate } from "react-router-dom";
 import { useState, useEffect } from "react";
@@ -21,6 +22,7 @@ const HomePage = () => {
 
   // Modal de bienvenida: solo la primera vez que el usuario entra a la app
   const [showWelcome, setShowWelcome] = useState(false);
+  const [showWCGame, setShowWCGame] = useState(false);
   useEffect(() => {
     if (user && !localStorage.getItem(`fb_welcome_seen_${user.id}`)) {
       setShowWelcome(true);
@@ -299,6 +301,22 @@ const HomePage = () => {
               </div>
             )}
 
+            {/* World Cup Game Card */}
+            <div className="bg-amber-500/5 rounded-xl md:rounded-2xl p-4 md:p-6 border border-amber-500/20 shadow-sm relative overflow-hidden">
+              <div className="absolute -top-5 -right-5 opacity-10 pointer-events-none">
+                <IoMdTrophy className="text-8xl text-amber-400" />
+              </div>
+              <h3 className="text-base md:text-lg font-bold text-white mb-1 relative z-10">{t('home:wcGame.title')}</h3>
+              <p className="text-xs md:text-sm text-amber-400/90 font-medium mb-3 relative z-10">{t('home:wcGame.tagline')} 🏆</p>
+              <p className="text-xs md:text-sm text-gray-400 leading-relaxed mb-4 relative z-10">{t('home:wcGame.desc')}</p>
+              <button
+                onClick={() => setShowWCGame(true)}
+                className="relative z-10 w-full py-2.5 rounded-lg bg-gradient-to-b from-amber-200 to-amber-500 text-black font-bold text-sm hover:from-amber-100 hover:to-amber-400 transition-colors"
+              >
+                {t('home:wcGame.play')}
+              </button>
+            </div>
+
             {/* Coming Soon Card */}
             <div className="bg-gradient-to-br from-surface to-surface-deep rounded-xl md:rounded-2xl p-4 md:p-6 border border-white/5 relative overflow-hidden flex-1 min-h-[200px] md:min-h-[250px] flex flex-col justify-center text-center">
               <div className="absolute -top-10 -right-10 w-32 h-32 bg-green-500 opacity-10 blur-3xl rounded-full"></div>
@@ -324,6 +342,7 @@ const HomePage = () => {
         </div>
       </div>
       <WelcomeModal open={showWelcome} userName={userName} onClose={closeWelcome} />
+      <WorldCupGameModal open={showWCGame} onClose={() => setShowWCGame(false)} />
     </AppShell>
   );
 };
