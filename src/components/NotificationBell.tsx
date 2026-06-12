@@ -59,7 +59,7 @@ const NotificationBell: React.FC = () => {
       </button>
 
       {open && (
-        <div className="absolute left-14 top-0 z-50 w-80 bg-surface-alt border border-white/10 rounded-2xl shadow-2xl overflow-hidden lg:left-14 -left-64">
+        <div className="absolute z-50 bg-surface-alt border border-white/10 rounded-2xl shadow-2xl overflow-hidden top-14 right-0 w-[min(20rem,calc(100vw-1.5rem))] lg:top-0 lg:left-14 lg:right-auto lg:w-80">
           <div className="flex items-center justify-between px-4 py-3 border-b border-white/10">
             <span className="text-white font-semibold text-sm">Notifications</span>
             {unreadNotifications.length > 0 && (

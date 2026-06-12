@@ -81,10 +81,10 @@ function AppSidebar() {
 		<aside className="lg:w-20 w-full lg:h-full relative bg-sidebar">
 			{/* Pistas visuales de desplazamiento (solo movil) */}
 			<div className="lg:hidden pointer-events-none absolute left-0 top-0 bottom-0 w-6 bg-gradient-to-r from-sidebar to-transparent z-10" />
-			<div className="lg:hidden pointer-events-none absolute right-0 top-0 bottom-0 w-6 bg-gradient-to-l from-sidebar to-transparent z-10" />
+			<div className="lg:hidden pointer-events-none absolute right-0 top-0 bottom-0 w-16 bg-gradient-to-l from-sidebar via-sidebar/90 to-transparent z-10" />
 
 			{/* Carrusel en movil / columna en PC */}
-			<div className="flex lg:flex-col flex-row items-center lg:justify-start lg:h-full overflow-x-auto lg:overflow-visible snap-x snap-mandatory lg:snap-none scrollbar-hide gap-5 lg:gap-0 lg:space-y-8 px-8 lg:px-0 py-3 lg:py-6">
+			<div className="flex lg:flex-col flex-row items-center lg:justify-start lg:h-full overflow-x-auto lg:overflow-visible snap-x snap-mandatory lg:snap-none scrollbar-hide gap-5 lg:gap-0 lg:space-y-8 pl-8 pr-16 lg:px-0 py-3 lg:py-6">
 				{NAV_ITEMS.map(({ icon: Icon, path, labelKey, accent, isActive }) => {
 					const active = isActive(pathname);
 					const color = accent ? 'text-amber-400' : 'text-white';
@@ -110,7 +110,7 @@ function AppSidebar() {
 						</div>
 					);
 				})}
-				<div className="flex-shrink-0 snap-center">
+				<div className="hidden lg:block flex-shrink-0">
 					<NotificationBell />
 				</div>
 
@@ -132,6 +132,11 @@ function AppSidebar() {
 						{t('donate:nav')}
 					</span>
 				</div>
+			</div>
+
+			{/* Campana fija a la derecha en movil (fuera del carrusel para que el panel no se recorte) */}
+			<div className="lg:hidden absolute right-1 top-1/2 -translate-y-1/2 z-20">
+				<NotificationBell />
 			</div>
 		</aside>
 
