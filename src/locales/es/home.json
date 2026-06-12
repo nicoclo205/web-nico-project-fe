@@ -80,11 +80,11 @@
     "cta": "¡Comenzar!"
   },
   "wcGame": {
-    "title": "Juego del Mundial",
+    "title": "La Carrera del Campeón",
     "tagline": "Predice todo el torneo",
     "desc": "Ordena cada grupo, elige los mejores terceros y escoge cada ganador hasta el campeón. Suma puntos a medida que avanza el torneo real.",
     "play": "Jugar / continuar",
-    "headerTitle": "Predicciones del Mundial",
+    "headerTitle": "La Carrera del Campeón",
     "introTitle": "Cómo funciona",
     "intro1": "Arrastra los equipos de cada grupo al orden final que predices.",
     "intro2": "Elige los 8 mejores terceros — las reglas FIFA arman tu bracket.",
