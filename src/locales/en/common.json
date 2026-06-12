@@ -71,7 +71,8 @@
     "login": "Sign In",
     "start": "Welcome",
     "account": "Account",
-    "streakPong": "Streak Pong"
+    "streakPong": "Streak Pong",
+    "legal": "Legal"
   },
   "nav": {
     "home": "Home page",

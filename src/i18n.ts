@@ -10,6 +10,7 @@ import sportsES from './locales/es/sports.json';
 import roomsES from './locales/es/rooms.json';
 import aboutES from './locales/es/about.json';
 import settingsES from './locales/es/settings.json';
+import legalES from './locales/es/legal.json';
 
 import commonEN from './locales/en/common.json';
 import authEN from './locales/en/auth.json';
@@ -18,6 +19,7 @@ import sportsEN from './locales/en/sports.json';
 import roomsEN from './locales/en/rooms.json';
 import aboutEN from './locales/en/about.json';
 import settingsEN from './locales/en/settings.json';
+import legalEN from './locales/en/legal.json';
 
 const resources = {
   es: {
@@ -28,6 +30,7 @@ const resources = {
     rooms: roomsES,
     about: aboutES,
     settings: settingsES,
+    legal: legalES,
   },
   en: {
     common: commonEN,
@@ -37,6 +40,7 @@ const resources = {
     rooms: roomsEN,
     about: aboutEN,
     settings: settingsEN,
+    legal: legalEN,
   },
 };
 
@@ -47,7 +51,7 @@ i18n
     resources,
     fallbackLng: 'en',
     defaultNS: 'common',
-    ns: ['common', 'auth', 'home', 'sports', 'rooms', 'about', 'settings'],
+    ns: ['common', 'auth', 'home', 'sports', 'rooms', 'about', 'settings', 'legal'],
 
     detection: {
       order: ['localStorage', 'navigator', 'htmlTag'],

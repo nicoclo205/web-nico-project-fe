@@ -17,6 +17,7 @@ import { ForgotPasswordPage } from './pages/ForgotPasswordPage';
 import NotFound from './pages/NotFound';
 import F1Races from './pages/F1Races';
 import StreakPong from './pages/StreakPong';
+import LegalPage from './pages/LegalPage';
 import PageTitle from './components/PageTitle';
 import { ProtectedRoute } from './components/ProtectedRoute';
 import { PublicOnlyRoute } from './components/PublicOnlyRoute';
@@ -145,6 +146,12 @@ function App() {
 							<StreakPong />
 						</ProtectedRoute>}
 				/>
+
+				{/* Legal pages (public) */}
+				<Route path="/terms" element={<LegalPage doc="terms" />} />
+				<Route path="/privacy" element={<LegalPage doc="privacy" />} />
+				<Route path="/cookies" element={<LegalPage doc="cookies" />} />
+				<Route path="/disclaimer" element={<LegalPage doc="disclaimer" />} />
 
 				{/* 404 catch-all */}
 				<Route path="*" element={<NotFound />} />

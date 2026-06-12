@@ -1,0 +1,125 @@
+{
+  "footer": {
+    "copyright": "© {{year}} FriendlyBet. All rights reserved.",
+    "terms": "Terms of Use",
+    "privacy": "Privacy Policy",
+    "cookies": "Cookies",
+    "disclaimer": "Disclaimer"
+  },
+  "common": {
+    "backHome": "Back to home",
+    "lastUpdated": "Last updated: June 2026"
+  },
+  "terms": {
+    "title": "Terms of Service and Conditions of Use",
+    "sections": [
+      {
+        "heading": "1. Nature of the service",
+        "body": [
+          "FriendlyBet is an interactive entertainment platform based exclusively on cumulative point systems for sports predictions. Under no circumstances does it process, accept, or facilitate real-money wagers or speculative financial transactions of any kind.",
+          "Points earned on the platform have no monetary value, cannot be exchanged for money, prizes, or goods, and are not transferable."
+        ]
+      },
+      {
+        "heading": "2. Eligibility and minimum age",
+        "body": [
+          "United States: by registering, the user declares being at least 13 years old, in compliance with the COPPA children's privacy law.",
+          "Colombia: the service is intended for persons with legal capacity. Use by minors must be guided and supervised by their parents or guardians."
+        ]
+      },
+      {
+        "heading": "3. Code of conduct in chats and rooms",
+        "body": [
+          "Defamatory, obscene, discriminatory, or hostile language in the platform's rooms and chats is prohibited, as is impersonating other users.",
+          "FriendlyBet reserves the right to immediately and permanently suspend or delete any account that violates these community rules."
+        ]
+      },
+      {
+        "heading": "4. Accounts",
+        "body": [
+          "The user is responsible for keeping their login credentials confidential and for all activity carried out from their account.",
+          "We may modify or discontinue platform features at any time. If we make substantial changes to these terms, we will notify you through the application."
+        ]
+      },
+      {
+        "heading": "5. Intellectual property",
+        "body": [
+          "Total or partial reproduction of the source code, graphical interfaces, or brand elements without the owner's express authorization is prohibited. Compliance with the DMCA (USA) and Law 23 of 1982 (Colombia) on intellectual property."
+        ]
+      }
+    ]
+  },
+  "privacy": {
+    "title": "Privacy and Data Protection Policy",
+    "sections": [
+      {
+        "heading": "1. Information we collect",
+        "body": [
+          "We collect only the data necessary for the account to work: username, email address, and technical browsing data (session cookies).",
+          "We do not collect financial information, credit cards, or sensitive data."
+        ]
+      },
+      {
+        "heading": "2. Applicable legal framework",
+        "body": [
+          "Colombia (Law 1581 of 2012 – Habeas Data): FriendlyBet acts as the Data Controller of your personal data. By registering, you authorize the storage of your email address for game management and notifications.",
+          "United States: we align with general privacy and consumer protection principles. Your data will never be sold, rented, or shared with third parties for commercial or advertising purposes."
+        ]
+      },
+      {
+        "heading": "3. Your rights",
+        "body": [
+          "At any time you may exercise your rights to access, update, rectify, or delete your personal data, as well as delete your account from the Settings section or by writing to our support: global.niclami@gmail.com."
+        ]
+      },
+      {
+        "heading": "4. Security",
+        "body": [
+          "Passwords are stored encrypted using hashing algorithms, preventing unauthorized access. Access to personal data is restricted to strictly necessary personnel."
+        ]
+      }
+    ]
+  },
+  "cookies": {
+    "title": "Cookie Policy",
+    "sections": [
+      {
+        "heading": "Cookies we use",
+        "body": [
+          "FriendlyBet uses only technical cookies and storage essential to keep the user's session active, remember language preferences (Spanish/English), and secure the login forms.",
+          "We do not use mass-tracking cookies or third-party advertising cookies."
+        ]
+      },
+      {
+        "heading": "How to disable them",
+        "body": [
+          "You can disable cookies from your browser settings, although this may affect the application's login features."
+        ]
+      }
+    ]
+  },
+  "disclaimer": {
+    "title": "Disclaimer",
+    "sections": [
+      {
+        "heading": "Sports data",
+        "body": [
+          "Data about matches, schedules, statistics, and results is shown for informational and recreational purposes, and comes from third-party sources and APIs.",
+          "Although we strive to process scores accurately and automatically, FriendlyBet does not guarantee the absolute infallibility of external data."
+        ]
+      },
+      {
+        "heading": "Service availability",
+        "body": [
+          "FriendlyBet is not responsible for technical issues, server interruptions, or temporary discrepancies in room rankings. We work to correct any inconsistency as quickly as possible."
+        ]
+      },
+      {
+        "heading": "No monetary value",
+        "body": [
+          "This platform is not a gambling or betting operator. Points and rankings have no monetary value and do not entitle anyone to a prize, payment, or compensation."
+        ]
+      }
+    ]
+  }
+}

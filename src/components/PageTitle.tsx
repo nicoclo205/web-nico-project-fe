@@ -17,6 +17,10 @@ const TITLES: { match: (p: string) => boolean; key: string }[] = [
 	{ match: (p) => p === '/login', key: 'titles.login' },
 	{ match: (p) => p === '/start' || p === '/', key: 'titles.start' },
 	{
+		match: (p) => ['/terms', '/privacy', '/cookies', '/disclaimer'].includes(p),
+		key: 'titles.legal',
+	},
+	{
 		match: (p) => p === '/forgot-password' || p === '/reset-password' || p === '/verify-email',
 		key: 'titles.account',
 	},

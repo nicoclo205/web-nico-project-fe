@@ -1,5 +1,6 @@
 import { useNavigate } from "react-router-dom";
 import { Button } from "../components/ui/button";
+import LegalFooter from "../components/LegalFooter";
 import {
   NavigationMenu,
   NavigationMenuItem,
@@ -108,6 +109,8 @@ function Start() {
                     </Button>
                 </div>
             </main>
+
+            <LegalFooter />
         </div>
     );
 }

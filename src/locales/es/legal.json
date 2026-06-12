@@ -1,0 +1,125 @@
+{
+  "footer": {
+    "copyright": "© {{year}} FriendlyBet. Todos los derechos reservados.",
+    "terms": "Términos de Uso",
+    "privacy": "Política de Privacidad",
+    "cookies": "Cookies",
+    "disclaimer": "Exención de Responsabilidad"
+  },
+  "common": {
+    "backHome": "Volver al inicio",
+    "lastUpdated": "Última actualización: junio de 2026"
+  },
+  "terms": {
+    "title": "Términos de Servicio y Condiciones de Uso",
+    "sections": [
+      {
+        "heading": "1. Naturaleza del servicio",
+        "body": [
+          "FriendlyBet es una plataforma interactiva de entretenimiento basada exclusivamente en sistemas de puntos acumulativos por predicciones deportivas. Bajo ninguna circunstancia se procesan, aceptan o facilitan apuestas con dinero real, ni transacciones financieras de índole especulativa.",
+          "Los puntos obtenidos en la plataforma no tienen valor monetario, no son canjeables por dinero, premios o bienes, y no son transferibles."
+        ]
+      },
+      {
+        "heading": "2. Elegibilidad y edad mínima",
+        "body": [
+          "Estados Unidos: al registrarse, el usuario declara tener al menos 13 años, en cumplimiento con la ley COPPA de privacidad infantil.",
+          "Colombia: el servicio está dirigido a personas con capacidad legal. El uso por parte de menores de edad debe contar con la guía y supervisión de sus padres o tutores."
+        ]
+      },
+      {
+        "heading": "3. Código de conducta en chats y salas",
+        "body": [
+          "Queda prohibido el uso de lenguaje difamatorio, obsceno, discriminatorio u hostil en las salas y chats de la plataforma, así como la suplantación de identidad de otros usuarios.",
+          "FriendlyBet se reserva el derecho de suspender o eliminar de forma inmediata y definitiva cualquier cuenta que infrinja estas normas de convivencia."
+        ]
+      },
+      {
+        "heading": "4. Cuentas",
+        "body": [
+          "El usuario es responsable de mantener la confidencialidad de sus credenciales de acceso y de toda actividad realizada desde su cuenta.",
+          "Podemos modificar o descontinuar funciones de la plataforma en cualquier momento. Si realizamos cambios sustanciales a estos términos, lo notificaremos a través de la aplicación."
+        ]
+      },
+      {
+        "heading": "5. Propiedad intelectual",
+        "body": [
+          "Prohibida la reproducción total o parcial del código fuente, interfaces gráficas o elementos de marca sin la autorización expresa del propietario. Cumplimiento DMCA (EE. UU.) y Ley 23 de 1982 (Colombia) sobre propiedad intelectual."
+        ]
+      }
+    ]
+  },
+  "privacy": {
+    "title": "Política de Privacidad y Protección de Datos",
+    "sections": [
+      {
+        "heading": "1. Información recolectada",
+        "body": [
+          "Recopilamos únicamente los datos necesarios para el funcionamiento de la cuenta: nombre de usuario, dirección de correo electrónico y datos técnicos de navegación (cookies de sesión).",
+          "No recolectamos información financiera, tarjetas de crédito ni datos sensibles."
+        ]
+      },
+      {
+        "heading": "2. Marco legal aplicable",
+        "body": [
+          "Colombia (Ley 1581 de 2012 – Habeas Data): FriendlyBet actúa como Responsable del Tratamiento de sus datos personales. Al registrarse, usted autoriza el almacenamiento de su correo electrónico para la gestión del juego y el envío de notificaciones.",
+          "Estados Unidos: nos alineamos con los principios generales de privacidad y protección al consumidor. Sus datos jamás serán vendidos, alquilados o compartidos con terceros con fines comerciales o publicitarios."
+        ]
+      },
+      {
+        "heading": "3. Sus derechos",
+        "body": [
+          "En cualquier momento puede ejercer sus derechos de conocer, actualizar, rectificar o suprimir sus datos personales, así como eliminar su cuenta desde la sección de Configuración o escribiendo a nuestro soporte: global.niclami@gmail.com."
+        ]
+      },
+      {
+        "heading": "4. Seguridad",
+        "body": [
+          "Las contraseñas se almacenan cifradas mediante algoritmos de hash, previniendo accesos no autorizados. El acceso a los datos personales está restringido al personal estrictamente necesario."
+        ]
+      }
+    ]
+  },
+  "cookies": {
+    "title": "Política de Cookies",
+    "sections": [
+      {
+        "heading": "Cookies que utilizamos",
+        "body": [
+          "FriendlyBet utiliza únicamente cookies y almacenamiento técnico indispensables para mantener activa la sesión del usuario, recordar sus preferencias de idioma (español/inglés) y garantizar la seguridad de los formularios de ingreso.",
+          "No empleamos cookies de rastreo masivo ni de publicidad de terceros."
+        ]
+      },
+      {
+        "heading": "Cómo deshabilitarlas",
+        "body": [
+          "Puede deshabilitar las cookies desde la configuración de su navegador, aunque esto podría afectar las funciones de inicio de sesión de la aplicación."
+        ]
+      }
+    ]
+  },
+  "disclaimer": {
+    "title": "Exención de Responsabilidad",
+    "sections": [
+      {
+        "heading": "Datos deportivos",
+        "body": [
+          "Los datos sobre partidos, horarios, estadísticas y resultados se muestran con fines informativos y lúdicos, y provienen de fuentes y APIs de terceros.",
+          "Aunque nos esforzamos por procesar las puntuaciones de forma precisa y automatizada, FriendlyBet no garantiza la infalibilidad absoluta de los datos externos."
+        ]
+      },
+      {
+        "heading": "Disponibilidad del servicio",
+        "body": [
+          "FriendlyBet no se hace responsable por inconvenientes técnicos, interrupciones del servidor o discrepancias temporales en las clasificaciones de las salas. Trabajamos para corregir cualquier inconsistencia en el menor tiempo posible."
+        ]
+      },
+      {
+        "heading": "Sin valor monetario",
+        "body": [
+          "Esta plataforma no es un operador de juegos de azar ni de apuestas. Los puntos y clasificaciones no tienen valor monetario y no generan derecho a premio, pago o compensación alguna."
+        ]
+      }
+    ]
+  }
+}
