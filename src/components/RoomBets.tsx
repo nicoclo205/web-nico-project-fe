@@ -16,9 +16,12 @@ const RoomBets: React.FC<RoomBetsProps> = ({ roomId }) => {
   const [showBetModal, setShowBetModal] = useState(false);
   const [selectedMatch, setSelectedMatch] = useState<Match | null>(null);
   const [editingBet, setEditingBet] = useState<Bet | null>(null);
-  const [betForm, setBetForm] = useState({
-    prediccion_local: 0,
-    prediccion_visitante: 0,
+  const [betForm, setBetForm] = useState<{
+    prediccion_local: string;
+    prediccion_visitante: string;
+  }>({
+    prediccion_local: '',
+    prediccion_visitante: '',
   });
   const [submitting, setSubmitting] = useState(false);
   const [betError, setBetError] = useState<string | null>(null);
@@ -67,8 +70,8 @@ const RoomBets: React.FC<RoomBetsProps> = ({ roomId }) => {
     setSelectedMatch(match);
     setEditingBet(existingBet || null);
     setBetForm({
-      prediccion_local: existingBet?.prediccion_local || 0,
-      prediccion_visitante: existingBet?.prediccion_visitante || 0,
+      prediccion_local: existingBet != null ? String(existingBet.prediccion_local) : '',
+      prediccion_visitante: existingBet != null ? String(existingBet.prediccion_visitante) : '',
     });
     setBetError(null);
     setShowBetModal(true);
@@ -82,19 +85,20 @@ const RoomBets: React.FC<RoomBetsProps> = ({ roomId }) => {
 
     let result;
 
+    const local = betForm.prediccion_local === '' ? 0 : parseInt(betForm.prediccion_local, 10);
+    const visitante = betForm.prediccion_visitante === '' ? 0 : parseInt(betForm.prediccion_visitante, 10);
+
     if (editingBet) {
-      // Update existing bet
       result = await updateBet(editingBet.id_apuesta, {
-        prediccion_local: betForm.prediccion_local,
-        prediccion_visitante: betForm.prediccion_visitante,
+        prediccion_local: local,
+        prediccion_visitante: visitante,
       });
     } else {
-      // Create new bet
       result = await createBet({
         id_partido: selectedMatch.id_partido,
         id_sala: roomId,
-        prediccion_local: betForm.prediccion_local,
-        prediccion_visitante: betForm.prediccion_visitante,
+        prediccion_local: local,
+        prediccion_visitante: visitante,
       });
     }
 
@@ -112,8 +116,8 @@ const RoomBets: React.FC<RoomBetsProps> = ({ roomId }) => {
 
   const handleFeelLucky = () => {
     setBetForm({
-      prediccion_local: Math.floor(Math.random() * 7),
-      prediccion_visitante: Math.floor(Math.random() * 7),
+      prediccion_local: String(Math.floor(Math.random() * 7)),
+      prediccion_visitante: String(Math.floor(Math.random() * 7)),
     });
   };
 
@@ -494,10 +498,11 @@ const RoomBets: React.FC<RoomBetsProps> = ({ roomId }) => {
                   <label className="block text-xs text-gray-400 mb-2 text-center">{selectedMatch.equipo_local_nombre}</label>
                   <input
                     type="number"
+                    inputMode="numeric"
                     min="0"
                     max="20"
                     value={betForm.prediccion_local}
-                    onChange={(e) => setBetForm({ ...betForm, prediccion_local: Number(e.target.value) })}
+                    onChange={(e) => setBetForm({ ...betForm, prediccion_local: e.target.value })}
                     className="w-full bg-white/10 border border-white/20 rounded-xl px-4 py-3 text-center text-2xl font-bold focus:outline-none focus:ring-2 focus:ring-green-500"
                   />
                 </div>
@@ -508,10 +513,11 @@ const RoomBets: React.FC<RoomBetsProps> = ({ roomId }) => {
                   <label className="block text-xs text-gray-400 mb-2 text-center">{selectedMatch.equipo_visitante_nombre}</label>
                   <input
                     type="number"
+                    inputMode="numeric"
                     min="0"
                     max="20"
                     value={betForm.prediccion_visitante}
-                    onChange={(e) => setBetForm({ ...betForm, prediccion_visitante: Number(e.target.value) })}
+                    onChange={(e) => setBetForm({ ...betForm, prediccion_visitante: e.target.value })}
                     className="w-full bg-white/10 border border-white/20 rounded-xl px-4 py-3 text-center text-2xl font-bold focus:outline-none focus:ring-2 focus:ring-green-500"
                   />
                 </div>
