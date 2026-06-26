@@ -212,7 +212,7 @@ const WorldCupGameModal: React.FC<Props> = ({ open, onClose }) => {
 		setLoading(true);
 		setError(null);
 		try {
-			const res = await apiClient.get<GameState>('/api/worldcup/game/state');
+			const res = await apiClient.get<GameState>('/api/worldcup/game/state', { timeout: 15000 });
 			setState(res.data);
 		} catch {
 			setError(t('home:wcGame.loadError'));
@@ -244,7 +244,7 @@ const WorldCupGameModal: React.FC<Props> = ({ open, onClose }) => {
 		setSaving(true);
 		setError(null);
 		try {
-			const res = await apiClient.put<GameState>('/api/worldcup/game/state', payload);
+			const res = await apiClient.put<GameState>('/api/worldcup/game/state', payload, { timeout: 15000 });
 			setState(res.data);
 			return res.data;
 		} catch (e: unknown) {
@@ -259,7 +259,7 @@ const WorldCupGameModal: React.FC<Props> = ({ open, onClose }) => {
 	const openRanking = async () => {
 		setView('ranking');
 		try {
-			const res = await apiClient.get<RankingData>('/api/worldcup/game/ranking');
+			const res = await apiClient.get<RankingData>('/api/worldcup/game/ranking', { timeout: 15000 });
 			setRanking(res.data);
 		} catch {
 			setError(t('home:wcGame.loadError'));
@@ -634,6 +634,9 @@ const WorldCupGameModal: React.FC<Props> = ({ open, onClose }) => {
 									})}
 								</p>
 							</div>
+							<p className="text-center text-xs text-amber-200/90 bg-amber-500/10 border border-amber-500/25 rounded-lg px-3 py-2">
+								{t('home:wcGame.koHint')}
+							</p>
 							<div className="space-y-3">
 								{[koMatch.home, koMatch.away].map((team, i) => (
 									<button

@@ -136,6 +136,7 @@
     "champion": "Champion",
     "locked": "Predictions are closed.",
     "deadlineLabel": "Editable until {{date}}",
-    "loadError": "Something went wrong. Please try again."
+    "loadError": "Something went wrong. Please try again.",
+    "koHint": "Tap the team you think will win — your pick is saved and the next match appears."
   }
 }
