@@ -274,5 +274,17 @@
   "namePlaceholder": "Mi sala de apuestas",
   "descriptionPlaceholder": "Descripción de la sala...",
   "membersLabel": "miembros",
-  "deleteBetConfirm": "¿Seguro que quieres eliminar esta apuesta?"
+  "deleteBetConfirm": "¿Seguro que quieres eliminar esta apuesta?",
+  "puntuacion": {
+    "titulo": "Sistema de Puntuación",
+    "reglas": {
+      "exacto": "Marcador exacto (ej. 2-1 → 2-1): 10 pts",
+      "diferencia_correcta": "Diferencia de goles correcta (ej. 3-1 → 4-2): 8 pts",
+      "resultado_correcto_parcial": "Resultado correcto + goles de un equipo exactos: 6 pts",
+      "resultado_correcto": "Resultado correcto (ganador o empate): 5 pts",
+      "resultado_incorrecto_parcial": "Resultado incorrecto pero un equipo exacto: 1 pt",
+      "fallo_total": "Ningún acierto: 0 pts"
+    },
+    "nota_parciales": "Se otorga crédito parcial cuando aciertas los goles de un equipo individual, aunque hayas fallado el resultado global."
+  }
 }
