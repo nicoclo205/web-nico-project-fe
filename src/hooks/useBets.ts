@@ -16,14 +16,19 @@ export interface Bet {
   fecha_apuesta: string;
   estado: 'pendiente' | 'ganada' | 'perdida' | 'cancelada';
   puntos_ganados: number;
+  // Knockout fields
+  tiene_tiempo_extra: boolean | null;
+  tiene_penales: boolean | null;
+  ganador_ko: number | null;
+  ganador_ko_nombre?: string | null;
 }
 
 export interface Match {
   id_partido: number;
-  equipo_local: string;
+  equipo_local: number;
   equipo_local_nombre: string;
   equipo_local_logo: string;
-  equipo_visitante: string;
+  equipo_visitante: number;
   equipo_visitante_nombre: string;
   equipo_visitante_logo: string;
   fecha: string;
@@ -32,6 +37,7 @@ export interface Match {
   goles_visitante?: number;
   liga_nombre: string;
   liga_logo: string;
+  is_knockout: boolean;
 }
 
 export const useBets = () => {
@@ -85,6 +91,9 @@ export const useBets = () => {
     prediccion_visitante: number;
     primer_tiempo_local?: number;
     primer_tiempo_visitante?: number;
+    tiene_tiempo_extra?: boolean | null;
+    tiene_penales?: boolean | null;
+    ganador_ko?: number | null;
   }): Promise<ApiResponse<any>> => {
     setLoading(true);
     setError(null);
@@ -116,6 +125,9 @@ export const useBets = () => {
     prediccion_visitante: number;
     primer_tiempo_local?: number;
     primer_tiempo_visitante?: number;
+    tiene_tiempo_extra?: boolean | null;
+    tiene_penales?: boolean | null;
+    ganador_ko?: number | null;
   }): Promise<ApiResponse<any>> => {
     setLoading(true);
     setError(null);
