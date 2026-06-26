@@ -61,7 +61,10 @@
     "scoringKnockout": {
       "title": "Knockout Round Bonuses",
       "badge": "From Round of 16 onwards",
-      "description": "The base scoring (10 / 8 / 6 / 5 / 1 / 0 pts) still applies for the scoreline. On top of that, knockout matches unlock two extra bonus predictions.",
+      "description": "The full partial scoring still applies — exact score (10 pts), correct goal difference (8), correct outcome only (5), wrong outcome but one team's goals exact (1), total miss (0). On top of that, knockout matches unlock two extra bonus predictions:",
+      "partialGoalLabel": "One team's goals exact",
+      "partialGoalBonus": "+1 pt",
+      "partialGoalDesc": "Getting one team's goal count right earns a bonus point — even if you got the overall result wrong",
       "nonDrawLabel": "Predict a winner outright",
       "nonDrawBonus": "+1 pt",
       "nonDrawDesc": "For correctly predicting whether the match will go to extra time",

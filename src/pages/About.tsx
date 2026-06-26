@@ -143,7 +143,15 @@ const About: React.FC = () => {
               {t('sections.scoringKnockout.description')}
             </p>
 
-            <div className="grid md:grid-cols-2 gap-4 mb-5">
+            <div className="grid sm:grid-cols-2 lg:grid-cols-3 gap-4 mb-5">
+              {/* Partial goal bonus */}
+              <div className="bg-purple-900/20 border border-purple-700/30 rounded-xl p-4">
+                <div className="flex items-center justify-between mb-2">
+                  <span className="text-white text-sm font-semibold">{t('sections.scoringKnockout.partialGoalLabel')}</span>
+                  <span className="text-2xl font-bold text-purple-400">{t('sections.scoringKnockout.partialGoalBonus')}</span>
+                </div>
+                <p className="text-gray-400 text-xs leading-snug">{t('sections.scoringKnockout.partialGoalDesc')}</p>
+              </div>
               {/* Non-draw bonus */}
               <div className="bg-blue-900/20 border border-blue-700/30 rounded-xl p-4">
                 <div className="flex items-center justify-between mb-2">

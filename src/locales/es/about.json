@@ -88,7 +88,10 @@
     "scoringKnockout": {
       "title": "Bonos de Fase Eliminatoria",
       "badge": "Desde Octavos de Final",
-      "description": "La puntuacion base (10 / 8 / 6 / 5 / 1 / 0 pts) sigue aplicando para el marcador. Ademas, los partidos de eliminatoria desbloquean dos predicciones extra con bonos.",
+      "description": "La puntuacion parcial completa sigue aplicando: marcador exacto (10 pts), diferencia correcta (8), resultado correcto (5), resultado incorrecto pero goles de un equipo exactos (1), fallo total (0). Ademas, los partidos eliminatorios desbloquean dos predicciones extra con bonos:",
+      "partialGoalLabel": "Goles exactos de un equipo",
+      "partialGoalBonus": "+1 pt",
+      "partialGoalDesc": "Acertar los goles de un equipo te da un punto extra, incluso si fallaste el resultado",
       "nonDrawLabel": "Si predices un ganador directo",
       "nonDrawBonus": "+1 pt",
       "nonDrawDesc": "Por acertar si el partido necesitara tiempo extra o no",
