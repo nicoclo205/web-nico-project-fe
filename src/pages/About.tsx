@@ -129,6 +129,56 @@ const About: React.FC = () => {
             </div>
           </div>
 
+          {/* Knockout Scoring Bonuses */}
+          <div className="bg-surface-alt border border-amber-700/30 rounded-2xl p-6">
+            <div className="flex items-center justify-between mb-2 flex-wrap gap-2">
+              <h3 className="text-lg font-semibold text-white flex items-center gap-2">
+                <span>⚡</span> {t('sections.scoringKnockout.title')}
+              </h3>
+              <span className="text-xs font-semibold px-3 py-1 rounded-full bg-amber-500/20 border border-amber-500/40 text-amber-300">
+                {t('sections.scoringKnockout.badge')}
+              </span>
+            </div>
+            <p className="text-gray-400 text-sm mb-6 leading-relaxed">
+              {t('sections.scoringKnockout.description')}
+            </p>
+
+            <div className="grid md:grid-cols-2 gap-4 mb-5">
+              {/* Non-draw bonus */}
+              <div className="bg-blue-900/20 border border-blue-700/30 rounded-xl p-4">
+                <div className="flex items-center justify-between mb-2">
+                  <span className="text-white text-sm font-semibold">{t('sections.scoringKnockout.nonDrawLabel')}</span>
+                  <span className="text-2xl font-bold text-blue-400">{t('sections.scoringKnockout.nonDrawBonus')}</span>
+                </div>
+                <p className="text-gray-400 text-xs leading-snug">{t('sections.scoringKnockout.nonDrawDesc')}</p>
+              </div>
+              {/* Draw bonus */}
+              <div className="bg-amber-900/20 border border-amber-700/30 rounded-xl p-4">
+                <div className="flex items-center justify-between mb-2">
+                  <span className="text-white text-sm font-semibold">{t('sections.scoringKnockout.drawLabel')}</span>
+                  <span className="text-2xl font-bold text-amber-400">{t('sections.scoringKnockout.drawBonus')}</span>
+                </div>
+                <p className="text-gray-400 text-xs leading-snug">{t('sections.scoringKnockout.drawDesc')}</p>
+              </div>
+            </div>
+
+            <div className="space-y-2 mb-4">
+              {[
+                t('sections.scoringKnockout.example1'),
+                t('sections.scoringKnockout.example2'),
+              ].map((ex, i) => (
+                <div key={i} className="flex items-start gap-2 text-xs text-gray-400">
+                  <span className="text-amber-400 mt-0.5">→</span>
+                  <span>{ex}</span>
+                </div>
+              ))}
+            </div>
+
+            <div className="p-3 bg-amber-500/10 border border-amber-500/20 rounded-xl">
+              <p className="text-amber-300 text-xs font-medium">🏆 {t('sections.scoringKnockout.maxNote')}</p>
+            </div>
+          </div>
+
           {/* Tech Stack + Contact */}
           <div className="grid md:grid-cols-2 gap-6">
 

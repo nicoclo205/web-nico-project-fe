@@ -41,7 +41,7 @@
       }
     },
     "scoring": {
-      "title": "Scoring System",
+      "title": "Scoring System — Group Stage",
       "description": "Points are awarded after each match result is confirmed. You must place your prediction before kick-off. Points can combine — e.g. correct goal difference + correct winner = 8 pts.",
       "exactScoreLabel": "Exact Score",
       "exactScoreDesc": "You predicted the exact final scoreline",
@@ -57,6 +57,20 @@
       "correctWinner": "Correct winner or draw: 5 points",
       "goalDiff": "Correct goal difference: 3 points",
       "incorrect": "Incorrect prediction: 0 points"
+    },
+    "scoringKnockout": {
+      "title": "Knockout Round Bonuses",
+      "badge": "From Round of 16 onwards",
+      "description": "The base scoring (10 / 8 / 6 / 5 / 1 / 0 pts) still applies for the scoreline. On top of that, knockout matches unlock two extra bonus predictions.",
+      "nonDrawLabel": "Predict a winner outright",
+      "nonDrawBonus": "+1 pt",
+      "nonDrawDesc": "For correctly predicting whether the match will go to extra time",
+      "drawLabel": "Predict a draw",
+      "drawBonus": "+2 pts",
+      "drawDesc": "Predicting a draw means you also pick who wins the penalty shootout. Get it right and earn the bonus.",
+      "maxNote": "Maximum possible in a knockout match: 12 pts (exact draw score + correct penalty winner).",
+      "example1": "2-1 predicted, ET: No — match ends 2-1 in 90 min → 10 + 1 = 11 pts",
+      "example2": "1-1 predicted, France wins penalties — France wins → 10 + 2 = 12 pts"
     },
     "underTheHood": {
       "title": "Tech Stack",

@@ -41,7 +41,7 @@
       }
     },
     "scoring": {
-      "title": "Sistema de Puntuación",
+      "title": "Sistema de Puntuacion - Fase de Grupos",
       "description": "Los puntos se otorgan tras confirmarse el resultado. Debes predecir antes del inicio del partido. Los puntos se pueden combinar — ej. diferencia correcta + ganador correcto = 8 pts.",
       "exactScoreLabel": "Resultado Exacto",
       "exactScoreDesc": "Predijiste el marcador final exacto",
@@ -84,6 +84,20 @@
     "reminder": {
       "fun": "¡Diviértete apostando con tus amigos!",
       "justGame": "¡Recuerda que es solo un juego!"
+    },
+    "scoringKnockout": {
+      "title": "Bonos de Fase Eliminatoria",
+      "badge": "Desde Octavos de Final",
+      "description": "La puntuacion base (10 / 8 / 6 / 5 / 1 / 0 pts) sigue aplicando para el marcador. Ademas, los partidos de eliminatoria desbloquean dos predicciones extra con bonos.",
+      "nonDrawLabel": "Si predices un ganador directo",
+      "nonDrawBonus": "+1 pt",
+      "nonDrawDesc": "Por acertar si el partido necesitara tiempo extra o no",
+      "drawLabel": "Si predices empate",
+      "drawBonus": "+2 pts",
+      "drawDesc": "Predecir empate implica tambien elegir quien gana en penales. Si aciertas, obtienes el bono.",
+      "maxNote": "Maximo posible en eliminatoria: 12 pts (marcador de empate exacto + ganador de penales correcto).",
+      "example1": "Predices 2-1, sin ET — el partido termina 2-1 en 90 min → 10 + 1 = 11 pts",
+      "example2": "Predices 1-1, Francia gana penales — Francia gana → 10 + 2 = 12 pts"
     }
   },
   "footer": "© 2025 FriendlyBet. Todos los derechos reservados."
