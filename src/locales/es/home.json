@@ -133,4 +133,15 @@
     "rankingTitle": "Ranking",
     "points": "Pts",
     "ptsGroups": "Grupos",
-    
+    "ptsThirds": "Terceros",
+    "ptsKo": "Eliminatorias",
+    "you": "Tú",
+    "noPlayers": "Aún no hay predicciones — ¡sé el primero!",
+    "incomplete": "En progreso",
+    "champion": "Campeón",
+    "locked": "Las predicciones están cerradas.",
+    "deadlineLabel": "Editable hasta {{date}}",
+    "loadError": "Algo salió mal. Intenta de nuevo.",
+    "koHint": "Toca el equipo que crees que ganará — tu pick se guarda y aparece el siguiente partido."
+  }
+}

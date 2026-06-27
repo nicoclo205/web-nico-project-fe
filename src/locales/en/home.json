@@ -132,4 +132,16 @@
     "championLabel": "Your champion",
     "rankingTitle": "Ranking",
     "points": "Pts",
-    "ptsG
+    "ptsGroups": "Groups",
+    "ptsThirds": "Thirds",
+    "ptsKo": "Knockout",
+    "you": "You",
+    "noPlayers": "No predictions yet — be the first!",
+    "incomplete": "In progress",
+    "champion": "Champion",
+    "locked": "Predictions are closed.",
+    "deadlineLabel": "Editable until {{date}}",
+    "loadError": "Something went wrong. Please try again.",
+    "koHint": "Tap the team you think will win — your pick is saved and the next match appears."
+  }
+}

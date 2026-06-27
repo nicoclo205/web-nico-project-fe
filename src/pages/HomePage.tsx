@@ -347,4 +347,28 @@ const HomePage = () => {
                 {t('home:comingSoonDesc')}
               </p>
               <div className="flex justify-center gap-3 relative z-10">
-                <div className="w-10 h-10 rounded-full bg-gray-800 flex items-cent
+                <div className="w-10 h-10 rounded-full bg-gray-800 flex items-center justify-center text-gray-500 shadow-sm border border-white/5">
+                  <IoIosChatbubbles className="text-sm" />
+                </div>
+                <div className="w-10 h-10 rounded-full bg-gray-800 flex items-center justify-center text-gray-500 shadow-sm border border-white/5">
+                  <IoMdNotifications className="text-sm" />
+                </div>
+                <div className="w-10 h-10 rounded-full bg-gray-800 flex items-center justify-center text-gray-500 shadow-sm border border-white/5">
+                  <IoMdTrophy className="text-sm" />
+                </div>
+              </div>
+            </div>
+
+          </aside>
+
+        </div>
+      </div>
+      <WelcomeModal open={showWelcome} userName={userName} onClose={closeWelcome} />
+      <AnnounceModal open={showAnnounce} onClose={closeAnnounce} onDonate={openDonateFromAnnounce} />
+      <DonateModal open={showDonate} onClose={() => setShowDonate(false)} />
+      <WorldCupGameModal open={showWCGame} onClose={() => setShowWCGame(false)} />
+    </AppShell>
+  );
+};
+
+export default HomePage;
