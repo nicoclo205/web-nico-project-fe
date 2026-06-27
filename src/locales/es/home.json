@@ -79,6 +79,11 @@
     "thanks": "Agradecemos sinceramente tu apoyo y el uso apropiado de la plataforma. ¡Que disfrutes el juego!",
     "cta": "¡Comenzar!"
   },
+  "announce": {
+    "title": "¡Empieza el Mundial! 🏆",
+    "body": "La fase de grupos terminó. Invita a más amigos y crea tus propias salas. Gracias por apoyar el proyecto con tu <donate>donación</donate>. En las siguientes fases hay más puntos para el ganador — míralo <about>aquí</about>.",
+    "cta": "¡Vamos!"
+  },
   "wcGame": {
     "title": "La Carrera del Campeón",
     "tagline": "Predice todo el torneo",
@@ -128,15 +133,4 @@
     "rankingTitle": "Ranking",
     "points": "Pts",
     "ptsGroups": "Grupos",
-    "ptsThirds": "Terceros",
-    "ptsKo": "Eliminatorias",
-    "you": "Tú",
-    "noPlayers": "Aún no hay predicciones — ¡sé el primero!",
-    "incomplete": "En progreso",
-    "champion": "Campeón",
-    "locked": "Las predicciones están cerradas.",
-    "deadlineLabel": "Editable hasta {{date}}",
-    "loadError": "Algo salió mal. Intenta de nuevo.",
-    "koHint": "Toca el equipo que crees que ganará — tu pick se guarda y aparece el siguiente partido."
-  }
-}
+    

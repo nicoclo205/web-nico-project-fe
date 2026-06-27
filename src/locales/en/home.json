@@ -79,6 +79,11 @@
     "thanks": "We sincerely appreciate your support and the appropriate use of the platform. Enjoy the game!",
     "cta": "Let's go!"
   },
+  "announce": {
+    "title": "The World Cup begins! 🏆",
+    "body": "The group stage is over. Invite more friends and create your own rooms. Thanks for supporting the project with your <donate>donation</donate>. The next stages award more points to the winner — see it <about>here</about>.",
+    "cta": "Let's go!"
+  },
   "wcGame": {
     "title": "La Carrera del Campeón",
     "tagline": "Predict the whole bracket",
@@ -127,16 +132,4 @@
     "championLabel": "Your champion",
     "rankingTitle": "Ranking",
     "points": "Pts",
-    "ptsGroups": "Groups",
-    "ptsThirds": "Thirds",
-    "ptsKo": "Knockout",
-    "you": "You",
-    "noPlayers": "No predictions yet — be the first!",
-    "incomplete": "In progress",
-    "champion": "Champion",
-    "locked": "Predictions are closed.",
-    "deadlineLabel": "Editable until {{date}}",
-    "loadError": "Something went wrong. Please try again.",
-    "koHint": "Tap the team you think will win — your pick is saved and the next match appears."
-  }
-}
+    "ptsG

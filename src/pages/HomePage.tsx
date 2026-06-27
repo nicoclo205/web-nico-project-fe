@@ -6,6 +6,8 @@ import { MdMeetingRoom, MdSportsTennis, MdSportsBasketball } from "react-icons/m
 import { IoIosChatbubbles, IoMdTrophy, IoMdNotifications } from "react-icons/io";
 import AppShell from "../components/AppShell";
 import WelcomeModal from "../components/WelcomeModal";
+import AnnounceModal from "../components/AnnounceModal";
+import DonateModal from "../components/DonateModal";
 import WorldCupGameModal from "../components/WorldCupGameModal";
 import { useAuth } from "../hooks/useAuth";
 import { useNavigate } from "react-router-dom";
@@ -20,17 +22,37 @@ const HomePage = () => {
   const [userAvatar, setUserAvatar] = useState<string | null>(null);
   const { rooms } = useRoom();
 
-  // Modal de bienvenida: solo la primera vez que el usuario entra a la app
+  // Modales de una sola vez: bienvenida (primer ingreso) y aviso de fase de grupos.
+  // Se encolan: primero bienvenida, luego el aviso. Nunca se muestran apilados.
   const [showWelcome, setShowWelcome] = useState(false);
+  const [showAnnounce, setShowAnnounce] = useState(false);
+  const [showDonate, setShowDonate] = useState(false);
   const [showWCGame, setShowWCGame] = useState(false);
   useEffect(() => {
-    if (user && !localStorage.getItem(`fb_welcome_seen_${user.id}`)) {
+    if (!user) return;
+    const seenWelcome = localStorage.getItem(`fb_welcome_seen_${user.id}`);
+    const seenAnnounce = localStorage.getItem(`fb_groups_announce_seen_${user.id}`);
+    if (!seenWelcome) {
       setShowWelcome(true);
+    } else if (!seenAnnounce) {
+      setShowAnnounce(true);
     }
   }, [user]);
   const closeWelcome = () => {
     if (user) localStorage.setItem(`fb_welcome_seen_${user.id}`, '1');
     setShowWelcome(false);
+    // Encolar el aviso si aún no se ha visto.
+    if (user && !localStorage.getItem(`fb_groups_announce_seen_${user.id}`)) {
+      setShowAnnounce(true);
+    }
+  };
+  const closeAnnounce = () => {
+    if (user) localStorage.setItem(`fb_groups_announce_seen_${user.id}`, '1');
+    setShowAnnounce(false);
+  };
+  const openDonateFromAnnounce = () => {
+    closeAnnounce();
+    setShowDonate(true);
   };
 
   useEffect(() => {
@@ -325,26 +347,4 @@ const HomePage = () => {
                 {t('home:comingSoonDesc')}
               </p>
               <div className="flex justify-center gap-3 relative z-10">
-                <div className="w-10 h-10 rounded-full bg-gray-800 flex items-center justify-center text-gray-500 shadow-sm border border-white/5">
-                  <IoIosChatbubbles className="text-sm" />
-                </div>
-                <div className="w-10 h-10 rounded-full bg-gray-800 flex items-center justify-center text-gray-500 shadow-sm border border-white/5">
-                  <IoMdNotifications className="text-sm" />
-                </div>
-                <div className="w-10 h-10 rounded-full bg-gray-800 flex items-center justify-center text-gray-500 shadow-sm border border-white/5">
-                  <IoMdTrophy className="text-sm" />
-                </div>
-              </div>
-            </div>
-
-          </aside>
-
-        </div>
-      </div>
-      <WelcomeModal open={showWelcome} userName={userName} onClose={closeWelcome} />
-      <WorldCupGameModal open={showWCGame} onClose={() => setShowWCGame(false)} />
-    </AppShell>
-  );
-};
-
-export default HomePage;
+                <div className="w-10 h-10 rounded-full bg-gray-800 flex items-cent
