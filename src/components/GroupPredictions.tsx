@@ -21,6 +21,10 @@ interface Prediction {
   goles_local_real: number | null;
   goles_visitante_real: number | null;
   ronda: string;
+  is_knockout: boolean;
+  tiene_tiempo_extra: boolean;
+  tiene_penales: boolean;
+  ganador_ko_nombre: string | null;
 }
 
 interface MatchGroup {
@@ -230,6 +234,21 @@ const GroupPredictions: React.FC<GroupPredictionsProps> = ({ roomId }) => {
                   <div key={p.id_apuesta} className="flex items-center justify-between px-4 py-2.5">
                     <span className="text-sm text-gray-200">{p.usuario_nombre}</span>
                     <div className="flex items-center gap-3">
+                      {p.is_knockout && p.tiene_penales ? (
+                        <span
+                          className="text-[10px] px-2 py-0.5 rounded-full bg-yellow-500/20 text-yellow-400 border border-yellow-500/30 font-semibold whitespace-nowrap"
+                          title={p.ganador_ko_nombre ? `Penalties - winner: ${p.ganador_ko_nombre}` : 'Penalties'}
+                        >
+                          Pens{p.ganador_ko_nombre ? ` · ${p.ganador_ko_nombre}` : ''}
+                        </span>
+                      ) : p.is_knockout && p.tiene_tiempo_extra ? (
+                        <span
+                          className="text-[10px] px-2 py-0.5 rounded-full bg-blue-500/20 text-blue-400 border border-blue-500/30 font-semibold whitespace-nowrap"
+                          title="Extra time"
+                        >
+                          ET
+                        </span>
+                      ) : null}
                       <span className={`text-sm tabular-nums ${getBetStyle(p.estado)}`}>
                         {p.prediccion_local} – {p.prediccion_visitante}
                       </span>
