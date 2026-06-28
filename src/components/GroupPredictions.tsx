@@ -294,7 +294,7 @@ const GroupPredictions: React.FC<GroupPredictionsProps> = ({ roomId }) => {
 															: 'Penalties'
 													}
 												>
-													Penalty_kicks
+													Penalty Kicks
 													{p.ganador_ko_nombre
 														? ` · ${p.ganador_ko_nombre}`
 														: ''}
