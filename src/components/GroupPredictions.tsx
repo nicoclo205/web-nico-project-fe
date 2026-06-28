@@ -304,7 +304,7 @@ const GroupPredictions: React.FC<GroupPredictionsProps> = ({ roomId }) => {
 													className="text-[10px] px-2 py-0.5 rounded-full bg-blue-500/20 text-blue-400 border border-blue-500/30 font-semibold whitespace-nowrap"
 													title="Extra time"
 												>
-													ET
+													Extra Time
 												</span>
 											) : null}
 											<span
