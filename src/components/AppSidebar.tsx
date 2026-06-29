@@ -46,7 +46,6 @@ const NAV_ITEMS: NavItem[] = [
 		icon: MdMeetingRoom,
 		path: '/rooms',
 		labelKey: 'common:nav.rooms',
-		accent: true,
 		isActive: (p) => p === '/rooms' || p.startsWith('/room/'),
 	},
 	{

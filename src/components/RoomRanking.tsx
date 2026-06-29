@@ -77,7 +77,7 @@ const RoomRanking: React.FC<RoomRankingProps> = ({ roomId }) => {
       <div className="flex items-center justify-between">
         <div>
           <h2 className="text-2xl font-bold flex items-center gap-2">
-            <FiAward className="text-yellow-500" />
+            <FiAward className="text-white" />
             Ranking
           </h2>
           <p className="text-gray-400 text-sm mt-1">
@@ -178,7 +178,7 @@ const RoomRanking: React.FC<RoomRankingProps> = ({ roomId }) => {
       {/* Full Ranking Table */}
       <div className="rounded-3xl p-4 md:p-6 bg-gradient-to-br from-panel to-panel-dark shadow-xl border border-white/5">
         <h3 className="text-base md:text-lg font-bold mb-4 flex items-center gap-2">
-          <FiTrendingUp className="text-blue-500" />
+          <FiTrendingUp className="text-white" />
           Full Rankings
         </h3>
 
@@ -356,7 +356,7 @@ const RoomRanking: React.FC<RoomRankingProps> = ({ roomId }) => {
             <span className="text-gray-400">{t('rooms:ranking.legendWinRate')}</span>
           </div>
           <div className="flex items-center gap-2">
-            <FiAward className="text-yellow-500" />
+            <FiAward className="text-white" />
             <span className="text-gray-400">{t('rooms:ranking.legendTop3')}</span>
           </div>
         </div>

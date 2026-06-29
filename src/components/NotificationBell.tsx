@@ -1,9 +1,17 @@
 import React, { useState, useRef, useEffect } from 'react';
 import { useNavigate } from 'react-router-dom';
 import { IoMdNotifications } from 'react-icons/io';
-import { FiBell } from 'react-icons/fi';
+import { FiBell, FiMessageSquare, FiClock, FiAlertCircle } from 'react-icons/fi';
+import { GiSoccerBall } from 'react-icons/gi';
 import { useNotifications } from '../hooks/useNotifications';
 import { encodeRoomId } from '../utils/roomHash';
+
+const getNotifIcon = (tipo: string) => {
+  if (tipo === 'nuevo_mensaje_chat') return <FiMessageSquare className="text-xl flex-shrink-0 mt-0.5 text-blue-400" />;
+  if (tipo === 'resultado') return <GiSoccerBall className="text-xl flex-shrink-0 mt-0.5 text-green-400" />;
+  if (tipo === 'recordatorio') return <FiClock className="text-xl flex-shrink-0 mt-0.5 text-yellow-400" />;
+  return <FiAlertCircle className="text-xl flex-shrink-0 mt-0.5 text-gray-400" />;
+};
 
 const timeAgo = (isoDate: string): string => {
   const diff = Date.now() - new Date(isoDate).getTime();
@@ -86,7 +94,7 @@ const NotificationBell: React.FC = () => {
                   onClick={() => handleNotifClick(notif.sala_id, notif.tipo)}
                   className="w-full text-left px-4 py-3 border-b border-white/5 hover:bg-white/5 transition-colors flex items-start gap-3 bg-white/5"
                 >
-                  <span className="text-xl flex-shrink-0 mt-0.5">{notif.icono}</span>
+                  {getNotifIcon(notif.tipo)}
                   <div className="flex-1 min-w-0">
                     <p className="text-sm leading-snug text-white line-clamp-2">
                       {notif.mensaje}

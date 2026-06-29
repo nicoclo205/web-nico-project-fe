@@ -1,6 +1,6 @@
 import { useTranslation } from 'react-i18next';
 import { API_BASE_URL } from '../config/api';
-import { GiSoccerField, GiSoccerBall } from "react-icons/gi";
+import { GiSoccerField } from "react-icons/gi";
 import { FiLogOut, FiZap } from "react-icons/fi";
 import { MdMeetingRoom, MdSportsTennis, MdSportsBasketball } from "react-icons/md";
 import { IoIosChatbubbles, IoMdTrophy, IoMdNotifications } from "react-icons/io";
@@ -204,10 +204,7 @@ const HomePage = () => {
               onClick={() => navigate('/streak-pong')}
               className="group relative rounded-2xl p-6 bg-surface-hover border border-white/5 hover:border-purple-500/50 transition-all duration-300 shadow-sm hover:shadow-lg cursor-pointer overflow-hidden"
             >
-              <div className="absolute top-0 right-0 p-4 opacity-10 group-hover:opacity-20 transition-opacity">
-                <GiSoccerBall className="text-8xl text-purple-500 transform rotate-12" />
-              </div>
-              <div className="relative z-10">
+<div className="relative z-10">
                 <h3 className="text-xl font-bold text-white mb-1">{t('home:streakPong.title')}</h3>
                 <p className="text-sm text-purple-400 font-medium mb-4 flex items-center gap-1">
                   {t('home:streakPong.tagline')}
