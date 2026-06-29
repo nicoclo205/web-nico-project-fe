@@ -251,7 +251,7 @@ const GroupPredictions: React.FC<GroupPredictionsProps> = ({ roomId }) => {
 								<div className="text-center min-w-[60px]">
 									{isFinished && match.goles_local_real !== null ? (
 										<span className="text-lg font-bold text-white">
-											{match.goles_local_real} – {match.goles_visitante_real}
+											{match.goles_local_real} - {match.goles_visitante_real}
 										</span>
 									) : (
 										<span className="text-sm text-gray-500">vs</span>
@@ -311,7 +311,7 @@ const GroupPredictions: React.FC<GroupPredictionsProps> = ({ roomId }) => {
 											<span
 												className={`text-sm tabular-nums ${getBetStyle(p.estado)}`}
 											>
-												{p.prediccion_local} – {p.prediccion_visitante}
+												{p.prediccion_local} - {p.prediccion_visitante}
 											</span>
 											{isFinished && (
 												<span
