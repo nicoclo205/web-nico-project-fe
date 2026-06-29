@@ -1,5 +1,6 @@
 import React from 'react';
 import { useTranslation } from 'react-i18next';
+import { FiUsers } from 'react-icons/fi';
 
 interface RoomCardProps {
   id: number;
@@ -61,7 +62,7 @@ const RoomCard: React.FC<RoomCardProps> = ({
             <h3 className="text-lg font-bold text-white">{name}</h3>
             <p className="text-gray-300 text-sm mt-1">{description}</p>
             <div className="flex items-center mt-2 text-gray-400 text-sm">
-              <span className="mr-1">👥</span>
+              <FiUsers className="mr-1" />
               <span>{t('rooms:memberCount', { count: members })}</span>
               {code && (
                 <>

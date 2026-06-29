@@ -1,7 +1,9 @@
 import { useTranslation } from 'react-i18next';
 import React, { useEffect, useState } from 'react';
 import { useNavigate, useSearchParams } from 'react-router-dom';
-import { FiSearch, FiFilter, FiLogOut } from "react-icons/fi";
+import { FiSearch, FiFilter, FiLogOut, FiGlobe, FiAward, FiHome, FiMapPin, FiCalendar } from "react-icons/fi";
+import { GiSoccerBall } from 'react-icons/gi';
+import { MdMeetingRoom } from 'react-icons/md';
 import { useAuth } from '../hooks/useAuth';
 import AppShell from '../components/AppShell';
 import { API_BASE_URL } from '../config/api';
@@ -312,7 +314,7 @@ const SoccerMatches: React.FC = () => {
 				<header className="h-16 md:h-20 flex items-center justify-between px-4 md:px-8 lg:px-12 bg-app/95 backdrop-blur-sm z-10 sticky top-0">
 					<div>
 						<h1 className="text-lg md:text-2xl lg:text-3xl font-bold tracking-tight text-white flex items-center gap-2 md:gap-3">
-							<span className="text-3xl md:text-4xl">⚽</span>
+							<GiSoccerBall className="text-3xl md:text-4xl text-green-400" />
 							<span className="hidden sm:inline">{t('sports:soccerPage.title')}</span>
 							<span className="sm:hidden">{t('sports:football')}</span>
 						</h1>
@@ -370,7 +372,7 @@ const SoccerMatches: React.FC = () => {
 									: 'bg-white/10 hover:bg-gray-500'
 							}`}
 						>
-							<span className="text-2xl md:text-3xl mb-1">🌍</span>
+							<FiGlobe className="text-2xl md:text-3xl mb-1" />
 							<span className="text-xs md:text-sm font-normal text-center">{t('sports:soccerPage.status.all')}</span>
 						</button>
 
@@ -399,7 +401,7 @@ const SoccerMatches: React.FC = () => {
 										onError={(e) => { e.currentTarget.style.display = 'none'; }}
 									/>
 								) : (
-									<span className="text-2xl md:text-3xl mb-1">🏆</span>
+									<FiAward className="text-2xl md:text-3xl mb-1" />
 								)}
 								<span className="text-xs md:text-sm font-normal text-center line-clamp-2">{league.nombre}</span>
 							</button>
@@ -506,7 +508,7 @@ const SoccerMatches: React.FC = () => {
 						<div className="grid grid-cols-1 gap-4 md:gap-6">
 							{displayedMatches.length === 0 ? (
 								<div className="text-center py-12 bg-gradient-to-br from-panel to-panel-dark rounded-3xl border border-white/5">
-									<span className="text-6xl mb-4 block">🔍</span>
+									<FiSearch className="text-6xl mb-4 mx-auto block" />
 									<p className="text-gray-400 text-lg">
 										{activeTab === 'upcoming' ? 'No upcoming matches' : 'No finished matches'}
 									</p>
@@ -571,8 +573,8 @@ const SoccerMatches: React.FC = () => {
 													}}
 												/>
 											) : (
-												<div className="w-10 h-10 md:w-12 md:h-12 rounded-full bg-white/10 flex items-center justify-center text-2xl">
-													⚽
+												<div className="w-10 h-10 md:w-12 md:h-12 rounded-full bg-white/10 flex items-center justify-center">
+													<GiSoccerBall className="text-2xl text-green-400" />
 												</div>
 											)}
 										</div>
@@ -636,8 +638,8 @@ const SoccerMatches: React.FC = () => {
 													}}
 												/>
 											) : (
-												<div className="w-10 h-10 md:w-12 md:h-12 rounded-full bg-white/10 flex items-center justify-center text-2xl">
-													⚽
+												<div className="w-10 h-10 md:w-12 md:h-12 rounded-full bg-white/10 flex items-center justify-center">
+													<GiSoccerBall className="text-2xl text-green-400" />
 												</div>
 											)}
 											<span className="text-base md:text-lg font-medium">{match.equipo_visitante.nombre}</span>
@@ -717,13 +719,13 @@ const SoccerMatches: React.FC = () => {
 							onClick={() => navigate('/homepage')}
 							className="w-full text-left px-3 md:px-4 py-2.5 md:py-3 bg-white/5 hover:bg-white/10 rounded-lg md:rounded-xl transition border border-white/5"
 						>
-							<span className="text-xs md:text-sm">🏠 Home</span>
+							<span className="flex items-center gap-1 text-xs md:text-sm"><FiHome /> Home</span>
 						</button>
 						<button
 							onClick={() => navigate('/rooms')}
 							className="w-full text-left px-3 md:px-4 py-2.5 md:py-3 bg-white/5 hover:bg-white/10 rounded-lg md:rounded-xl transition border border-white/5"
 						>
-							<span className="text-xs md:text-sm">🎮 Rooms</span>
+							<span className="flex items-center gap-1 text-xs md:text-sm"><MdMeetingRoom /> Rooms</span>
 						</button>
 					</div>
 					</div>
@@ -778,7 +780,7 @@ const SoccerMatches: React.FC = () => {
 									{selectedMatch.equipo_local.logo ? (
 										<img src={selectedMatch.equipo_local.logo} alt={selectedMatch.equipo_local.nombre} className="w-20 h-20 md:w-24 md:h-24 object-contain mb-3" />
 									) : (
-										<div className="w-20 h-20 md:w-24 md:h-24 rounded-full bg-white/10 flex items-center justify-center text-4xl mb-3">⚽</div>
+										<div className="w-20 h-20 md:w-24 md:h-24 rounded-full bg-white/10 flex items-center justify-center mb-3"><GiSoccerBall className="text-4xl text-green-400" /></div>
 									)}
 									<span className="text-lg md:text-xl font-bold text-center">{selectedMatch.equipo_local.nombre}</span>
 								</div>
@@ -808,7 +810,7 @@ const SoccerMatches: React.FC = () => {
 									{selectedMatch.equipo_visitante.logo ? (
 										<img src={selectedMatch.equipo_visitante.logo} alt={selectedMatch.equipo_visitante.nombre} className="w-20 h-20 md:w-24 md:h-24 object-contain mb-3" />
 									) : (
-										<div className="w-20 h-20 md:w-24 md:h-24 rounded-full bg-white/10 flex items-center justify-center text-4xl mb-3">⚽</div>
+										<div className="w-20 h-20 md:w-24 md:h-24 rounded-full bg-white/10 flex items-center justify-center mb-3"><GiSoccerBall className="text-4xl text-green-400" /></div>
 									)}
 									<span className="text-lg md:text-xl font-bold text-center">{selectedMatch.equipo_visitante.nombre}</span>
 								</div>
@@ -819,7 +821,7 @@ const SoccerMatches: React.FC = () => {
 						<div className="space-y-3 mb-6">
 							{/* Date & Time */}
 							<div className="flex items-center justify-between p-4 bg-white/5 rounded-xl">
-								<span className="text-gray-400 text-sm">📅 Date & Time</span>
+								<span className="text-gray-400 text-sm flex items-center gap-1"><FiCalendar /> Date & Time</span>
 								<span className="font-semibold">
 									{new Date(selectedMatch.fecha).toLocaleDateString('en-US', {
 										weekday: 'long',
@@ -835,7 +837,7 @@ const SoccerMatches: React.FC = () => {
 
 							{/* Stadium */}
 							<div className="flex items-center justify-between p-4 bg-white/5 rounded-xl">
-								<span className="text-gray-400 text-sm">🏟️ Venue</span>
+								<span className="text-gray-400 text-sm flex items-center gap-1"><FiMapPin /> Venue</span>
 								<span className="font-semibold text-right">
 									{selectedMatch.venue_nombre ? (
 										<>

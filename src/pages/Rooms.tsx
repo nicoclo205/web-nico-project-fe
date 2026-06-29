@@ -1,7 +1,9 @@
 import { useTranslation } from 'react-i18next';
 import React, { useState, useEffect } from 'react';
 import { useNavigate } from 'react-router-dom';
-import { FiSearch, FiPlus, FiUsers, FiLogOut } from "react-icons/fi";
+import { FiSearch, FiPlus, FiUsers, FiLogOut, FiHome, FiAward } from "react-icons/fi";
+import { GiSoccerBall } from 'react-icons/gi';
+import { MdMeetingRoom } from 'react-icons/md';
 import { useAuth } from '../hooks/useAuth';
 import AppShell from '../components/AppShell';
 import { API_BASE_URL } from '../config/api';
@@ -226,7 +228,7 @@ const Rooms: React.FC = () => {
 				<header className="h-16 md:h-20 flex items-center justify-between px-4 md:px-8 lg:px-12 bg-app/95 backdrop-blur-sm z-10 sticky top-0">
 					<div>
 						<h1 className="text-lg md:text-2xl lg:text-3xl font-bold tracking-tight text-white flex items-center gap-2 md:gap-3">
-							<span className="text-3xl md:text-4xl">🎮</span>
+							<MdMeetingRoom className="text-3xl md:text-4xl" />
 							<span className="hidden sm:inline">{t('rooms:title')}</span>
 							<span className="sm:hidden">{t('common:rooms')}</span>
 						</h1>
@@ -415,13 +417,13 @@ const Rooms: React.FC = () => {
 									onClick={() => navigate('/homepage')}
 									className="w-full text-left px-3 md:px-4 py-2.5 md:py-3 bg-white/5 hover:bg-white/10 rounded-lg md:rounded-xl transition border border-white/5"
 								>
-									<span className="text-xs md:text-sm">🏠 Home</span>
+									<span className="flex items-center gap-1 text-xs md:text-sm"><FiHome /> Home</span>
 								</button>
 								<button
 									onClick={() => navigate('/soccer-matches')}
 									className="w-full text-left px-3 md:px-4 py-2.5 md:py-3 bg-white/5 hover:bg-white/10 rounded-lg md:rounded-xl transition border border-white/5"
 								>
-									<span className="text-xs md:text-sm">⚽ Matches</span>
+									<span className="flex items-center gap-1 text-xs md:text-sm"><GiSoccerBall /> Matches</span>
 								</button>
 							</div>
 						</div>
@@ -548,7 +550,7 @@ const Rooms: React.FC = () => {
 							{(newRoom.modo_sala === 'ligas' || newRoom.modo_sala === 'mixto') && (
 								<div>
 									<label className="block text-sm font-medium text-gray-300 mb-3 flex items-center gap-2">
-										<span className="text-green-400">🏆</span>
+										<FiAward className="text-green-400" />
 										Competitions {newRoom.modo_sala === 'ligas' ? '*' : '(Opcional)'}
 										<span className="text-xs text-gray-500">({selectedLeagues.length} selected)</span>
 									</label>
@@ -596,7 +598,7 @@ const Rooms: React.FC = () => {
 							{(newRoom.modo_sala === 'partidos_individuales' || newRoom.modo_sala === 'mixto') && (
 								<div>
 									<label className="block text-sm font-medium text-gray-300 mb-3 flex items-center gap-2">
-										<span className="text-green-400">⚽</span>
+										<GiSoccerBall className="text-green-400" />
 										Individual Matches {newRoom.modo_sala === 'partidos_individuales' ? '*' : '(Opcional)'}
 										<span className="text-xs text-gray-500">({selectedMatches.length} selected)</span>
 									</label>

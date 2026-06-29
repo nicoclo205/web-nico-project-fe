@@ -1,6 +1,6 @@
 import React, { useCallback, useEffect, useState } from 'react';
 import { useTranslation } from 'react-i18next';
-import { FiCheckCircle, FiClock, FiRefreshCw, FiUsers } from 'react-icons/fi';
+import { FiCheckCircle, FiClock, FiRefreshCw, FiUsers, FiFlag } from 'react-icons/fi';
 import { API_BASE_URL } from '../config/api';
 
 interface Prediction {
@@ -51,7 +51,7 @@ const TeamLogo: React.FC<{ src: string | null; alt: string }> = ({
 }) => {
 	const [error, setError] = useState(false);
 	if (!src || error) {
-		return <span className="text-lg">🏳️</span>;
+		return <FiFlag className="text-lg text-gray-400" />;
 	}
 	return (
 		<img

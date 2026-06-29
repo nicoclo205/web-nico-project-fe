@@ -3,6 +3,7 @@ import { useSearchParams } from 'react-router-dom';
 import AppShell from '../components/AppShell';
 import Spinner from '../components/Spinner';
 import { apiClient } from '../utils/languageApi';
+import { GiTrophy } from 'react-icons/gi';
 
 // ── Tipos de la respuesta de /api/worldcup/board ─────────────────────────
 interface Team {
@@ -252,7 +253,7 @@ function WorldCupBoard() {
 			<div className="flex-1 overflow-y-auto p-4 md:p-8 lg:px-12 pb-12">
 				<header className="mb-6">
 					<h1 className="text-2xl md:text-3xl font-bold text-white flex items-center gap-3">
-						<span className="text-4xl">🏆</span>
+						<GiTrophy className="text-4xl text-amber-400" />
 						Mundial FIFA 2026
 					</h1>
 					<p className="text-gray-400 text-sm mt-1">

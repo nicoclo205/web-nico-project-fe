@@ -1,6 +1,7 @@
 import React, { useState, useRef, useEffect } from 'react';
 import { useNavigate } from 'react-router-dom';
 import { IoMdNotifications } from 'react-icons/io';
+import { FiBell } from 'react-icons/fi';
 import { useNotifications } from '../hooks/useNotifications';
 import { encodeRoomId } from '../utils/roomHash';
 
@@ -75,7 +76,7 @@ const NotificationBell: React.FC = () => {
           <div className="max-h-96 overflow-y-auto">
             {unreadNotifications.length === 0 ? (
               <div className="py-10 text-center text-gray-500 text-sm">
-                <span className="text-3xl block mb-2">🔔</span>
+                <FiBell className="text-3xl mx-auto mb-2" />
                 No new notifications
               </div>
             ) : (

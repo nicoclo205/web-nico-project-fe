@@ -1,7 +1,7 @@
 import { useTranslation } from 'react-i18next';
 import React, { useEffect, useState } from 'react';
 import { FiUsers, FiCopy, FiTrendingUp, FiClock, FiTarget, FiBell, FiCalendar, FiAward, FiAlertCircle, FiMail, FiSend } from 'react-icons/fi';
-import { GiSoccerBall, GiTrophy } from 'react-icons/gi';
+import { GiSoccerBall, GiTrophy, GiCrown } from 'react-icons/gi';
 import { API_BASE_URL } from '../config/api';
 import Spinner from './Spinner';
 
@@ -521,7 +521,7 @@ const RoomDashboard: React.FC<RoomDashboardProps> = ({
               {/* Avatar */}
               <div className="relative inline-block mb-3">
                 <div className="absolute -top-2 -right-2 w-8 h-8 bg-yellow-500 rounded-full flex items-center justify-center border-2 border-panel-dark z-10">
-                  <span className="text-sm">👑</span>
+                  <GiCrown className="text-sm text-yellow-500" />
                 </div>
                 {leader.usuario.foto_perfil ? (
                   <img

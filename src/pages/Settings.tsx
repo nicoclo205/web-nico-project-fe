@@ -1,7 +1,7 @@
 import { useTranslation } from 'react-i18next';
 import { useState, useEffect } from 'react';
 import { useNavigate } from 'react-router-dom';
-import { FiUser, FiPhone, FiImage, FiTrash2, FiSave, FiCheck, FiMail, FiLogOut } from "react-icons/fi";
+import { FiUser, FiPhone, FiImage, FiTrash2, FiSave, FiCheck, FiMail, FiLogOut, FiSettings } from "react-icons/fi";
 import LanguageSelectorEnhanced from '../components/LanguageSelectorEnhanced';
 import AppShell from '../components/AppShell';
 import ConfirmDialog from '../components/ConfirmDialog';
@@ -131,7 +131,7 @@ const Settings = () => {
                 <header className="h-16 md:h-20 flex items-center justify-between px-4 md:px-8 lg:px-12 bg-app/95 backdrop-blur-sm z-10 sticky top-0">
                     <div>
                         <h1 className="text-lg md:text-2xl lg:text-3xl font-bold tracking-tight text-white flex items-center gap-2 md:gap-3">
-                            <span className="text-3xl md:text-4xl">⚙️</span>
+                            <FiSettings className="text-3xl md:text-4xl text-gray-300" />
                             <span className="hidden sm:inline">{t('settings:title')}</span>
                             <span className="sm:hidden">Config</span>
                         </h1>

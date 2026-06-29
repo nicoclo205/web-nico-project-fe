@@ -6,6 +6,7 @@ import api from '../services/api';
 import Spinner from '../components/Spinner';
 import EmptyState from '../components/EmptyState';
 import TimeUntil from '../components/TimeUntil';
+import { GiSteeringWheel } from 'react-icons/gi';
 
 interface F1Race {
 	id_carrera_f1: number;
@@ -110,7 +111,7 @@ const F1Races: React.FC = () => {
 				{/* Header */}
 				<div className="mb-8">
 					<div className="flex items-center gap-3 mb-4">
-						<span className="text-5xl">🏎️</span>
+						<GiSteeringWheel className="text-5xl text-red-400" />
 						<h1 className="text-3xl font-bold text-white">{t('sports:f1Page.title')}</h1>
 					</div>
 					<p className="text-gray-400">{t('sports:f1Page.subtitle')}</p>
@@ -140,7 +141,7 @@ const F1Races: React.FC = () => {
 				<div className="space-y-4">
 					{sortedRaces.length === 0 ? (
 						<EmptyState
-							icon="🏎️"
+							icon={<GiSteeringWheel className="text-6xl text-red-400 mb-4 mx-auto" />}
 							title={activeTab === 'upcoming' ? t('sports:f1Page.noUpcoming') : t('sports:f1Page.noFinished')}
 						/>
 					) : (

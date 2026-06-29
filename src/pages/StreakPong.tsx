@@ -4,6 +4,7 @@ import { useNavigate } from 'react-router-dom';
 import AppShell from '../components/AppShell';
 import BackButton from '../components/BackButton';
 import { useAuth } from '../hooks/useAuth';
+import { GiSoccerBall } from 'react-icons/gi';
 
 // ---- Game constants -------------------------------------------------------
 const W = 800;
@@ -406,7 +407,7 @@ const StreakPong = () => {
 				<header className="h-16 md:h-20 flex items-center gap-4 px-4 md:px-8 lg:px-12 bg-app/95 backdrop-blur-sm z-10 sticky top-0">
 					<BackButton onClick={() => navigate('/homepage')} />
 					<h1 className="text-lg md:text-2xl font-bold tracking-tight text-white">
-						{t('home:streakPong.title')} <span className="text-green-500">⚽</span>
+						{t('home:streakPong.title')} <GiSoccerBall className="inline text-green-500" />
 					</h1>
 				</header>
 

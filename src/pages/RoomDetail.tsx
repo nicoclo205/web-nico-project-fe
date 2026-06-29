@@ -1,7 +1,7 @@
 import { useTranslation } from 'react-i18next';
 import React, { useEffect, useState } from 'react';
 import { useNavigate, useParams, useLocation, useSearchParams } from 'react-router-dom';
-import { FiUsers, FiSettings, FiTrendingUp, FiTarget, FiMessageSquare } from "react-icons/fi";
+import { FiUsers, FiSettings, FiTrendingUp, FiTarget, FiMessageSquare, FiAlertTriangle } from "react-icons/fi";
 import { useAuth } from '../hooks/useAuth';
 import AppShell from '../components/AppShell';
 import BackButton from '../components/BackButton';
@@ -143,7 +143,7 @@ const RoomDetail: React.FC = () => {
 	if (displayError) {
 		return (
 			<div className="flex flex-col items-center justify-center h-screen bg-app text-white">
-				<span className="text-6xl mb-4">⚠️</span>
+				<FiAlertTriangle className="text-6xl mb-4 text-red-400" />
 				<h1 className="text-2xl font-bold mb-4">{displayError}</h1>
 				<button onClick={() => navigate('/rooms')} className="btn-primary">
 					{t('common:backToRooms')}

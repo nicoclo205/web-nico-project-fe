@@ -1,6 +1,6 @@
 import { useCallback, useEffect, useRef, useState } from 'react';
 import { useTranslation } from 'react-i18next';
-import { FiX, FiClipboard, FiChevronLeft } from 'react-icons/fi';
+import { FiX, FiClipboard, FiChevronLeft, FiFlag } from 'react-icons/fi';
 import { IoMdTrophy } from 'react-icons/io';
 import { apiClient } from '../utils/languageApi';
 import { useAuth } from '../hooks/useAuth';
@@ -97,7 +97,7 @@ const Flag: React.FC<{ team: string; info: Record<string, TeamInfo>; size?: stri
 }) => {
 	const [err, setErr] = useState(false);
 	const logo = info[team]?.logo;
-	if (!logo || err) return <span className="text-base leading-none">🏳️</span>;
+	if (!logo || err) return <FiFlag className="text-base text-gray-400" />;
 	return (
 		<img
 			src={logo}
@@ -911,7 +911,7 @@ const WorldCupGameModal: React.FC<Props> = ({ open, onClose }) => {
 							)}
 							{ranking?.tournament.champion && (
 								<p className="text-xs text-center text-amber-300">
-									🏆 {t('home:wcGame.champion')}: {ranking.tournament.champion}
+									<IoMdTrophy className="inline mr-1 text-amber-400" />{t('home:wcGame.champion')}: {ranking.tournament.champion}
 								</p>
 							)}
 							<button onClick={onClose} className={btnGold}>

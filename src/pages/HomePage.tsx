@@ -1,7 +1,7 @@
 import { useTranslation } from 'react-i18next';
 import { API_BASE_URL } from '../config/api';
 import { GiSoccerField, GiSoccerBall } from "react-icons/gi";
-import { FiLogOut } from "react-icons/fi";
+import { FiLogOut, FiZap } from "react-icons/fi";
 import { MdMeetingRoom, MdSportsTennis, MdSportsBasketball } from "react-icons/md";
 import { IoIosChatbubbles, IoMdTrophy, IoMdNotifications } from "react-icons/io";
 import AppShell from "../components/AppShell";
@@ -143,7 +143,7 @@ const HomePage = () => {
           {/* Main Panel */}
           <main className="flex-1 max-w-5xl">
             <h2 className="text-lg md:text-xl font-medium text-gray-300 mb-4 md:mb-6 flex items-center gap-2">
-              <span className="text-green-500">⚡</span>
+              <FiZap className="text-green-500" />
               {t('home:quickAccess')}
             </h2>
 
@@ -329,7 +329,7 @@ const HomePage = () => {
                 <IoMdTrophy className="text-8xl text-amber-400" />
               </div>
               <h3 className="text-base md:text-lg font-bold text-white mb-1 relative z-10">{t('home:wcGame.title')}</h3>
-              <p className="text-xs md:text-sm text-amber-400/90 font-medium mb-3 relative z-10">{t('home:wcGame.tagline')} 🏆</p>
+              <p className="text-xs md:text-sm text-amber-400/90 font-medium mb-3 relative z-10 flex items-center gap-1">{t('home:wcGame.tagline')} <IoMdTrophy /></p>
               <p className="text-xs md:text-sm text-gray-400 leading-relaxed mb-4 relative z-10">{t('home:wcGame.desc')}</p>
               <button
                 onClick={() => setShowWCGame(true)}

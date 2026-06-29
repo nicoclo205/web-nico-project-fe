@@ -1,18 +1,18 @@
+import React from 'react';
+import { FiSearch } from 'react-icons/fi';
+
 interface EmptyStateProps {
-	icon?: string;
+	icon?: React.ReactNode;
 	title: string;
 	description?: string;
 	actionLabel?: string;
 	onAction?: () => void;
 }
 
-/**
- * Standardized empty state with optional call-to-action (UI standardization).
- */
-function EmptyState({ icon = '🔍', title, description, actionLabel, onAction }: EmptyStateProps) {
+function EmptyState({ icon = <FiSearch className="text-6xl mb-4 mx-auto text-gray-400" />, title, description, actionLabel, onAction }: EmptyStateProps) {
 	return (
 		<div className="text-center py-12 px-6 bg-surface border border-white/5 rounded-2xl">
-			<span className="text-6xl mb-4 block">{icon}</span>
+			<div className="text-6xl mb-4 flex justify-center">{icon}</div>
 			<p className="text-white text-lg font-semibold">{title}</p>
 			{description && <p className="text-gray-400 text-sm mt-2">{description}</p>}
 			{actionLabel && onAction && (

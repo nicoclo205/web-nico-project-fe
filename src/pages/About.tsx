@@ -1,6 +1,7 @@
 import React from 'react';
 import { useTranslation } from 'react-i18next';
-import { FiMail, FiCode } from "react-icons/fi";
+import { FiMail, FiCode, FiZap, FiBarChart2, FiAward, FiUsers, FiPlay } from "react-icons/fi";
+import { GiSoccerBall } from 'react-icons/gi';
 import LanguageSelectorEnhanced from '../components/LanguageSelectorEnhanced';
 import AppShell from '../components/AppShell';
 
@@ -27,7 +28,7 @@ const About: React.FC = () => {
           <div className="relative overflow-hidden bg-gradient-to-br from-green-900/40 to-green-700/10 border border-green-700/30 rounded-2xl p-6 md:p-8">
             <div className="relative z-10">
               <div className="flex items-center gap-3 mb-3">
-                <span className="text-3xl">⚽</span>
+                <GiSoccerBall className="text-3xl text-green-400" />
                 <h2 className="text-2xl md:text-3xl font-bold text-white">FriendlyBet</h2>
               </div>
               <p className="text-gray-300 text-base md:text-lg leading-relaxed max-w-2xl">
@@ -42,7 +43,7 @@ const About: React.FC = () => {
             {/* The Team */}
             <div className="bg-surface-alt border border-white/10 rounded-2xl p-6">
               <h3 className="text-lg font-semibold text-white mb-5 flex items-center gap-2">
-                <span>👋</span> {t('sections.whoWeAre.title')}
+                <FiUsers /> {t('sections.whoWeAre.title')}
               </h3>
               <div className="space-y-4">
                 <div className="flex items-center gap-3">
@@ -68,7 +69,7 @@ const About: React.FC = () => {
             {/* How to Play */}
             <div className="bg-surface-alt border border-white/10 rounded-2xl p-6">
               <h3 className="text-lg font-semibold text-white mb-5 flex items-center gap-2">
-                <span>🎮</span> {t('sections.howItWorks.title')}
+                <FiPlay /> {t('sections.howItWorks.title')}
               </h3>
               <div className="space-y-4">
                 {[
@@ -94,7 +95,7 @@ const About: React.FC = () => {
           {/* Scoring System */}
           <div className="bg-surface-alt border border-white/10 rounded-2xl p-6">
             <h3 className="text-lg font-semibold text-white mb-2 flex items-center gap-2">
-              <span>🏆</span> {t('sections.scoring.title')}
+              <FiAward /> {t('sections.scoring.title')}
             </h3>
             <p className="text-gray-400 text-sm mb-6 leading-relaxed">
               {t('sections.scoring.description')}
@@ -124,7 +125,7 @@ const About: React.FC = () => {
             </div>
 
             <div className="p-4 bg-white/5 rounded-xl border border-white/10">
-              <p className="text-white text-sm font-medium mb-1">📊 {t('sections.scoring.rankingTitle')}</p>
+              <p className="text-white text-sm font-medium mb-1 flex items-center gap-1"><FiBarChart2 /> {t('sections.scoring.rankingTitle')}</p>
               <p className="text-gray-400 text-sm leading-relaxed">{t('sections.scoring.rankingDesc')}</p>
             </div>
           </div>
@@ -133,7 +134,7 @@ const About: React.FC = () => {
           <div className="bg-surface-alt border border-amber-700/30 rounded-2xl p-6">
             <div className="flex items-center justify-between mb-2 flex-wrap gap-2">
               <h3 className="text-lg font-semibold text-white flex items-center gap-2">
-                <span>⚡</span> {t('sections.scoringKnockout.title')}
+                <FiZap className="text-amber-400" /> {t('sections.scoringKnockout.title')}
               </h3>
               <span className="text-xs font-semibold px-3 py-1 rounded-full bg-amber-500/20 border border-amber-500/40 text-amber-300">
                 {t('sections.scoringKnockout.badge')}
@@ -183,7 +184,7 @@ const About: React.FC = () => {
             </div>
 
             <div className="p-3 bg-amber-500/10 border border-amber-500/20 rounded-xl">
-              <p className="text-amber-300 text-xs font-medium">🏆 {t('sections.scoringKnockout.maxNote')}</p>
+              <p className="text-amber-300 text-xs font-medium flex items-center gap-1"><FiAward /> {t('sections.scoringKnockout.maxNote')}</p>
             </div>
           </div>
 

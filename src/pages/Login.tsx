@@ -3,6 +3,7 @@ import React, { useState } from "react";
 import { useTranslation } from 'react-i18next';
 import { useLocation, useNavigate } from 'react-router-dom';
 import { Mail } from 'lucide-react';
+import { FiAward } from 'react-icons/fi';
 import BackButton from "../components/BackButton";
 import AlertMessage from "../components/AlertMessage";
 import LanguageSelectorEnhanced from '../components/LanguageSelectorEnhanced';
@@ -367,7 +368,7 @@ function Auth() {
             {inviteRoomName && (
               <div className="w-full max-w-md mb-4 px-4 py-3 bg-green-900/40 border border-green-500/40 rounded-xl text-center">
                 <p className="text-green-400 text-sm font-medium">
-                  🏆 {t('rooms:invite.joinedRoom')}: <strong>{inviteRoomName}</strong>
+                  <FiAward className="inline mr-1" />{t('rooms:invite.joinedRoom')}: <strong>{inviteRoomName}</strong>
                 </p>
               </div>
             )}

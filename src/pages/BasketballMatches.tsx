@@ -5,6 +5,8 @@ import AppShell from '../components/AppShell';
 import api from '../services/api';
 import Spinner from '../components/Spinner';
 import EmptyState from '../components/EmptyState';
+import { FiCalendar, FiMapPin } from 'react-icons/fi';
+import { MdSportsBasketball } from 'react-icons/md';
 
 interface Team {
 	id_equipo: number;
@@ -174,7 +176,7 @@ const BasketballMatches: React.FC = () => {
 				{/* Header */}
 				<div className="mb-8">
 					<div className="flex items-center gap-3 mb-4">
-						<span className="text-5xl">🏀</span>
+						<MdSportsBasketball className="text-5xl text-orange-400" />
 						<h1 className="text-3xl font-bold text-white">{t('sports:basketballPage.title')}</h1>
 					</div>
 					<p className="text-gray-400">
@@ -255,7 +257,7 @@ const BasketballMatches: React.FC = () => {
 								{/* Date Header */}
 								<div className="bg-gray-900 px-6 py-3 border-b border-gray-700">
 									<h3 className="text-white font-semibold flex items-center gap-2">
-										<span>📅</span>
+										<FiCalendar />
 										{date}
 									</h3>
 								</div>
@@ -358,7 +360,7 @@ const BasketballMatches: React.FC = () => {
 													{/* Arena Info */}
 													{match.id_escenario && (
 														<div className="text-center mt-2 text-sm text-gray-500">
-															🏟️ {match.id_escenario.nombre}
+															<FiMapPin className="inline mr-1" />{match.id_escenario.nombre}
 															{match.id_escenario.ciudad &&
 																`, ${match.id_escenario.ciudad}`}
 														</div>
