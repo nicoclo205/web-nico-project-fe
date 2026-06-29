@@ -98,6 +98,7 @@ interface GameState {
 	score_detail: ScoreDetail;
 	can_modify: boolean;
 	modification_deadline: string;
+	viable_r16: Record<number, [string, string]>;
 	viable_qf: Record<number, [string, string]>;
 }
 
@@ -250,8 +251,9 @@ const WorldCupGameModal: React.FC<Props> = ({ open, onClose }) => {
 	const firstUnpicked = koList.findIndex((m) => m.home && m.away && !m.winner);
 
 	// ── Modify flow constants ──
-	const MODIFY_SEQUENCE = [97, 98, 99, 100, 101, 102, 104];
+	const MODIFY_SEQUENCE = [89, 90, 91, 92, 93, 94, 95, 96, 97, 98, 99, 100, 101, 102, 104];
 	const KO_TEMPLATE_FE: Record<number, [string, string]> = {
+		97: ['W89', 'W90'], 98: ['W93', 'W94'], 99: ['W91', 'W92'], 100: ['W95', 'W96'],
 		101: ['W97', 'W98'], 102: ['W99', 'W100'], 104: ['W101', 'W102'],
 	};
 
@@ -261,10 +263,20 @@ const WorldCupGameModal: React.FC<Props> = ({ open, onClose }) => {
 		let home: string | null = null;
 		let away: string | null = null;
 		let ronda = '';
-		if (matchNo >= 97 && matchNo <= 100) {
+		if (matchNo >= 89 && matchNo <= 96) {
+			ronda = 'Round of 16';
+			const v = state.viable_r16?.[matchNo];
+			if (v) { home = v[0]; away = v[1]; }
+		} else if (matchNo >= 97 && matchNo <= 100) {
 			ronda = 'Quarter-Final';
 			const v = state.viable_qf?.[matchNo];
-			if (v) { home = v[0]; away = v[1]; }
+			if (v) {
+				home = v[0]; away = v[1];
+			} else {
+				const feeds = KO_TEMPLATE_FE[matchNo];
+				home = modifyPicks[parseInt(feeds[0].slice(1))] || null;
+				away = modifyPicks[parseInt(feeds[1].slice(1))] || null;
+			}
 		} else if (matchNo === 101 || matchNo === 102) {
 			ronda = 'Semi-Final';
 			const feeds = KO_TEMPLATE_FE[matchNo];
@@ -404,12 +416,35 @@ const WorldCupGameModal: React.FC<Props> = ({ open, onClose }) => {
 	// ── Modify flow ──
 	const startModify = () => {
 		if (!state) return;
-		// Pre-fill with existing QF/SF/Final picks from current state
+		// Pre-fill with existing picks, but only if they match viable teams
 		const existing: Record<number, string> = {};
 		const allMatches = state.knockout.flatMap((r) => r.matches);
 		for (const no of MODIFY_SEQUENCE) {
 			const m = allMatches.find((x) => x.match_no === no);
-			if (m?.winner) existing[no] = m.winner;
+			if (!m?.winner) continue;
+			// For R16: only keep if pick is in viable_r16
+			if (no >= 89 && no <= 96) {
+				const v = state.viable_r16?.[no];
+				if (v && v.includes(m.winner)) existing[no] = m.winner;
+			// For QF: only keep if pick is in viable_qf
+			} else if (no >= 97 && no <= 100) {
+				const v = state.viable_qf?.[no];
+				if (v && v.includes(m.winner)) {
+					existing[no] = m.winner;
+				} else {
+					// Check against user's R16 picks (which may have just been set)
+					const feeds = KO_TEMPLATE_FE[no];
+					const h = existing[parseInt(feeds[0].slice(1))];
+					const a = existing[parseInt(feeds[1].slice(1))];
+					if (m.winner === h || m.winner === a) existing[no] = m.winner;
+				}
+			} else {
+				// SF/Final: check against user's feeder picks
+				const feeds = KO_TEMPLATE_FE[no];
+				const h = existing[parseInt(feeds[0].slice(1))];
+				const a = existing[parseInt(feeds[1].slice(1))];
+				if (m.winner === h || m.winner === a) existing[no] = m.winner;
+			}
 		}
 		setModifyPicks(existing);
 		setModifyIdx(0);
@@ -418,39 +453,37 @@ const WorldCupGameModal: React.FC<Props> = ({ open, onClose }) => {
 
 	const modifyPickWinner = (matchNo: number, team: string) => {
 		const updated = { ...modifyPicks, [matchNo]: team };
-		// Cascade: if QF pick changed, clear dependent SF/Final
+
+		// Helper: clear a pick if it doesn't match its two feeder winners
+		const cascadeClear = (no: number) => {
+			const pick = updated[no];
+			if (!pick) return;
+			const feeds = KO_TEMPLATE_FE[no];
+			if (!feeds) return;
+			const h = updated[parseInt(feeds[0].slice(1))];
+			const a = updated[parseInt(feeds[1].slice(1))];
+			if (pick !== h && pick !== a) {
+				delete updated[no];
+			}
+		};
+
+		// Cascade: R16 change → clear dependent QF/SF/Final
+		if (matchNo >= 89 && matchNo <= 96) {
+			[97, 98, 99, 100].forEach(cascadeClear);
+			[101, 102].forEach(cascadeClear);
+			cascadeClear(104);
+		}
+		// QF change → clear dependent SF/Final
 		if (matchNo >= 97 && matchNo <= 100) {
-			// SF 101 depends on QF 97 & 98
-			if (matchNo === 97 || matchNo === 98) {
-				const sf101Pick = updated[101];
-				const sf101Home = updated[97];
-				const sf101Away = updated[98];
-				if (sf101Pick && sf101Pick !== sf101Home && sf101Pick !== sf101Away) {
-					delete updated[101];
-					delete updated[104]; // Final depends on SF
-				}
-			}
-			// SF 102 depends on QF 99 & 100
-			if (matchNo === 99 || matchNo === 100) {
-				const sf102Pick = updated[102];
-				const sf102Home = updated[99];
-				const sf102Away = updated[100];
-				if (sf102Pick && sf102Pick !== sf102Home && sf102Pick !== sf102Away) {
-					delete updated[102];
-					delete updated[104];
-				}
-			}
+			[101, 102].forEach(cascadeClear);
+			cascadeClear(104);
 		}
+		// SF change → clear dependent Final
 		if (matchNo === 101 || matchNo === 102) {
-			const fPick = updated[104];
-			const fHome = updated[101];
-			const fAway = updated[102];
-			if (fPick && fPick !== fHome && fPick !== fAway) {
-				delete updated[104];
-			}
+			cascadeClear(104);
 		}
+
 		setModifyPicks(updated);
-		// Advance to next match
 		if (modifyIdx < MODIFY_SEQUENCE.length - 1) {
 			setModifyIdx(modifyIdx + 1);
 		}
@@ -467,7 +500,13 @@ const WorldCupGameModal: React.FC<Props> = ({ open, onClose }) => {
 		if (updated) setView('done');
 	};
 
-	const modifyComplete = MODIFY_SEQUENCE.every((no) => !!modifyPicks[no]);
+	// Only require picks for matches where both teams are known
+	const modifyComplete = MODIFY_SEQUENCE.every((no) => {
+		if (modifyPicks[no]) return true;
+		// Match with unknown teams can be skipped
+		const mm = getModifyMatch(MODIFY_SEQUENCE.indexOf(no));
+		return mm ? (!mm.home || !mm.away) : true;
+	});
 
 	const fmtDeadline = (iso: string) =>
 		new Date(iso).toLocaleString(i18n.language === 'es' ? 'es-CO' : 'en-US', {

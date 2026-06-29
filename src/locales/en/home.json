@@ -156,7 +156,7 @@
     "scoreIncorrect": "Wrong",
     "scoreNotResolved": "Not resolved",
     "modify": "Modify",
-    "modifyDesc": "You can change your Quarter-final, Semi-final and Final picks until {{date}}.",
+    "modifyDesc": "You can change your Round of 16, Quarter-final, Semi-final and Final picks until {{date}}.",
     "modifyPickTitle": "Modify your bracket",
     "modifySaving": "Saving changes...",
     "modifySaved": "Changes saved!",

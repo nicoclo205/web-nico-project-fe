@@ -156,7 +156,7 @@
     "scoreIncorrect": "Errado",
     "scoreNotResolved": "Sin resolver",
     "modify": "Modificar",
-    "modifyDesc": "Puedes cambiar tus picks de cuartos de final, semifinal y final hasta {{date}}.",
+    "modifyDesc": "Puedes cambiar tus picks de octavos, cuartos, semifinal y final hasta {{date}}.",
     "modifyPickTitle": "Modifica tu bracket",
     "modifySaving": "Guardando cambios...",
     "modifySaved": "¡Cambios guardados!",
