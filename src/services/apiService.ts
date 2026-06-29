@@ -502,6 +502,18 @@ class ApiService {
     }
   }
 
+  // Get other rooms where the user can replicate a bet (misma apuesta, otras salas con el mismo partido)
+  async getOtherAvailableRooms(partidoId: number, salaActualId: number): Promise<ApiResponse<Room[]>> {
+    try {
+      const response = await apiClient.get('/api/apuestas-futbol/otras_salas_disponibles/', {
+        params: { partido_id: partidoId, sala_actual_id: salaActualId }
+      });
+      return { success: true, data: response.data };
+    } catch (error: any) {
+      return { success: false, error: error.response?.data?.error || 'Failed to fetch available rooms' };
+    }
+  }
+
   // Delete bet (eliminar apuesta de fútbol)
   async deleteBet(betId: number): Promise<ApiResponse<null>> {
     try {

@@ -3,6 +3,7 @@ import React, { useEffect, useState } from 'react';
 import { FiCalendar, FiClock, FiTrendingUp, FiCheckCircle, FiXCircle, FiClock as FiPending, FiEdit2, FiTrash2 } from 'react-icons/fi';
 import { GiSoccerBall } from 'react-icons/gi';
 import { useBets, Match, Bet } from '../hooks/useBets';
+import { apiService, Room } from '../services/apiService';
 import Spinner from './Spinner';
 
 interface RoomBetsProps {
@@ -102,6 +103,13 @@ const RoomBets: React.FC<RoomBetsProps> = ({ roomId }) => {
   const isDrawPrediction =
     bothFilled && !isNaN(localVal) && !isNaN(visitanteVal) && localVal === visitanteVal;
 
+  // ── Replicate bet modal state ──────────────────────────────────────────
+  const [showReplicateModal, setShowReplicateModal] = useState(false);
+  const [otherAvailableRooms, setOtherAvailableRooms] = useState<Room[]>([]);
+  const [selectedRoomsForReplication, setSelectedRoomsForReplication] = useState<number[]>([]);
+  const [lastBetData, setLastBetData] = useState<{ local: number; visitante: number; match: Match } | null>(null);
+  const [replicating, setReplicating] = useState(false);
+
   // ── Initial data fetch ─────────────────────────────────────────────────
   useEffect(() => {
     fetchUserBets(roomId);
@@ -200,23 +208,43 @@ const RoomBets: React.FC<RoomBetsProps> = ({ roomId }) => {
       prediccion_visitante: visitante,
     };
 
-    let result;
     if (editingBet) {
-      result = await updateBet(editingBet.id_apuesta, { ...baseScoreFields, ...koFields });
-    } else {
-      result = await createBet({
-        id_partido: selectedMatch.id_partido,
-        id_sala: roomId,
-        ...baseScoreFields,
-        ...koFields,
-      });
+      const result = await updateBet(editingBet.id_apuesta, { ...baseScoreFields, ...koFields });
+      if (result.success) {
+        handleCloseModal();
+        fetchUserBets(roomId);
+        fetchUpcomingMatches(roomId);
+        alert(t('rooms:bets.betPlaced'));
+      } else {
+        setBetError(result.error || t('rooms:bets.errors.place'));
+      }
+      setSubmitting(false);
+      return;
     }
+
+    // Nueva apuesta: crear y luego buscar otras salas disponibles
+    const result = await createBet({
+      id_partido: selectedMatch.id_partido,
+      id_sala: roomId,
+      ...baseScoreFields,
+      ...koFields,
+    });
 
     if (result.success) {
       handleCloseModal();
       fetchUserBets(roomId);
       fetchUpcomingMatches(roomId);
-      alert(t('rooms:bets.betPlaced'));
+
+      // Buscar otras salas donde el usuario también pueda apostar este partido
+      const otherRoomsResult = await apiService.getOtherAvailableRooms(selectedMatch.id_partido, roomId);
+      if (otherRoomsResult.success && otherRoomsResult.data && otherRoomsResult.data.length > 0) {
+        setOtherAvailableRooms(otherRoomsResult.data);
+        setLastBetData({ local, visitante, match: selectedMatch });
+        setSelectedRoomsForReplication(otherRoomsResult.data.map(r => r.id_sala));
+        setShowReplicateModal(true);
+      } else {
+        alert(t('rooms:bets.betPlaced'));
+      }
     } else {
       setBetError(result.error || t('rooms:bets.errors.place'));
       // On error in winner step, stay on winner step so user can retry
@@ -228,6 +256,33 @@ const RoomBets: React.FC<RoomBetsProps> = ({ roomId }) => {
   const handleWinnerSelected = (equipoId: number) => {
     setGanadorKo(equipoId);
     handleSubmitBet(equipoId);
+  };
+
+  const handleToggleRoomForReplication = (salaId: number) => {
+    setSelectedRoomsForReplication(prev =>
+      prev.includes(salaId) ? prev.filter(id => id !== salaId) : [...prev, salaId]
+    );
+  };
+
+  const handleReplicateBet = async () => {
+    if (!lastBetData || selectedRoomsForReplication.length === 0) {
+      setShowReplicateModal(false);
+      alert(t('rooms:bets.betPlaced'));
+      return;
+    }
+
+    setReplicating(true);
+    for (const salaId of selectedRoomsForReplication) {
+      await createBet({
+        id_partido: lastBetData.match.id_partido,
+        id_sala: salaId,
+        prediccion_local: lastBetData.local,
+        prediccion_visitante: lastBetData.visitante,
+      });
+    }
+    setReplicating(false);
+    setShowReplicateModal(false);
+    alert(t('rooms:bets.betPlaced'));
   };
 
   const handleFeelLucky = () => {
@@ -505,6 +560,54 @@ const RoomBets: React.FC<RoomBetsProps> = ({ roomId }) => {
                 </div>
               </div>
             ))}
+          </div>
+        </div>
+      )}
+
+      {/* Replicate Bet Modal */}
+      {showReplicateModal && lastBetData && (
+        <div className="fixed inset-0 bg-black/70 flex items-center justify-center p-4 z-50">
+          <div className="bg-panel rounded-3xl p-6 md:p-8 max-w-md w-full border border-white/10">
+            <h2 className="text-xl font-bold mb-2">¿Replicar apuesta en otras salas?</h2>
+            <p className="text-gray-400 text-sm mb-4">
+              Pusiste <span className="text-white font-bold">{lastBetData.local} - {lastBetData.visitante}</span> para{' '}
+              <span className="text-white font-semibold">{lastBetData.match.equipo_local_nombre} vs {lastBetData.match.equipo_visitante_nombre}</span>.
+              Estás en otras salas con este mismo partido. ¿Querés hacer la misma apuesta?
+            </p>
+
+            <div className="space-y-2 mb-6">
+              {otherAvailableRooms.map(sala => (
+                <label
+                  key={sala.id_sala}
+                  className="flex items-center gap-3 p-3 bg-white/5 rounded-xl border border-white/10 cursor-pointer hover:bg-white/10 transition-colors"
+                >
+                  <input
+                    type="checkbox"
+                    checked={selectedRoomsForReplication.includes(sala.id_sala)}
+                    onChange={() => handleToggleRoomForReplication(sala.id_sala)}
+                    className="w-4 h-4 accent-green-500"
+                  />
+                  <span className="font-medium text-sm">{sala.nombre}</span>
+                </label>
+              ))}
+            </div>
+
+            <div className="flex gap-3">
+              <button
+                onClick={() => { setShowReplicateModal(false); alert(t('rooms:bets.betPlaced')); }}
+                disabled={replicating}
+                className="btn-secondary flex-1"
+              >
+                No, gracias
+              </button>
+              <button
+                onClick={handleReplicateBet}
+                disabled={replicating || selectedRoomsForReplication.length === 0}
+                className="btn-primary flex-1"
+              >
+                {replicating ? 'Replicando...' : `Sí, replicar (${selectedRoomsForReplication.length})`}
+              </button>
+            </div>
           </div>
         </div>
       )}
