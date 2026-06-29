@@ -69,10 +69,18 @@ interface ThirdDetail {
 	pts: number;
 }
 
+interface KoMatchDetail {
+	pick: string | null;
+	pts: number;
+	status: 'correct' | 'miss' | 'pending' | 'no_pick';
+	ronda: string;
+}
+
 interface ScoreDetail {
 	group_detail: Record<string, GroupScoreDetail>;
 	third_detail: ThirdDetail[];
 	thirds_resolved: boolean;
+	ko_detail: Record<string, KoMatchDetail>;
 	totals: { groups: number; thirds: number; knockout: number; total: number };
 }
 
@@ -884,32 +892,45 @@ const WorldCupGameModal: React.FC<Props> = ({ open, onClose }) => {
 							</div>
 							)}
 
-							{/* Cumulative total so far */}
-							{cumulative > 0 && (
-								<div className="flex items-center justify-between px-3 py-2 rounded-xl bg-gradient-to-r from-amber-500/15 to-amber-500/5 border border-amber-400/30">
-									<span className="text-xs font-bold text-amber-200">
-										{t('home:wcGame.scoreCumulative')}
-									</span>
-									<span className="text-sm font-extrabold text-amber-300">
-										{cumulative} {t('home:wcGame.points')}
-									</span>
-								</div>
-							)}
 							<div>
 								<p className="text-xs font-bold text-amber-300 uppercase tracking-wide mb-2">
 									{t('home:wcGame.bracketTitle')}
 								</p>
 								<div className="space-y-4">
-									{state.knockout.map((round) => (
+									{state.knockout.map((round) => {
+										const roundMatches = round.matches;
+										const roundKoDetails = roundMatches
+											.map((m) => sd?.ko_detail?.[String(m.match_no)])
+											.filter(Boolean) as KoMatchDetail[];
+										const roundPts = roundKoDetails.reduce((s, d) => s + d.pts, 0);
+										const hasResolved = roundKoDetails.some(
+											(d) => d.status === 'correct' || d.status === 'miss'
+										);
+										return (
 										<div key={round.ronda}>
-											<p className="text-[11px] text-gray-500 uppercase tracking-widest mb-1.5">
-												{roundName(round.ronda)}
-											</p>
+											<div className="flex items-center justify-between mb-1.5">
+												<p className="text-[11px] text-gray-500 uppercase tracking-widest">
+													{roundName(round.ronda)}
+												</p>
+												{hasResolved && (
+													<span className="text-[10px] font-bold text-emerald-400">
+														+{roundPts}
+													</span>
+												)}
+											</div>
 											<div className="grid grid-cols-2 gap-1.5">
-												{round.matches.map((m) => (
+												{roundMatches.map((m) => {
+													const kd = sd?.ko_detail?.[String(m.match_no)];
+													const borderClass =
+														kd?.status === 'correct'
+															? 'border-emerald-500/30 bg-emerald-500/5'
+															: kd?.status === 'miss'
+															? 'border-red-500/20 bg-red-500/5'
+															: 'border-white/10 bg-white/[0.02]';
+													return (
 													<div
 														key={m.match_no}
-														className="rounded-lg border border-white/10 bg-white/[0.02] px-2 py-1.5"
+														className={`rounded-lg border px-2 py-1.5 ${borderClass}`}
 													>
 														{[m.home, m.away].map((team, i) => (
 															<div key={i} className="flex items-center gap-1.5 min-w-0 py-0.5">
@@ -917,7 +938,7 @@ const WorldCupGameModal: React.FC<Props> = ({ open, onClose }) => {
 																	<>
 																		<Flag team={team} info={teamInfo} size="w-4 h-3" />
 																		<span
-																			className={`text-[11px] truncate ${
+																			className={`text-[11px] truncate flex-1 ${
 																				m.winner === team
 																					? 'text-amber-300 font-bold'
 																					: 'text-gray-400'
@@ -931,13 +952,56 @@ const WorldCupGameModal: React.FC<Props> = ({ open, onClose }) => {
 																)}
 															</div>
 														))}
+														{kd && kd.status !== 'no_pick' && kd.status !== 'pending' && (
+															<div className="flex items-center justify-end mt-0.5">
+																{kd.status === 'correct' && (
+																	<span className="text-[9px] font-bold text-emerald-400">
+																		+{kd.pts}
+																	</span>
+																)}
+																{kd.status === 'miss' && (
+																	<span className="text-[9px] font-bold text-red-400/70">
+																		✗
+																	</span>
+																)}
+															</div>
+														)}
 													</div>
-												))}
+													);
+												})}
 											</div>
 										</div>
-									))}
+										);
+									})}
 								</div>
+								{/* KO total */}
+								{sd && sd.totals.knockout > 0 && (() => {
+									cumulative += sd.totals.knockout;
+									return (
+									<div className="mt-2 flex items-center justify-between px-2 py-1.5 rounded-lg bg-emerald-500/10 border border-emerald-500/20">
+										<span className="text-[11px] font-semibold text-emerald-300">
+											{t('home:wcGame.ptsKo')}
+										</span>
+										<span className="text-[11px] font-bold text-emerald-300">
+											+{sd.totals.knockout} {t('home:wcGame.points')}
+										</span>
+									</div>
+									);
+								})()}
 							</div>
+
+							{/* Cumulative total */}
+							{cumulative > 0 && (
+								<div className="flex items-center justify-between px-3 py-2 rounded-xl bg-gradient-to-r from-amber-500/15 to-amber-500/5 border border-amber-400/30">
+									<span className="text-xs font-bold text-amber-200">
+										{t('home:wcGame.scoreCumulative')}
+									</span>
+									<span className="text-sm font-extrabold text-amber-300">
+										{cumulative} {t('home:wcGame.points')}
+									</span>
+								</div>
+							)}
+
 							{(() => {
 								const champ = koList.find((m) => m.match_no === 104)?.winner;
 								return champ ? (
@@ -1043,7 +1107,7 @@ const WorldCupGameModal: React.FC<Props> = ({ open, onClose }) => {
 							)}
 							{ranking?.tournament.champion && (
 								<p className="text-xs text-center text-amber-300">
-									<IoMdTrophy className="inline mr-1 text-amber-400" />{t('home:wcGame.champion')}: {ranking.tournament.champion}
+									🏆 {t('home:wcGame.champion')}: {ranking.tournament.champion}
 								</p>
 							)}
 							<button onClick={onClose} className={btnGold}>
