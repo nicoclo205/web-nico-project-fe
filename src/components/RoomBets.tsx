@@ -237,6 +237,7 @@ const RoomBets: React.FC<RoomBetsProps> = ({ roomId }) => {
 
       // Buscar otras salas donde el usuario también pueda apostar este partido
       const otherRoomsResult = await apiService.getOtherAvailableRooms(selectedMatch.id_partido, roomId);
+      console.log('[RoomBets] otras_salas_disponibles response:', otherRoomsResult);
       if (otherRoomsResult.success && otherRoomsResult.data && otherRoomsResult.data.length > 0) {
         setOtherAvailableRooms(otherRoomsResult.data);
         setLastBetData({ local, visitante, match: selectedMatch });
