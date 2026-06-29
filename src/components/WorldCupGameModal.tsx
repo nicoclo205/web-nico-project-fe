@@ -49,6 +49,33 @@ interface Scoring {
 	champion: number;
 }
 
+interface GroupPositionDetail {
+	team: string;
+	pos: number;
+	pts: number;
+	status: 'exact' | 'qualify' | 'miss' | 'pending' | 'n/a';
+}
+
+interface GroupScoreDetail {
+	positions: GroupPositionDetail[];
+	subtotal: number;
+	resolved: boolean;
+}
+
+interface ThirdDetail {
+	group: string;
+	team: string;
+	correct: boolean | null;
+	pts: number;
+}
+
+interface ScoreDetail {
+	group_detail: Record<string, GroupScoreDetail>;
+	third_detail: ThirdDetail[];
+	thirds_resolved: boolean;
+	totals: { groups: number; thirds: number; knockout: number; total: number };
+}
+
 interface GameState {
 	deadline: string;
 	locked: boolean;
@@ -60,6 +87,7 @@ interface GameState {
 	completed_at: string | null;
 	team_info: Record<string, TeamInfo>;
 	scoring: Scoring;
+	score_detail: ScoreDetail;
 }
 
 interface RankingRow {
@@ -724,14 +752,19 @@ const WorldCupGameModal: React.FC<Props> = ({ open, onClose }) => {
 					)}
 
 					{/* ── Resumen grafico de predicciones ── */}
-					{!loading && state && view === 'summary' && (
+					{!loading && state && view === 'summary' && (() => {
+						const sd = state.score_detail;
+						let cumulative = 0;
+						return (
 						<div className="space-y-5">
 							<div>
 								<p className="text-xs font-bold text-amber-300 uppercase tracking-wide mb-2">
 									{t('home:wcGame.groupPredictions')}
 								</p>
 								<div className="grid grid-cols-2 gap-2">
-									{state.groups.map((g) => (
+									{state.groups.map((g) => {
+										const gd = sd?.group_detail?.[g.group];
+										return (
 										<div
 											key={g.group}
 											className={`rounded-xl border p-2.5 ${
@@ -740,9 +773,21 @@ const WorldCupGameModal: React.FC<Props> = ({ open, onClose }) => {
 										>
 											<p className="text-[11px] font-bold text-amber-300 mb-1.5">
 												{t('home:wcGame.group')} {g.group}
+												{gd?.resolved && (
+													<span className="ml-1 text-[10px] font-bold text-emerald-400">
+														+{gd.subtotal}
+													</span>
+												)}
 											</p>
 											<ul className="space-y-1">
-												{g.order.map((team, i) => (
+												{g.order.map((team, i) => {
+													const pd = gd?.positions?.[i];
+													const statusColor =
+														pd?.status === 'exact' ? 'text-emerald-400' :
+														pd?.status === 'qualify' ? 'text-sky-400' :
+														pd?.status === 'miss' ? 'text-red-400/70' :
+														'';
+													return (
 													<li key={team} className="flex items-center gap-1.5 min-w-0">
 														<span
 															className={`w-4 text-[10px] font-bold flex-shrink-0 ${
@@ -756,14 +801,100 @@ const WorldCupGameModal: React.FC<Props> = ({ open, onClose }) => {
 															{i + 1}
 														</span>
 														<Flag team={team} info={teamInfo} size="w-4 h-3" />
-														<span className="text-[11px] text-gray-300 truncate">{team}</span>
+														<span className="text-[11px] text-gray-300 truncate flex-1">{team}</span>
+														{pd && gd?.resolved && i < 2 && (
+															<span className={`text-[9px] font-bold flex-shrink-0 ${statusColor}`}>
+																{pd.status === 'exact' ? `+${pd.pts}` :
+																 pd.status === 'qualify' ? `+${pd.pts}` :
+																 '✗'}
+															</span>
+														)}
 													</li>
-												))}
+													);
+												})}
 											</ul>
+										</div>
+										);
+									})}
+								</div>
+								{/* Groups total */}
+								{sd && sd.totals.groups > 0 && (() => {
+									cumulative += sd.totals.groups;
+									return (
+									<div className="mt-2 flex items-center justify-between px-2 py-1.5 rounded-lg bg-emerald-500/10 border border-emerald-500/20">
+										<span className="text-[11px] font-semibold text-emerald-300">
+											{t('home:wcGame.scoreGroupsTotal')}
+										</span>
+										<span className="text-[11px] font-bold text-emerald-300">
+											+{sd.totals.groups} {t('home:wcGame.points')}
+										</span>
+									</div>
+									);
+								})()}
+							</div>
+
+							{/* ── Thirds with scoring ── */}
+							{sd?.third_detail && sd.third_detail.length > 0 && (
+							<div>
+								<p className="text-xs font-bold text-amber-300 uppercase tracking-wide mb-2">
+									{t('home:wcGame.ptsThirds')}
+								</p>
+								<div className="grid grid-cols-2 gap-1.5">
+									{sd.third_detail.map((td) => (
+										<div
+											key={td.group}
+											className={`flex items-center gap-2 px-2.5 py-1.5 rounded-lg border ${
+												td.correct === true
+													? 'border-emerald-500/30 bg-emerald-500/10'
+													: td.correct === false
+													? 'border-red-500/20 bg-red-500/5'
+													: 'border-white/10 bg-white/[0.03]'
+											}`}
+										>
+											<span className="w-5 h-5 rounded-full bg-white/10 text-[10px] font-bold text-gray-300 flex items-center justify-center flex-shrink-0">
+												{td.group}
+											</span>
+											<Flag team={td.team} info={teamInfo} size="w-4 h-3" />
+											<span className="text-[11px] text-gray-300 truncate flex-1">{td.team}</span>
+											{td.correct === true && (
+												<span className="text-[9px] font-bold text-emerald-400 flex-shrink-0">+{td.pts}</span>
+											)}
+											{td.correct === false && (
+												<span className="text-[9px] font-bold text-red-400/70 flex-shrink-0">✗</span>
+											)}
+											{td.correct === null && (
+												<span className="text-[9px] text-gray-500 flex-shrink-0">—</span>
+											)}
 										</div>
 									))}
 								</div>
+								{sd.thirds_resolved && (() => {
+									cumulative += sd.totals.thirds;
+									return (
+									<div className="mt-2 flex items-center justify-between px-2 py-1.5 rounded-lg bg-emerald-500/10 border border-emerald-500/20">
+										<span className="text-[11px] font-semibold text-emerald-300">
+											{t('home:wcGame.scoreThirdsTotal')}
+										</span>
+										<span className="text-[11px] font-bold text-emerald-300">
+											+{sd.totals.thirds} {t('home:wcGame.points')}
+										</span>
+									</div>
+									);
+								})()}
 							</div>
+							)}
+
+							{/* Cumulative total so far */}
+							{cumulative > 0 && (
+								<div className="flex items-center justify-between px-3 py-2 rounded-xl bg-gradient-to-r from-amber-500/15 to-amber-500/5 border border-amber-400/30">
+									<span className="text-xs font-bold text-amber-200">
+										{t('home:wcGame.scoreCumulative')}
+									</span>
+									<span className="text-sm font-extrabold text-amber-300">
+										{cumulative} {t('home:wcGame.points')}
+									</span>
+								</div>
+							)}
 							<div>
 								<p className="text-xs font-bold text-amber-300 uppercase tracking-wide mb-2">
 									{t('home:wcGame.bracketTitle')}
@@ -826,7 +957,8 @@ const WorldCupGameModal: React.FC<Props> = ({ open, onClose }) => {
 								</button>
 							</div>
 						</div>
-					)}
+						);
+					})()}
 
 					{/* ── Ranking ── */}
 					{view === 'ranking' && (
