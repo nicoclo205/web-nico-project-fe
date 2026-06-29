@@ -35,7 +35,7 @@ function PageTitle() {
 
 	useEffect(() => {
 		const entry = TITLES.find((e) => e.match(pathname));
-		document.title = entry ? `FriendlyBet — ${t(`common:${entry.key}`)}` : 'FriendlyBet';
+		document.title = entry ? `FriendlyBet - ${t(`common:${entry.key}`)}` : 'FriendlyBet';
 	}, [pathname, t, i18n.language]);
 
 	return null;

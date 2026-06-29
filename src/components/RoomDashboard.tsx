@@ -521,7 +521,7 @@ const RoomDashboard: React.FC<RoomDashboardProps> = ({
               {/* Avatar */}
               <div className="relative inline-block mb-3">
                 <div className="absolute -top-2 -right-2 w-8 h-8 bg-yellow-500 rounded-full flex items-center justify-center border-2 border-panel-dark z-10">
-                  <GiCrown className="text-sm text-yellow-500" />
+                  <GiCrown className="text-sm text-black" />
                 </div>
                 {leader.usuario.foto_perfil ? (
                   <img

@@ -228,7 +228,7 @@ const Rooms: React.FC = () => {
 				<header className="h-16 md:h-20 flex items-center justify-between px-4 md:px-8 lg:px-12 bg-app/95 backdrop-blur-sm z-10 sticky top-0">
 					<div>
 						<h1 className="text-lg md:text-2xl lg:text-3xl font-bold tracking-tight text-white flex items-center gap-2 md:gap-3">
-							<MdMeetingRoom className="text-3xl md:text-4xl" />
+							<MdMeetingRoom className="text-3xl md:text-4xl text-white" />
 							<span className="hidden sm:inline">{t('rooms:title')}</span>
 							<span className="sm:hidden">{t('common:rooms')}</span>
 						</h1>

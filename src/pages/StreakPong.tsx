@@ -359,15 +359,17 @@ const StreakPong = () => {
 			ctx.fillStyle = '#f8fafc';
 			ctx.fillRect(W - PADDLE_X - PADDLE_W, s.aiY, PADDLE_W, PADDLE_H);
 
-			// Ball (rolling soccer ball)
+			// Ball
 			if (phaseRef.current === 'playing') {
 				ctx.save();
 				ctx.translate(s.ballX, s.ballY);
-				ctx.rotate(s.rot);
-				ctx.font = `${BALL_R * 2.4}px serif`;
-				ctx.textAlign = 'center';
-				ctx.textBaseline = 'middle';
-				ctx.fillText('⚽', 0, 2);
+				ctx.beginPath();
+				ctx.arc(0, 0, BALL_R, 0, Math.PI * 2);
+				ctx.fillStyle = '#ffffff';
+				ctx.fill();
+				ctx.strokeStyle = 'rgba(0, 180, 80, 0.8)';
+				ctx.lineWidth = 2.5;
+				ctx.stroke();
 				ctx.restore();
 			}
 
@@ -484,7 +486,7 @@ const StreakPong = () => {
 								</div>
 								<div className="text-center">
 									<p className="text-lg font-bold text-white tabular-nums">
-										{Array.from({ length: MAX_GOALS }, (_, i) => (i < goalsAgainst ? '⚽' : '·')).join(' ')}
+										{Array.from({ length: MAX_GOALS }, (_, i) => (i < goalsAgainst ? '●' : '·')).join(' ')}
 									</p>
 									<p className="text-[10px] uppercase tracking-wider text-gray-500">{t('home:streakPong.goalsAgainst')}</p>
 								</div>

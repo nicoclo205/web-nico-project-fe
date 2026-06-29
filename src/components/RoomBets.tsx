@@ -354,7 +354,7 @@ const RoomBets: React.FC<RoomBetsProps> = ({ roomId }) => {
   // ── Submit button label ────────────────────────────────────────────────
   const submitLabel = (() => {
     if (submitting) return t('rooms:bets.processing');
-    if (selectedMatch?.is_knockout && isDrawPrediction) return 'Next: pick winner →';
+    if (selectedMatch?.is_knockout && isDrawPrediction) return 'Next: pick winner';
     if (editingBet) return t('rooms:bets.updateBet');
     return t('rooms:bets.placeBet');
   })();
@@ -635,7 +635,7 @@ const RoomBets: React.FC<RoomBetsProps> = ({ roomId }) => {
                   <span className="font-bold text-white">
                     {betForm.prediccion_local} – {betForm.prediccion_visitante}
                   </span>{' '}
-                  <span className="text-yellow-400">(draw → penalties)</span>
+                  <span className="text-yellow-400">(draw, penalties)</span>
                 </p>
 
                 {betError && (
@@ -691,7 +691,7 @@ const RoomBets: React.FC<RoomBetsProps> = ({ roomId }) => {
                   disabled={submitting}
                   className="w-full text-sm text-gray-400 hover:text-white transition-colors py-2"
                 >
-                  ← Back to change score
+                  Back to change score
                 </button>
               </>
             ) : (
@@ -745,7 +745,7 @@ const RoomBets: React.FC<RoomBetsProps> = ({ roomId }) => {
                   </label>
                   {selectedMatch.is_knockout && (
                     <p className="text-xs text-yellow-400 mb-3">
-                      Include goals from regular time + extra time — not penalties.
+                      Include goals from regular time + extra time, not penalties.
                     </p>
                   )}
                   <div className="flex items-center justify-center gap-4">
@@ -815,7 +815,7 @@ const RoomBets: React.FC<RoomBetsProps> = ({ roomId }) => {
                     {/* Hint */}
                     {isDrawPrediction && (
                       <p className="text-xs text-yellow-300">
-                        Next: pick who wins the penalty shootout →
+                        Next: pick who wins the penalty shootout
                       </p>
                     )}
                   </div>
