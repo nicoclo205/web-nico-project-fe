@@ -66,8 +66,8 @@ module.exports = {
         },
       },
       fontFamily: {
-        'sans': ['Inter', 'Roboto', 'system-ui', 'sans-serif'],
-        'heading': ['Montserrat', 'sans-serif'],
+        'sans': ['Satoshi', 'Inter', 'system-ui', 'sans-serif'],
+        'heading': ['Satoshi', 'sans-serif'],
       },
       borderRadius: {
         lg: "var(--radius)",

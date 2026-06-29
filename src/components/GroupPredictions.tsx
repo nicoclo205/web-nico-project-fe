@@ -1,6 +1,7 @@
 import React, { useCallback, useEffect, useState } from 'react';
 import { useTranslation } from 'react-i18next';
 import { FiCheckCircle, FiClock, FiRefreshCw, FiUsers, FiFlag } from 'react-icons/fi';
+import Spinner from './Spinner';
 import { API_BASE_URL } from '../config/api';
 
 interface Prediction {
@@ -153,8 +154,8 @@ const GroupPredictions: React.FC<GroupPredictionsProps> = ({ roomId }) => {
 
 	if (loading) {
 		return (
-			<div className="flex items-center justify-center py-16 text-gray-400">
-				<FiRefreshCw className="animate-spin mr-2" /> Loading predictions...
+			<div className="flex items-center justify-center py-16">
+				<Spinner />
 			</div>
 		);
 	}

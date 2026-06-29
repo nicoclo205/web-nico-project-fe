@@ -1,6 +1,6 @@
 import { useTranslation } from 'react-i18next';
 import React, { useEffect, useState } from 'react';
-import { FiUsers, FiCopy, FiTrendingUp, FiClock, FiTarget, FiBell, FiCalendar, FiAward, FiAlertCircle, FiMail, FiSend } from 'react-icons/fi';
+import { FiUsers, FiCopy, FiTrendingUp, FiClock, FiTarget, FiBell, FiCalendar, FiAward, FiAlertCircle, FiMail, FiSend, FiMessageSquare } from 'react-icons/fi';
 import { GiSoccerBall, GiTrophy, GiCrown } from 'react-icons/gi';
 import { API_BASE_URL } from '../config/api';
 import Spinner from './Spinner';
@@ -59,6 +59,13 @@ interface Notification {
   icono: string;
   color: string;
 }
+
+const getNotifIcon = (tipo: string) => {
+  if (tipo === 'nuevo_mensaje_chat') return <FiMessageSquare className="text-xl text-blue-400" />;
+  if (tipo === 'resultado') return <GiSoccerBall className="text-xl text-green-400" />;
+  if (tipo === 'recordatorio') return <FiClock className="text-xl text-yellow-400" />;
+  return <FiAlertCircle className="text-xl text-gray-400" />;
+};
 
 const RoomDashboard: React.FC<RoomDashboardProps> = ({
   roomId,
@@ -328,7 +335,7 @@ const RoomDashboard: React.FC<RoomDashboardProps> = ({
         {/* Avisos Importantes */}
         <div className="rounded-2xl p-5 bg-gradient-to-br from-panel to-panel-dark shadow-lg border border-white/5">
           <div className="flex items-center gap-2 mb-4">
-            <FiBell className="text-xl text-yellow-500" />
+            <FiBell className="text-xl text-white" />
             <h3 className="text-lg font-bold">{t('rooms:dashboard.notices')}</h3>
           </div>
 
@@ -344,8 +351,8 @@ const RoomDashboard: React.FC<RoomDashboardProps> = ({
                   key={notif.id}
                   className="flex items-start gap-3 p-3 bg-white/5 rounded-xl hover:bg-white/10 transition-colors border border-white/5"
                 >
-                  <div className={`text-2xl ${notif.color}`}>
-                    {notif.icono}
+                  <div className="flex-shrink-0 mt-0.5">
+                    {getNotifIcon(notif.tipo)}
                   </div>
                   <div className="flex-1 min-w-0">
                     <p className="text-sm text-gray-200">{notif.mensaje}</p>
