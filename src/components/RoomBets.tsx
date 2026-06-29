@@ -1,6 +1,6 @@
 import { useTranslation } from 'react-i18next';
 import React, { useEffect, useState } from 'react';
-import { FiCalendar, FiClock, FiTrendingUp, FiCheckCircle, FiXCircle, FiClock as FiPending, FiEdit2, FiTrash2 } from 'react-icons/fi';
+import { FiCalendar, FiClock, FiTrendingUp, FiCheckCircle, FiXCircle, FiClock as FiPending, FiEdit2, FiTrash2, FiZap, FiTarget } from 'react-icons/fi';
 import { GiSoccerBall } from 'react-icons/gi';
 import { useBets, Match, Bet } from '../hooks/useBets';
 import { apiService, Room } from '../services/apiService';
@@ -402,8 +402,8 @@ const RoomBets: React.FC<RoomBetsProps> = ({ roomId }) => {
                     </span>
                     <div className="flex items-center gap-2">
                       {match.is_knockout && (
-                        <span className="text-xs font-bold px-2 py-0.5 rounded-full bg-yellow-500/20 text-yellow-400 border border-yellow-500/30">
-                          ⚡ Knockout
+                        <span className="text-xs font-bold px-2 py-0.5 rounded-full bg-yellow-500/20 text-yellow-400 border border-yellow-500/30 inline-flex items-center gap-1">
+                          <FiZap className="text-xs" /> Knockout
                         </span>
                       )}
                       <span className="text-xs text-gray-400 flex items-center gap-1">
@@ -457,8 +457,8 @@ const RoomBets: React.FC<RoomBetsProps> = ({ roomId }) => {
                         </span>
                       </div>
                       {userBet.ganador_ko_nombre && (
-                        <p className="text-xs text-yellow-400 mt-1">
-                          ⚡ Penalty winner: <strong>{userBet.ganador_ko_nombre}</strong>
+                        <p className="text-xs text-yellow-400 mt-1 flex items-center gap-1">
+                          <FiZap /> Penalty winner: <strong>{userBet.ganador_ko_nombre}</strong>
                         </p>
                       )}
                     </div>
@@ -551,8 +551,8 @@ const RoomBets: React.FC<RoomBetsProps> = ({ roomId }) => {
                   )}
                 </div>
                 {bet.ganador_ko_nombre && (
-                  <p className="mt-1 text-xs text-yellow-400">
-                    ⚡ Penalty winner: <strong>{bet.ganador_ko_nombre}</strong>
+                  <p className="mt-1 text-xs text-yellow-400 flex items-center gap-1">
+                    <FiZap /> Penalty winner: <strong>{bet.ganador_ko_nombre}</strong>
                   </p>
                 )}
                 <div className="mt-2 text-xs text-gray-500">
@@ -572,7 +572,7 @@ const RoomBets: React.FC<RoomBetsProps> = ({ roomId }) => {
             <p className="text-gray-400 text-sm mb-4">
               Pusiste <span className="text-white font-bold">{lastBetData.local} - {lastBetData.visitante}</span> para{' '}
               <span className="text-white font-semibold">{lastBetData.match.equipo_local_nombre} vs {lastBetData.match.equipo_visitante_nombre}</span>.
-              Estás en otras salas con este mismo partido. ¿Querés hacer la misma apuesta?
+              Estás en otras salas con este mismo partido. ¿Quieres hacer la misma apuesta?
             </p>
 
             <div className="space-y-2 mb-6">
@@ -627,7 +627,9 @@ const RoomBets: React.FC<RoomBetsProps> = ({ roomId }) => {
             ════════════════════════════════════════════════════════ */}
             {betStep === 'winner' ? (
               <>
-                <h2 className="text-2xl font-bold mb-1">Who wins the penalties? 🥅</h2>
+                <h2 className="text-2xl font-bold mb-1 flex items-center gap-2">
+                  <FiTarget className="text-yellow-400" /> Who wins the penalties?
+                </h2>
                 <p className="text-sm text-gray-400 mb-6">
                   Prediction:{' '}
                   <span className="font-bold text-white">
@@ -786,7 +788,7 @@ const RoomBets: React.FC<RoomBetsProps> = ({ roomId }) => {
                 {/* ── Knockout info panel (shown when both scores are filled) ── */}
                 {selectedMatch.is_knockout && bothFilled && (
                   <div className="mb-5 p-4 rounded-xl border border-yellow-500/30 bg-yellow-500/5 space-y-3">
-                    <p className="text-yellow-400 font-bold text-sm">⚡ Knockout round</p>
+                    <p className="text-yellow-400 font-bold text-sm flex items-center gap-1.5"><FiZap /> Knockout round</p>
 
                     {/* Extra time row */}
                     <div className="flex items-center justify-between">
