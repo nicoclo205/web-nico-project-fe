@@ -96,6 +96,9 @@ interface GameState {
 	team_info: Record<string, TeamInfo>;
 	scoring: Scoring;
 	score_detail: ScoreDetail;
+	can_modify: boolean;
+	modification_deadline: string;
+	viable_qf: Record<number, [string, string]>;
 }
 
 interface RankingRow {
@@ -118,7 +121,7 @@ interface RankingData {
 	locked: boolean;
 }
 
-type View = 'intro' | 'groups' | 'thirds' | 'ko' | 'done' | 'summary' | 'ranking';
+type View = 'intro' | 'groups' | 'thirds' | 'ko' | 'done' | 'summary' | 'ranking' | 'modify';
 
 interface Props {
 	open: boolean;
@@ -234,6 +237,8 @@ const WorldCupGameModal: React.FC<Props> = ({ open, onClose }) => {
 	const [localThirds, setLocalThirds] = useState<string[]>([]);
 	const [koIdx, setKoIdx] = useState(0);
 	const [ranking, setRanking] = useState<RankingData | null>(null);
+	const [modifyIdx, setModifyIdx] = useState(0);
+	const [modifyPicks, setModifyPicks] = useState<Record<number, string>>({});
 
 	const teamInfo = state?.team_info || {};
 
@@ -243,6 +248,36 @@ const WorldCupGameModal: React.FC<Props> = ({ open, onClose }) => {
 		r.matches.map((m) => ({ ...m, ronda: r.ronda }))
 	);
 	const firstUnpicked = koList.findIndex((m) => m.home && m.away && !m.winner);
+
+	// ── Modify flow constants ──
+	const MODIFY_SEQUENCE = [97, 98, 99, 100, 101, 102, 104];
+	const KO_TEMPLATE_FE: Record<number, [string, string]> = {
+		101: ['W97', 'W98'], 102: ['W99', 'W100'], 104: ['W101', 'W102'],
+	};
+
+	const getModifyMatch = (idx: number) => {
+		const matchNo = MODIFY_SEQUENCE[idx];
+		if (!matchNo || !state) return null;
+		let home: string | null = null;
+		let away: string | null = null;
+		let ronda = '';
+		if (matchNo >= 97 && matchNo <= 100) {
+			ronda = 'Quarter-Final';
+			const v = state.viable_qf?.[matchNo];
+			if (v) { home = v[0]; away = v[1]; }
+		} else if (matchNo === 101 || matchNo === 102) {
+			ronda = 'Semi-Final';
+			const feeds = KO_TEMPLATE_FE[matchNo];
+			home = modifyPicks[parseInt(feeds[0].slice(1))] || null;
+			away = modifyPicks[parseInt(feeds[1].slice(1))] || null;
+		} else if (matchNo === 104) {
+			ronda = 'Final';
+			const feeds = KO_TEMPLATE_FE[matchNo];
+			home = modifyPicks[parseInt(feeds[0].slice(1))] || null;
+			away = modifyPicks[parseInt(feeds[1].slice(1))] || null;
+		}
+		return { match_no: matchNo, home, away, winner: modifyPicks[matchNo] || null, ronda };
+	};
 
 	const fetchState = useCallback(async () => {
 		setLoading(true);
@@ -366,6 +401,74 @@ const WorldCupGameModal: React.FC<Props> = ({ open, onClose }) => {
 		else setKoIdx(idx);
 	};
 
+	// ── Modify flow ──
+	const startModify = () => {
+		if (!state) return;
+		// Pre-fill with existing QF/SF/Final picks from current state
+		const existing: Record<number, string> = {};
+		const allMatches = state.knockout.flatMap((r) => r.matches);
+		for (const no of MODIFY_SEQUENCE) {
+			const m = allMatches.find((x) => x.match_no === no);
+			if (m?.winner) existing[no] = m.winner;
+		}
+		setModifyPicks(existing);
+		setModifyIdx(0);
+		setView('modify');
+	};
+
+	const modifyPickWinner = (matchNo: number, team: string) => {
+		const updated = { ...modifyPicks, [matchNo]: team };
+		// Cascade: if QF pick changed, clear dependent SF/Final
+		if (matchNo >= 97 && matchNo <= 100) {
+			// SF 101 depends on QF 97 & 98
+			if (matchNo === 97 || matchNo === 98) {
+				const sf101Pick = updated[101];
+				const sf101Home = updated[97];
+				const sf101Away = updated[98];
+				if (sf101Pick && sf101Pick !== sf101Home && sf101Pick !== sf101Away) {
+					delete updated[101];
+					delete updated[104]; // Final depends on SF
+				}
+			}
+			// SF 102 depends on QF 99 & 100
+			if (matchNo === 99 || matchNo === 100) {
+				const sf102Pick = updated[102];
+				const sf102Home = updated[99];
+				const sf102Away = updated[100];
+				if (sf102Pick && sf102Pick !== sf102Home && sf102Pick !== sf102Away) {
+					delete updated[102];
+					delete updated[104];
+				}
+			}
+		}
+		if (matchNo === 101 || matchNo === 102) {
+			const fPick = updated[104];
+			const fHome = updated[101];
+			const fAway = updated[102];
+			if (fPick && fPick !== fHome && fPick !== fAway) {
+				delete updated[104];
+			}
+		}
+		setModifyPicks(updated);
+		// Advance to next match
+		if (modifyIdx < MODIFY_SEQUENCE.length - 1) {
+			setModifyIdx(modifyIdx + 1);
+		}
+	};
+
+	const saveAllModifications = async () => {
+		if (!state || saving) return;
+		// Build ko_winners payload with only modified QF/SF/Final picks
+		const payload: Record<string, string> = {};
+		for (const no of MODIFY_SEQUENCE) {
+			if (modifyPicks[no]) payload[String(no)] = modifyPicks[no];
+		}
+		const updated = await save({ modify_ko: true, ko_winners: payload });
+		if (updated) setView('done');
+	};
+
+	const modifyComplete = MODIFY_SEQUENCE.every((no) => !!modifyPicks[no]);
+
 	const fmtDeadline = (iso: string) =>
 		new Date(iso).toLocaleString(i18n.language === 'es' ? 'es-CO' : 'en-US', {
 			day: 'numeric',
@@ -416,6 +519,8 @@ const WorldCupGameModal: React.FC<Props> = ({ open, onClose }) => {
 									? t('home:wcGame.thirdsHeader')
 									: view === 'ko'
 									? t('home:wcGame.koHeader')
+									: view === 'modify'
+									? t('home:wcGame.modifyPickTitle')
 									: view === 'summary'
 									? t('home:wcGame.summaryTitle')
 									: view === 'ranking'
@@ -433,6 +538,10 @@ const WorldCupGameModal: React.FC<Props> = ({ open, onClose }) => {
 							{view === 'ko' && koMatch && (
 								<p className="text-xs text-gray-400">{roundName(koMatch.ronda)}</p>
 							)}
+							{view === 'modify' && (() => {
+								const mm = getModifyMatch(modifyIdx);
+								return mm ? <p className="text-xs text-gray-400">{roundName(mm.ronda)}</p> : null;
+							})()}
 						</div>
 						<div className="flex items-center gap-1">
 							<button
@@ -472,7 +581,7 @@ const WorldCupGameModal: React.FC<Props> = ({ open, onClose }) => {
 							{error}
 						</p>
 					)}
-					{state?.locked && view !== 'ranking' && view !== 'summary' && (
+					{state?.locked && !state?.can_modify && view !== 'ranking' && view !== 'summary' && view !== 'modify' && (
 						<p className="mb-3 text-xs text-amber-300 bg-amber-500/10 border border-amber-500/30 rounded-lg px-3 py-2">
 							{t('home:wcGame.locked')}
 						</p>
@@ -525,13 +634,33 @@ const WorldCupGameModal: React.FC<Props> = ({ open, onClose }) => {
 									{t('home:wcGame.deadlineLabel', { date: fmtDeadline(state.deadline) })}
 								</p>
 							)}
+							{state.can_modify && (
+								<div className="rounded-xl bg-amber-500/10 border border-amber-500/30 p-3 space-y-1">
+									<p className="text-xs text-amber-200">
+										{t('home:wcGame.modifyDesc', { date: fmtDeadline(state.modification_deadline) })}
+									</p>
+								</div>
+							)}
 							<div className="flex gap-3 pt-1">
-								<button onClick={onClose} className={btnDark}>
-									{t('home:wcGame.exit')}
-								</button>
-								<button onClick={startPlay} className={btnGold}>
-									{t('home:wcGame.continue')}
-								</button>
+								{state.can_modify ? (
+									<>
+										<button onClick={startModify} className={btnDark}>
+											{t('home:wcGame.modify')}
+										</button>
+										<button onClick={startPlay} className={btnGold}>
+											{t('home:wcGame.continue')}
+										</button>
+									</>
+								) : (
+									<>
+										<button onClick={onClose} className={btnDark}>
+											{t('home:wcGame.exit')}
+										</button>
+										<button onClick={startPlay} className={btnGold}>
+											{t('home:wcGame.continue')}
+										</button>
+									</>
+								)}
 							</div>
 						</div>
 					)}
@@ -725,6 +854,85 @@ const WorldCupGameModal: React.FC<Props> = ({ open, onClose }) => {
 							</div>
 						</div>
 					)}
+
+					{/* ── Modify flow (QF/SF/Final re-picks) ── */}
+					{!loading && state && view === 'modify' && (() => {
+						const mm = getModifyMatch(modifyIdx);
+						if (!mm) return null;
+						const allPicked = modifyComplete;
+						return (
+						<div className="space-y-4">
+							<div className="text-center">
+								<p className="text-xs uppercase tracking-widest text-amber-300/80 font-bold">
+									{roundName(mm.ronda)}
+								</p>
+								<p className="text-xs text-gray-500 mt-0.5">
+									{modifyIdx + 1} / {MODIFY_SEQUENCE.length}
+								</p>
+							</div>
+							<p className="text-center text-xs text-amber-200/90 bg-amber-500/10 border border-amber-500/25 rounded-lg px-3 py-2">
+								{t('home:wcGame.koHint')}
+							</p>
+							<div className="space-y-3">
+								{[mm.home, mm.away].map((team, i) => (
+									<button
+										key={`${mm.match_no}-${i}`}
+										onClick={() => team && modifyPickWinner(mm.match_no, team)}
+										disabled={!team || saving}
+										className={`w-full flex items-center gap-3 h-[64px] px-4 rounded-xl border transition-colors ${
+											mm.winner === team && team
+												? 'bg-amber-500/20 border-amber-400'
+												: 'bg-white/[0.03] border-white/10 hover:border-amber-400/70 hover:bg-amber-500/10'
+										}`}
+									>
+										{team ? (
+											<>
+												<Flag team={team} info={teamInfo} size="w-9 h-6" />
+												<span className="text-base font-bold text-white truncate flex-1 text-left">
+													{team}
+												</span>
+												{mm.winner === team && (
+													<span className="text-amber-300 font-bold">✓</span>
+												)}
+											</>
+										) : (
+											<span className="text-gray-500 text-sm">—</span>
+										)}
+									</button>
+								))}
+							</div>
+							<p className="text-center text-[11px] text-gray-500 uppercase tracking-widest">
+								vs
+							</p>
+							<div className="flex gap-3 pt-1">
+								<button
+									onClick={() => {
+										if (modifyIdx > 0) setModifyIdx(modifyIdx - 1);
+										else setView('intro');
+									}}
+									className={btnDark}
+								>
+									<FiChevronLeft className="inline -mt-0.5" /> {t('home:wcGame.back')}
+								</button>
+								{allPicked ? (
+									<button onClick={saveAllModifications} disabled={saving} className={btnGold}>
+										{saving ? t('home:wcGame.modifySaving') : t('home:wcGame.saveContinue')}
+									</button>
+								) : (
+									<button
+										onClick={() => {
+											if (modifyIdx < MODIFY_SEQUENCE.length - 1) setModifyIdx(modifyIdx + 1);
+										}}
+										disabled={!mm.winner}
+										className={btnDark}
+									>
+										{t('home:wcGame.skip')}
+									</button>
+								)}
+							</div>
+						</div>
+						);
+					})()}
 
 					{/* ── Completado ── */}
 					{!loading && state && view === 'done' && (
