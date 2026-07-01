@@ -16,11 +16,15 @@ export interface Bet {
   fecha_apuesta: string;
   estado: 'pendiente' | 'ganada' | 'perdida' | 'cancelada';
   puntos_ganados: number;
-  // Knockout fields
+  // Knockout fields (user's prediction)
   tiene_tiempo_extra: boolean | null;
   tiene_penales: boolean | null;
   ganador_ko: number | null;
   ganador_ko_nombre?: string | null;
+  // Actual match result (set when match is finalised)
+  resultado_tiene_tiempo_extra?: boolean | null;
+  resultado_tiene_penales?: boolean | null;
+  ganador_penales_nombre?: string | null;
 }
 
 export interface Match {

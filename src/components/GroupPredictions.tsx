@@ -26,6 +26,9 @@ interface Prediction {
 	tiene_tiempo_extra: boolean;
 	tiene_penales: boolean;
 	ganador_ko_nombre: string | null;
+	resultado_tiene_tiempo_extra?: boolean | null;
+	resultado_tiene_penales?: boolean | null;
+	ganador_penales_nombre?: string | null;
 }
 
 interface MatchGroup {
@@ -39,6 +42,9 @@ interface MatchGroup {
 	goles_local_real: number | null;
 	goles_visitante_real: number | null;
 	ronda: string;
+	resultado_tiene_tiempo_extra?: boolean | null;
+	resultado_tiene_penales?: boolean | null;
+	ganador_penales_nombre?: string | null;
 	predictions: Prediction[];
 }
 
@@ -98,6 +104,9 @@ const GroupPredictions: React.FC<GroupPredictionsProps> = ({ roomId }) => {
 						goles_local_real: p.goles_local_real,
 						goles_visitante_real: p.goles_visitante_real,
 						ronda: p.ronda,
+						resultado_tiene_tiempo_extra: p.resultado_tiene_tiempo_extra,
+						resultado_tiene_penales: p.resultado_tiene_penales,
+						ganador_penales_nombre: p.ganador_penales_nombre,
 						predictions: [],
 					});
 				}
@@ -250,9 +259,21 @@ const GroupPredictions: React.FC<GroupPredictionsProps> = ({ roomId }) => {
 
 								<div className="text-center min-w-[60px]">
 									{isFinished && match.goles_local_real !== null ? (
-										<span className="text-lg font-bold text-white">
-											{match.goles_local_real} - {match.goles_visitante_real}
-										</span>
+										<div className="flex flex-col items-center gap-1">
+											<span className="text-lg font-bold text-white">
+												{match.goles_local_real} - {match.goles_visitante_real}
+											</span>
+											{match.resultado_tiene_penales && (
+												<span className="text-[9px] px-1.5 py-0.5 rounded-full bg-yellow-500/20 text-yellow-400 border border-yellow-500/30 font-semibold leading-none whitespace-nowrap">
+													P{match.ganador_penales_nombre ? ` · ${match.ganador_penales_nombre}` : ''}
+												</span>
+											)}
+											{match.resultado_tiene_tiempo_extra && !match.resultado_tiene_penales && (
+												<span className="text-[9px] px-1.5 py-0.5 rounded-full bg-blue-500/20 text-blue-400 border border-blue-500/30 font-semibold leading-none">
+													ET
+												</span>
+											)}
+										</div>
 									) : (
 										<span className="text-sm text-gray-500">vs</span>
 									)}

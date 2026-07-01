@@ -550,6 +550,20 @@ const RoomBets: React.FC<RoomBetsProps> = ({ roomId }) => {
                     </div>
                   )}
                 </div>
+                {(bet.resultado_tiene_penales || bet.resultado_tiene_tiempo_extra) && (
+                  <div className="mt-2 flex items-center gap-2 flex-wrap">
+                    {bet.resultado_tiene_penales && (
+                      <span className="text-[10px] px-2 py-0.5 rounded-full bg-yellow-500/20 text-yellow-400 border border-yellow-500/30 font-semibold">
+                        Penalties{bet.ganador_penales_nombre ? ` · ${bet.ganador_penales_nombre}` : ''}
+                      </span>
+                    )}
+                    {bet.resultado_tiene_tiempo_extra && !bet.resultado_tiene_penales && (
+                      <span className="text-[10px] px-2 py-0.5 rounded-full bg-blue-500/20 text-blue-400 border border-blue-500/30 font-semibold">
+                        Extra Time
+                      </span>
+                    )}
+                  </div>
+                )}
                 {bet.ganador_ko_nombre && (
                   <p className="mt-1 text-xs text-yellow-400 flex items-center gap-1">
                     <FiZap /> Penalty winner: <strong>{bet.ganador_ko_nombre}</strong>
